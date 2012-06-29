@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<dataset>
+    
+    <!-- account -->
+    
+    <access_level ID_ACCESS_LEVEL="1"
+                  CD_ACCESS_LEVEL="admin"
+                  LABEL="administrateur"
+                  DESCRIPTION="un type qui rox"
+                  PRIORITY="1"
+                  />
+    <access_level ID_ACCESS_LEVEL="2"
+                  CD_ACCESS_LEVEL="moder"
+                  LABEL="moderateur"
+                  DESCRIPTION="un type qui fout rien"
+                  PRIORITY="1"
+                  />
+    <access_level ID_ACCESS_LEVEL="3"
+                  CD_ACCESS_LEVEL="contrib"
+                  LABEL="contributeur"
+                  DESCRIPTION="un type qui fait autre chose que ce pour quoi il est paye"
+                  PRIORITY="1"
+                  />
+    <access_level ID_ACCESS_LEVEL="4"
+                  CD_ACCESS_LEVEL="guest"
+                  LABEL="invite"
+                  DESCRIPTION="un type qui a rien a faire de sa vie"
+                  PRIORITY="1"
+                  />
+                  
+    <account ID_ACCOUNT="1"
+             EMAIL="account1@domain.com"
+             PASSWORD="6d96270004515a0486bb7f76196a72b40c55a47f"
+             NAME="dupont"
+             FIRSTNAME="jean"
+             URL="accout1.website.com"
+             ACTIVATED="true"
+             DATE_INSCRIPTION="26-06-2004"
+             AUTH_CODE="84"
+             access_level_ID_ACCESS_LEVEL="1"
+             />
+    <account ID_ACCOUNT="2"
+             EMAIL="account2@domain.com"
+             PASSWORD="e6e8ea7465f12e4d3b5a067a4c4dc698436b3478"
+             NAME="smith"
+             FIRSTNAME="william"
+             URL="accout2.website.com"
+             ACTIVATED="true"
+             DATE_INSCRIPTION="26-06-2005"
+             AUTH_CODE="42"
+             access_level_ID_ACCESS_LEVEL="2"
+             />
+    <account ID_ACCOUNT="3"
+             EMAIL="account3@domain.com"
+             PASSWORD="64dc1be0c2e0c9e50381d1577511a2d939e19eba"
+             NAME="herdberg"
+             FIRSTNAME="martin"
+             URL="accout3.website.com"
+             ACTIVATED="false"
+             DATE_INSCRIPTION="26-06-2006"
+             AUTH_CODE="84"
+             access_level_ID_ACCESS_LEVEL="3"
+             />
+    
+    <!-- reference -->
+    
+    <theme ID_THEME="1"
+           CD_THEME="th1"
+           DESCRIPTION="th1 images lol"
+           LABEL="images"
+           PRIORITY="1"
+           />
+    <theme ID_THEME="2"
+           CD_THEME="th2"
+           DESCRIPTION="th2 tableaux lol"
+           LABEL="tableaux"
+           PRIORITY="1"
+           />
+
+    <reference ID_REFERENCE="1"
+               CD_REFERENCE="ref-AW21"
+               DESCRIPTION="desc ref AW 2.1"
+               LABEL="ref AW2.1"
+               PRIORITY="1"
+               URL="http://accessiweb.com/ref/aw/2.1"
+               />
+    <reference ID_REFERENCE="2"
+               CD_REFERENCE="ref-AW10"
+               DESCRIPTION="desc ref AW 1.0"
+               LABEL="ref AW10"
+               PRIORITY="2"
+               URL="http://accessiweb.com/ref/aw/1.0"
+               />
+
+    <criterion ID_CRITERION="1"
+               CD_CRITERION="AW21-0101"
+               DESCRIPTION="desc AW21-0101"
+               LABEL="AW21 1.1"
+               URL="http://accessiweb.com/ref/aw/2.1/1.1"
+               PRIORITY="1"
+               reference_ID_REFERENCE="1"
+               theme_ID_THEME="1"
+               />
+    <criterion ID_CRITERION="2"
+               CD_CRITERION="AW21-0102"
+               DESCRIPTION="desc AW21-0102"
+               LABEL="AW21 1.2"
+               URL="http://accessiweb.com/ref/aw/2.1/1.2"
+               PRIORITY="2"
+               reference_ID_REFERENCE="1"
+               theme_ID_THEME="2"
+               />
+
+    <level ID_LEVEL="1"
+           CD_LEVEL="aw-bronze"
+           LABEL="bronze"
+           DESCRIPTION="faut pas forcer"
+           PRIORITY="1"
+           />
+    <level ID_LEVEL="2"
+           CD_LEVEL="aw-argent"
+           LABEL="argent"
+           DESCRIPTION="c'est corcé"
+           PRIORITY="1"
+           />
+    <level ID_LEVEL="3"
+           CD_LEVEL="aw-or"
+           LABEL="or"
+           DESCRIPTION="1er de la classe"
+           PRIORITY="1"
+           />
+    
+    <!-- test cases -->
+    
+    <result ID_RESULT="1"
+            CD_RESULT="passed"
+            DESCRIPTION="test succeed"
+            LABEL="passed"
+            PRIORITY="1"
+            />
+    <result ID_RESULT="2"
+            CD_RESULT="failled"
+            DESCRIPTION="test failled"
+            LABEL="failled"
+            PRIORITY="1"
+            />
+    <result ID_RESULT="3"
+            CD_RESULT="nmi"
+            DESCRIPTION="lack of information"
+            LABEL="need more information"
+            PRIORITY="1"
+            />
+    <result ID_RESULT="4"
+            CD_RESULT="na"
+            DESCRIPTION="cannot be applied"
+            LABEL="not applicable"
+            PRIORITY="1"
+            />
+
+    <test ID_TEST="1"
+          CD_TEST="test010101"
+          DESCRIPTION="desc test 010101"
+          LABEL="test 1"
+          PRIORITY="1"
+          URL="http://aw.com/ref/aw/2.1/1.1.1"
+          level_ID_LEVEL="1"
+          criterion_ID_CRITERION="1"
+          />
+    <test ID_TEST="2"
+          CD_TEST="test010102"
+          DESCRIPTION="desc test 010102"
+          LABEL="test 010102"
+          PRIORITY="2"
+          URL="http://aw.com/ref/aw/2.1/1.1.2"
+          level_ID_LEVEL="3"
+          criterion_ID_CRITERION="1"
+          />
+          
+    <webarchive ID_WEBARCHIVE="1"
+                URL="http://lol.com/"
+                LOCAL_URL="/warcs/26062005/lol.com/"
+                account_ID_ACCOUNT="1"
+                scope="page"
+                DESCRIPTION="desc webarch 1"
+                PRIORITY="1"
+                DATE_C="26-06-2005"
+                />
+    <webarchive ID_WEBARCHIVE="2"
+                URL="http://toto.com/"
+                LOCAL_URL="/warcs/26062005/toto.com/"
+                account_ID_ACCOUNT="2"
+                scope="page"
+                DESCRIPTION="desc webarch 2"
+                PRIORITY="2"
+                DATE_C="26-07-2005"
+                />
+
+    <testcase ID_TESTCASE="1"
+              result_ID_RESULT="1"
+              test_ID_TEST="1"
+              account_ID_ACCOUNT="2"
+              webarchive_ID_WEBARCHIVE="1"
+              CD_TESTCASE="aw21-0101-passed"
+              DESCRIPTION="desc tc 1"
+              LABEL="tc 1"
+              PRIORITY="1"
+              NUM_TC="1"
+              DATE_C="26-06-2005"
+              />
+    <testcase ID_TESTCASE="2"
+              result_ID_RESULT="1"
+              test_ID_TEST="2"
+              account_ID_ACCOUNT="1"
+              webarchive_ID_WEBARCHIVE="1"
+              CD_TESTCASE="aw21-0102-passed"
+              DESCRIPTION="desc tc 1"
+              LABEL="tc 2"
+              PRIORITY="2"
+              NUM_TC="2"
+              DATE_C="27-06-2005"
+              />
+    <testcase ID_TESTCASE="3"
+              result_ID_RESULT="2"
+              test_ID_TEST="2"
+              account_ID_ACCOUNT="1"
+              webarchive_ID_WEBARCHIVE="2"
+              CD_TESTCASE="aw21-0102-failled"
+              DESCRIPTION="desc tc 1"
+              LABEL="tc 3"
+              PRIORITY="3"
+              NUM_TC="3"
+              DATE_C="26-07-2005"
+              />
+    <testcase ID_TESTCASE="4"
+              result_ID_RESULT="4"
+              test_ID_TEST="1"
+              account_ID_ACCOUNT="2"
+              webarchive_ID_WEBARCHIVE="2"
+              CD_TESTCASE="aw21-0103-na"
+              DESCRIPTION="desc tc 4"
+              LABEL="tc 4"
+              PRIORITY="4"
+              NUM_TC="4"
+              DATE_C="26-06-2006"
+              />
+           
+    <!-- nomenclature -->
+    
+    <nomenclature ID_NOMENCLATURE="1"
+                  CD_NOMENCLATURE="nom01"
+                  DESCRIPTION="desc nom 1"
+                  LABEL="nom 1"
+                  />
+
+    <nomenclature_element ID_NOMENCLATURE_ELEMENT="1"
+                          CD_NOMENCLATURE_ELEMENT="ne-lol"
+                          LABEL="lolilol"
+                          nomenclature_ID_NOMENCLATURE="1"
+                          />
+
+</dataset>

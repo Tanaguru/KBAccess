@@ -44,12 +44,4 @@ public interface TestDataService extends GenericDataService<Test, Long> {
      */
     List<Test> getTestListFromCriterion(Criterion criterion);
 
-    /**
-     *
-     * @param code
-     * @param ref
-     * @return
-     *      The test corresponding to the code and the reference
-     */
-    Test getByCodeAndReference(String code, Reference ref);
 }

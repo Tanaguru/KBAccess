@@ -62,7 +62,7 @@ public interface TestcaseDAO extends GenericDAO<Testcase, Long> {
      * @param cdresult
      * @return The test cases matching the given criteria
      */
-    public List<Testcase> findAllFromUserSelection(
+    List<Testcase> findAllFromUserSelection(
             Reference reference,
             Criterion criterion,
             Theme theme,

@@ -148,29 +148,4 @@ public class TestDataServiceImplTest extends TestCase {
         verify(mockedTestDAO);
         verify(expResult);
     }
-
-    /**
-     * Test of getByCodeAndReference method, of class TestDataServiceImpl.
-     */
-    public void testGetByCodeAndReference() {
-        System.out.println("getByCodeAndReference");
-        /* */
-        String code = "code";
-        Reference ref = createMock(Reference.class);
-        Test expResult = createMock(Test.class);
-        /* set-up instance */
-        TestDataServiceImpl instance = new TestDataServiceImpl();
-        instance.setEntityDao(mockedTestDAO);
-        /* set-up mock */
-        expect(mockedTestDAO.findByCodeAndReference(code, ref)).andReturn(expResult);
-        /* replay mock */
-        replay(mockedTestDAO);
-        replay(expResult);
-        /* run test */
-        Test result = instance.getByCodeAndReference(code, ref);
-        /* check result */
-        assertEquals(expResult, result);
-        verify(mockedTestDAO);
-        verify(expResult);
-    }
 }

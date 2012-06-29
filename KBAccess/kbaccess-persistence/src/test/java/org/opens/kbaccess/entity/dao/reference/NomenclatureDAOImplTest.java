@@ -63,24 +63,6 @@ public class NomenclatureDAOImplTest extends AbstractDaoTestCase {
     }
 
     /**
-     * Test of findAllByCode method, of class NomenclatureDAOImpl.
-     */
-    public void testFindAllByCode() {
-        System.out.println("findAllByCode : [nuc]");
-        /* */
-        String code = "nom01";
-        /* */        
-        NomenclatureDAO instance = getBean();
-        /* */
-        Collection<Nomenclature> result = instance.findAllByCode(code);
-        /* */
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(Arrays.asList(1L), asIdList(result));
-        // TODO error case
-    }
-
-    /**
      * Test of findByCode method, of class NomenclatureDAOImpl.
      */
     public void testFindByCode() {

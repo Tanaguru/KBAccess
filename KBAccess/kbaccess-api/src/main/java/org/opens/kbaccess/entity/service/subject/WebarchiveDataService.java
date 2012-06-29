@@ -33,7 +33,7 @@ public interface WebarchiveDataService extends GenericDataService<Webarchive, Lo
      * 
      * @return
      */
-    Webarchive createWebarchive ();
+    Webarchive createWebarchive();
 
     /**
      *

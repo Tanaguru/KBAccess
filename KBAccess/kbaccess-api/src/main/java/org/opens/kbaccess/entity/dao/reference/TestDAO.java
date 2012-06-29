@@ -1,10 +1,10 @@
 package org.opens.kbaccess.entity.dao.reference;
 
+import java.util.List;
 import org.opens.kbaccess.entity.reference.Criterion;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.Test;
 import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
-import java.util.List;
 
 /**
  * 
@@ -31,17 +31,6 @@ public interface TestDAO extends GenericDAO<Test, Long> {
 
     /**
      *
-     * @param code
-     * @param criterion
-     * @return
-     *      The list of tests corresponding to a code and a criterion
-     * 
-     * FIXME : really needed ?
-     */
-    List<Test> findAll(String code, Criterion criterion);
-
-    /**
-     *
      * @param codeArray
      * @return
      */
@@ -55,12 +44,4 @@ public interface TestDAO extends GenericDAO<Test, Long> {
      */
     Test findByCode(String code);
 
-    /**
-     * 
-     * @param code
-     * @param ref
-     * @return
-     *      The test corresponding to a code and a reference
-     */
-    Test findByCodeAndReference(String code, Reference ref);
 }

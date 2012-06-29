@@ -4,3 +4,9 @@
 /KBAccess/kbaccess-impl-subject/target/
 /KBAccess/kbaccess-persistence/target/
 /KBAccess/target/
+
+*.log
+*.class
+*.tmp
+*.db
+hsqldb.properties

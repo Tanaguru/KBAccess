@@ -108,27 +108,6 @@ public class TestDAOImplTest extends AbstractDaoTestCase {
     */
 
     /**
-     * Test of findAll method, of class TestDAOImpl.
-     */
-    public void testFindAll_String_Criterion() {
-        System.out.println("findAll(String code, Criterion) : [nuc]");
-        /* */
-        String code = "test010101";
-        Criterion criterion = new CriterionImpl();
-        
-        criterion.setId(1L);
-        /* */
-        TestDAO instance = getBean();
-        /* */
-        List result = instance.findAll(code, criterion);
-        /* */
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertFalse(Arrays.asList(1L).retainAll(asIdList(result)));
-        // TODO error case
-    }
-
-    /**
      * Test of findAllByCode method, of class TestDAOImpl.
      */
     public void testFindAllByCode() {
@@ -163,23 +142,4 @@ public class TestDAOImplTest extends AbstractDaoTestCase {
         // TODO error code
     }
 
-    /**
-     * Test of findByCodeAndReference method, of class TestDAOImpl.
-     */
-    public void testFindByCodeAndReference() {
-        System.out.println("findByCodeAndReference : [nuc]");
-        /* */
-        String code = "test010101";
-        Reference ref = new ReferenceImpl();
-        
-        ref.setId(1L);
-        /* */
-        TestDAO instance = getBean();
-        /* */
-        Test result = instance.findByCodeAndReference(code, ref);
-        /* */
-        assertNotNull(result);
-        assertEquals(Long.valueOf(1L), result.getId());
-        // TODO error code
-    }
 }

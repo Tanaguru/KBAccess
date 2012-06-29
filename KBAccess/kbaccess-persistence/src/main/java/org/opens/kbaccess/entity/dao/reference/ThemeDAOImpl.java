@@ -32,19 +32,6 @@ public class ThemeDAOImpl extends AbstractJPADAO<Theme, Long> implements
     }
 
     @Override
-    public Collection<Theme> findAllByCode(String code) {
-        try {
-            Query query = entityManager.createQuery("SELECT r FROM "
-                    + getEntityClass().getName() + " r WHERE r.code = :code");
-            query.setParameter("code", code);
-            return query.getResultList();
-        } catch (NoResultException e) {
-            // In case of query with no result, return null
-            return null;
-        }
-    }
-
-    @Override
     public Theme findByCode(String code) {
         try {
             Query query = entityManager.createQuery("SELECT n FROM "

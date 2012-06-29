@@ -50,21 +50,6 @@ public class TestDAOImpl extends AbstractJPADAO<Test, Long> implements TestDAO {
     }
 
     @Override
-    public List<Test> findAll(String code, Criterion criterion) {
-        try {
-            Query query = entityManager.createQuery("SELECT t FROM "
-                    + getEntityClass().getName() + " t"
-                    + " WHERE t.code = :code AND t.criterion = :criterion");
-            query.setParameter("code", code);
-            query.setParameter("criterion", criterion);
-            return query.getResultList();
-        } catch (NoResultException e) {
-            // In case of query with no result, return null
-            return null;
-        }
-    }
-
-    @Override
     public List<Test> findAllByCode(String[] codeArray) {
         if (codeArray.length == 0) {
             return new ArrayList<Test>();
@@ -106,18 +91,4 @@ public class TestDAOImpl extends AbstractJPADAO<Test, Long> implements TestDAO {
         }
     }
 
-    @Override
-    public Test findByCodeAndReference(String code, Reference ref) {
-        try {
-            Query query = entityManager.createQuery("SELECT t FROM "
-                    + getEntityClass().getName() + " t" +
-                    " WHERE t.code = :code AND t.criterion.reference = :reference");
-            query.setParameter("code", code);
-            query.setParameter("reference", ref);
-            return (Test) query.getSingleResult();
-        } catch (NoResultException e) {
-            // In case of query with no result, return null
-            return null;
-        }
-    }
 }

@@ -17,15 +17,6 @@ public interface ThemeDAO extends GenericDAO<Theme, Long> {
      * @param code
      * @return 
      * 
-     * FIXME : really needed ?
-     */
-    Collection<Theme> findAllByCode(String code);
-
-    /**
-     * 
-     * @param code
-     * @return 
-     * 
      * TODO : document
      */
     Theme findByCode(String code);

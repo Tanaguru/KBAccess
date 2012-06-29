@@ -1,6 +1,5 @@
 package org.opens.kbaccess.entity.dao.reference;
 
-import java.util.Collection;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.opens.kbaccess.entity.reference.Result;

@@ -43,11 +43,6 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
     }
 
     @Override
-    public Testcase getById(Long id) {
-         return ((TestcaseDAO) entityDao).read(id);
-    }
-
-    @Override
     public Testcase createTestcase(Account account, Webarchive webarchive, Result result, Test test, String description) {
         Testcase tc = createTestcase();
         tc.setWebarchive(webarchive);

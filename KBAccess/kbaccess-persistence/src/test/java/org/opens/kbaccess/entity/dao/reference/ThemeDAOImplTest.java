@@ -85,24 +85,6 @@ public class ThemeDAOImplTest extends AbstractDaoTestCase {
     }
 
     /**
-     * Test of findAllByCode method, of class ThemeDAOImpl.
-     */
-    public void testFindAllByCode() {
-        System.out.println("findAllByCode : [nuc]");
-        /* */
-        String code = "th1";
-        /* */
-        ThemeDAO instance = getBean();
-        /* */
-        Collection result = instance.findAllByCode(code);
-        /* */
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertFalse(Arrays.asList(1L).retainAll(asIdList(result)));
-        // TODO error case
-    }
-
-    /**
      * Test of findByCode method, of class ThemeDAOImpl.
      */
     public void testFindByCode() {

@@ -1,6 +1,5 @@
 package org.opens.kbaccess.entity.dao.reference;
 
-import java.util.Collection;
 import org.opens.kbaccess.entity.reference.Nomenclature;
 import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
 
@@ -10,15 +9,6 @@ import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
  * @version 1.0.0
  */
 public interface NomenclatureDAO extends GenericDAO<Nomenclature, Long> {
-
-    /**
-     *
-     * @param code
-     * @return
-     * 
-     * FIXME : really needed ?
-     */
-    Collection<Nomenclature> findAllByCode(String code);
 
     /**
      *

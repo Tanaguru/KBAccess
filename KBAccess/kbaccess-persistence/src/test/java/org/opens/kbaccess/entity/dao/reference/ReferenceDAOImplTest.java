@@ -63,24 +63,6 @@ public class ReferenceDAOImplTest extends AbstractDaoTestCase {
     }
 
     /**
-     * Test of findAllByCode method, of class ReferenceDAOImpl.
-     */
-    public void testFindAllByCode() {
-        System.out.println("findAllByCode : [nuc]");
-        /* */
-        String code = "ref-AW21";
-        /* */
-        ReferenceDAO instance = getBean();
-        /* */
-        Collection<Reference> result = instance.findAllByCode(code);
-        /* */
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertFalse(Arrays.asList(1L).retainAll(asIdList(result)));
-        // TODO error case
-    }
-
-    /**
      * Test of findByCode method, of class ReferenceDAOImpl.
      */
     public void testFindByCode() {

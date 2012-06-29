@@ -15,8 +15,8 @@
         <module>kbaccess-impl-authorization</module>
         <module>kbaccess-impl-subject</module>
         <module>kbaccess-impl-reference</module>
-    <module>kbaccess-webapp</module>
-  </modules>
+<!--        <module>kbaccess-webapp</module>-->
+    </modules>
   
     <dependencyManagement>
         <dependencies>
@@ -60,6 +60,11 @@
                 <artifactId>spring-orm</artifactId>
                 <version>3.0.5.RELEASE</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>3.0.5.RELEASE</version>
+            </dependency>
             
             <!-- Open-s dependencies -->
             <dependency>
@@ -73,6 +78,13 @@
                 <artifactId>commons-entity-jpa</artifactId>
                 <version>1.5.2-RC1</version>
                 <type>jar</type>
+            </dependency>
+            
+            <!-- web -->
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-web-api</artifactId>
+                <version>6.0</version>
             </dependency>
             
             <!-- misc -->

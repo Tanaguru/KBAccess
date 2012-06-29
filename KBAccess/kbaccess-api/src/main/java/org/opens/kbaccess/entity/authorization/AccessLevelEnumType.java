@@ -40,7 +40,7 @@ public enum AccessLevelEnumType {
      * @return The access level corresponding with the given argument or
      *         ANONYME is the corresponding acces level is not found.
      */
-    static public AccessLevelEnumType getEnumFromString(String type) {
+    public static AccessLevelEnumType getEnumFromString(String type) {
         for (AccessLevelEnumType member : values()) {
             if (member.getType().equalsIgnoreCase(type)) {
                 return member;

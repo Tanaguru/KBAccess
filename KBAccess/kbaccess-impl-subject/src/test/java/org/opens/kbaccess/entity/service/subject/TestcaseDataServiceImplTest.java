@@ -158,29 +158,6 @@ public class TestcaseDataServiceImplTest extends TestCase {
     }
 
     /**
-     * Test of getById method, of class TestcaseDataServiceImpl.
-     */
-    public void testGetById() {
-        System.out.println("getById");
-        /* */
-        Long id = 1L;
-        Testcase expResult = createMock(Testcase.class);
-        /* set-up instance */
-        TestcaseDataService instance = newInstance();
-        /* set-up mock */
-        expect(mockedTestcaseDAO.read(id)).andReturn(expResult);
-        /* replay mock */
-        replay(mockedTestcaseDAO, mockedTestcaseFactory);
-        replay(expResult);
-        /* run test */
-        Testcase result = instance.getById(id);
-        /* check result */
-        assertEquals(expResult, result);
-        verify(mockedTestcaseDAO, mockedTestcaseFactory);
-        verify(expResult);
-    }
-
-    /**
      * Test of createTestcase method, of class TestcaseDataServiceImpl.
      */
     public void testCreateTestcase_5args() {

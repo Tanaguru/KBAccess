@@ -24,14 +24,6 @@ import org.opens.tanaguru.sdk.entity.service.GenericDataService;
 public interface TestcaseDataService
         extends GenericDataService<Testcase, Long> {
 
-
-    /**
-     * Finds a testcase from an Id
-     * @param id
-     * @return the testcase corresponding to the id
-     */
-    Testcase getById(Long id);
-
     /**
      *
      * @return
@@ -95,7 +87,7 @@ public interface TestcaseDataService
      * @return The list of testcases corresponding to the search, an empty list
      *         if there are no results.
      */
-    public List<Testcase> getAllFromUserSelection (
+    List<Testcase> getAllFromUserSelection (
             Reference reference,
             Criterion criterion,
             Theme theme,

@@ -63,24 +63,6 @@ public class LevelDAOImplTest extends AbstractDaoTestCase {
     }
 
     /**
-     * Test of findAllByCode method, of class LevelDAOImpl.
-     */
-    public void testFindAllByCode() {
-        System.out.println("findAllByCode : [nuc]");
-        /* */
-        String code = "aw-bronze";
-        /* */
-        LevelDAO instance = getBean();
-        /* */
-        Collection result = instance.findAllByCode(code);
-        /* */
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertFalse(Arrays.asList(1L).retainAll(asIdList(result)));
-        // TODO error case
-    }
-
-    /**
      * Test of findByCode method, of class LevelDAOImpl.
      */
     public void testFindByCode() {

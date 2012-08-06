@@ -27,4 +27,5 @@
             <artifactId>commons-entity</artifactId>
         </dependency>
     </dependencies>
+
 </project>

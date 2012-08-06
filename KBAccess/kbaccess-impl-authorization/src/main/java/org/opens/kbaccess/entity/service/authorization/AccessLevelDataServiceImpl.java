@@ -6,6 +6,7 @@
 package org.opens.kbaccess.entity.service.authorization;
 
 import org.opens.kbaccess.entity.authorization.AccessLevel;
+import org.opens.kbaccess.entity.dao.authorization.AccessLevelDAO;
 import org.opens.tanaguru.sdk.entity.service.AbstractGenericDataService;
 
 /**
@@ -19,4 +20,9 @@ public class AccessLevelDataServiceImpl extends
     public AccessLevelDataServiceImpl(){
         super();
     }
+
+    public AccessLevel getByCode(String code) {
+        return ((AccessLevelDAO)entityDao).findByCode(code);
+    }
+    
 }

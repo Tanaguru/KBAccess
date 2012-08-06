@@ -1,0 +1,28 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="org.opens.kbaccess.entity.authorization.AccessLevelEnumType" %>
+<div id="menu">
+    <ul id="menuListe">
+        <li><a href="<c:url value='/testcase/search.html'/>">Recherche par choix</a></li>
+        <li><a href="<c:url value='/testcase/search-by-url.html'/>">Recherche par <acronym title="Uniform Resource Locator">URL</acronym></a></li>
+    </ul>
+    <%-- FIXME : use enum values --%>
+    <c:if test='${authenticatedUser != null and
+                  (authenticatedUser.accessLevel.accessLevelEnumType.type == "contrib" or
+                   authenticatedUser.accessLevel.accessLevelEnumType.type == "moder" or
+                   authenticatedUser.accessLevel.accessLevelEnumType.type == "admin")}'>
+        <ul id="menuListeContrib">
+            <li><a href="<c:url value='/testcase/add.html'/>">Ajout de testcases</a></li>
+            <li><a href="<c:url value='/account/my-testcases.html'/>">Mes testcases</a></li>
+            <li><a href="<c:url value='/testcase/list.html'/>">Tous les testcases</a></li>
+            <li><a href="<c:url value='/webarchive/add.html'/>">Ajout de webarchive</a></li>
+            <li><a href="<c:url value='/account/my-webarchives.html'/>">Mes webarchives</a></li>
+            <li><a href="<c:url value='/webarchive/list.html'/>">Toutes les webarchives</a></li>
+        </ul>
+    </c:if>
+    <c:if test='${authenticatedUser != null and
+                  (authenticatedUser.accessLevel.accessLevelEnumType.type == "admin")}'>
+        <ul id="menuListeAdmin">
+            <li><a href="<c:url value='/admin/users.html'/>">Tous les utilisateurs</a></li>
+        </ul>
+    </c:if>
+</div>

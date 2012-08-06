@@ -1,0 +1,18 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<div id="hd" class="navbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <a href="<c:url value='/'/>" class="brand">
+                <span style="color: white" title="Retour à l'accueil">KBAccess</span>
+            </a>
+            <ul class="nav">
+                <li><a href="<c:url value='/'/>">Accueil</a></li>
+                <li><a href="<c:url value='/testcase/list.html'/>">Testcase</a></li>
+                <li><a href="<c:url value='/webarchive/list.html'/>">Webarchive</a></li>
+                <li><a href="<c:url value='/testcase/add.html'/>">Add Testcase</a></li>
+                <li><a href="<c:url value='/webarchive/add.html'/>">Add Webarchive</a></li>
+            </ul>
+            <%@include file="/WEB-INF/template/identification.jspf" %>
+        </div>
+    </div>
+</div>

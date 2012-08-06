@@ -1,0 +1,35 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:choose>
+    <c:when test="${empty webarchiveList}">
+        <p id="tableTestcases">Aucune webarchive</p>
+    </c:when>
+    <c:otherwise>
+        <table class="table table-strip" summary="Liste des Webarchives" id="tableWebarchives">
+            <tr>
+                <th scope="col">URL</th>
+                <th scope="col">Date</th>
+                <th scope="col">Portée</th>
+                <th scope="col">Description</th>
+                <th scope="col">Contributeur</th>
+                <th scope="col">Action</th>
+            </tr>
+            <c:forEach var="webarchive" items="${webarchiveList}">
+                <tr>
+                    <td>
+                        <a href="${webarchive.localUrl}"
+                        title="Lien vers la webarchive du site ${webarchive.url}"
+                        >${webarchive.url}</a>
+                    </td>
+                    <td>${webarchive.date}</td>
+                    <td>${webarchive.scope}</td>
+                    <td>${webarchive.description}</td>
+                    <td>
+                        ${webarchive.account.firstName}
+                        ${webarchive.account.lastName}
+                    </td>
+                    <td>N/A</td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:otherwise>    
+</c:choose>

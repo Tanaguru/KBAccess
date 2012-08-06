@@ -7,14 +7,8 @@ package org.opens.kbaccess.entity.service.subject;
 
 import java.util.List;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.reference.Criterion;
-import org.opens.kbaccess.entity.reference.Level;
-import org.opens.kbaccess.entity.reference.Reference;
-import org.opens.kbaccess.entity.reference.Result;
-import org.opens.kbaccess.entity.reference.Test;
-import org.opens.kbaccess.entity.reference.Theme;
+import org.opens.kbaccess.entity.reference.*;
 import org.opens.kbaccess.entity.subject.Testcase;
-import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.tanaguru.sdk.entity.service.GenericDataService;
 
 /**
@@ -36,29 +30,6 @@ public interface TestcaseDataService
      * @return All the testcases created by a user or null if there are none.
      */
     List<Testcase> getAllFromAccount(Account account);
-
-    /**
-     *
-     * @return an empty instance of testcase
-     */
-    Testcase createTestcase();
-
-    /**
-     *
-     * @param account
-     * @param webarchive
-     * @param result
-     * @param test
-     * @param description
-     * @return an initialized instance of testcase
-     */
-    Testcase createTestcase(
-            Account account,
-            Webarchive webarchive,
-            Result result,
-            Test test,
-            String description);
-
 
     /**
      *

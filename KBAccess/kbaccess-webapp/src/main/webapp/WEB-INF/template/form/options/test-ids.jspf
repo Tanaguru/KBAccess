@@ -1,0 +1,8 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:forEach var="entry" items="${testByRef}">
+    <optgroup id="${entry.key.code}" label="${entry.key.label}">
+        <c:forEach var="test" items="${entry.value}">
+            <option value="${test.id}">${test.label}</option>
+        </c:forEach>
+    </optgroup>
+</c:forEach>

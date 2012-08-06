@@ -1,0 +1,16 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<div id="breadcrumbTrail" class="row">
+    <ul class="breadcrumb">
+        <c:forEach var="item" items="${breadcrumbTrail}">
+            <li>
+                <c:if test="${item.value != null}">
+                    <a href="<c:url value='${item.value}'/>">
+                </c:if>
+                ${item.key}
+                <c:if test="${item.value != null}">
+                    </a> <span class="divider">&gt;</span>
+                </c:if>
+            </li>
+        </c:forEach>
+    </ul>
+</div>

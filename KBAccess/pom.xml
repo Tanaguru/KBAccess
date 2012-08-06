@@ -15,8 +15,28 @@
         <module>kbaccess-impl-authorization</module>
         <module>kbaccess-impl-subject</module>
         <module>kbaccess-impl-reference</module>
-<!--        <module>kbaccess-webapp</module>-->
-    </modules>
+        <module>kbaccess-webapp</module>
+    <module>kbaccess-i18n</module>
+    <module>kbaccess-resources</module>
+  </modules>
+    
+    <properties>
+        <spring.version>3.0.5.RELEASE</spring.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
   
     <dependencyManagement>
         <dependencies>
@@ -58,12 +78,33 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
-                <version>3.0.5.RELEASE</version>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>3.0.5.RELEASE</version>
+                <version>${spring.version}</version>
+            </dependency>
+            <!-- spring security -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring.version}</version>
             </dependency>
             
             <!-- Open-s dependencies -->
@@ -79,6 +120,16 @@
                 <version>1.5.2-RC1</version>
                 <type>jar</type>
             </dependency>
+            <dependency>
+                <groupId>org.opens.slurpmanager</groupId>
+                <artifactId>slurp-manager-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.opens.slurpmanager</groupId>
+                <artifactId>slurp-manager-impl</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
             
             <!-- web -->
             <dependency>
@@ -86,6 +137,28 @@
                 <artifactId>javaee-web-api</artifactId>
                 <version>6.0</version>
             </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>1.1.1</version>
+            </dependency>
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>c</artifactId>
+                <version>1.1.1</version>
+                <type>tld</type>
+            </dependency>
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>fmt</artifactId>
+                <version>1.1.1</version>
+                <type>tld</type>
+            </dependency>        
             
             <!-- misc -->
             <dependency>
@@ -103,7 +176,16 @@
                 <artifactId>aspectjweaver</artifactId>
                 <version>1.6.8</version>
             </dependency>
-            
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.5</version>
+            </dependency>            
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib-nodep</artifactId>
+                <version>2.2.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
   

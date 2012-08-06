@@ -14,4 +14,11 @@ import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
  */
 public interface AccessLevelDAO extends GenericDAO<AccessLevel, Long>{
 
+    /**
+     * 
+     * @param code
+     * @return The access level corresponding to the given code or null
+     */
+    AccessLevel findByCode(String code);
+    
 }

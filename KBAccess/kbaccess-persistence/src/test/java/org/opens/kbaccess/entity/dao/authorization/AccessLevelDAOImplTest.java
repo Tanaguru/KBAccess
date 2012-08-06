@@ -21,6 +21,7 @@
  */
 package org.opens.kbaccess.entity.dao.authorization;
 
+import org.opens.kbaccess.entity.authorization.AccessLevel;
 import org.opens.kbaccess.entity.authorization.AccessLevelImpl;
 import org.opens.kbaccess.utils.AbstractDaoTestCase;
 
@@ -44,6 +45,10 @@ public class AccessLevelDAOImplTest extends AbstractDaoTestCase {
         super.tearDown();
     }
 
+    private AccessLevelDAO getBean() {
+        return (AccessLevelDAO) springBeanFactory.getBean("accessLevelDAO");
+    }
+
     /**
      * Test of getEntityClass method, of class AccessLevelDAOImpl.
      */
@@ -54,4 +59,22 @@ public class AccessLevelDAOImplTest extends AbstractDaoTestCase {
         Class result = instance.getEntityClass();
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of findByCode method, of class AccessLevelDAOImpl.
+     */
+    public void testFindByCode() {
+        /* nominal use case */
+        System.out.println("findByCode : [nuc]");
+        /* */
+        String code = "admin";
+        /* set-up instance */
+        AccessLevelDAO instance = getBean();
+        /* run test */
+        AccessLevel result = instance.findByCode(code);
+        /* check result */
+        assertEquals(Long.valueOf(1L), result.getId());
+        // TODO error case
+    }
+
 }

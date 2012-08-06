@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="kbaccess-pu" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>org.opens.kbaccess.entity.authorization.AccessLevelImpl</class>
+    <class>org.opens.kbaccess.entity.authorization.AccountImpl</class>
+    <class>org.opens.kbaccess.entity.reference.CriterionImpl</class>
+    <class>org.opens.kbaccess.entity.reference.LevelImpl</class>
+    <class>org.opens.kbaccess.entity.reference.NomenclatureElementImpl</class>
+    <class>org.opens.kbaccess.entity.reference.NomenclatureImpl</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceImpl</class>
+    <class>org.opens.kbaccess.entity.reference.ResultImpl</class>
+    <class>org.opens.kbaccess.entity.reference.TestImpl</class>
+    <class>org.opens.kbaccess.entity.reference.ThemeImpl</class>
+    <class>org.opens.kbaccess.entity.subject.TestcaseImpl</class>
+    <class>org.opens.kbaccess.entity.subject.WebarchiveImpl</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+  </persistence-unit>
+</persistence>

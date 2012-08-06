@@ -2,11 +2,15 @@
 /KBAccess/kbaccess-impl-authorization/target/
 /KBAccess/kbaccess-impl-reference/target/
 /KBAccess/kbaccess-impl-subject/target/
-/KBAccess/kbaccess-persistence/target/
+/KBAccess/kbaccess-persition.xml
 /KBAccess/target/
-
+nb-configuration.xml
 *.log
 *.class
 *.tmp
 *.db
 hsqldb.properties
+/KBAccess/kbaccess-webapp/target/
+/KBAccess/kbaccess-webapp/src/main/resources/database.properties
+/KBAccess/kbaccess-i18n/target/
+/KBAccess/kbaccess-resources/target/

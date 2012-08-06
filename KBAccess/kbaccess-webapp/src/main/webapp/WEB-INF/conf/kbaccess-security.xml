@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+<!--       access-denied-page="/access-denied.html"-->
+    <http auto-config="true">
+        <intercept-url pattern="/j_spring_security_check*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/guest/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        
+        <intercept-url pattern="/account/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>
+        <intercept-url pattern="/testcase/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>
+        <intercept-url pattern="/webarchive/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>
+        
+        <intercept-url pattern="/admin/**" access="ROLE_admin"/>
+        
+        <intercept-url pattern="/assets/**" filters="none"/>
+
+        <intercept-url pattern="/testcase/search.html*" filters="none"/>
+        <intercept-url pattern="/testcase/result.html*" filters="none"/>
+        <intercept-url pattern="/testcase/list.html*" filters="none"/>
+        <intercept-url pattern="/testcase/details.html*" filters="none"/>
+
+        <intercept-url pattern="/webarchive/list.html*" filters="none"/>
+
+        <form-login login-page="/guest/login.html"
+                    authentication-failure-url="/guest/login.html?error=errorOnLogin"
+                    default-target-url="/"/>
+        <logout />
+                    
+        <session-management invalid-session-url="/guest/login.html?error=sessionTimeout" >
+            <concurrency-control max-sessions="200" error-if-maximum-exceeded="true"  />
+        </session-management>
+    </http>
+
+<!--    <global-method-security secured-annotations="enabled"
+            access-decision-manager-ref="accessDecisionManager"/>-->
+
+    <authentication-manager>
+        <authentication-provider>
+            <password-encoder hash="sha"/>
+            <jdbc-user-service data-source-ref="dataSource"
+                users-by-username-query=
+                    "SELECT EMAIL, PASSWORD, ACTIVATED as enabled
+                    FROM account
+                    WHERE EMAIL=?"
+                authorities-by-username-query=
+                    "SELECT account.EMAIL, CONCAT('ROLE_', access_level.CD_ACCESS_LEVEL) as authorities
+                    FROM account, access_level
+                    WHERE account.EMAIL=? AND account.access_level_ID_ACCESS_LEVEL=access_level.ID_ACCESS_LEVEL"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:property name="decisionVoters">
+            <beans:list>
+                <beans:bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+</beans:beans>

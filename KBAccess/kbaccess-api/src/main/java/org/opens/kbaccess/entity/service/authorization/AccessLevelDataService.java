@@ -15,4 +15,5 @@ import org.opens.tanaguru.sdk.entity.service.GenericDataService;
 public interface AccessLevelDataService extends
         GenericDataService<AccessLevel, Long>{
 
+    AccessLevel getByCode(String code);
 }

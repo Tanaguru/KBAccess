@@ -20,4 +20,10 @@ public interface AccountDAO extends GenericDAO<Account, Long> {
      */
     Account findByEmail(String email);
 
+    /**
+     * 
+     * @return The number of Account in database
+     */
+    Long count();
+    
 }

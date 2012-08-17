@@ -3,14 +3,11 @@
     <div class="navbar-inner">
         <div class="container">
             <a href="<c:url value='/'/>" class="brand">
-                <span style="color: white" title="Retour à l'accueil">KBAccess</span>
+                <img src="<c:url value='/assets/images/kbaccess-logo-header.png'/>" height="24"  alt="KBAccess - Retour à l'accueil"/>
             </a>
             <ul class="nav">
-                <li><a href="<c:url value='/'/>">Accueil</a></li>
-                <li><a href="<c:url value='/testcase/list.html'/>">Testcase</a></li>
-                <li><a href="<c:url value='/webarchive/list.html'/>">Webarchive</a></li>
-                <li><a href="<c:url value='/testcase/add.html'/>">Add Testcase</a></li>
-                <li><a href="<c:url value='/webarchive/add.html'/>">Add Webarchive</a></li>
+                <li><a href="<c:url value='/testcase/add.html'/>">Créer un testcase</a></li>
+                <li><a href="<c:url value='/testcase/search.html'/>">Chercher un testcase</a></li>
             </ul>
             <%@include file="/WEB-INF/template/identification.jspf" %>
         </div>

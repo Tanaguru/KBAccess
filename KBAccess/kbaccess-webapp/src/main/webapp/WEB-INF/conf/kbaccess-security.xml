@@ -23,7 +23,7 @@
         <intercept-url pattern="/testcase/search.html*" filters="none"/>
         <intercept-url pattern="/testcase/result.html*" filters="none"/>
         <intercept-url pattern="/testcase/list.html*" filters="none"/>
-        <intercept-url pattern="/testcase/details.html*" filters="none"/>
+        <intercept-url pattern="/testcase/details/**" filters="none"/>
 
         <intercept-url pattern="/webarchive/list.html*" filters="none"/>
 
@@ -51,7 +51,7 @@
                 authorities-by-username-query=
                     "SELECT account.EMAIL, CONCAT('ROLE_', access_level.CD_ACCESS_LEVEL) as authorities
                     FROM account, access_level
-                    WHERE account.EMAIL=? AND account.access_level_ID_ACCESS_LEVEL=access_level.ID_ACCESS_LEVEL"/>
+                    WHERE account.EMAIL=? AND account.ID_ACCESS_LEVEL=access_level.ID_ACCESS_LEVEL"/>
         </authentication-provider>
     </authentication-manager>
 

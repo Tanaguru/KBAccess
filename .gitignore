@@ -14,3 +14,13 @@ hsqldb.properties
 /KBAccess/kbaccess-webapp/src/main/resources/database.properties
 /KBAccess/kbaccess-i18n/target/
 /KBAccess/kbaccess-resources/target/
+/KBAccess/kbaccess-impl-statistics/target//temp/
+/KBAccess/kbaccess-resources/src/main/resources/update/sql/exec.sh
+/KBAccess/kbaccess-webapp/src/main/webapp/assets/images/kbaccess-logo-blue.png
+/KBAccess/kbaccess-webapp/src/main/webapp/assets/images/kbaccess-logo-green.png
+/KBAccess/kbaccess-impl-statistics/target/
+/KBAccess/kbaccess-persistence/kbaccess.properties
+/KBAccess/kbaccess-persistence/kbaccess.script
+/KBAccess/kbaccess-persistence/target/
+/temp
+/KBAccess/kbaccess-resources/target

@@ -14,7 +14,9 @@
     <bean id="nomenclatureElementDAO" class="org.opens.kbaccess.entity.dao.reference.NomenclatureElementDAOImpl"/>
     <bean id="referenceDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceDAOImpl"/>
     <bean id="resultDAO" class="org.opens.kbaccess.entity.dao.reference.ResultDAOImpl"/>
+    <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
     <bean id="testDAO" class="org.opens.kbaccess.entity.dao.reference.TestDAOImpl"/>
+    <bean id="testResultDAO" class="org.opens.kbaccess.entity.dao.subject.TestResultDAOImpl"/>
     <bean id="themeDAO" class="org.opens.kbaccess.entity.dao.reference.ThemeDAOImpl"/>
 
     <bean id="testcaseDAO" class="org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl"/>

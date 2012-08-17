@@ -13,18 +13,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ThemeImpl implements Theme, Serializable {
 
-    @Column(name = "CD_THEME")
-    protected String code;
-    @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL)
-    protected List<CriterionImpl> criterionList;
-    @Column(name = "DESCRIPTION")
-    protected String description;
     @Id
     @GeneratedValue
     @Column(name = "ID_THEME")
     protected Long id;
+    @Column(name = "CD_THEME")
+    protected String code;
+    @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL)
+    protected List<CriterionImpl> criterionList;
     @Column(name = "LABEL", nullable = false)
     protected String label;
+    @Column(name = "DESCRIPTION")
+    protected String description;
     @Column(name = "PRIORITY")
     protected int rank;
 

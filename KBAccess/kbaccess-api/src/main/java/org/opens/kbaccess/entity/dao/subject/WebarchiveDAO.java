@@ -37,4 +37,10 @@ public interface WebarchiveDAO extends GenericDAO<Webarchive, Long> {
      */
     int deleteFromWebArchive(Webarchive webarchive);
 
+    /**
+     * 
+     * @return The number of webarchive in database
+     */
+    Long count();
+    
 }

@@ -23,24 +23,22 @@ public class AccountImpl implements Account, Serializable {
     protected String email;
     @Column(name = "PASSWORD")
     protected String password;
-    @OneToOne
-    @JoinColumn(name = "access_level_ID_ACCESS_LEVEL")
-    protected AccessLevelImpl accessLevel;
-    @Column(name = "NAME")
+    @Column(name = "LAST_NAME")
     protected String lastName;
-    @Column(name = "FIRSTNAME")
+    @Column(name = "FIRST_NAME")
     protected String firstName;
     @Column(name = "URL")
     protected String url;
     @Column(name = "ACTIVATED")
     protected boolean activated;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    @Column(name = "DATE_INSCRIPTION")
-    protected Date dateInscription;
-    @Column(name = "AUTH_CODE", nullable=true)
+    @Column(name = "SUBSCRIPTION_DATE")
+    protected Date subscriptionDate;
+    @Column(name = "ACTIVATION_TOKEN", nullable=true)
     protected String authCode;
-
-
+    @OneToOne
+    @JoinColumn(name = "ID_ACCESS_LEVEL", nullable = false)
+    protected AccessLevelImpl accessLevel;
 
     @Override
     public AccessLevel getAccessLevel() {
@@ -124,12 +122,12 @@ public class AccountImpl implements Account, Serializable {
 
     @Override
     public Date getSubscriptionDate() {
-        return dateInscription;
+        return subscriptionDate;
     }
 
     @Override
     public void setSubscriptionDate(Date dateInscription) {
-        this.dateInscription = dateInscription;
+        this.subscriptionDate = dateInscription;
     }
 
     @Override

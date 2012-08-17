@@ -33,7 +33,7 @@
                                     <td class="tdTableComptes">${account.lastName}</td>
                                     <td class="tdTableComptes">${account.firstName}</td>
                                     <td class="tdTableComptes">${account.accessLevel.label}</td>
-                                    <td class="tdTableComptes"><a href="${account.url}">${account.url}</a></td>
+                                    <td class="tdTableComptes"><a href="${account.url}" rel="nofollow">${account.url}</a></td>
                                     <c:choose>
                                         <c:when test="${account.activated}">
                                             <td class="tdTableComptesActive">activ&eacute;</td>
@@ -44,7 +44,7 @@
                                     </c:choose>
                                     <td class="tdTableComptes">
                                         <c:choose>
-                                            <c:when test="${authenticatedUser.accessLevel.rank <= account.accessLevel.rank}">
+                                            <c:when test="${authenticatedUser.accessLevel.rank < account.accessLevel.rank}">
                                                 <a href="<c:url value='/account/delete.html?id=${account.id}'/>">
                                                     Supprimer
                                                 </a>

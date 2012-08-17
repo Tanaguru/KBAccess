@@ -1,8 +1,8 @@
 package org.opens.kbaccess.entity.reference;
 
+import java.util.List;
 import org.opens.tanaguru.sdk.entity.Entity;
 import org.opens.tanaguru.sdk.entity.Reorderable;
-import java.util.List;
 
 /**
  * 
@@ -58,6 +58,12 @@ public interface Criterion extends Entity, Reorderable {
      * @return the theme
      */
     Theme getTheme();
+    
+    /**
+     * 
+     * @return the level
+     */
+    Level getLevel();
 
     /**
      *
@@ -100,4 +106,10 @@ public interface Criterion extends Entity, Reorderable {
      * @param theme The theme to set
      */
     void setTheme(Theme theme);
+    
+    /**
+     * 
+     * @param level The level
+     */
+    void setLevel(Level level);
 }

@@ -43,4 +43,9 @@ public class WebarchiveDataServiceImpl extends AbstractGenericDataService<Webarc
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public Long getCount() {
+        return ((WebarchiveDAO) entityDao).count();
+    }
+
 }

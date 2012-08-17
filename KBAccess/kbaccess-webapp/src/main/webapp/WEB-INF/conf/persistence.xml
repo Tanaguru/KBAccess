@@ -14,6 +14,7 @@
     <class>org.opens.kbaccess.entity.reference.ThemeImpl</class>
     <class>org.opens.kbaccess.entity.subject.TestcaseImpl</class>
     <class>org.opens.kbaccess.entity.subject.WebarchiveImpl</class>
+    <class>org.opens.kbaccess.entity.subject.TestResultImpl</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
   </persistence-unit>
 </persistence>

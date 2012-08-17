@@ -1,6 +1,7 @@
 package org.opens.kbaccess.entity.subject;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElementRef;
@@ -9,10 +10,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.authorization.AccountImpl;
+import org.opens.kbaccess.entity.reference.Criterion;
+import org.opens.kbaccess.entity.reference.CriterionImpl;
 import org.opens.kbaccess.entity.reference.Result;
 import org.opens.kbaccess.entity.reference.ResultImpl;
-import org.opens.kbaccess.entity.reference.Test;
-import org.opens.kbaccess.entity.reference.TestImpl;
 
 /**
  *
@@ -25,33 +26,36 @@ public class TestcaseImpl implements Testcase, Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID_TESTCASE", nullable=false)
+    @Column(name = "ID_TESTCASE")
     protected Long id;
+    @Column(name = "TITLE", nullable = false)
+    protected String title;
+    @Column(name = "DESCRIPTION", nullable = true)
+    protected String description;
+    @Column(name = "PRIORITY", nullable = false)
+    protected int rank;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @Column(name = "CREATION_DATE", nullable = false)
+    protected Date creationDate;
     @OneToOne
-    @JoinColumn(name="result_ID_RESULT", nullable=false)
+    @JoinColumn(name = "ID_RESULT", nullable = false)
     protected ResultImpl result;
     @OneToOne
-    @JoinColumn(name="test_ID_TEST", nullable=false)
-    protected TestImpl test;
-    @OneToOne
-    @JoinColumn(name="account_ID_ACCOUNT", nullable=false)
+    @JoinColumn(name = "ID_ACCOUNT", nullable = false)
     protected AccountImpl account;
     @OneToOne
-    @JoinColumn(name="webarchive_ID_WEBARCHIVE", nullable=true)
-    protected WebarchiveImpl webarchive = null;
-    @Column(name = "CD_TESTCASE", nullable=false)
-    protected String code;
-    @Column(name = "DESCRIPTION", nullable=true)
-    protected String description = null;
-    @Column(name = "LABEL", nullable=true)
-    protected String label = null;
-    @Column(name = "PRIORITY", nullable=false)
-    protected int rank;
-    @Column(name = "NUM_TC", nullable=false)
-    protected int numTC;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    @Column(name = "DATE_C", nullable=false)
-    protected Date date;
+    @JoinColumn(name = "ID_WEBARCHIVE", nullable = false)
+    protected WebarchiveImpl webarchive;
+    @OneToOne
+    @JoinColumn(name = "ID_CRITERION", nullable = false)
+    protected CriterionImpl criterion;
+    @ManyToMany
+    @JoinTable(
+            name = "testcase_test_result",
+            joinColumns = @JoinColumn(name = "ID_TESTCASE", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "ID_TEST_RESULT", nullable = false)
+            )
+    protected Collection<TestResultImpl> testResults;
 
     @Override
     @XmlElementWrapper
@@ -63,8 +67,8 @@ public class TestcaseImpl implements Testcase, Serializable {
     @Override
     @XmlElementWrapper
     @XmlElementRef(type = org.opens.kbaccess.entity.reference.TestImpl.class)
-    public Test getTest() {
-        return test;
+    public Criterion getCriterion() {
+        return criterion;
     }
 
     @Override
@@ -82,36 +86,34 @@ public class TestcaseImpl implements Testcase, Serializable {
     }
 
     @Override
-    public String getCdTestcase() {
-        return code;
+    public void addTestResult(TestResult testResult) {
+        this.testResults.add((TestResultImpl) testResult);
     }
 
+    @Override
+    public Collection<TestResult> getTestResults() {
+        return (Collection) this.testResults;
+    }
+
+    @Override
+    public void setTestResults(Collection<TestResult> testResults) {
+        this.testResults.clear();
+        this.testResults.addAll((Collection) testResults);
+    }
+    
     @Override
     public String getDescription() {
         return description;
     }
 
     @Override
-    public String getLabel() {
-        return label;
-    }
-
-//    @Override
-//    public boolean isDeleted() {
-//        if (deleted == 0) {
-//            return true;
-//        }
-//        else return false;
-//    }
-
-    @Override
-    public Integer getNumTc() {
-        return numTC;
+    public String getTitle() {
+        return title;
     }
 
     @Override
-    public Date getDateC() {
-        return date;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
     @Override
@@ -120,8 +122,8 @@ public class TestcaseImpl implements Testcase, Serializable {
     }
 
     @Override
-    public void setTest(Test test) {
-        this.test = (TestImpl)test;
+    public void setCriterion(Criterion criterion) {
+        this.criterion = (CriterionImpl)criterion;
     }
 
     @Override
@@ -135,38 +137,18 @@ public class TestcaseImpl implements Testcase, Serializable {
     }
 
     @Override
-    public void setCdTestcase(String testcaseCode) {
-        this.code = testcaseCode;
-    }
-
-    @Override
     public void setDescription(String description) {
         this.description = StringEscapeUtils.escapeHtml(description);
     }
 
     @Override
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-//    @Override
-//    public void setDeleted(boolean deleted) {
-//        if (deleted){
-//           this.deleted = 0;
-//        } else {
-//            this.deleted = 1;
-//        }
-//
-//    }
-
-    @Override
-    public void setNumTc(Integer numTC) {
-        this.numTC = numTC;
+    public void setTitle(String title) {
+        this.title = StringEscapeUtils.escapeHtml(title);
     }
 
     @Override
-    public void setDateC(Date date) {
-        this.date = date;
+    public void setCreationDate(Date date) {
+        this.creationDate = date;
     }
 
     @Override

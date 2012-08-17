@@ -2,6 +2,7 @@ package org.opens.kbaccess.entity.dao.authorization;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.authorization.AccountImpl;
 import org.opens.tanaguru.sdk.entity.dao.jpa.AbstractJPADAO;
@@ -39,4 +40,19 @@ public class AccountDAOImpl extends AbstractJPADAO<Account, Long> implements
             return null;
         }
     }
+
+    @Override
+    public Long count() {
+        Query query = entityManager.createQuery(
+                "SELECT COUNT(*) FROM " + getEntityClass().getName()
+                );
+        try {
+            return (Long) query.getSingleResult();
+        } catch (NoResultException ex) {
+            LogFactory.getLog(AccountDAOImpl.class).error("Count of account in the db fails", ex);
+            return 0L;
+        }
+    }
+    
+    
 }

@@ -28,7 +28,7 @@ public interface Webarchive extends Entity, Reorderable {
      *
      * @return the creation date
      */
-    Date getDate();
+    Date getCreationDate();
 
     /**
      *
@@ -65,7 +65,7 @@ public interface Webarchive extends Entity, Reorderable {
      * 
      * @param date
      */
-    void setDate(Date date);
+    void setCreationDate(Date date);
 
     /**
      * 

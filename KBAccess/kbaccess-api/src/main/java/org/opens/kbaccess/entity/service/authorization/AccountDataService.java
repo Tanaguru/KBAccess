@@ -19,4 +19,10 @@ public interface AccountDataService extends
      * @return 
      */
     Account getAccountFromEmail(String email);
+    
+    /**
+     * 
+     * @return  The number of Account in database
+     */
+    Long getCount();
 }

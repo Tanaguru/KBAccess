@@ -23,13 +23,22 @@ public class ResultImpl implements Result{
     protected Long id;
     @Column(name = "CD_RESULT", nullable=false)
     protected String code;
-    @Column(name = "DESCRIPTION", nullable=true)
-    protected String description = null;
     @Column(name = "LABEL", nullable = true)
     protected String label = null;
+    @Column(name = "DESCRIPTION", nullable=true)
+    protected String description = null;
     @Column(name = "PRIORITY", nullable = false)
     protected int rank;
 
+    public ResultImpl() {
+    }
+
+    public ResultImpl(Long id, String code, int rank) {
+        this.id = id;
+        this.code = code;
+        this.rank = rank;
+    }
+    
     @Override
     public String getCode() {
         return code;

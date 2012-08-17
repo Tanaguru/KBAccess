@@ -14,18 +14,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class NomenclatureImpl implements Nomenclature, Serializable {
 
-    @Column(name = "CD_NOMENCLATURE")
-    protected String code;
-    @Column(name = "DESCRIPTION")
-    protected String description;
-    @OneToMany(mappedBy = "nomenclature", cascade = CascadeType.ALL)
-    protected Collection<NomenclatureElementImpl> elementList = new HashSet<NomenclatureElementImpl>();
     @Id
     @GeneratedValue
     @Column(name = "ID_NOMENCLATURE")
     protected Long id;
+    @Column(name = "CD_NOMENCLATURE", nullable = false)
+    protected String code;
     @Column(name = "LABEL")
     protected String label;
+    @Column(name = "DESCRIPTION")
+    protected String description;
+    @OneToMany(mappedBy = "nomenclature", cascade = CascadeType.ALL)
+    protected Collection<NomenclatureElementImpl> elementList = new HashSet<NomenclatureElementImpl>();
 //    @ManyToOne
 //    @JoinColumn(name = "Id_Nomenclature_Parent")
 //    protected NomenclatureImpl parent;

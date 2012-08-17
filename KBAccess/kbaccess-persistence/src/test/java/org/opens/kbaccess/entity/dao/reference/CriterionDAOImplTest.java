@@ -126,11 +126,12 @@ public class CriterionDAOImplTest extends AbstractDaoTestCase {
     public void testFindByCode() {
         System.out.println("findByCode : [nuc]");
         /* */
-        String code = "AW21-0101";
+        String code = "AW2.1-0101";
         /* */
         CriterionDAO instance = getBean();
         /* */
         Criterion result = instance.findByCode(code);
+        assertNotNull(result);
         assertEquals(Long.valueOf(1L), result.getId());
         // TODO error case
     }

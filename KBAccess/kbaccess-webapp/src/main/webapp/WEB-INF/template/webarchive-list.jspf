@@ -20,7 +20,7 @@
                         title="Lien vers la webarchive du site ${webarchive.url}"
                         >${webarchive.url}</a>
                     </td>
-                    <td>${webarchive.date}</td>
+                    <td>${webarchive.creationDate}</td>
                     <td>${webarchive.scope}</td>
                     <td>${webarchive.description}</td>
                     <td>

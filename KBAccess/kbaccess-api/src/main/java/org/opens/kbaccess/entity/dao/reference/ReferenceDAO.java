@@ -17,4 +17,10 @@ public interface ReferenceDAO extends GenericDAO<Reference, Long> {
      * TODO : document
      */
     Reference findByCode(String code);
+    
+    /**
+     * 
+     * @return The number of Reference in database
+     */
+    Long count();
 }

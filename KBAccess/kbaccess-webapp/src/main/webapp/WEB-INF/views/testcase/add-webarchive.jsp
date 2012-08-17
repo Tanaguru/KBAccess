@@ -31,7 +31,7 @@
                                 <div class="controls">
                                     <form:select path="idWebarchive" id="testcase_idwebarchive">
                                         <c:forEach var="webarchive" items="${webarchiveList}">
-                                            <option value="${webarchive.id}">${webarive.url} : ${webarchive.date}</option>
+                                            <option value="${webarchive.id}">${webarive.url} : ${webarchive.creationDate}</option>
                                         </c:forEach>
                                     </form:select>
                                     <form:errors path="idWebarchive" cssClass="error" element="p"/>

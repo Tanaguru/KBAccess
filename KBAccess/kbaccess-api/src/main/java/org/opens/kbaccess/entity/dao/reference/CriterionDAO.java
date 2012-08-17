@@ -46,4 +46,5 @@ public interface CriterionDAO extends GenericDAO<Criterion, Long> {
      * @return The criteria relating to the given theme
      */
     Collection<Criterion> findAllFromTheme(Theme theme);
+
 }

@@ -3,8 +3,10 @@ package org.opens.kbaccess.entity.dao.subject;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.*;
+import org.opens.kbaccess.entity.subject.TestResultImpl;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.TestcaseImpl;
 import org.opens.tanaguru.sdk.entity.dao.jpa.AbstractJPADAO;
@@ -34,6 +36,16 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         sb.append(where);
         return entityManager.createQuery(sb.toString());
     }
+
+    @Override
+    public Testcase read(Long id, boolean fetch) {
+        Testcase testcase = read(id);
+        
+        if (fetch) {
+            testcase.getTestResults().size();
+        }
+        return testcase;
+    }
     
     @Override
     public int findMaxPriorityValueFromTable() {
@@ -51,7 +63,7 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
     public List<Testcase> findAllFromAccount(Account account) {
         try {
             Query query = selectTestcases("WHERE tc.account = :account"
-                    + " ORDER BY tc.test asc, tc.result asc, tc.date asc");
+                    + " ORDER BY tc.criterion asc, tc.result asc, tc.creationDate asc");
             query.setParameter("account", account);
             return query.getResultList();
         } catch (NoResultException e) {
@@ -66,7 +78,7 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
             int nbOfTestcases) {
         try {
             Query query = selectTestcases("WHERE tc.account = :account"
-                    + " ORDER BY tc.date desc");
+                    + " ORDER BY tc.creationDate desc");
             query.setParameter("account", account);
             query.setMaxResults(nbOfTestcases);
             return query.getResultList();
@@ -78,20 +90,27 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
 
     @Override
     public List<Testcase> findLastTestcases(int nbOfTestcases) {
-        try {
-            Query query = selectTestcases("ORDER BY tc.date desc");
-            query.setMaxResults(nbOfTestcases);
-            return query.getResultList();
-        } catch (NoResultException e) {
-            // In case of query with no result, return null
-            return null;
+        List<Testcase> result;
+        Query query;
+        
+        query = selectTestcases(
+                "ORDER BY tc.creationDate desc"
+                );
+        query.setMaxResults(nbOfTestcases);
+        result = query.getResultList();
+        // TODO : optional fetching of testResults
+        // NOTE : While using a MaxResult, it may be better to
+        //        use a loop, since hibernate may do the same.
+        for (Testcase testcase : result) {
+            testcase.getTestResults().size();
         }
+        return result;
     }
 
     @Override
     public List<Testcase> findAll() {
         try {
-            Query query = selectTestcases("ORDER BY tc.test asc, tc.result asc, tc.date asc");
+            Query query = selectTestcases("ORDER BY tc.criterion asc, tc.result asc, tc.creationDate asc");
             return query.getResultList();
         } catch (NoResultException e) {
             // In case of query with no result, return null
@@ -126,6 +145,7 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         Query query;
         StringBuilder request = new StringBuilder();
         StringBuilder whereClause = new StringBuilder();
+        List<Testcase> testcases;
         // the Testcase table will be added necessarly at the end of the process
         int nbTableAdded = 1;
         int nbWhereClauseAdded = 0;
@@ -135,6 +155,38 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         boolean hasLevel = (level != null);
         boolean hasTest = (test != null);
         boolean hasResult = (result != null);
+        boolean isSelectionValid = (
+                (hasTest == false || (
+                    // a test imply a criterion
+                    (hasTest ^ hasCriterion || test.getCriterion().getId() == criterion.getId()) &&
+                    // a test imply a reference
+                    (hasTest ^ hasReference || test.getCriterion().getReference().getId() == reference.getId()) &&
+                    // a test imply a theme
+                    (hasTest ^ hasTheme || test.getCriterion().getTheme().getId() == theme.getId()) &&
+                    // a test imply a level
+                    (hasTest ^ hasLevel || test.getCriterion().getLevel().getId() == level.getId())
+                )) && (hasCriterion == false || (
+                    // a criterion imply a reference
+                    (hasCriterion ^ hasReference || criterion.getReference().getId() == reference.getId()) &&
+                    // a criterion imply a theme
+                    (hasCriterion ^ hasTheme || criterion.getTheme().getId() == theme.getId()) &&
+                    // a criterion imply a level
+                    (hasCriterion ^ hasLevel || criterion.getLevel().getId() == level.getId())
+                )) && (hasTheme == false || (
+                    // a theme imply a reference
+                    (hasTheme ^ hasReference || theme.getCriterionList().get(0).getReference().getId() == reference.getId())
+                ))
+                // a level imply a reference
+                // FIXME: we have no way to check that the given level is associated with some criterion of the given reference
+                // && (hasLevel == false ||
+                    //((hasLevel ^ hasReference || true 
+                //))
+                );
+        
+        // validate request
+        if (isSelectionValid == false) {
+            return null;
+        }
         
         // create request
         if (hasReference) {
@@ -147,29 +199,38 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         }
         if (hasCriterion) {
             addTable(request, CriterionImpl.class.getName(), "c", nbTableAdded++);
-            addWhereClause(whereClause,  "c = :criterion AND c = t.criterion", nbWhereClauseAdded++);
+            addWhereClause(whereClause,  "c = :criterion AND c = tc.criterion", nbWhereClauseAdded++);
         } else {
-            if (hasReference || hasTheme) {
+            if (hasReference || hasTheme || hasLevel) {
                 addTable(request, CriterionImpl.class.getName(), "c", nbTableAdded++);
-                addWhereClause(whereClause,  "c = t.criterion", nbWhereClauseAdded++);
+                addWhereClause(whereClause,  "c = tc.criterion", nbWhereClauseAdded++);
             }
         }
         if (hasLevel) {
             addTable(request, LevelImpl.class.getName(), "l", nbTableAdded++);
-            addWhereClause(whereClause,  "l = :level AND l = t.level", nbWhereClauseAdded++);
+            addWhereClause(whereClause,  "l = :level AND l = c.level", nbWhereClauseAdded++);
         }
         if (hasTest) {
             addTable(request, TestImpl.class.getName(), "t", nbTableAdded++);
-            addWhereClause(whereClause,  "t = :test AND t = tc.test", nbWhereClauseAdded++);
-        } else {
-            if (hasLevel || hasCriterion || hasReference || hasTheme) {
-                addTable(request, TestImpl.class.getName(), "t", nbTableAdded++);
-                addWhereClause(whereClause,  "t = tc.test", nbWhereClauseAdded++);
-            }
+            addTable(request, TestResultImpl.class.getName(), "tres", nbTableAdded++);
+            addWhereClause(whereClause,  "tres MEMBER OF tc.testResults AND t = :test AND t = tres.test", nbWhereClauseAdded++);
+//        } else {
+//            if (hasLevel || hasCriterion || hasReference || hasTheme) {
+//                addTable(request, TestImpl.class.getName(), "t", nbTableAdded++);
+//                addWhereClause(whereClause,  "t = tc.test", nbWhereClauseAdded++);
+//            }
         }
         if (hasResult) {
             addTable(request, ResultImpl.class.getName(), "res", nbTableAdded++);
-            addWhereClause(whereClause,  "res = :result AND res = tc.result", nbWhereClauseAdded++);
+            addWhereClause(whereClause, "res = :result", nbWhereClauseAdded++);
+            if (hasTest) {
+                // The user is looking for a test with the given result
+                // the table test_result (tres) should have been added previously
+                addWhereClause(whereClause,  "tres MEMBER OF tc.testResults AND res = tres.result", nbWhereClauseAdded++);
+            } else {
+                // The user is looking for a testcase (so a criterion) with the given result
+                addWhereClause(whereClause,  "res = tc.result", nbWhereClauseAdded++);                
+            }
         }
 
         // process request
@@ -180,7 +241,7 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         // at this point, request contains the tables, we now add the where
         // clause and the order by statement before creating the query
         request.append(" WHERE ").append(whereClause);
-        request.append(" ORDER BY tc.test asc, tc.result asc, tc.date asc");
+        request.append(" ORDER BY tc.criterion asc, tc.result asc, tc.creationDate asc");
         query = selectTestcases(request.toString());
         if (hasReference) {
             query.setParameter("reference", reference);
@@ -200,11 +261,21 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         if (hasTest) {
             query.setParameter("test", test);
         }
+        testcases = query.getResultList();
+        return testcases;
+    }
+
+    @Override
+    public Long count() {
+        Query query = entityManager.createQuery(
+                "SELECT COUNT(*) FROM " + getEntityClass().getName()
+                );
+        
         try {
-            return query.getResultList();
-        } catch (NoResultException e) {
-            // In case of query with no result, return null
-            return null;
+            return (Long) query.getSingleResult();
+        } catch (NoResultException ex) {
+            LogFactory.getLog(TestcaseDAOImpl.class).error("Count of testcase failed", ex);
+            return 0L;
         }
     }
 }

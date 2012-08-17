@@ -20,6 +20,13 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
     }
 
     @Override
+    public Testcase read(Long id, boolean fetch) {
+        return ((TestcaseDAO) entityDao).read(id, fetch);
+    }
+
+    
+    
+    @Override
     public List<Testcase> findAll() {
         return (List<Testcase>)((TestcaseDAO) entityDao).findAll();
     }
@@ -77,6 +84,11 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
         } else {
             return new ArrayList<Testcase>();
         }
+    }
+
+    @Override
+    public Long getCount() {
+        return ((TestcaseDAO) entityDao).count();
     }
 
 }

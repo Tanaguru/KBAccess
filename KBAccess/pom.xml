@@ -18,7 +18,8 @@
         <module>kbaccess-webapp</module>
     <module>kbaccess-i18n</module>
     <module>kbaccess-resources</module>
-  </modules>
+        <module>kbaccess-impl-statistics</module>
+    </modules>
     
     <properties>
         <spring.version>3.0.5.RELEASE</spring.version>
@@ -165,6 +166,11 @@
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.0.4</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>

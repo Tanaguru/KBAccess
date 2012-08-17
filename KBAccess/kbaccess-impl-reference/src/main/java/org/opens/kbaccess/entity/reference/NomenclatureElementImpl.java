@@ -15,17 +15,17 @@ import javax.xml.bind.annotation.XmlTransient;
 public class NomenclatureElementImpl implements NomenclatureElement,
         Serializable {
 
-    @Column(name = "CD_NOMENCLATURE_ELEMENT")
-    protected String code;
     @Id
     @GeneratedValue
     @Column(name = "ID_NOMENCLATURE_ELEMENT")
     protected Long id;
-    @ManyToOne
-    @JoinColumn(name = "nomenclature_ID_NOMENCLATURE")
-    protected NomenclatureImpl nomenclature;
+    @Column(name = "CD_NOMENCLATURE_ELEMENT")
+    protected String code;
     @Column(name = "LABEL", nullable = false)
     protected String label;
+    @ManyToOne
+    @JoinColumn(name = "ID_NOMENCLATURE", nullable = false)
+    protected NomenclatureImpl nomenclature;
 
     public NomenclatureElementImpl() {
         super();

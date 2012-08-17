@@ -15,26 +15,29 @@ public class CriterionImpl implements Criterion, Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID_CRITERION", nullable=false)
+    @Column(name = "ID_CRITERION", nullable = false)
     protected Long id;
-    @Column(name = "CD_CRITERION", nullable=false)
+    @Column(name = "CD_CRITERION", nullable = false)
     protected String code;
-    @Column(name = "DESCRIPTION", nullable=true)
+    @Column(name = "DESCRIPTION", nullable = true)
     protected String description = null;
-    @Column(name = "LABEL", nullable=true)
+    @Column(name = "LABEL", nullable = true)
     protected String label = null;
-    @Column(name = "URL", nullable=true)
+    @Column(name = "URL", nullable = true)
     protected String url = null;
-    @Column(name = "PRIORITY", nullable=false)
+    @Column(name = "PRIORITY", nullable = false)
     protected int priority;
     @ManyToOne
-    @JoinColumn(name = "reference_ID_REFERENCE", nullable=false)
+    @JoinColumn(name = "ID_REFERENCE", nullable = false)
     protected ReferenceImpl reference;
     @OneToMany(mappedBy = "criterion", cascade = CascadeType.ALL)
     protected List<TestImpl> testList = new ArrayList<TestImpl>();
     @ManyToOne
-    @JoinColumn(name = "theme_ID_THEME", nullable=false)
+    @JoinColumn(name = "ID_THEME", nullable = false)
     protected ThemeImpl theme;
+    @ManyToOne
+    @JoinColumn(name = "ID_LEVEL", nullable = false)
+    protected LevelImpl level;
 
     public CriterionImpl() {
         super();
@@ -98,6 +101,11 @@ public class CriterionImpl implements Criterion, Serializable {
     }
 
     @Override
+    public Level getLevel() {
+        return level;
+    }    
+
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
@@ -146,4 +154,10 @@ public class CriterionImpl implements Criterion, Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public void setLevel(Level level) {
+        this.level = (LevelImpl) level;
+    }
+    
 }

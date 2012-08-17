@@ -20,12 +20,12 @@
             <div class="page-header"><h1>Connexion</h1></div>
             <div class="row">
                 <c:choose>
-                    <c:when test='${error == "errorOnLogin"}'>
+                    <c:when test='${param.error == "errorOnLogin"}'>
                         <p class="alert alert-error">
                             <strong>Erreur de connexion :</strong> mauvais email ou mot de passe.
                         </p>
                     </c:when>
-                    <c:when test='${error == "sessionTimeout"}'>
+                    <c:when test='${param.error == "sessionTimeout"}'>
                         <p class="alert alert-error">
                             <strong>Erreur de connexion :</strong> votre session a expirée.
                         </p>

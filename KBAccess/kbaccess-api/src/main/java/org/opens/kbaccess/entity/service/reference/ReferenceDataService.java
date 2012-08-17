@@ -11,5 +11,17 @@ import org.opens.tanaguru.sdk.entity.service.GenericDataService;
 public interface ReferenceDataService extends
 		GenericDataService<Reference, Long> {
 
+    /**
+     * 
+     * @param code
+     * @return 
+     */
      Reference getByCode(String code);
+     
+     /**
+      * 
+      * @return The number of Reference in database
+      */
+     Long getCount();
+     
 }

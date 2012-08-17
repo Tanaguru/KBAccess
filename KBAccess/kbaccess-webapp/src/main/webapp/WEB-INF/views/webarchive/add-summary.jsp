@@ -17,7 +17,7 @@
                 <h2>Synthése</h2>
                 <p>
                     Une archive de la page ${webarchive.url} 
-                    a été créée à la date du ${webarchive.date} et accessible à l'Url suivante :
+                    a été créée à la date du ${webarchive.creationDate} et accessible à l'Url suivante :
                 </p>
                 <p>
                     <a href="${webarchive.localUrl}">${webarchive.localUrl}</a>

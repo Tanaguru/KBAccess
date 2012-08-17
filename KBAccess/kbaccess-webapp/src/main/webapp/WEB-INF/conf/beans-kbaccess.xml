@@ -19,6 +19,8 @@
     <bean id="testDAO" class="org.opens.kbaccess.entity.dao.reference.TestDAOImpl"/>
     <bean id="themeDAO" class="org.opens.kbaccess.entity.dao.reference.ThemeDAOImpl"/>
 
+    <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
+
     <bean id="testcaseDAO" class="org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl"/>
     <bean id="webarchiveDAO" class="org.opens.kbaccess.entity.dao.subject.WebarchiveDAOImpl"/>
 
@@ -54,6 +56,10 @@
     </bean>
     <bean id="themeDataService" class="org.opens.kbaccess.entity.service.reference.ThemeDataServiceImpl">
         <property name="entityDao"><ref bean="themeDAO"/></property>
+    </bean>
+
+    <bean id="statisticsDataService" class="org.opens.kbaccess.entity.service.statistics.StatisticsDataServiceImpl">
+        <property name="statisticsDAO"><ref bean="statisticsDAO"/></property>
     </bean>
 
     <bean id="testcaseDataService" class="org.opens.kbaccess.entity.service.subject.TestcaseDataServiceImpl">

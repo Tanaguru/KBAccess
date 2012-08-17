@@ -68,7 +68,7 @@ public class ReferenceDAOImplTest extends AbstractDaoTestCase {
     public void testFindByCode() {
         System.out.println("findByCode : [nuc]");
         /* */
-        String code = "ref-AW21";
+        String code = "AW2.1";
         /* */
         ReferenceDAO instance = getBean();
         /* */

@@ -3,6 +3,7 @@ package org.opens.kbaccess.entity.dao.subject;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.entity.subject.WebarchiveImpl;
@@ -38,7 +39,7 @@ public class WebarchiveDAOImpl extends AbstractJPADAO<Webarchive, Long>
             Query query = entityManager.createQuery("SELECT t FROM "
                     + getEntityClass().getName() + " t"
                     + " WHERE t.account = :account"
-                    + " ORDER BY t.url, t.date asc");
+                    + " ORDER BY t.url, t.creationDate asc");
             query.setParameter("account", account);
             return query.getResultList();
         } catch (NoResultException e) {
@@ -52,7 +53,7 @@ public class WebarchiveDAOImpl extends AbstractJPADAO<Webarchive, Long>
         try {
             Query query = entityManager.createQuery("SELECT t FROM "
                     + getEntityClass().getName() + " t"
-                    + " ORDER BY t.url, t.date asc");
+                    + " ORDER BY t.url, t.creationDate asc");
             return query.getResultList();
         } catch (NoResultException e) {
             // In case of query with no result, return null
@@ -64,4 +65,20 @@ public class WebarchiveDAOImpl extends AbstractJPADAO<Webarchive, Long>
     public int deleteFromWebArchive(Webarchive webarchive) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public Long count() {
+        Query query = entityManager.createQuery(
+                "SELECT COUNT(*) FROM " + getEntityClass().getName()
+                );
+        
+        try {
+            return (Long) query.getSingleResult();
+        } catch (NoResultException ex) {
+            LogFactory.getLog(WebarchiveDAOImpl.class).error("Count of webarchive failed", ex);
+            return 0L;
+        }
+    }
+    
+    
 }

@@ -15,24 +15,24 @@ public class WebarchiveImpl implements Webarchive, Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "ID_WEBARCHIVE", nullable=true)
+    @Column(name = "ID_WEBARCHIVE")
     protected Long id;
-    @Column(name = "URL", nullable=true)
+    @Column(name = "URL", nullable = false)
     protected String url;
-    @Column(name = "LOCAL_URL", nullable=true)
+    @Column(name = "LOCAL_URL", nullable = false)
     protected String localUrl;
-    @OneToOne
-    @JoinColumn(name = "account_ID_ACCOUNT", nullable = false)
-    protected AccountImpl account;
-    @Column(name = "SCOPE",  nullable=true)
+    @Column(name = "SCOPE",  nullable = false)
     protected String scope;
-    @Column(name = "DESCRIPTION", nullable=false)
+    @Column(name = "DESCRIPTION", nullable = true)
     protected String description;
-    @Column(name = "PRIORITY", nullable=true)
+    @Column(name = "PRIORITY", nullable = false)
     protected int rank;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    @Column(name = "DATE_C", nullable=true)
-    protected Date date;
+    @Column(name = "CREATION_DATE", nullable = false)
+    protected Date creationDate;
+    @OneToOne
+    @JoinColumn(name = "ID_ACCOUNT", nullable = false)
+    protected AccountImpl account;
 
     public WebarchiveImpl() {
         super();
@@ -49,8 +49,8 @@ public class WebarchiveImpl implements Webarchive, Serializable {
     }
 
     @Override
-    public Date getDate() {
-        return date;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
     @Override
@@ -80,13 +80,12 @@ public class WebarchiveImpl implements Webarchive, Serializable {
     }
 
     @Override
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreationDate(Date date) {
+        this.creationDate = date;
     }
 
     @Override
     public void setDescription(String description) {
-        //this.description = description;
         this.description = StringEscapeUtils.escapeHtml(description);
     }
 

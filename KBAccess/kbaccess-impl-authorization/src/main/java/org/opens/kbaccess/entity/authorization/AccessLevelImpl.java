@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author amchaar
  */
-@Entity
+@Entity()
 @Table(name = "access_level")
 @XmlRootElement
 public class AccessLevelImpl implements AccessLevel, Serializable {

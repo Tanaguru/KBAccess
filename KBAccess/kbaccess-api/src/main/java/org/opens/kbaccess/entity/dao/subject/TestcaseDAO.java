@@ -19,6 +19,14 @@ import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
 public interface TestcaseDAO extends GenericDAO<Testcase, Long> {
 
     /**
+     * 
+     * @param id The id of the testcase to fetch
+     * @param fetch Whether or not to fetch all its relations
+     * @return A testcase or null if the id is invalid
+     */
+    Testcase read(Long id, boolean fetch);
+    
+    /**
      * @return the max value of Priority field
      */
     int findMaxPriorityValueFromTable();
@@ -69,4 +77,10 @@ public interface TestcaseDAO extends GenericDAO<Testcase, Long> {
             Test test,
             Level level,
             Result result);
+    
+    /**
+     * 
+     * @return The number of Testcase in database
+     */
+    Long count();
 }

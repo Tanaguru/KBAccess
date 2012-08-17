@@ -28,4 +28,9 @@ public class ReferenceDataServiceImpl extends AbstractGenericDataService<Referen
         return ((ReferenceDAO) entityDao).findByCode(code);
     }
 
+    @Override
+    public Long getCount() {
+        return ((ReferenceDAO) entityDao).count();
+    }
+    
 }

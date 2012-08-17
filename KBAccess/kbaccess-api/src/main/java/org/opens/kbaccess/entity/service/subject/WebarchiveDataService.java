@@ -41,4 +41,10 @@ public interface WebarchiveDataService extends GenericDataService<Webarchive, Lo
      * @return
      */
     int deleteWebArchive(Webarchive webarchive);
+    
+    /**
+     * 
+     * @return The number of webarchive in database
+     */
+    Long getCount();
 }

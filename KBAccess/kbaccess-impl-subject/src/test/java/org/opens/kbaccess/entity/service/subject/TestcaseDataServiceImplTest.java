@@ -22,7 +22,6 @@
 package org.opens.kbaccess.entity.service.subject;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import junit.framework.TestCase;
 import static org.easymock.EasyMock.*;
@@ -30,8 +29,6 @@ import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.dao.subject.TestcaseDAO;
 import org.opens.kbaccess.entity.factory.subject.TestcaseFactory;
 import org.opens.kbaccess.entity.reference.*;
-import org.opens.kbaccess.entity.subject.Testcase;
-import org.opens.kbaccess.entity.subject.Webarchive;
 
 /**
  *

@@ -16,20 +16,17 @@ public class TestImpl implements Test, Serializable {
     protected Long id;
     @Column(name = "CD_TEST", nullable=false)
     protected String code;
-    @ManyToOne
-    @JoinColumn(name = "criterion_ID_CRITERION", nullable=false)
-    protected CriterionImpl criterion;
-    @Column(name = "DESCRIPTION", nullable=true)
-    protected String description;
     @Column(name = "LABEL", nullable=false)
     protected String label;
-    @ManyToOne
-    @JoinColumn(name = "level_ID_LEVEL", nullable=false)
-    protected LevelImpl level;
-    @Column(name = "PRIORITY", nullable=false)
-    protected int rank;
+    @Column(name = "DESCRIPTION", nullable=true)
+    protected String description;
     @Column(name = "URL", nullable=true)
     protected String url;
+    @Column(name = "PRIORITY", nullable=false)
+    protected int rank;
+    @ManyToOne
+    @JoinColumn(name = "ID_CRITERION", nullable = false)
+    protected CriterionImpl criterion;
 
     public TestImpl() {
         super();
@@ -42,60 +39,63 @@ public class TestImpl implements Test, Serializable {
         this.description = description;
     }
 
+    @Override
     public String getCode() {
         return this.code;
     }
 
+    @Override
     @XmlElementRef(type = org.opens.kbaccess.entity.reference.CriterionImpl.class)
     public Criterion getCriterion() {
         return this.criterion;
     }
 
+    @Override
     public String getDescription() {
         return this.description;
     }
 
+    @Override
     public Long getId() {
         return this.id;
     }
 
+    @Override
     public String getLabel() {
         return this.label;
     }
 
-    @XmlElementRef(type = org.opens.kbaccess.entity.reference.LevelImpl.class)
-    public Level getLevel() {
-        return this.level;
-    }
-
+    @Override
     public int getRank() {
         return rank;
     }
 
+    @Override
     public void setCode(String code) {
         this.code = code;
     }
 
+    @Override
     public void setCriterion(Criterion criterion) {
         this.criterion = (CriterionImpl) criterion;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
+    @Override
     public void setLabel(String label) {
         this.label = label;
     }
 
-    public void setLevel(Level priority) {
-        this.level = (LevelImpl) priority;
-    }
-
+    @Override
     public void setRank(int rank) {
         this.rank = rank;
     }

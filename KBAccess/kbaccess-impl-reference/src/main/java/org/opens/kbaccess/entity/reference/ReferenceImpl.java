@@ -19,8 +19,10 @@ public class ReferenceImpl implements Reference, Serializable {
     protected Long id;
     @Column(name = "CD_REFERENCE", nullable=false)
     protected String code;
-    @OneToMany(mappedBy = "reference", cascade = CascadeType.ALL)
-    protected List<CriterionImpl> criterionList = new ArrayList<CriterionImpl>();
+    @Column(name = "CD_CRITERION_LEVEL_NAME", nullable=false)
+    protected String codeCriterion;
+    @Column(name = "CD_TEST_LEVEL_NAME", nullable=false)
+    protected String codeTest;
     @Column(name = "DESCRIPTION", nullable=true)
     protected String description;
     @Column(name = "LABEL", nullable = false)
@@ -29,6 +31,8 @@ public class ReferenceImpl implements Reference, Serializable {
     protected int rank;
     @Column(name = "URL", nullable=true)
     protected String url;
+    @OneToMany(mappedBy = "reference", cascade = CascadeType.ALL)
+    protected List<CriterionImpl> criterionList = new ArrayList<CriterionImpl>();
 
     public ReferenceImpl() {
         super();

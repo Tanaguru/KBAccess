@@ -20,4 +20,11 @@ public class AccountDataServiceImpl extends AbstractGenericDataService<Account, 
         return ((AccountDAO) entityDao).findByEmail(email);
     }
 
+    @Override
+    public Long getCount() {
+        return ((AccountDAO) entityDao).count();
+    }
+    
+    
+
 }

@@ -68,7 +68,7 @@ public class LevelDAOImplTest extends AbstractDaoTestCase {
     public void testFindByCode() {
         System.out.println("findByCode : [nuc]");
         /* */
-        String code = "aw-or";
+        String code = "AW2.1-or";
         /* */
         LevelDAO instance = getBean();
         /* */

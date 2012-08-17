@@ -9,16 +9,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class LevelImpl implements Level, Serializable {
 
-    @Column(name = "CD_LEVEL")
-    protected String code;
-    @Column(name = "DESCRIPTION")
-    protected String description;
     @Id
     @GeneratedValue
     @Column(name = "ID_LEVEL")
     protected Long id;
+    @Column(name = "CD_LEVEL")
+    protected String code;
     @Column(name = "LABEL")
     protected String label;
+    @Column(name = "DESCRIPTION")
+    protected String description;
     @Column(name = "PRIORITY")
     protected int rank;
 

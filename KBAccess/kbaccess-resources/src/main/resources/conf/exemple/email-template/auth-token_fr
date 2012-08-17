@@ -1,0 +1,20 @@
+Subject: [KBAccess] Bienvenue sur KBAccess
+
+Bienvenue sur KBAccess,
+
+Si vous recevez cet email, cela signifie que vous venez de créer un compte sur kbaccess.org. Si ce n'est pas le cas, merci d'ignorer ce message.
+
+Votre nouveau compte a besoin d'être activer. Pour cela, suivez ce lien
+
+http://kbacces.org/guest/activate-account?email=${email}&token=${authToken}
+
+Si un formulaire vous demande un jeton, voici le votre :
+
+${authToken}
+
+A bientôt sur http://kbaccess.org .
+
+Cordialement,
+
+-- 
+l'équipe de KBAccess

@@ -27,7 +27,7 @@ public class WebarchiveFactoryImpl implements WebarchiveFactory {
         Webarchive ofthejedi = create();
         
         ofthejedi.setAccount(account);
-        ofthejedi.setDate(new Date());
+        ofthejedi.setCreationDate(new Date());
         ofthejedi.setDescription(description);
         ofthejedi.setRank(webarchiveDataService.getMaxPriorityFromTable() + 1);
         ofthejedi.setScope("page");

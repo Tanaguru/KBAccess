@@ -16,11 +16,10 @@
             <div class="row well">
                 <p>Recapitulatif du testcase : </p>
                 <ul>
-                    <li>Referentiel : ${testcase.test.criterion.reference.label}</li>
-                    <li>Themathique : ${testcase.test.criterion.theme.label}</li>
-                    <li>Critère : ${testcase.test.criterion.label}</li>
-                    <li>Test : ${testcase.test.label}</li>
-                    <li>Niveau : ${testcase.test.level.label}</li>
+                    <li>Referentiel : ${testcase.criterion.reference.label}</li>
+                    <li>Themathique : ${testcase.criterion.theme.label}</li>
+                    <li>Critère : ${testcase.criterion.label}</li>
+                    <li>Niveau : ${testcase.criterion.level.label}</li>
                 </ul>
                 <ul>
                     <li> Resultat : ${testcase.result.label}</li>

@@ -86,4 +86,21 @@ public class AccountDAOImplTest extends AbstractDaoTestCase {
         /* check result */
         assertNull(result);
     }
+    
+    /**
+     * Test of count method, of class AccountDAOImpl
+     */
+    public void testCount() {
+        /* */
+        System.out.println("count");
+        /* */
+        AccountDAO instance = getBean();
+        /* */
+        Long expectedResult = 3L;
+        /* */
+        Long result = instance.count();
+        /* */
+        assertEquals(expectedResult, result);
+    }
+    
 }

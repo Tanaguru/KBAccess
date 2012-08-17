@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -12,7 +13,7 @@
         <div class="container">
             <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
             <div class="page-header">
-                <h1>Testcase n°${testcase.id}</h1>
+                <h1>Testcase n°${testcase.id} : ${testcase.title}</h1>
             </div>
             <div class="row">
                 <div class="span2">
@@ -22,11 +23,11 @@
                     <table class="data-table table table-condensed table-vertical">
                         <tr>
                             <th scope="row">URL d'origine :</th>
-                            <td><a href="${testcase.webarchiveOriginalUrl}">${testcase.webarchiveOriginalUrl}</a></td>
+                            <td><a href="${testcase.webarchiveOriginalUrl}" rel="nofollow">${testcase.webarchiveOriginalUrl}</a></td>
                         </tr>
                         <tr>
                             <th scope="row">URL archivée :</th>
-                            <td><a href="${testcase.webarchiveLocalUrl}">${testcase.webarchiveLocalUrl}</a></td>
+                            <td><a href="${testcase.webarchiveLocalUrl}" rel="nofollow">${testcase.webarchiveLocalUrl}</a></td>
                         </tr>
                         <tr>
                             <th scope="row">Date :</th>
@@ -41,44 +42,31 @@
                 <div class="row">
                     <div class="span8">
                         <h2>Caractéristiques</h2>
-                        <table class="data-table table table-condensed table-vertical">
-                            <tr>
-                                <th scope="row">Référentiel :</th>
-                                <td><a href="<c:url value='/testcase/list.html?reference=${testcase.referenceId}'/>">${testcase.referenceLabel}</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Test :</th>
-                                <td><a href="<c:url value='/testcase/list.html?test=${testcase.testId}'/>">${testcase.testLabel}</a></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Résultat :</th>
-                                <td>
-                                    <a href="<c:url value='/testcase/list.html?result=${testcase.resultId}&amp;test=${testcase.testId}'/>">
-                                        <c:set var="result" value="${testcase.resultLabel}"/>
-                                        <%@include file="/WEB-INF/template/inline/result.jspf" %>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Description :</th>
-                                <td><a href="">${testcase.description}</a></td>
-                            </tr>
-                        </table>
-                            <dl class="dl-horizontal">
-                                <dt>Référentiel :</dt>
-                                <dd><a href="<c:url value='/testcase/list.html?reference=${testcase.referenceId}'/>">${testcase.referenceLabel}</a></dd>
+                        <dl class="dl-horizontal">
+                            <dt>Référentiel :</dt>
+                            <dd><a href="<c:url value='/testcase/list.html?reference=${testcase.referenceId}'/>">${testcase.referenceLabel}</a></dd>
+                            <dt>Critère :</dt>
+                            <dd><a href="<c:url value='/testcase/list.html?criterion=${testcase.criterionId}'/>">${testcase.criterionLabel}</a></dd>
+                            <dt>Résultat :</dt>
+                            <dd>
+                                <a href="<c:url value='/testcase/list.html?result=${testcase.resultId}&amp;criterion=${testcase.criterionId}'/>">
+                                    <c:set var="result" value="${testcase.resultLabel}"/>
+                                    <%@include file="/WEB-INF/template/inline/result.jspf" %>
+                                </a>
+                            </dd>
+                            <c:if test="${fn:length(testcase.testResults) > 0}">
                                 <dt>Test :</dt>
-                                <dd>&nbsp;<a href="<c:url value='/testcase/list.html?test=${testcase.testId}'/>">${testcase.testLabel}</a></dd>
-                                <dt>Résultat :</dt>
                                 <dd>
-                                    <a href="<c:url value='/testcase/list.html?result=${testcase.resultId}&amp;test=${testcase.testId}'/>">
-                                        <c:set var="result" value="${testcase.resultLabel}"/>
-                                        <%@include file="/WEB-INF/template/inline/result.jspf" %>
-                                    </a>
+                                    <c:set var="isFirst" value="${true}"/>
+                                    <c:forEach var="testResult" items="${testcase.testResults}"><c:choose><c:when test="${isFirst}"><c:set var="isFirst" value="false"/></c:when><c:otherwise>,</c:otherwise></c:choose>
+                                        <a href="<c:url value='/testcase/list.html?test=${testResult.testId}'/>">${testResult.testLabel}</a> :
+                                        <c:set var="result" value="${testResult.resultLabel}"/>
+                                        <%@include file="/WEB-INF/template/inline/result.jspf" %></c:forEach>
                                 </dd>
-                                <dt>Description :</dt>
-                                <dd>${testcase.description}&nbsp;</dd>
-                            </dl>
+                            </c:if>
+                            <dt>Description :</dt>
+                            <dd>${testcase.description}&nbsp;</dd>
+                        </dl>
                     </div>
                     <div class="span4">
                         <h2>Actions</h2>

@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="snapshotService" value="http://www.websitethumbnail.de/shots/artviperx.php?userID=WT_7dbbe65a0bb8ca00495ab5d6a8781063&q=90&w=80&h=60&url="/>
 <c:choose>
     <c:when test="${testcaseList == null or empty testcaseList}">
@@ -9,10 +10,10 @@
             <tr>
                 <th scope="col">Page archivée</th>
                 <th scope="col">Page d'origine</th>
-                <th scope="col">Test d'accessibilité</th>
+                <th scope="col">Critère d'accessibilité</th>
                 <th scope="col">Résultat</th>
                 <th scope="col">Date du testcase</th>
-                <th scope="col">Commentaire</th>
+                <th scope="col">Titre</th>
                 <th scope="col">Contributeur</th>
                 <th scope="col">Actions</th>
                 <th scope="col">Détails</th>
@@ -20,35 +21,34 @@
             <c:forEach var="testcase" items="${testcaseList}">
                 <tr>
                     <td>
-                        <a href="${testcase.webarchive.localUrl}" title="${testcase.webarchive.localUrl}">
-                            <img src="${snapshotService}${testcase.webarchive.localUrl}" alt="${testcase.webarchive.localUrl}" class="screenshot" />
+                        <a href="${testcase.webarchiveLocalUrl}" title="${testcase.webarchiveLocalUrl}">
+                            <img src="${snapshotService}${testcase.webarchiveLocalUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
                         </a><br/>
-                        ${testcase.webarchive.date}
+                        ${testcase.webarchiveCreationDate}
                     </td>
                     <td>
-                        <a href="${testcase.webarchive.url}" title="${testcase.webarchive.url}">
-                            <img src="${snapshotService}${testcase.webarchive.url}" alt="" class="screenshot" /><br/>
-                        ${testcase.webarchive.url}
+                        <a href="${testcase.webarchiveOriginalUrl}" title="${testcase.webarchiveOriginalUrl}">
+                            <img src="${snapshotService}${testcase.webarchiveOriginalUrl}" alt="" class="screenshot" /><br/>
+                        ${testcase.webarchiveOriginalUrl}
                         </a>
                     </td>
                     <td>
-                        <a href="${testcase.test.url}" title="Test ${testcase.test.label}">${testcase.test.label}</a>
+                        <a href="/testcase/list/criterion=${testcase.criterionId}" title="Testcases portant sur le critère ${testcase.criterionLabel}">${testcase.criterionLabel}</a>
                     </td>
-                    <td>${testcase.result.label}</td>
-                    <td>${testcase.dateC}</td>
-                    <td>${testcase.description}</td>
-                    <td>${testcase.account.firstName} ${testcase.account.lastName}</td>
+                    <td>${testcase.resultLabel}</td>
+                    <td><fmt:formatDate pattern="dd/MM/yyyy hh'h'mm" value="${testcase.creationDate}"/></td>
+                    <td>${testcase.title}</td>
+                    <td>${testcase.authorDisplayedName}</td>
                     <td>
                         <c:if test="${authenticatedUser != null and
-                                    (authenticatedUser.accessLevel == AccessLevelEnumType.MODERATOR ||
-                                    authenticatedUser.accessLevel == AccessLevelEnumType.ADMINISTRATOR ||
-                                    testcase.account.id == authenticatedUser.id)}">
+                                    (authenticatedUser.accessLevel == AccessLevelEnumType.ADMINISTRATOR ||
+                                    testcase.authorId == authenticatedUser.id)}">
                             <a href="<c:url value='/testcase/edit-details.html?id=${testcase.id}'/>" title="Modifier testcase ${testcase.id}"
                             class="tc-modify">
                                 <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
                                     alt="Modifier testcase ${testcase.id}" />
                             </a>
-                            <a href="./mesTestcases.jsp?action=supprimer&amp;idTestcase=${testcase.id}"
+                            <a href="./testcase/delete.html?id=${testcase.id}"
                             title="Supprimer testcase ${testcase.id}"
                             class="tc-delete">
                                 <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
@@ -57,7 +57,7 @@
                         </c:if>
                     </td>
                     <td>
-                        <a title="Détails du testcase n°${testcase.id}" href="<c:url value='/testcase/details.html?id=${testcase.id}'/>" class="btn btn-info">
+                        <a title="Détails du testcase n°${testcase.id}" href="<c:url value='/testcase/details/${testcase.detailsUrl}'/>" class="btn btn-info">
                             <span class="icon-white icon-list"></span>&nbsp;Détails
                         </a>
                     </td>

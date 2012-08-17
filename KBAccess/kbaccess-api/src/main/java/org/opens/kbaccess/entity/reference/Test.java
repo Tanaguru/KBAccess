@@ -42,12 +42,6 @@ public interface Test extends Entity, Reorderable {
 
     /**
      *
-     * @return the level
-     */
-    Level getLevel();
-
-    /**
-     *
      * @param code
      *            the code to set
      */
@@ -81,10 +75,4 @@ public interface Test extends Entity, Reorderable {
      */
     void setUrl(String url);
 
-    /**
-     *
-     * @param level
-     *            the level to set
-     */
-    void setLevel(Level level);
 }

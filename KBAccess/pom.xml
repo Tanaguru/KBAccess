@@ -16,9 +16,12 @@
         <module>kbaccess-impl-subject</module>
         <module>kbaccess-impl-reference</module>
         <module>kbaccess-webapp</module>
-    <module>kbaccess-i18n</module>
-    <module>kbaccess-resources</module>
+        <module>kbaccess-i18n</module>
+        <module>kbaccess-resources</module>
         <module>kbaccess-impl-statistics</module>
+        <module>slurp-manager-api</module>
+        <module>slurp-manager-impl</module>
+        <module>slurp-manager-resources</module>
     </modules>
     
     <properties>
@@ -112,13 +115,13 @@
             <dependency>
                 <groupId>org.opens</groupId>
                 <artifactId>commons-entity</artifactId>
-                <version>1.5.2-RC1</version>
+                <version>1.5.2</version>
                 <type>jar</type>
             </dependency>
             <dependency>
                 <groupId>org.opens</groupId>
                 <artifactId>commons-entity-jpa</artifactId>
-                <version>1.5.2-RC1</version>
+                <version>1.5.2</version>
                 <type>jar</type>
             </dependency>
             <dependency>

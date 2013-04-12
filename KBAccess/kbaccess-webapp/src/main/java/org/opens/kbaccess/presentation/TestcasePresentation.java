@@ -62,17 +62,17 @@ public class TestcasePresentation {
         
         sb.append(testcase.getId().toString());
         sb.append("-");
-        sb.append(
-                Normalizer.normalize(
-                    testcase.getTitle(),
-                    Normalizer.Form.NFD
-                ).replaceAll(
-                    "[^\\p{ASCII}]", ""
-                ).toLowerCase(
-                ).replace(
-                    ' ',
-                    '-'
-                ));
+//        sb.append(
+//                Normalizer.normalize(
+//                    testcase.getTitle(),
+//                    Normalizer.Form.NFD
+//                ).replaceAll(
+//                    "[^\\p{ASCII}]", ""
+//                ).toLowerCase(
+//                ).replace(
+//                    ' ',
+//                    '-'
+//                ));
         sb.append(".html");
         return sb.toString();
     }

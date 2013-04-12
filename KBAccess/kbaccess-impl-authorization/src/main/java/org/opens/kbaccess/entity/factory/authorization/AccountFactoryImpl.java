@@ -1,7 +1,7 @@
 package org.opens.kbaccess.entity.factory.authorization;
 
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.authorization.AccountImpl;
+import org.opens.kbaccess.entity.authorization.AccountImpl; 
 
 /**
  * 

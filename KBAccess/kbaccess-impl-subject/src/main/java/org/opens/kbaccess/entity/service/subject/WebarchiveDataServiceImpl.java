@@ -19,6 +19,12 @@ public class WebarchiveDataServiceImpl extends AbstractGenericDataService<Webarc
     }
 
     @Override
+    public Webarchive create(Account account, String url, String description) {
+        int rank = ((WebarchiveDAO) entityDao).findMaxPriorityValueFromTable();
+        return ((WebarchiveFactory) entityFactory).create(account, url, description, rank);
+    }
+    
+    @Override
     public List<Webarchive> findAll() {
         return (List<Webarchive>)((WebarchiveDAO) entityDao).findAll();
     }
@@ -26,11 +32,6 @@ public class WebarchiveDataServiceImpl extends AbstractGenericDataService<Webarc
     @Override
     public List<Webarchive> getAllFromUserAccount(Account account) {
         return ((WebarchiveDAO) entityDao).findAllFromAccount(account);
-    }
-
-    @Override
-    public int getMaxPriorityFromTable() {
-        return ((WebarchiveDAO) entityDao).findMaxPriorityValueFromTable();
     }
 
     @Override
@@ -47,5 +48,7 @@ public class WebarchiveDataServiceImpl extends AbstractGenericDataService<Webarc
     public Long getCount() {
         return ((WebarchiveDAO) entityDao).count();
     }
+
+    
 
 }

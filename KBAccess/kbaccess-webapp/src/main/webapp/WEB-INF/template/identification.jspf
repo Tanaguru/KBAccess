@@ -9,7 +9,7 @@
     <c:otherwise>
         <ul class="nav pull-right">
             <li><a href="<c:url value='/account/details.html'/>" title="mon compte">Mon compte</a></li>
-            <li><a href="<c:url value='/j_spring_security_logout'/>" title="d&eacute;connexion">Se d&eacute;connecter</a></li>
+            <li><a href="<c:url value='/account/logout.html'/>" title="d&eacute;connexion">Se d&eacute;connecter</a></li>
         </ul>
         <p class="navbar-text pull-right">
             Bonjour

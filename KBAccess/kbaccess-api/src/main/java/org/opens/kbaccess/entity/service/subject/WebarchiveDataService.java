@@ -16,12 +16,21 @@ import org.opens.tanaguru.sdk.entity.service.GenericDataService;
  */
 public interface WebarchiveDataService extends GenericDataService<Webarchive, Long> {
 
-    /**
-     *
-     * @return
-     */
-    int getMaxPriorityFromTable();
+//    /**
+//     *
+//     * @return
+//     */
+//    int getMaxPriorityFromTable();
 
+    /**
+     * 
+     * @param account
+     * @param url
+     * @param description
+     * @return 
+     */
+    Webarchive create(Account account, String url, String description);
+    
     /**
      *
      * @param account

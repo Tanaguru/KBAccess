@@ -25,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.WebarchiveCommand;
 import org.opens.kbaccess.controller.utils.AMailerController;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.factory.subject.WebarchiveFactory;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.keystore.FormKeyStore;
@@ -54,8 +53,6 @@ public class WebarchiveController extends AMailerController {
     @Autowired
     private WebarchiveDataService webarchiveDataService;
     @Autowired
-    private WebarchiveFactory webarchiveFactory;
-    @Autowired
     private SlurpManager slurpManager;
     
     /*
@@ -68,7 +65,8 @@ public class WebarchiveController extends AMailerController {
             ) {
         Webarchive webarchive;
         
-        webarchive = webarchiveFactory.create(account, url, description);
+        webarchive = webarchiveDataService.create(account, url, description);
+        
         try {
             webarchive.setLocalUrl(slurpManager.create(url, CrawlScope.page, description));
         } catch (WebarchiveCreationException ex) {
@@ -158,14 +156,6 @@ public class WebarchiveController extends AMailerController {
 
     public void setWebarchiveDataService(WebarchiveDataService webarchiveDataService) {
         this.webarchiveDataService = webarchiveDataService;
-    }
-
-    public WebarchiveFactory getWebarchiveFactory() {
-        return webarchiveFactory;
-    }
-
-    public void setWebarchiveFactory(WebarchiveFactory webarchiveFactory) {
-        this.webarchiveFactory = webarchiveFactory;
     }
     
 }

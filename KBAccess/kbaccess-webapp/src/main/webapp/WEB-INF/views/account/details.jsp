@@ -15,12 +15,16 @@
 
             <div class="page-header"><h1>Utilisateur ${account.displayedName}</h1></div>
             <div class="row">
+                <a href="my-testcases.html" title="Mes testcases">Mes testcases</a><br />
+                <a href="my-webarchives.html" title="Mes webarchives">Mes webarchives</a>
+            </div>
+            <div class="row">
                 <div class="span2"><img src="" alt="Avatar"/></div>
                 <div class="offset2 span10">
                     <ul class="unstyled">
                         <li>${account.nbCreatedTestcases} testcases créés</li>
                         <li>${account.nbCreatedWebarchives} webarchives créées</li>
-                        <li>inscrit le <fmt:formatDate pattern="dd/MM/yyyy" value="${account.lastOperationDate}"/></li>
+                        <li>inscrit le <fmt:formatDate pattern="dd/MM/yyyy" value="${account.subscriptionDate}"/></li>
                         <li>dernière activité le <fmt:formatDate pattern="dd/MM/yyyy" value="${account.lastOperationDate}"/></li>
                     </ul>
                 </div>

@@ -112,26 +112,6 @@ public class WebarchiveDataServiceImplTest extends TestCase {
     }
 
     /**
-     * Test of getMaxPriorityFromTable method, of class WebarchiveDataServiceImpl.
-     */
-    public void testGetMaxPriorityFromTable() {
-        System.out.println("getMaxPriorityFromTable");
-        /* */
-        int expResult = 1;
-        /* set-up instance */
-        WebarchiveDataService instance = newInstance();
-        /* set-up mock */
-        expect(mockedWebarchiveDAO.findMaxPriorityValueFromTable()).andReturn(expResult);
-        /* replay mock */
-        replay(mockedWebarchiveDAO, mockedWebarchiveFactory);
-        /* run test */
-        int result = instance.getMaxPriorityFromTable();
-        /* check result */
-        assertEquals(expResult, result);
-        verify(mockedWebarchiveDAO, mockedWebarchiveFactory);
-    }
-
-    /**
      * Test of createWebarchive method, of class WebarchiveDataServiceImpl.
      */
     public void testCreateWebarchive() {

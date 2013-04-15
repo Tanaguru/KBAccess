@@ -15,7 +15,7 @@
         <property name="persistenceXmlLocation" value="WEB-INF/conf/persistence.xml"/>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">${database.hibernate.showSql}</prop>
                 <prop key="hibernate.dialect">${database.hibernate.dialect}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${database.hibernate.mode}</prop>
             </props>

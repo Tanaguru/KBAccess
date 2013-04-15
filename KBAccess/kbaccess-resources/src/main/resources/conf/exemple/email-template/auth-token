@@ -6,7 +6,7 @@ If you received this email, it means you have created an account on kbaccess.org
 
 Your new account need to be activated. To do so, please follow this link
 
-http://kbacces.org/guest/activate-account?email=${email}&token=${authToken}
+http://localhost:8080/kbaccess-webapp-2.0-SNAPSHOT/guest/activate-account.html?email=${email}&token=${authToken}
 
 If a form appears and ask you for a token, your token is
 
@@ -14,7 +14,7 @@ ${authToken}
 
 See you soon on http://kbaccess.org .
 
-Cincerly,
+Sincerely,
 
 -- 
 The KBAccess team

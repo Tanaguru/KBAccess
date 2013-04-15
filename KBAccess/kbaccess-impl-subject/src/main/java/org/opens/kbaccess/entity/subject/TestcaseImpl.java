@@ -1,6 +1,7 @@
 package org.opens.kbaccess.entity.subject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
@@ -55,7 +56,7 @@ public class TestcaseImpl implements Testcase, Serializable {
             joinColumns = @JoinColumn(name = "ID_TESTCASE", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "ID_TEST_RESULT", nullable = false)
             )
-    protected Collection<TestResultImpl> testResults;
+    protected Collection<TestResultImpl> testResults = new ArrayList<TestResultImpl>();
 
     @Override
     @XmlElementWrapper

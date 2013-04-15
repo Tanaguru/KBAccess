@@ -48,8 +48,10 @@ public class NewAccountValidator extends AAccountValidator {
             errors.rejectValue(FormKeyStore.EMAIL_KEY, MessageKeyStore.INVALID_EMAIL_KEY);
             return false;
         }
+        
         if (accountDataService.getAccountFromEmail(cmd.getEmail()) != null) {
             errors.rejectValue(FormKeyStore.EMAIL_KEY, MessageKeyStore.EMAIL_ALREADY_IN_USE_KEY);
+            return false;
         }
         return true;
     }

@@ -29,6 +29,7 @@ import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
+import org.opens.kbaccess.presentation.TestcasePresentation;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.AccountDetailsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,7 @@ public class AccountController extends AController {
         if (requestedUserIsCurrentUser) {
             model.addAttribute("accountDetailsCommand", new AccountCommand(currentUser));
             model.addAttribute("title", "Mon compte - KBAccess");
+            model.addAttribute("account", account);
             handleBreadcrumbTrail(model, "KBAccess", "/", "Mon compte");
         } else {
             model.addAttribute("title", "Utilisateur " + account.getDisplayedName() + " - KBAccess");
@@ -124,7 +126,7 @@ public class AccountController extends AController {
         if (result.hasErrors()) {
             model.addAttribute("accountDetailsCommand", accountCommand);
             return "account/details";
-        }
+        } 
         accountCommand.updateAccount(currentUser);
         accountDataService.update(currentUser);
         return "account/details";
@@ -166,7 +168,11 @@ public class AccountController extends AController {
             return "home";
         }
         //
-        model.addAttribute(ModelAttributeKeyStore.TESTCASE_LIST_KEY, testcaseDataService.getAllFromAccount(currentUser));
+        
+        model.addAttribute(ModelAttributeKeyStore.TESTCASE_LIST_KEY, TestcasePresentation.fromCollection(
+                testcaseDataService.getAllFromAccount(currentUser),
+                false
+                ));
         model.addAttribute("testcaseListH1", "Mes testcases");
         return "testcase/list";
     }

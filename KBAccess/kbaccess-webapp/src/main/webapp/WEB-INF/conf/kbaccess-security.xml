@@ -30,8 +30,9 @@
         <form-login login-page="/guest/login.html"
                     authentication-failure-url="/guest/login.html?error=errorOnLogin"
                     default-target-url="/"/>
-        <logout />
-                    
+        
+        <logout logout-url="/account/logout.html" logout-success-url="/" />
+       
         <session-management invalid-session-url="/guest/login.html?error=sessionTimeout" >
             <concurrency-control max-sessions="200" error-if-maximum-exceeded="true"  />
         </session-management>

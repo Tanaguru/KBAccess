@@ -20,7 +20,7 @@
     <bean id="themeDAO" class="org.opens.kbaccess.entity.dao.reference.ThemeDAOImpl"/>
 
     <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
-
+    <bean id="testresultDAO" class="org.opens.kbaccess.entity.dao.subject.TestResultDAOImpl"/>
     <bean id="testcaseDAO" class="org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl"/>
     <bean id="webarchiveDAO" class="org.opens.kbaccess.entity.dao.subject.WebarchiveDAOImpl"/>
 
@@ -31,6 +31,7 @@
     </bean>
     <bean id="accountDataService" class="org.opens.kbaccess.entity.service.authorization.AccountDataServiceImpl">
         <property name="entityDao"><ref bean="accountDAO"/></property>
+        <property name="entityFactory"><ref bean="accountFactory"/></property>
     </bean>
 
     <bean id="criterionDataService" class="org.opens.kbaccess.entity.service.reference.CriterionDataServiceImpl">
@@ -61,23 +62,29 @@
     <bean id="statisticsDataService" class="org.opens.kbaccess.entity.service.statistics.StatisticsDataServiceImpl">
         <property name="statisticsDAO"><ref bean="statisticsDAO"/></property>
     </bean>
-
+    
+    <bean id="testresultDataService" class="org.opens.kbaccess.entity.service.subject.TestResultDataServiceImpl">
+        <property name="entityDao"><ref bean="testresultDAO"/></property>
+    </bean>
+    
     <bean id="testcaseDataService" class="org.opens.kbaccess.entity.service.subject.TestcaseDataServiceImpl">
         <property name="entityDao"><ref bean="testcaseDAO"/></property>
+        <property name="entityFactory"><ref bean="testcaseFactory"/></property>
+        <property name="testResultDataService"><ref bean="testresultDataService"/></property>
+        <property name="resultDataService"><ref bean="resultDataService"/></property>
+       
     </bean>
     <bean id="webarchiveDataService" class="org.opens.kbaccess.entity.service.subject.WebarchiveDataServiceImpl">
         <property name="entityDao"><ref bean="webarchiveDAO"/></property>
+        <property name="entityFactory"><ref bean="webarchiveFactory"/></property>
     </bean>
     
     <!-- factory -->
     
     <bean id="accountFactory" class="org.opens.kbaccess.entity.factory.authorization.AccountFactoryImpl"/>
-    <bean id="testcaseFactory" class="org.opens.kbaccess.entity.factory.subject.TestcaseFactoryImpl">
-        <property name="testcaseDataService" ref="testcaseDataService"/>
-    </bean>
-    <bean id="webarchiveFactory" class="org.opens.kbaccess.entity.factory.subject.WebarchiveFactoryImpl">
-        <property name="webarchiveDataService" ref="webarchiveDataService"/>
-    </bean>
+    <bean id="testcaseFactory" class="org.opens.kbaccess.entity.factory.subject.TestcaseFactoryImpl" />
+    <bean id="webarchiveFactory" class="org.opens.kbaccess.entity.factory.subject.WebarchiveFactoryImpl"/>
+        
     
     <!-- singleton -->
     
@@ -102,11 +109,11 @@
     <!-- mailing service -->
     <bean id="mailingServiceProperties" class="org.opens.kbaccess.utils.MailingServiceProperties">
         <property name="defaultReturnAddress" value="no-reply@kbacces.org"/>
-        <property name="emailTemplateDirectoryName" value="/home/bcareil/Documents/Work/KBAccess/KBAccess/kbaccess-resources/src/main/resources/conf/exemple/email-template"/>
+        <property name="emailTemplateDirectoryName" value="/home/blebail/Documents/sources/KBAccess/KBAccess/kbaccess-resources/src/main/resources/conf/exemple/email-template"/>
         <property name="smtpHost" value="localhost"/>
-        <property name="subscriptionNotificationMailingList" value="bcareil@open-s.com"/>
-        <property name="testcaseCreationNotificationMailingList" value="bcareil@open-s.com"/>
-        <property name="webarchiveCreationNotificationMailingList" value="bcareil@open-s.com"/>
+        <property name="subscriptionNotificationMailingList" value="blebail@tanaguru.com"/>
+        <property name="testcaseCreationNotificationMailingList" value="blebail@tanaguru.com"/>
+        <property name="webarchiveCreationNotificationMailingList" value="blebail@tanaguru.com"/>
     </bean>
     
     <!-- slurp -->

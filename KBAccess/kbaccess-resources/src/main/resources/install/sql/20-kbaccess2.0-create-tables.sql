@@ -259,7 +259,34 @@ CREATE  TABLE IF NOT EXISTS `nomenclature_element` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `testcase_test_result`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `testcase_test_result` (
+  `ID_TESTCASE` INT NOT NULL ,
+  `ID_TEST_RESULT` INT NOT NULL ,
+  PRIMARY KEY (`ID_TESTCASE`, `ID_TEST_RESULT`) ,
+  INDEX `fk_testcase_has_test_result_test_result1` (`ID_TEST_RESULT` ASC) ,
+  CONSTRAINT `fk_testcase_has_test_result_testcase1`
+    FOREIGN KEY (`ID_TESTCASE` )
+    REFERENCES `testcase` (`ID_TESTCASE` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_testcase_has_test_result_test_result1`
+    FOREIGN KEY (`ID_TEST_RESULT` )
+    REFERENCES `test_result` (`ID_TEST_RESULT` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+/*
 -- -----------------------------------------------------
 -- Table `testcase_nomenclature_element`
 -- -----------------------------------------------------
@@ -303,30 +330,4 @@ CREATE  TABLE IF NOT EXISTS `criterion_criterion` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 COMMENT = 'Its purpose is to contain the association between the level 2 entities of the buisness model across several frames of reference.';
-
-
--- -----------------------------------------------------
--- Table `testcase_test_result`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `testcase_test_result` (
-  `ID_TESTCASE` INT NOT NULL ,
-  `ID_TEST_RESULT` INT NOT NULL ,
-  PRIMARY KEY (`ID_TESTCASE`, `ID_TEST_RESULT`) ,
-  INDEX `fk_testcase_has_test_result_test_result1` (`ID_TEST_RESULT` ASC) ,
-  CONSTRAINT `fk_testcase_has_test_result_testcase1`
-    FOREIGN KEY (`ID_TESTCASE` )
-    REFERENCES `testcase` (`ID_TESTCASE` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_testcase_has_test_result_test_result1`
-    FOREIGN KEY (`ID_TEST_RESULT` )
-    REFERENCES `test_result` (`ID_TEST_RESULT` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+*/

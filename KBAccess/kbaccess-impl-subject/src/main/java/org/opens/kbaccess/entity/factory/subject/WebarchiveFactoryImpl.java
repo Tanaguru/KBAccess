@@ -2,7 +2,6 @@ package org.opens.kbaccess.entity.factory.subject;
 
 import java.util.Date;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.entity.subject.WebarchiveImpl;
 
@@ -12,7 +11,7 @@ import org.opens.kbaccess.entity.subject.WebarchiveImpl;
  */
 public class WebarchiveFactoryImpl implements WebarchiveFactory {
 
-    private WebarchiveDataService webarchiveDataService;
+//    private WebarchiveDataService webarchiveDataService;
     
     public WebarchiveFactoryImpl() {
         super();
@@ -23,23 +22,25 @@ public class WebarchiveFactoryImpl implements WebarchiveFactory {
         return new WebarchiveImpl();
     }
 
-    public Webarchive create(Account account, String url, String description) {
+    @Override
+    public Webarchive create(Account account, String url, String description, int rank) {
         Webarchive ofthejedi = create();
         
         ofthejedi.setAccount(account);
         ofthejedi.setCreationDate(new Date());
         ofthejedi.setDescription(description);
-        ofthejedi.setRank(webarchiveDataService.getMaxPriorityFromTable() + 1);
+        ofthejedi.setRank(rank);
         ofthejedi.setScope("page");
         ofthejedi.setUrl(url);
         return ofthejedi;
     }
 
-    public WebarchiveDataService getWebarchiveDataService() {
-        return webarchiveDataService;
-    }
+//    public WebarchiveDataService getWebarchiveDataService() {
+//        return webarchiveDataService;
+//    }
+//
+//    public void setWebarchiveDataService(WebarchiveDataService webarchiveDataService) {
+//        this.webarchiveDataService = webarchiveDataService;
+//    }
 
-    public void setWebarchiveDataService(WebarchiveDataService webarchiveDataService) {
-        this.webarchiveDataService = webarchiveDataService;
-    }
 }

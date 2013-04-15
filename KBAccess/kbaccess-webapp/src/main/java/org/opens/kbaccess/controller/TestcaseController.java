@@ -29,7 +29,6 @@ import org.opens.kbaccess.command.NewTestcaseCommand;
 import org.opens.kbaccess.command.TestcaseSearchCommand;
 import org.opens.kbaccess.controller.utils.AMailerController;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.factory.subject.TestcaseFactory;
 import org.opens.kbaccess.entity.reference.*;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Testcase;
@@ -56,8 +55,6 @@ public class TestcaseController extends AMailerController {
     
     @Autowired
     private WebarchiveDataService webarchiveDataService;
-    @Autowired
-    private TestcaseFactory testcaseFactory;
     @Autowired
     private WebarchiveController webarchiveController;
 
@@ -381,7 +378,7 @@ public class TestcaseController extends AMailerController {
         }
         // create testcase
         if (testcaseCommand.getIdTest() != null) {
-            newTestcase = testcaseFactory.createFromTest(
+            newTestcase = testcaseDataService.createFromTest(
                     currentUser,
                     webarchive,
                     resultDataService.read(testcaseCommand.getIdResult()),
@@ -389,7 +386,7 @@ public class TestcaseController extends AMailerController {
                     testcaseCommand.getDescription()
                     );
         } else {
-            newTestcase = testcaseFactory.createFromCriterion(
+            newTestcase = testcaseDataService.createFromCriterion(
                     currentUser,
                     webarchive,
                     resultDataService.read(testcaseCommand.getIdResult()),
@@ -521,14 +518,6 @@ public class TestcaseController extends AMailerController {
 
     public void setWebarchiveDataService(WebarchiveDataService webarchiveDataService) {
         this.webarchiveDataService = webarchiveDataService;
-    }
-
-    public TestcaseFactory getTestcaseFactory() {
-        return testcaseFactory;
-    }
-
-    public void setTestcaseFactory(TestcaseFactory testcaseFactory) {
-        this.testcaseFactory = testcaseFactory;
     }
 
 }

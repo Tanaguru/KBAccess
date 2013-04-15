@@ -25,7 +25,10 @@ import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.impl.Log4JLogger;
+import org.apache.log4j.Logger;
 import org.opens.kbaccess.controller.GuestController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.subject.Testcase;
@@ -62,8 +65,8 @@ public class AMailerController extends AController {
      * Private members
      */
     private String[] splitMessageBody(String body) {
-        String[] subjectAndMessage = body.split("\r?\n\r?\n", 1);
-        
+        String[] subjectAndMessage = body.split("\r?\n\r?\n", 2);
+
         if (subjectAndMessage.length != 2) {
             LogFactory.getLog(AMailerController.class).error("Invalid email body : " + body);
             return new String[] {body, ""};
@@ -136,7 +139,12 @@ public class AMailerController extends AController {
         }
         subjectAndMessage = splitMessageBody(message);
         subject = subjectAndMessage[0];
+        
+        // We replace the token key
         message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, account.getAuthCode());
+        // Then we replace the email key
+        message = message.replace(EMAIL_KEY, account.getEmail());
+        
         return sendMail(subject, message, new String[] {account.getEmail()});
     }
     
@@ -161,10 +169,15 @@ public class AMailerController extends AController {
         recipients = mailingServiceProperties.getSubscriptionNotificationMailingList();
         subject = SUBSCRIPTION_NOTIFICATION_SUBJECT;
         // create message
+        
+//        Log logger = new Log4JLogger(Logger.getLogger(this.getClass()));
+//        logger.info(account.toString());
+//        logger.info(account.toString());
+        Logger.getLogger(AMailerController.class).debug(account.toString());
+        
         message.append(
                 "Hello,\n\n" +
                 "A new account has been created on KBAccess :\n" +
-                "* id : ").append(account.getId().toString()).append("\n" +
                 "* email : ").append(account.getEmail()).append("\n" +
                 "* first name : ").append(account.getFirstName()).append("\n" +
                 "* last name : ").append(account.getLastName()).append("\n" +
@@ -178,7 +191,7 @@ public class AMailerController extends AController {
                 "-- \n" +
                 "The KBAccess Team\n"
                 );
-        // send it
+        // send it*/
         return sendMail(subject, message.toString(), recipients);
     }
     

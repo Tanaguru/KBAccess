@@ -21,14 +21,16 @@
  */
 package org.opens.kbaccess.controller;
 
+import java.util.Calendar;
 import java.util.Random;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.command.PasswordLostCommand;
 import org.opens.kbaccess.controller.utils.AMailerController;
+import org.opens.kbaccess.entity.authorization.AccessLevel;
 import org.opens.kbaccess.entity.authorization.AccessLevelEnumType;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.factory.authorization.AccountFactory;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.utils.AccountUtils;
@@ -56,8 +58,6 @@ public class GuestController extends AMailerController {
     @Autowired
     private AccountDataService accountDataService;
     @Autowired
-    private AccountFactory accountFactory;
-    @Autowired
     private AccessLevelDataService accessLevelDataService;
     @Autowired
     private MailingServiceProperties mailingServiceProperties;
@@ -84,7 +84,7 @@ public class GuestController extends AMailerController {
         sb.append(email).append(String.valueOf(random.nextInt()));
         return SHA1Hasher.getInstance().hashAsString(sb.toString());
     }
-
+    
     private boolean sendAuthTokenAndSubscribeNotificationByMail(String lang, Account account) {
         if (sendSubsciptionNotification(account) == false) {
             LogFactory.getLog(GuestController.class).error("Unable to send the subscription notification");
@@ -97,7 +97,7 @@ public class GuestController extends AMailerController {
     }
 
     private boolean sendNewPasswordByMail(String lang, Account account, String password) {
-        if (sendNewPassword(lang, account, password)) {
+        if (sendNewPassword(lang, account, password) == false) {
             LogFactory.getLog(GuestController.class).error("Error sending new password by mail to " + account.getEmail());
             return false;
         }
@@ -167,10 +167,15 @@ public class GuestController extends AMailerController {
         // create auth token
         authToken = generateAuthToken(accountCommand.email);
         // create account
-        newAccount = accountFactory.create();
+        newAccount = accountDataService.create();
         accountCommand.updateAccount(newAccount);
         newAccount.setAuthCode(authToken);
-        newAccount.setAccessLevel(accessLevelDataService.getByCode(AccessLevelEnumType.CONTRIBUTOR.getType()));
+        AccessLevel al = accessLevelDataService.getByCode(AccessLevelEnumType.CONTRIBUTOR.getType());
+        newAccount.setAccessLevel(al);
+        newAccount.setSubscriptionDate(Calendar.getInstance().getTime());
+        
+        Logger.getLogger(this.getClass()).debug(al.getId());
+        Logger.getLogger(this.getClass()).debug(al.getCdAccessLevel());
         // send subscribe confirmation, with auth token, and notification
         if (sendAuthTokenAndSubscribeNotificationByMail(null, newAccount) == false) {
             model.addAttribute("subscribeError", "Une erreur s'est produite. Merci de contacter l'administrateur.");
@@ -210,7 +215,7 @@ public class GuestController extends AMailerController {
         //
         model.addAttribute("passwordLostCommand", new PasswordLostCommand());
         return "guest/password-lost";
-    }
+    } 
     
     @RequestMapping(value="password-lost", method= RequestMethod.POST)
     public String passwordLostHandler(
@@ -240,6 +245,7 @@ public class GuestController extends AMailerController {
         account = accountDataService.getAccountFromEmail(passwordLostCommand.getEmail());
         if (account != null && sendNewPasswordByMail(null, account, password)) {
             account.setPassword(SHA1Hasher.getInstance().hashAsString(password));
+            accountDataService.saveOrUpdate(account);
             model.addAttribute("passwordSent", true);
         } else {
             model.addAttribute("passwordLostError", "Une erreure s'est produite. Merci de contacter l'administrateur.");
@@ -250,13 +256,15 @@ public class GuestController extends AMailerController {
     /*
      * Account activation handler
      */
-    @RequestMapping(value="activate-account")
+    @RequestMapping(value="activate-account", method=RequestMethod.GET)
     public String activateAccountHandler(
             @RequestParam(value="token", required=false) String token,
             @RequestParam(value="email", required=false) String email,
             Model model
             ) {
         Account account;
+        
+        LogFactory.getLog(GuestController.class).info("activateAccountHandler()");
         
         // check if the user has the right to be there
         if (checkAuthority() == false) {
@@ -279,6 +287,7 @@ public class GuestController extends AMailerController {
             account = accountDataService.getAccountFromEmail(email);
             if (account != null && token.equals(account.getAuthCode())) {
                 account.setActivated(true);
+                account.setAuthCode(null);
                 accountDataService.saveOrUpdate(account);
                 model.addAttribute("accountActivated", true);
             } else {
@@ -286,6 +295,9 @@ public class GuestController extends AMailerController {
                 model.addAttribute("activateAccountError", "Jeton ou adresse email invalide.");
             }
         }
+        
+        LogFactory.getLog(GuestController.class).info("endOfActivateAccountHandler()");
+       
         return "guest/activate-account";
     }
     
@@ -301,18 +313,20 @@ public class GuestController extends AMailerController {
         this.accountDataService = accountDataService;
     }
 
-    public AccountFactory getAccountFactory() {
-        return accountFactory;
-    }
+//    public AccountFactory getAccountFactory() {
+//        return accountFactory;
+//    }
+//
+//    public void setAccountFactory(AccountFactory accountFactory) {
+//        this.accountFactory = accountFactory;
+//    }
 
-    public void setAccountFactory(AccountFactory accountFactory) {
-        this.accountFactory = accountFactory;
-    }
-
+    @Override
     public MailingServiceProperties getMailingServiceProperties() {
         return mailingServiceProperties;
     }
 
+    @Override
     public void setMailingServiceProperties(MailingServiceProperties mailingServiceProperties) {
         this.mailingServiceProperties = mailingServiceProperties;
     }

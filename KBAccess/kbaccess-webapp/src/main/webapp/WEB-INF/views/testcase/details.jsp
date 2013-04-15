@@ -17,7 +17,7 @@
             </div>
             <div class="row">
                 <div class="span2">
-                    <img alt="Aperçus de la page archivée" src=""/>
+                    <img alt="Aperçus de la page archivée" src="" />
                 </div>
                 <div class="offset2 span10">
                     <table class="data-table table table-condensed table-vertical">

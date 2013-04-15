@@ -17,7 +17,9 @@
             <div class="row">
                 <c:choose>
                     <c:when test="${passwordSent}">
-                        <p class="alert alert-error">Vous allez recevoir un mail contenant votre nouveau mot de passe.</p>                    
+                        <p class="alert alert-success">
+                            Vous allez recevoir un mail contenant votre nouveau mot de passe.
+                        </p>                    
                     </c:when>
                     <c:when test="${passwordLostError != null}">
                         <p class="alert alert-error">${passwordLostError}</p>

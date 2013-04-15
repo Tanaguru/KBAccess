@@ -16,7 +16,7 @@
     
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:database.properties"/>    
+        <property name="location" value="file:///etc/kbaccess/kbaccess.conf"/>    
     </bean>
 
     <import resource="beans-persistence.xml"/>

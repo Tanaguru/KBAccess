@@ -31,7 +31,7 @@
                     </li>
 
                 </ul>
-                <p><a href="<c:url value='/testcase/details.html?id=${testcase.id}'/>">Visualiser le testcase</a> ou <a href="<c:url value='/'/>">revenir à l'accueil</a>.</p>
+                <p><a href="<c:url value='/testcase/details/${testcase.id}-.html'/>">Visualiser le testcase</a> ou <a href="<c:url value='/'/>">revenir à l'accueil</a>.</p>
             </div>
         </div>
 

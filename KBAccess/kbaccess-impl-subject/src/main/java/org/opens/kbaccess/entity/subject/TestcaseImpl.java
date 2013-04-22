@@ -50,7 +50,7 @@ public class TestcaseImpl implements Testcase, Serializable {
     @OneToOne
     @JoinColumn(name = "ID_CRITERION", nullable = false)
     protected CriterionImpl criterion;
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name = "testcase_test_result",
             joinColumns = @JoinColumn(name = "ID_TESTCASE", nullable = false),

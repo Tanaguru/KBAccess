@@ -26,5 +26,4 @@ public class AccountDataServiceImpl extends AbstractGenericDataService<Account, 
     }
     
     
-
 }

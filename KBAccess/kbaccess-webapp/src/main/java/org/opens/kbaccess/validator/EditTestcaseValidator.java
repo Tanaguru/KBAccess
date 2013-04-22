@@ -21,7 +21,9 @@
  */
 package org.opens.kbaccess.validator;
 
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.EditTestcaseCommand;
+import org.opens.kbaccess.controller.TestcaseController;
 import org.opens.kbaccess.entity.service.reference.CriterionDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.reference.TestDataService;
@@ -41,13 +43,13 @@ public class EditTestcaseValidator implements Validator {
     
     private TestcaseDataService testcaseDataService;
     private ResultDataService resultDataService;
-    private CriterionDataService criterionDataService;
+//    private CriterionDataService criterionDataService;
     private TestDataService testDataService;
 
-    public EditTestcaseValidator(TestcaseDataService testcaseDataService, ResultDataService resultDataService, CriterionDataService criterionDataService, TestDataService testDataService) {
+    public EditTestcaseValidator(TestcaseDataService testcaseDataService, ResultDataService resultDataService, TestDataService testDataService) {
         this.testcaseDataService = testcaseDataService;
         this.resultDataService = resultDataService;
-        this.criterionDataService = criterionDataService;
+//        this.criterionDataService = criterionDataService;
         this.testDataService = testDataService;
     }
     
@@ -61,18 +63,24 @@ public class EditTestcaseValidator implements Validator {
         EditTestcaseCommand editTestcaseCommand = (EditTestcaseCommand) o;
         boolean hasError = false;
         
-        if (validateId(editTestcaseCommand, errors) == false) {
+        if (!validateId(editTestcaseCommand, errors)) {
             return;
         }
-        if (validateIdResult(editTestcaseCommand, errors) == false) {
+        if (!validateIdResult(editTestcaseCommand, errors)) {
             hasError = true;
         }
-        if (validateIdCriterion(editTestcaseCommand, errors) == false) {
+        
+        if (!validateIdTest(editTestcaseCommand, errors)) {
             hasError = true;
         }
-        if (validateTitle(editTestcaseCommand, errors) == false) {
-            hasError = true;
-        }
+        
+//        if (validateIdCriterion(editTestcaseCommand, errors) == false) {
+//            LogFactory.getLog(EditTestcaseValidator.class.getName()).info("valideIdCriterion");
+//            hasError = true;
+//        }
+//        if (validateTitle(editTestcaseCommand, errors) == false) {
+//            hasError = true;
+//        }
         
         if (hasError) {
             errors.rejectValue(FormKeyStore.GENERAL_ERROR_MESSAGE_KEY, MessageKeyStore.MISSING_REQUIRED_FIELD);
@@ -90,6 +98,17 @@ public class EditTestcaseValidator implements Validator {
         return true;
     }
 
+    private boolean validateIdTest(EditTestcaseCommand editTestcaseCommand, Errors errors) {
+        if (editTestcaseCommand.getIdTest() == null) {
+            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
+            return false;
+        } else if (testDataService.read(editTestcaseCommand.getIdTest()) == null) {
+            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
+            return false;
+        }
+        return true;
+    }
+    
     private boolean validateIdResult(EditTestcaseCommand editTestcaseCommand, Errors errors) {
         if (editTestcaseCommand.getIdResult() == null) {
             errors.rejectValue(FormKeyStore.ID_RESULT_KEY, MessageKeyStore.MISSING_RESULT_KEY);
@@ -101,25 +120,25 @@ public class EditTestcaseValidator implements Validator {
         return true;
     }
 
-    private boolean validateIdCriterion(EditTestcaseCommand editTestcaseCommand, Errors errors) {
-        if (editTestcaseCommand.getIdCriterion() == null) {
-            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
-            return false;
-        } else if (criterionDataService.read(editTestcaseCommand.getIdCriterion()) == null) {
-            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
-            return false;
-        }
-        return true;
-    }
+//    private boolean validateIdCriterion(EditTestcaseCommand editTestcaseCommand, Errors errors) {
+//        if (editTestcaseCommand.getIdCriterion() == null) {
+//            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
+//            return false;
+//        } else if (criterionDataService.read(editTestcaseCommand.getIdCriterion()) == null) {
+//            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
+//            return false;
+//        }
+//        return true;
+//    }
     
-    private boolean validateTitle(EditTestcaseCommand editTestcaseCommand, Errors errors) {
-        if (editTestcaseCommand.getTitle() == null) {
-            errors.rejectValue(FormKeyStore.TITLE_KEY, MessageKeyStore.MISSING_TITLE_KEY);
-            return false;
-        } else if (editTestcaseCommand.getTitle().matches(RE_TESTCASE_TITLE_VALIDATOR) == false) {
-            errors.rejectValue(FormKeyStore.TITLE_KEY, MessageKeyStore.INVALID_TITLE_KEY);
-            return false;
-        }
-        return true;
-    }
+//    private boolean validateTitle(EditTestcaseCommand editTestcaseCommand, Errors errors) {
+//        if (editTestcaseCommand.getTitle() == null) {
+//            errors.rejectValue(FormKeyStore.TITLE_KEY, MessageKeyStore.MISSING_TITLE_KEY);
+//            return false;
+//        } else if (editTestcaseCommand.getTitle().matches(RE_TESTCASE_TITLE_VALIDATOR) == false) {
+//            errors.rejectValue(FormKeyStore.TITLE_KEY, MessageKeyStore.INVALID_TITLE_KEY);
+//            return false;
+//        }
+//        return true;
+//    }
 }

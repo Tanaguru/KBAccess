@@ -89,7 +89,7 @@ public class GuestController extends AMailerController {
         if (sendSubsciptionNotification(account) == false) {
             LogFactory.getLog(GuestController.class).error("Unable to send the subscription notification");
         }
-        if (sendAuthToken(lang, account) == false) {
+        if (!sendAuthToken(lang, account)) {
             LogFactory.getLog(GuestController.class).debug("Unalbe to send the auth token");
             return false;
         }

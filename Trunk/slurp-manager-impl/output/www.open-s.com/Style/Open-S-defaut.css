@@ -1,0 +1,205 @@
+* {
+    font-family : "Trebuchet MS",Verdana,Geneva,Arial,Helvetica,sans-serif;
+}
+
+body {
+margin: 0% 0% 0% 0%;
+font-size: small;
+}
+
+#conteneur {
+margin: 1% 1% 1% 1%;
+}
+
+/* ---------------------------------------- */
+/* Prologue */
+
+#prologue {
+font-size: xx-small;
+background-color: transparent;
+color: silver;
+padding: 0;
+border: 0;
+margin: 0;
+}
+
+#prologue a, #prologue a:link, #prologue a:visited {
+color: silver;
+}
+
+/* ---------------------------------------- */
+/* Entete */
+
+#entete {
+color: #FF9933;
+background-color:transparent;
+border: 1px solid #000099;
+background-image: url(/Images/fond-bleu-open-s-accessibilite-du-web.jpg);
+background-repeat: repeat;
+}
+
+#enteteExtraDiv1 {
+float: right;
+background-image: url(/Images/echiquier-open-s-accessibilite-du-web.jpg);
+background-repeat: no-repeat;
+height: 83px;
+width: 500px;
+}
+
+.entete-titre {
+text-decoration: underline;
+letter-spacing: 0.4em;
+font-weight: bolder;
+font-size: 1.6em
+}
+
+.entete-soustitre {
+font-size: 1em;
+letter-spacing: 0.4em;
+font-weight: 100;
+font-style: italic;
+text-decoration: none;
+}
+
+.entete-titre a, .entete-titre a:link, .entete-titre a:visited {
+color: #FF9933;
+background-color:transparent;
+text-decoration: underline;
+}
+
+.entete-soustitre a, .entete-soustitre a:link, .entete-soustitre a:visited {
+color: #FF9933;
+background-color:transparent;
+text-decoration: none;
+}
+
+/* ---------------------------------------- */
+/* Menu */
+
+#menu {
+left: 1%;
+width: 20%;
+margin: 1% 0%;
+padding: 0;
+position: absolute;
+overflow: hidden;
+color: #FF9933;
+background-color:transparent;
+}
+
+#menu a, #menu a:link, #menu a:visited {
+display: block;
+color: #FF6600;
+background-color:transparent;
+font-weight: 900;
+border-bottom-style: dotted;
+border-color: white;
+border-bottom-width: 1px;
+text-decoration: none;
+}
+
+#menu a:hover {
+	border-bottom: 1px dotted #FF6600;
+}
+
+#menuListe {
+	list-style-type: none;
+	margin:0;
+	padding:0 0 0 2em;
+}
+
+/* ---------------------------------------- */
+/* Corps */
+
+#corps {
+border: 1px solid #000077;
+margin: 1% 0% 1% 21%;
+padding: 1%;
+background-color: #FBF9F9;
+}
+
+#actu-highlight {
+border: 1px solid #007777;
+width: 70%;
+margin-left: 5%;
+margin-right: 25%;
+padding: 1%;
+background-color: #FBF9E0;
+}
+
+#home-references {
+	width: 95%;
+	margin: 0 2.5%;
+	border: 1px solid #007777;
+	background-color: #FBF9E0;
+}
+
+#home-references td {
+	width: 25%;
+	text-align:center;
+}
+
+
+/* ---------------------------------------- */
+/* Pied de Page */
+
+#pieddepage {
+font-size: small;
+text-align: center;
+}
+
+#piedDePageExtraDiv1 {
+float: right;
+background-image: url(/Images/pion_orange_damier.jpg);
+background-repeat: no-repeat;
+width: 50px;
+height: 50px;
+}
+
+/* ---------------------------------------- */
+/* Styles particuliers */
+
+#phonetique {
+font-family: "Courier New", Courier, monospace;
+}
+
+#slogan {
+font-family: "Courier New", Courier, monospace;
+font-size: small;
+font-style: italic;
+}
+
+#accessipro-member {
+margin: 5em 0 0 2em;
+}
+
+#accessipro-member img {
+border: none;
+}
+
+/* ---------------------------------------- */
+/* Balises surchargées */
+
+acronym {
+cursor:help;
+border-bottom:1px dotted #369;
+}
+
+em {
+font-weight: bold;
+}
+
+dt {
+font-style: italic;
+font-weight: 500;
+}
+
+blockquote {
+margin: 0;
+}
+
+/*
+[accesskey]:after {
+font-size: 75%;
+content: " [" attr(accesskey) "] ";
+}*/

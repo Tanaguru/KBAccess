@@ -42,7 +42,7 @@ public class TestResultPresentation {
         this.resultId = testResult.getResult().getId();
         this.testId = testResult.getTest().getId();
         this.resultLabel = testResult.getResult().getCode();
-        this.testLabel = testResult.getTest().getCode();
+        this.testLabel = testResult.getTest().getLabel();
     }
 
     public Long getResultId() {

@@ -23,6 +23,7 @@ package org.opens.kbaccess.utils;
 
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
+import org.opens.kbaccess.entity.subject.Testcase;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -35,6 +36,22 @@ public class AccountUtils {
     private static AccountUtils instance = null;
     
     private AccountDataService accountDataService;
+    
+    /*
+     * Private methods
+     */
+    
+    /**
+     * 
+     * @param currentUser
+     * @return true if the current user is an admin or a moderator, false otherwise
+     */
+     private boolean isAdminOrModerator(Account currentUser) {
+        boolean isAdmin = (currentUser.getAccessLevel().getPriority() == 1);
+        boolean isModerator = (currentUser.getAccessLevel().getPriority() == 2);
+                
+        return (isAdmin || isModerator);
+    }
     
     private AccountUtils() {
     }
@@ -72,6 +89,18 @@ public class AccountUtils {
             return null;
         }
         return accountDataService.getAccountFromEmail(userName);
+    }
+   
+    /**
+     * 
+     * @return true if the current user has the permission to edit a testcase, false otherwise
+     */
+    public boolean currentUserhasPermissionToEditTestcase(Testcase testcase) {
+        Account currentUser = getCurrentUser();
+        
+        boolean isTestcaseOwner = currentUser.getId().equals(testcase.getAccount().getId());
+        
+        return (isTestcaseOwner || isAdminOrModerator(currentUser));
     }
 
     public AccountDataService getAccountDataService() {

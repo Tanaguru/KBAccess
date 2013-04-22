@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.entity.subject.TestResult;
 import org.opens.kbaccess.entity.subject.Testcase;
 
@@ -42,7 +43,6 @@ public class TestcasePresentation {
     private Long webarchiveId;
 
     private String authorDisplayedName;
-    private String cirterionLabel;
     private String description;
     private String detailsUrl;
     private String title;
@@ -51,11 +51,15 @@ public class TestcasePresentation {
     private String webarchiveLocalUrl;
     private String webarchiveOriginalUrl;
     private String criterionLabel;
-    
+
     private Date webarchiveCreationDate;
     private Date creationDate;
     
     private Collection<TestResultPresentation> testResults;
+    private String testLabel;
+    // Description of the test and criterion on the original website of the accessibility reference
+    private String webRefTestLabel;
+    private String webRefCriterionLabel;
 
     public static String createDetailsSubUrl(Testcase testcase) {
         StringBuilder sb = new StringBuilder();
@@ -101,7 +105,7 @@ public class TestcasePresentation {
         this.resultId = testcase.getResult().getId();
         this.webarchiveId = testcase.getWebarchive().getId();
         this.authorDisplayedName = AccountPresentation.generateDisplayedName(testcase.getAccount());
-        this.cirterionLabel = testcase.getCriterion().getLabel();
+        this.criterionLabel = testcase.getCriterion().getLabel();
         this.description = testcase.getDescription();
         this.detailsUrl = createDetailsSubUrl(testcase);
         this.title = testcase.getTitle();
@@ -110,10 +114,13 @@ public class TestcasePresentation {
         this.webarchiveLocalUrl = testcase.getWebarchive().getLocalUrl();
         this.webarchiveOriginalUrl = testcase.getWebarchive().getUrl();
         this.criterionLabel = testcase.getCriterion().getLabel();
+        this.webRefCriterionLabel = this.criterionLabel.replace(".", "-");
         this.webarchiveCreationDate = testcase.getWebarchive().getCreationDate();
         this.creationDate = testcase.getCreationDate();
         if (withTestResults) {
             this.testResults = testResultCollectionToPresentation(testcase.getTestResults());
+            this.testLabel = this.testResults.iterator().next().getTestLabel();
+            this.webRefTestLabel = this.testLabel.replace(".", "-");
         } else {
             this.testResults = null;
         }
@@ -142,14 +149,6 @@ public class TestcasePresentation {
 
     public void setAuthorId(Long authorId) {
         this.authorId = authorId;
-    }
-
-    public String getCirterionLabel() {
-        return cirterionLabel;
-    }
-
-    public void setCirterionLabel(String cirterionLabel) {
-        this.cirterionLabel = cirterionLabel;
     }
 
     public Date getCreationDate() {
@@ -279,5 +278,28 @@ public class TestcasePresentation {
     public void setWebarchiveOriginalUrl(String webarchiveOriginalUrl) {
         this.webarchiveOriginalUrl = webarchiveOriginalUrl;
     }
+    
+     public String getTestLabel() {
+        return testLabel;
+    }
 
+    public void setTestLabel(String testLabel) {
+        this.testLabel = testLabel;
+    }
+    
+     public String getWebRefTestLabel() {
+        return webRefTestLabel;
+    }
+
+    public void setWebRefTestLabel(String webRefTestLabel) {
+        this.webRefTestLabel = webRefTestLabel;
+    }
+    
+    public String getWebRefCriterionLabel() {
+        return webRefCriterionLabel;
+    }
+
+    public void setWebRefCriterionLabel(String webRefCriterionLabel) {
+        this.webRefCriterionLabel = webRefCriterionLabel;
+    }
 }

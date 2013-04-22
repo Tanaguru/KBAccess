@@ -111,9 +111,8 @@ public class AccountController extends AController {
             Model model
             ) {
         Account currentUser = AccountUtils.getInstance().getCurrentUser();
-        AccountDetailsValidator accountDetailsValidator = new AccountDetailsValidator(accountDataService, currentUser.getEmail());
         
-        //
+        // Handle login and breadcrumb
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model, "KBAccess", "/", "Mon Compte");
         // check authority (spring security should avoid that this test passed)
@@ -121,7 +120,9 @@ public class AccountController extends AController {
             LogFactory.getLog(AccountController.class).error("An unauthentified user reached /account/details, check spring security configuration");
             return "home";
         }
+        
         // validate new account details
+        AccountDetailsValidator accountDetailsValidator = new AccountDetailsValidator(accountDataService, currentUser.getEmail());
         accountDetailsValidator.validate(accountCommand, result);
         if (result.hasErrors()) {
             model.addAttribute("accountDetailsCommand", accountCommand);
@@ -157,8 +158,8 @@ public class AccountController extends AController {
     @RequestMapping("my-testcases")
     public String myTestcasesHanlder(Model model) {
         Account currentUser;
-        
-        //
+
+        // 
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model, "KBAccess", "/", "Mes testcases");
         //
@@ -169,9 +170,11 @@ public class AccountController extends AController {
         }
         //
         
-        model.addAttribute(ModelAttributeKeyStore.TESTCASE_LIST_KEY, TestcasePresentation.fromCollection(
+        model.addAttribute(
+                ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
+                TestcasePresentation.fromCollection(
                 testcaseDataService.getAllFromAccount(currentUser),
-                false
+                true
                 ));
         model.addAttribute("testcaseListH1", "Mes testcases");
         return "testcase/list";

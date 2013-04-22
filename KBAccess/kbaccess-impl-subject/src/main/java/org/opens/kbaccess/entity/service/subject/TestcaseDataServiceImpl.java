@@ -32,8 +32,8 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
         }
     }
     
-    private String computeTitleFromCriterionAndUrl(Criterion criterion, Webarchive webarchive) {
-        return (criterion.getCode() + " non validé sur le site " + webarchive.getUrl());
+    public static String computeTitleFromCriterionAndUrl(Criterion criterion, Webarchive webarchive, Result result) {
+        return (criterion.getCode() + " " + result.getLabel() + " sur le site " + webarchive.getUrl());
     }
       
     /*
@@ -46,7 +46,7 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
     @Override
     public Testcase createFromTest(Account account, Webarchive webarchive, Result result, Test test, String description) {
         int rank = ((TestcaseDAO) entityDao).findMaxPriorityValueFromTable(); 
-        String title = computeTitleFromCriterionAndUrl(test.getCriterion(), webarchive);
+        String title = computeTitleFromCriterionAndUrl(test.getCriterion(), webarchive, result);
         Testcase tc = ((TestcaseFactory) entityFactory).createFromCriterion(account, title, webarchive, result, test.getCriterion(), description, rank);
 
         tc.addTestResult(testResultDataService.getByTestResult(test, result));
@@ -56,7 +56,7 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
     @Override
     public Testcase createFromCriterion(Account account, Webarchive webarchive, Result result, Criterion criterion, String description) {
         int rank = ((TestcaseDAO) entityDao).findMaxPriorityValueFromTable();
-        String title = computeTitleFromCriterionAndUrl(criterion, webarchive);
+        String title = computeTitleFromCriterionAndUrl(criterion, webarchive, result);
         
         result = computeResultFromTestResult(result);
         return ((TestcaseFactory) entityFactory).createFromCriterion(account, title, webarchive, result, criterion, description, rank);

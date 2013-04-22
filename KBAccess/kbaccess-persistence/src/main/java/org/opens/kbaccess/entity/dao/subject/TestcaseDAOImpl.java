@@ -61,15 +61,20 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
 
     @Override
     public List<Testcase> findAllFromAccount(Account account) {
+        List<Testcase> result;
+        
         try {
             Query query = selectTestcases("WHERE tc.account = :account"
                     + " ORDER BY tc.criterion asc, tc.result asc, tc.creationDate asc");
             query.setParameter("account", account);
-            return query.getResultList();
+          
+            result = query.getResultList();
+           
+            return result;
         } catch (NoResultException e) {
             // In case of query with no result, return null
             return null;
-        }
+        }   
     }
 
     @Override

@@ -1,0 +1,20 @@
+Subject: [KBAccess] Welcome to KBAccess
+
+Welcome to KBAccess,
+
+If you received this email, it means you have created an account on kbaccess.org. If it is not the case, please ignore this message.
+
+Your new account need to be activated. To do so, please follow this link
+
+http://localhost:8080/kbaccess-webapp-2.0-SNAPSHOT/guest/activate-account.html?email=${email}&token=${authToken}
+
+If a form appears and ask you for a token, your token is
+
+${authToken}
+
+See you soon on http://kbaccess.org .
+
+Sincerely,
+
+-- 
+The KBAccess team

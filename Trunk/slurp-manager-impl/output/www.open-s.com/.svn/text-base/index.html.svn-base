@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+
+<head>
+  <meta name="verify-v1" content="+93JG1O+mH2lVrBLVDX89dwJZAfTpZylgAsQAGhIbF8=" />
+  <meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" /><script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><script type="text/javascript">
+	_uacct = "UA-78092-2";
+	urchinTracker();
+	</script>
+  <link rel="stylesheet" type="text/css" href="/Style/Open-S-defaut.css" media="screen" title="Normal" />
+	<link rel="icon" type="image/png" href="/Images/open-s-favicon.png" />
+  <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"  />
+  <meta name="DC.Publisher" content="Open-S" />
+  <meta name="DC.Creator" content="Matthieu FAURE" />
+  <meta name="DC.Date.created" scheme="W3CDTF" content="2004-04-01"  />
+  <meta name="DC.Coverage.spatial" scheme="TGN" content="name=Montpellier (Herault, Languedoc-Roussillon, France)" />
+  <meta name="DC.Language" scheme="RFC3066" content="fr-FR"  />
+
+  <meta name="DC.Date.modified" scheme="W3CDTF" content="2008-12-16"  />
+  <meta name="DC.Subject" lang="fr" content="Accessibilit&#233; du web, handicap, standards du web, W3C, WAI, accessiweb, expert accessibilit&#233;, aveugle, loi Boisseau, collectivit&eacute;, territoriale, locale, mairie, accessibility" />
+  <meta name="keywords" content="accessibilit&#233;, handicap, standards du web, W3C, WAI, aveugle, loi Boisseau, collectivit&eacute;, territoriale, locale, mairie, accessibility" />
+  <meta name="DC.Description" lang="fr" content="Open-S: accessibilt&eacute; du web - Consulting, R&eacute;alisations, Formation" />
+  <meta name="description" content="Open-S: accessibilt&eacute; du web - Consulting, R&eacute;alisations, Formation" />
+  <meta name="DC.Title" lang="fr" content="Open-S: Accessibilit&#233; du web"  />
+  <title>Open-S: Accessibilit&#233; du web</title>
+</head>
+<body>
+<div id="conteneur">
+<p id="prologue">
+<a href="#corps">Accéder au contenu</a>
+| <a href="#menu">Accéder au menu</a>
+| <a href="/Aide/#liste-raccouris-clavier" accesskey="0">Raccourcis clavier</a>
+<!-- | <a href="#"></a> -->
+</p>
+
+<div id="entete">
+  
+<!-- des div en plus pour jouer un peu -->
+<div id="enteteExtraDiv1"><span></span></div><div id="enteteExtraDiv2"><span></span></div><div id="enteteExtraDiv3"><span></span></div>
+<div id="enteteExtraDiv4"><span></span></div><div id="enteteExtraDiv5"><span></span></div><div id="enteteExtraDiv6"><span></span></div>
+
+<h1>
+<span class="entete-titre"><a href="/">Open-S</a></span><br />
+<span class="entete-soustitre"><a href="/">Accessibilit&#233; du web</a></span>
+</h1>
+
+<div id="msg" style="">
+<p style="margin:0; color:black; background-color:rgb(255,255,204); text-align:center; padding:0.5em; font-size: 110%; font-style:italic;">
+Notre site web est en cours de refonte. <br />
+Sa mise en ligne aura lieu courant juin 2010. Merci de votre confiance !
+</p>
+
+</div>
+</div>
+
+<div id="menu">
+    <ul id="menuListe">
+		<li><a href="/Accessibilite/" title="Le point sur l'accessibilit&#233;" lang="fr" xml:lang="fr">Accessibilit&#233;</a></li>
+    <li><a href="/Prestations/" title="Les prestations offertes par Open-S" lang="fr" xml:lang="fr">Prestations</a></li>
+		<li><a href="/Realisations/" title="Les réalisations de Open-S" lang="fr" xml:lang="fr">Réalisations</a></li>
+    <li><a href="/Apropos/" title="A propos de Open-S" lang="fr" xml:lang="fr">A propos</a></li>
+    <li><a href="/Aide/" title="L'aide du site Open-S" lang="fr" xml:lang="fr" accesskey="6">Aide</a></li>
+		
+		<li><p><a href="http://www.Blog-Accessibilite.com/" title="Le Blog-Accessibilit&#233; de Matthieu Faure, Expert en accessibilit&#233;">Blog Accessibilit&#233;</a></p></li>
+  </ul>
+  <p id="accessipro-member">
+  <strong>Open-S</strong> est membre du<br/>
+  <a href="http://www.accessipro.com/"><img src="http://www.ideose.eu/images/reseau_AccessiPro.gif" alt="R&eacute;seau AccessiPro" /></a>
+  </p> 
+</div>
+
+<div id="corps">
+
+<h2>Open-S</h2>
+
+<!--
+<p style="background-color:rgb(255,255,204); text-align:center; padding:0.5em; font-size: 110%;">
+Notre site web est en cours de refonte. Sa mise en ligne aura lieu fin janvier 2010. Merci de votre confiance !
+</p>
+-->
+
+<p>
+Apri&egrave;s 5 ans &agrave; d&eacute;livrer du conseil en accessibilit&eacute; num&eacute;rique, Open-S propose depuis 2009 des <strong>solutions innovantes</strong> pour les professionnels du web, notamment pour l'industrialisation de <strong>l'accessibilit&eacute; du web</strong> aux personnes handicap&eacute;es.</p>
+
+<p>Matthieu Faure fait parti des premiers experts AccessiWeb de France (2004), et a activement particip&eacute; &agrave; la cr&eacute;ation du r&eacute;f&eacute;rentiel AccessiWeb 1.1. De plus, il dirige ses travaux avec une orientation globale en faveur de tous les standards et du logiciel libre. Au demeurant, il si&egrave;ge au conseil d'administration de l'Association pour le Logiciel Libre</p>
+
+<!--
+<p>Open-S propose depuis 2004 des services de conseil en accessibilit&eacute;. Open-S s'est sp&eacute;cialis&eacute;e sur le <strong>d&eacute;veloppement d'outils pour l'accessibilit&eacute;</strong>. Ces outils industriels ont vocation &agrave; aider les cr&eacute;ateurs de site web &agrave; <strong>concevoir et maintenir le niveau d'accessibilit&eacute;</strong>.
+</p>
+<p>
+Matthieu Faure fait parti des premiers experts <a href="http://www.accessiweb.org/">AccessiWeb</a> de France, et a activement particip&eacute; &agrave; la cr&eacute;ation du <a href="http://www.accessiweb.org/fr/Label_Accessibilite/criteres_accessiweb/">r&eacute;f&eacute;rentiel AccessiWeb 1.1</a>. 
+De plus, il dirige ses travaux avec une orientation globale en faveur de tous les standards et du logiciel libre.
+Au demeurant, il est pr&eacute;sident de l'Association pour le Logiciel Libre.
+</p>
+-->
+
+<h2>Quelques r&eacute;f&eacute;rences</h2>
+	<table summary="" id="home-references">
+	<tr>
+		<td><img src="Images/References/Reference-AccessiWeb.gif" alt="AccessiWeb" title="AccessiWeb" /></td>
+		<td><img src="Images/References/Reference-ADULLACT.gif" alt="Adullact" title="Adullact" /></td>
+		<td><img src="Images/References/Reference-Bull.gif" alt="Bull" title="Bull" /></td>
+		<td><img src="Images/References/Reference-GIHP-Languedoc-Roussillon.gif" alt="GIHP Languedoc Roussillon" title="GIHP Languedoc Roussillon" /></td>
+	</tr>
+	<tr>
+		<td><img src="Images/References/Reference-La-Poste.gif" alt="La Poste" title="La Poste" /></td>
+		<td><img title="Planetarium Galil&eacute;e de Montpellier Agglomeration" alt="Planetarium Galil&eacute;e de Montpellier Agglomeration" src="Images/References/Reference-planetarium-galilee-montpellier-agglomeration.gif" /></td>
+		<td><img src="Images/References/Reference-Region-PACA.gif" alt="R&eacute;gion Provence Alpes Côte d'Azur" title="R&eacute;gion Provence Alpes Côte d'Azur" /></td>
+		<td><img src="Images/References/Reference-Universite-Pierre-Marie-Curie.gif" alt="Universit&eacute; Pierre et Marie Curie" title="Universit&eacute; Pierre et Marie Curie" /></td>
+	</tr>
+	</table>
+
+<!--
+  <h2>Accessibilit&#233;</h2>
+	<p id="slogan">&quot;Êtes voo serretain d'hêtre bien compris deux too veau vizituers ?&quot;</p>
+  <p>Etes-vous certain d'être bien compris de tous vos visiteurs ? Peut-être, ou peut-être pas.</p>
+  <p>Dans le doute, regardez quelle est la <a href="Accessibilite/pourquoi-accessibilite.php" title="Pourquoi L'accessibilit&#233;" lang="fr" xml:lang="fr">probl&eacute;matique de l'accessibilit&#233;</a>,
+  pour ensuite profiter des <a href="Accessibilite/avantages-accessibilite.php" title="Les avantages de l'accessibilit&#233; pour entreprises et institutionnels">avantages de l'accessibilit&#233;</a>.
+  </p>
+-->
+
+
+<!--
+<p>Open-S propose une gamme de services autour de l'accessibilit&#233; du web
+  allant de l'audit à la r&eacute;alisation de sites web. Parmi les moyens mis en
+  oeuvre pour atteindre l'accessibilit&#233;, on peut trouver le respect des
+  standards, le discernement, les logiciels libres, ... et la capacit&eacute; d'&eacute;coute.</p>
+
+	<p>Matthieu Faure est reconnu <em>&#171;&nbsp;Expert&nbsp;Accessiweb&nbsp;&#187;</em> par <a href="http://www.braillenet.org/" lang="fr" xml:lang="fr">Braillenet</a>, et repr&eacute;sente <a href="http://www.open-s.com/" title="Open-S: accessibilit&#233; du web" lang="fr" xml:lang="fr">Open-S</a> au sein du <acronym title="Groupe de Travail Accessiweb">GTA</acronym></p>
+
+	<p>Consultez nos
+  <a href="/Prestations/" title="Les prestations propos&eacute;es par Open-S" lang="fr" xml:lang="fr">Prestations</a>
+  pour en savoir plus.</p>
+-->
+	<hr />
+
+	<p><a href="changelog.php" title="Changelog: historique des modifications du site Open-S.com">Changelog</a></p>
+
+</div>
+
+<div id="pieddepage">
+  
+  
+<hr />
+
+<!-- des div en plus pour jouer un peu -->
+<div id="piedDePageExtraDiv1"><span></span></div><div id="piedDePageExtraDiv2"><span></span></div><div id="piedDePageExtraDiv3"><span></span></div>
+<div id="piedDePageExtraDiv4"><span></span></div><div id="piedDePageExtraDiv5"><span></span></div><div id="piedDePageExtraDiv6"><span></span></div>
+
+<p><a href="http://www.open-s.com/" title="Open-S accessibilit&#233; du web" lang="fr" xml:lang="fr">Open-S</a> - <a href="/Aide/" title="Aide du site Open-S" lang="fr" xml:lang="fr">Aide</a> - <a href="/Apropos/#contact" title="Contacter Open-S" lang="fr" xml:lang="fr" accesskey="7">Nous contacter</a><br />
+Conformité <a href="http://validator.w3.org/check/referer" title="V&eacute;rifier la validit&eacute; de la page">XHTML Strict</a>
+et <a href="http://jigsaw.w3.org/css-validator/check/referer" title="V&eacute;rifier la validit&eacute; de la feuille de styles">CSS</a>.</p>
+</div>
+
+</div>
+
+<!-- des div en plus pour jouer un peu -->
+<div id="extraDiv1"><span></span></div><div id="extraDiv2"><span></span></div><div id="extraDiv3"><span></span></div>
+<div id="extraDiv4"><span></span></div><div id="extraDiv5"><span></span></div><div id="extraDiv6"><span></span></div>
+<script type="text/javascript" src="http://j.clickdensity.com/cr.js"></script>
+<script type="text/javascript">
+  var siteID = 1199;
+  var keyElement = 'kvalue';
+</script>
+
+</body>
+</html>

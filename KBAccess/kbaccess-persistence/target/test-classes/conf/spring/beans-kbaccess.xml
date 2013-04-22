@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="accessLevelDAO" class="org.opens.kbaccess.entity.dao.authorization.AccessLevelDAOImpl"/>
+    <bean id="accountDAO" class="org.opens.kbaccess.entity.dao.authorization.AccountDAOImpl"/>
+
+    <bean id="criterionDAO" class="org.opens.kbaccess.entity.dao.reference.CriterionDAOImpl"/>
+    <bean id="levelDAO" class="org.opens.kbaccess.entity.dao.reference.LevelDAOImpl"/>
+    <bean id="nomenclatureDAO" class="org.opens.kbaccess.entity.dao.reference.NomenclatureDAOImpl"/>
+    <bean id="nomenclatureElementDAO" class="org.opens.kbaccess.entity.dao.reference.NomenclatureElementDAOImpl"/>
+    <bean id="referenceDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceDAOImpl"/>
+    <bean id="resultDAO" class="org.opens.kbaccess.entity.dao.reference.ResultDAOImpl"/>
+    <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
+    <bean id="testDAO" class="org.opens.kbaccess.entity.dao.reference.TestDAOImpl"/>
+    <bean id="testResultDAO" class="org.opens.kbaccess.entity.dao.subject.TestResultDAOImpl"/>
+    <bean id="themeDAO" class="org.opens.kbaccess.entity.dao.reference.ThemeDAOImpl"/>
+
+    <bean id="testcaseDAO" class="org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl"/>
+    <bean id="webarchiveDAO" class="org.opens.kbaccess.entity.dao.subject.WebarchiveDAOImpl"/>
+
+</beans>

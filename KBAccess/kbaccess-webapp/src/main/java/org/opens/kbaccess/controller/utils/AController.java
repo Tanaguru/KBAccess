@@ -26,7 +26,9 @@ import org.opens.kbaccess.command.TestcaseSearchCommand;
 import org.opens.kbaccess.command.UserLoginCommand;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.*;
+import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.reference.*;
+import org.opens.kbaccess.entity.service.subject.TestResultDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.utils.AccountUtils;
@@ -47,6 +49,8 @@ public abstract class AController {
     private static Collection<Result> results;
     
     @Autowired
+    protected AccountDataService accountDataService;
+    @Autowired
     protected TestcaseDataService testcaseDataService;
     @Autowired
     protected ReferenceDataService referenceDataService;
@@ -60,6 +64,8 @@ public abstract class AController {
     protected LevelDataService levelDataService;
     @Autowired
     protected ResultDataService resultDataService;
+    @Autowired
+    protected TestResultDataService testresultDataservice;
         
     /*
      * private methods

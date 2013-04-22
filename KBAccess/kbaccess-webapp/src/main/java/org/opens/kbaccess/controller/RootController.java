@@ -69,8 +69,9 @@ public class RootController extends AController {
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY,
                 TestcasePresentation.fromCollection(
                 testcaseDataService.getLastTestcases(5),
-                false
+                true
                 ));
+        
         return "home";
     }
     

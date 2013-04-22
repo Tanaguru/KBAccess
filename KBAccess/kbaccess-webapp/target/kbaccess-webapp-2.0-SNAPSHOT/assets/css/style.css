@@ -1,0 +1,20 @@
+/*
+    Document   : CSS for KBAccess
+    Created on : 24 jun 2010
+    Author     : mfaure
+    Description:
+
+*/
+
+.mandatory {
+    color: red;
+}
+
+.table-vertical tbody tr td {
+    border: none;
+}
+
+.table th[scope="row"] {
+    text-align: right;
+    width: 15%;
+}

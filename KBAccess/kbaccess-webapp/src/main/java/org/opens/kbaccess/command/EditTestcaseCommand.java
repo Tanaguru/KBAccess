@@ -21,43 +21,85 @@
  */
 package org.opens.kbaccess.command;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import org.opens.kbaccess.command.utils.ACommand;
+import org.opens.kbaccess.entity.reference.Result;
+import org.opens.kbaccess.entity.reference.Test;
 import org.opens.kbaccess.entity.service.reference.CriterionDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.reference.TestDataService;
+import org.opens.kbaccess.entity.service.subject.TestResultDataService;
+import org.opens.kbaccess.entity.service.subject.TestcaseDataServiceImpl;
+import org.opens.kbaccess.entity.subject.TestResult;
 import org.opens.kbaccess.entity.subject.Testcase;
 
 /**
  *
  * @author bcareil
  */
-public class EditTestcaseCommand {
+public class EditTestcaseCommand extends ACommand {
     private Long id;
-    private Long idCriterion;
+
+    private Long idTest;
     private Long idResult;
+    private Long idTestResult;
+    private Long idCriterion;
     private String title;
     private String description;
-
+    
     public EditTestcaseCommand() {
     }
 
     public EditTestcaseCommand(Testcase testcase) {
         this.id = testcase.getId();
-        this.idCriterion = testcase.getCriterion().getId();
-        this.idResult = testcase.getResult().getId();
-        this.title = testcase.getTitle();
+        this.idResult = testcase.getResult().getId();  
         this.description = testcase.getDescription();
+        this.idTest = testcase.getTestResults().iterator().next().getTest().getId();
+        this.idTestResult = testcase.getTestResults().iterator().next().getId();
+        this.idCriterion = testcase.getCriterion().getId();
     }
 
     public void update(
             Testcase testcase,
             CriterionDataService criterionDataService,
-            ResultDataService resultDataService,
-            TestDataService testDataService
+            TestDataService testDataService,
+            TestResultDataService testResultDataService,
+            ResultDataService resultDataService
             ) {
+        
+        Test test = testDataService.read(this.idTest);
+        Result result = resultDataService.read(this.idResult);
+        
+        /*
+         * In case the current EditTestcaseCommand is instanciated with the default constructor
+         * i.e : submission of the edited testcase
+         * We need to compute his new Criterion, test and result
+         */
+        if (this.idTestResult == null) 
+            this.idTestResult = testResultDataService.getByTestResult(test, result).getId();
+                
+        if (this.idCriterion == null) 
+            this.idCriterion = testcase.getCriterion().getId();
+        
+        TestResult testResult = testResultDataService.read(this.idTestResult);
+         
+        // then update the testcase with new informations    
         testcase.setResult(resultDataService.read(this.idResult));
-        testcase.setCriterion(criterionDataService.read(this.idCriterion));
-        testcase.setTitle(this.title);
         testcase.setDescription(this.description);
+        
+        Collection<TestResult> newTestResultList = new ArrayList<TestResult>();
+        newTestResultList.add(testResult);
+        testcase.setTestResults(newTestResultList);
+        testcase.setCriterion(test.getCriterion());
+        
+        this.title = TestcaseDataServiceImpl.computeTitleFromCriterionAndUrl(
+                testcase.getCriterion(), 
+                testcase.getWebarchive(), 
+                testcase.getResult()
+                );
+        
+        testcase.setTitle(this.title);
     }
 
     public String getDescription() {
@@ -83,15 +125,7 @@ public class EditTestcaseCommand {
     public void setIdResult(Long idResult) {
         this.idResult = idResult;
     }
-
-    public Long getIdCriterion() {
-        return idCriterion;
-    }
-
-    public void setIdCriterion(Long idCriterion) {
-        this.idCriterion = idCriterion;
-    }
-
+    
     public String getTitle() {
         return title;
     }
@@ -100,4 +134,19 @@ public class EditTestcaseCommand {
         this.title = title;
     }
     
+     public Long getIdTest() {
+        return idTest;
+    }
+
+    public void setIdTest(Long idTest) {
+        this.idTest = idTest;
+    }
+    
+     public Long getIdCriterion() {
+        return idCriterion;
+    }
+
+    public void setIdCriterion(Long idCriterion) {
+        this.idCriterion = idCriterion;
+    }
 }

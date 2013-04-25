@@ -64,9 +64,10 @@ public class AccountController extends AController {
             Model model
             ) {
         boolean requestedUserIsCurrentUser;
-        AccountPresentation account;
+        AccountPresentation accountPresentation;
         Account requestedUser;
         Account currentUser;
+        AccountCommand accountCommand;
         
         // handle login form
         handleUserLoginForm(model);
@@ -74,62 +75,86 @@ public class AccountController extends AController {
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
             LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/details, check spring security configuration");
-            return "home";
+            return "guest/login";
         }
-        requestedUserIsCurrentUser = (id == null || id == currentUser.getId());
+        
+        requestedUserIsCurrentUser = (id == null || id.equals(currentUser.getId()));
+        
+        
         // fetch the requested account and check it exists
         if (requestedUserIsCurrentUser) {
             requestedUser = currentUser;
         } else {
             requestedUser = accountDataService.read(id);
-            if (requestedUser == null) {
-                handleBreadcrumbTrail(model, "KBAccess", "/", "Compte invalide");
-                model.addAttribute("accountDetailsError", "Compte invalide");
-                return "account/details";
-            }
+            if (requestedUser == null) {          
+                return "home";
+            } 
         }
-        account = new AccountPresentation(requestedUser);
-        // if the user consult its account details, offer him the possibility to
-        // update it and give a more explicit breadcrumb path
+        accountPresentation = new AccountPresentation(requestedUser, accountDataService);
+        // if the user consult its account details, offer him the possibility to update it 
         if (requestedUserIsCurrentUser) {
-            model.addAttribute("accountDetailsCommand", new AccountCommand(currentUser));
+            
+            accountCommand = new AccountCommand(requestedUser);
+            model.addAttribute("accountCommand", accountCommand);
+            model.addAttribute("account", accountPresentation);
+        }
+        
+        // and give a more explicit breadcrumb path
+        if (requestedUserIsCurrentUser) {
             model.addAttribute("title", "Mon compte - KBAccess");
-            model.addAttribute("account", account);
             handleBreadcrumbTrail(model, "KBAccess", "/", "Mon compte");
         } else {
-            model.addAttribute("title", "Utilisateur " + account.getDisplayedName() + " - KBAccess");
-            handleBreadcrumbTrail(model, "KBAccess", "/", "Utilisateur " + account.getDisplayedName());
+            model.addAttribute("title", "Utilisateur " + accountPresentation.getDisplayedName() + " - KBAccess");
+            handleBreadcrumbTrail(model, "KBAccess", "/", "Utilisateur " + accountPresentation.getDisplayedName());
         }
-        model.addAttribute("account", account);
+        model.addAttribute("account", accountPresentation);
         return "account/details";
     }
     
     @RequestMapping(value="details", method=RequestMethod.POST)
     public String detailsHandler(
-            @ModelAttribute("accountAdapter") AccountCommand accountCommand,
+            @ModelAttribute("accountCommand") AccountCommand accountCommand,
             BindingResult result,
             Model model
             ) {
         Account currentUser = AccountUtils.getInstance().getCurrentUser();
+        Account requestedUser = accountDataService.getAccountFromEmail(accountCommand.getEmail());
+        boolean requestedUserIsCurrentUser;
+        AccountPresentation accountPresentation;
+           
+        // check authority (spring security should avoid that this test passed)
+        if (currentUser == null) {
+            LogFactory.getLog(AccountController.class).error("An unauthentified user reached /account/details, check spring security configuration");
+            return "guest/login";
+        }
+        
+        requestedUserIsCurrentUser = currentUser.equals(requestedUser);
+        
+        if (!requestedUserIsCurrentUser) {
+            LogFactory.getLog(AccountController.class).error("An authentified user tried to edit the mail input form in order to edit another account than his (potential XSS)");
+            return "home";
+        }
         
         // Handle login and breadcrumb
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model, "KBAccess", "/", "Mon Compte");
-        // check authority (spring security should avoid that this test passed)
-        if (currentUser == null) {
-            LogFactory.getLog(AccountController.class).error("An unauthentified user reached /account/details, check spring security configuration");
-            return "home";
-        }
         
         // validate new account details
         AccountDetailsValidator accountDetailsValidator = new AccountDetailsValidator(accountDataService, currentUser.getEmail());
         accountDetailsValidator.validate(accountCommand, result);
-        if (result.hasErrors()) {
-            model.addAttribute("accountDetailsCommand", accountCommand);
+        model.addAttribute("accountCommand", accountCommand);
+        
+        accountPresentation = new AccountPresentation(currentUser, accountDataService);
+        model.addAttribute("account", accountPresentation);
+        
+        if (result.hasErrors())
             return "account/details";
-        } 
+
+        
         accountCommand.updateAccount(currentUser);
         accountDataService.update(currentUser);
+        
+        model.addAttribute("successMessage", "Vos modifications ont bien été enregistrées.");
         return "account/details";
     }
     
@@ -148,7 +173,7 @@ public class AccountController extends AController {
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
             LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/my-webpages, check spring security configuration");
-            return "home";
+            return "guest/login";
         }
         model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchiveDataService.getAllFromUserAccount(currentUser));
         model.addAttribute("webarchiveListH1", "Mes webarchives");
@@ -166,7 +191,7 @@ public class AccountController extends AController {
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
             LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/my-testcases, check spring security configuration");
-            return "home";
+            return "guest/login";
         }
         //
         

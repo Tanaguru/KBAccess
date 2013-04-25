@@ -21,6 +21,7 @@
  */
 package org.opens.kbaccess.validator;
 
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.NewTestcaseCommand;
 import org.opens.kbaccess.entity.reference.Test;
 import org.opens.kbaccess.entity.service.reference.CriterionDataService;
@@ -87,28 +88,38 @@ public class NewTestcaseValidator implements Validator {
     }
     
     private boolean validateIdTest(NewTestcaseCommand newTestcaseCommand, Errors errors) {
+//        if (newTestcaseCommand.getIdTest() == null) {
+//            // if the criterion is specified, stops tests here and return true.
+//            if (newTestcaseCommand.getIdCriterion() == null) {
+//                // else, display an error message (both criterion and test
+//                // will have an error message).
+//                errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
+//                return false;
+//            }
+//        } else {
+//            Test test = testDataService.read(newTestcaseCommand.getIdTest());
+//            if (test == null) {
+//                errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
+//                return false;
+//            } else if (newTestcaseCommand.getIdCriterion() != null) {
+//                // check that the selected criterion contains the selected test
+//                if (test.getCriterion().getId() != newTestcaseCommand.getIdCriterion()) {
+//                    errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_FOR_GIVEN_CRITERION_KEY);
+//                    return false;                    
+//                }
+//            }
+//        }
+//        return true;
+        
+        
         if (newTestcaseCommand.getIdTest() == null) {
-            // if the criterion is specified, stops tests here and return true.
-            if (newTestcaseCommand.getIdCriterion() == null) {
-                // else, display an error message (both criterion and test
-                // will have an error message).
-                errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
-                return false;
-            }
-        } else {
-            Test test = testDataService.read(newTestcaseCommand.getIdTest());
-            
-            if (test == null) {
-                errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
-                return false;
-            } else if (newTestcaseCommand.getIdCriterion() != null) {
-                // check that the selected criterion contains the selected test
-                if (test.getCriterion().getId() != newTestcaseCommand.getIdCriterion()) {
-                    errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_FOR_GIVEN_CRITERION_KEY);
-                    return false;                    
-                }
-            }
+            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
+            return false;
+        } else if (testDataService.read(newTestcaseCommand.getIdTest()) == null) {
+            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
+            return false;
         }
+        
         return true;
     }
 
@@ -118,6 +129,7 @@ public class NewTestcaseValidator implements Validator {
             return false;
         } else if (resultDataService.read(newTestcaseCommand.getIdResult()) == null) {
             errors.rejectValue(FormKeyStore.ID_RESULT_KEY, MessageKeyStore.MISSING_RESULT_KEY);
+            return false;
         }
         return true;
     }
@@ -167,33 +179,29 @@ public class NewTestcaseValidator implements Validator {
         NewTestcaseCommand newTestcaseCommand = (NewTestcaseCommand)o;
         
         /* validate testcase */
-        if (validateIdCriterion(newTestcaseCommand, errors) == false) {
+        //if (!validateIdCriterion(newTestcaseCommand, errors)
+        if (!validateIdTest(newTestcaseCommand, errors)
+            || !validateIdResult(newTestcaseCommand, errors)) {
             hasError = true;
         }
-        if (validateIdTest(newTestcaseCommand, errors) == false) {
-            hasError = true;
-        }
-        if (validateIdResult(newTestcaseCommand, errors) == false) {
-            hasError = true;
-        }
+        
         /* validate webarchive */
         if (hasError == false && step == Step.STEP_WEBARCHIVE) {
-            if (validateCreateWebarchive(newTestcaseCommand, errors) == false) {
+            if (!validateCreateWebarchive(newTestcaseCommand, errors)) {
                 hasError = true;
             } else if (newTestcaseCommand.getCreateWebarchive()) {
-                if (validateUrlNewWebarchive(newTestcaseCommand, errors) == false) {
+                if (!validateUrlNewWebarchive(newTestcaseCommand, errors)) {
                     hasError = true;
                 }
             } else {
-                if (validateIdWebarchive(newTestcaseCommand, errors) == false) {
+                if (!validateIdWebarchive(newTestcaseCommand, errors)) {
                     hasError = true;
                 }
             }
         }
         
-        if (hasError) {
+        if (hasError) 
             errors.rejectValue(FormKeyStore.GENERAL_ERROR_MESSAGE_KEY, MessageKeyStore.MISSING_REQUIRED_FIELD);
-        }
     }
     
 }

@@ -58,4 +58,9 @@ public class AccountDetailsValidator extends AAccountValidator {
         }
         return true;
     }
+    
+    @Override
+    protected boolean validateAccessLevel(AccountCommand cmd, Errors errors) {
+        return true;
+    } 
 }

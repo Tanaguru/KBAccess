@@ -49,7 +49,7 @@
                                 <label class="control-label" for="subscription_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> Mot de passe :</label>
                                 <div class="controls">
                                     <form:password path="password" id="subscription_password"/>
-                                    <form:errors path="password" cssClass="error"/>
+                                    <form:errors path="password" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -59,28 +59,28 @@
                                 </label>
                                 <div class="controls">
                                     <form:password path="passwordConfirmation" id="subscription_password_confirmation"/>
-                                    <form:errors path="passwordConfirmation" cssClass="error"/>
+                                    <form:errors path="passwordConfirmation" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="subscription_lastname">Nom :</label>
                                 <div class="controls">
-                                    <form:input path="lastName" id="subscription_lastname"/>
-                                    <form:errors path="lastName" cssClass="error"/>
+                                    <form:input path="lastName" id="subscription_lastname" maxlength="30"/>
+                                    <form:errors path="lastName" cssClass="alert alert-error" element="p"/>         
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="subscription_firstname">Prénom :</label>
                                 <div class="controls">
-                                    <form:input path="firstName" id="subscription_firstname"/>
-                                    <form:errors path="firstName" cssClass="error"/>
+                                    <form:input path="firstName" id="subscription_firstname" maxlength="30"/>
+                                    <form:errors path="firstName" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="subscription_url">URL site web :</label>
                                 <div class="controls">
                                     <form:input path="url" id="subscription_url" />
-                                    <form:errors path="url" cssClass="error"/>
+                                    <form:errors path="url" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="form-actions">

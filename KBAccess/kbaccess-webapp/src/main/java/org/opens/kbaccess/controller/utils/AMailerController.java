@@ -146,6 +146,7 @@ public class AMailerController extends AController {
         return sendMail(subject, message, new String[] {account.getEmail()});
     }
     
+    
     public boolean sendNewPassword(String lang, Account account, String password) {
         String[] subjectAndMessage;
         String subject;
@@ -193,6 +194,11 @@ public class AMailerController extends AController {
         return sendMail(subject, message.toString(), recipients);
     }
     
+    /**
+     * 
+     * @param newTestcase
+     * @return 
+     */
     public boolean sendTestcaseCreationNotification(Testcase newTestcase) {
         StringBuilder message;
         String[] recipients;
@@ -222,6 +228,11 @@ public class AMailerController extends AController {
         return sendMail(subject, message.toString(), recipients);
     }
     
+    /**
+     * 
+     * @param webarchive
+     * @return 
+     */
     public boolean sendWebarchiveCreationNotification(Webarchive webarchive) {
         StringBuilder message;
         String[] recipients;

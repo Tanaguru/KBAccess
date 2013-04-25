@@ -9,9 +9,6 @@
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
         <div class="container-fluid">
-            <div class="page-header">
-                 <h1>KBAccess</h1>
-            </div>
             <div class="row-fluid">
                 <p>Bienvenue sur le site de KBAccess, la base de connaissance des bons et mauvais exemples d'accessibilité.</p>
             </div>

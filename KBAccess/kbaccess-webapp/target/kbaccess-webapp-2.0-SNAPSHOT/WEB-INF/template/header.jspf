@@ -9,6 +9,7 @@
                 <li><a href="<c:url value='/testcase/add.html'/>">Créer un testcase</a></li>
                 <li><a href="<c:url value='/testcase/search.html'/>">Chercher un testcase</a></li>
             </ul>
+                
             <%@include file="/WEB-INF/template/identification.jspf" %>
         </div>
     </div>

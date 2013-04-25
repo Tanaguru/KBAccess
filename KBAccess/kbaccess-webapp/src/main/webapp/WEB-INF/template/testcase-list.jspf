@@ -56,14 +56,15 @@
                                      or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
                                      or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
                             <c:if test="${hasCRUDPermission}">
-                                <a href="<c:url value='/testcase/edit-details.html?id=${testcase.id}'/>" title="Modifier testcase ${testcase.id}"
-                                class="tc-modify">
-                                    <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
+                                <a href="<c:url value='/testcase/edit-details.html?id=${testcase.id}'/>" 
+                                   title="Modifier testcase ${testcase.id}"
+                                   class="tc-modify">
+                                   <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
                                         alt="Modifier testcase ${testcase.id}" />
                                 </a>
-                                <a href="./testcase/delete.html?id=${testcase.id}"
-                                title="Supprimer testcase ${testcase.id}"
-                                class="tc-delete">
+                                <a href="<c:url value='/testcase/delete.html?id=${testcase.id}' />"
+                                   title="Supprimer testcase ${testcase.id}"
+                                   class="tc-delete">
                                     <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
                                             alt="Supprimer testcase ${testcase.id}" />
                                 </a>

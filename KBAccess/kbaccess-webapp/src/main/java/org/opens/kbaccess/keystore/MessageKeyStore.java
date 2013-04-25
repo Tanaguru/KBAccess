@@ -45,7 +45,9 @@ public final class MessageKeyStore {
     public static final String INVALID_TITLE_KEY = "invalidTitle";
     public static final String INVALID_URL_KEY = "invalidUrl";
     public static final String INVALID_WEBARCHIVE_KEY = "invalidWebarchive";
-
+    public static final String INVALID_FIRSTNAME_KEY = "invalidFirstName";
+    public static final String INVALID_LASTNAME_KEY = "invalidLastName";
+    
     public static final String MISSING_CONFIRMATION_PASSWORD_KEY = "missingConfirmationPassword";
     public static final String MISSING_CREATE_WEBARCHIVE_KEY = "missingCreateWebarchive";
     public static final String MISSING_CRITERION_KEY = "missingCriterion";

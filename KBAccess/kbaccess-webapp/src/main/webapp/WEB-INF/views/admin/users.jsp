@@ -45,12 +45,12 @@
                                     <td class="tdTableComptes">
                                         <c:choose>
                                             <c:when test="${authenticatedUser.accessLevel.rank < account.accessLevel.rank}">
-                                                <a href="<c:url value='/admin/edituser.html?id=${account.id}'/>" title="Modifier utilisateur ${account.id}"
+                                                <a href="<c:url value='/admin/edituser/${account.id}/edit.html'/>" title="Modifier utilisateur ${account.id}"
                                                     class="tc-modify">
                                                     <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
                                                         alt="Modifier utilisateur ${account.id}" />
                                                 </a>
-                                                <%--<a href="<c:url value='./admin/deleteuser.html?id=${account.id}'/>"
+                                                <%--<a href="<c:url value='./admin/deleteuser/{account.id}/delete.html'/>"
                                                     title="Supprimer account ${account.id}"
                                                     class="tc-delete">
                                                     <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"

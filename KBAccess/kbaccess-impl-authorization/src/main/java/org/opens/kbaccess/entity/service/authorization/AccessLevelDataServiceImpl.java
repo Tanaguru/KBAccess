@@ -21,6 +21,7 @@ public class AccessLevelDataServiceImpl extends
         super();
     }
 
+    @Override
     public AccessLevel getByCode(String code) {
         return ((AccessLevelDAO)entityDao).findByCode(code);
     }

@@ -59,6 +59,8 @@ public final class MessageKeyStore {
     public static final String MISSING_TITLE_KEY = "missingTitle";    
     public static final String MISSING_URL_KEY = "missingUrl";
     public static final String MISSING_WEBARCHIVE_KEY = "missingWebarchive";
+    
+    public static final String NOT_RESPONDING_URL = "notRespondingUrl";
 
     public static final String PASSWORD_MISMATCH_KEY = "passwordMismatch";
 }

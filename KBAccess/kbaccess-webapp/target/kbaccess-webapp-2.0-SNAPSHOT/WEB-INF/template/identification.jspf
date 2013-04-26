@@ -10,7 +10,7 @@
     </c:when>
     <c:otherwise>
         <ul class="nav pull-right">
-            <li><a href="<c:url value='/account/details.html'/>" title="mon compte">Mon compte</a></li>
+            <li><a href="<c:url value='/account/my-account.html'/>" title="mon compte">Mon compte</a></li>
             <li><a href="<c:url value='/account/logout.html'/>" title="d&eacute;connexion">Se d&eacute;connecter</a></li>
         </ul>
         <p class="navbar-text pull-right">

@@ -37,6 +37,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,10 +58,24 @@ public class AccountController extends AController {
     /*
      * account details handler
      */
+    @RequestMapping(value="my-account", method=RequestMethod.GET)
+    public String myAccountHandler(Model model) {    
+        return this.detailsHandler(AccountUtils.getInstance().getCurrentUser().getId(), model);
+    }
     
-    @RequestMapping(value="details", method=RequestMethod.GET)
+    @RequestMapping(value="my-account", method=RequestMethod.POST)
+    public String myAccountHandler(
+             @ModelAttribute("accountCommand") AccountCommand accountCommand,
+             BindingResult result,
+             Model model
+             ) {
+        
+        return this.detailsHandler(accountCommand, result, model);
+    }
+    
+    @RequestMapping(value="details/{id}/*", method=RequestMethod.GET)
     public String detailsHandler(
-            @RequestParam(value="id", required=false) Long id,
+            @PathVariable("id") Long id,
             Model model
             ) {
         boolean requestedUserIsCurrentUser;
@@ -111,7 +126,7 @@ public class AccountController extends AController {
         return "account/details";
     }
     
-    @RequestMapping(value="details", method=RequestMethod.POST)
+    @RequestMapping(value="details/{id}/*", method=RequestMethod.POST)
     public String detailsHandler(
             @ModelAttribute("accountCommand") AccountCommand accountCommand,
             BindingResult result,

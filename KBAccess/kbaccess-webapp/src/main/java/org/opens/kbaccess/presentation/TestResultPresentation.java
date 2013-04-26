@@ -32,7 +32,6 @@ public class TestResultPresentation {
     private Long resultId;
     private Long testId;
     
-    private String resultLabel;
     private String testLabel;
 
     public TestResultPresentation() {
@@ -41,7 +40,6 @@ public class TestResultPresentation {
     public TestResultPresentation(TestResult testResult) {
         this.resultId = testResult.getResult().getId();
         this.testId = testResult.getTest().getId();
-        this.resultLabel = testResult.getResult().getCode();
         this.testLabel = testResult.getTest().getLabel();
     }
 
@@ -51,14 +49,6 @@ public class TestResultPresentation {
 
     public void setResultId(Long resultId) {
         this.resultId = resultId;
-    }
-
-    public String getResultLabel() {
-        return resultLabel;
-    }
-
-    public void setResultLabel(String resultLabel) {
-        this.resultLabel = resultLabel;
     }
 
     public Long getTestId() {

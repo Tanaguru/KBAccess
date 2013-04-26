@@ -12,7 +12,7 @@
             <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
             <div class="page-header">
-                <h1>Modification du testcase n°${testcase.id} :<br /> ${testcase.title}</h1>
+                <h1>Modification du testcase <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
             </div>
             
             <c:choose>

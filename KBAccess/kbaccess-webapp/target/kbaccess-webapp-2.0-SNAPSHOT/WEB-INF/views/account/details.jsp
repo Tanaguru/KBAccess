@@ -38,7 +38,7 @@
                         <form:errors path="generalErrorMessage" cssClass="alert alert-error" element="p"/>         
                     </spring:hasBindErrors>
                         <div class="boite">
-                            <form:form action="details.html"
+                            <form:form action="my-account.html"
                                     commandName="accountCommand"
                                     method="POST"
                                     class="form-horizontal">

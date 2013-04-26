@@ -37,6 +37,7 @@ import org.springframework.validation.Validator;
 public abstract class AAccountValidator implements Validator {
 
     protected AccountDataService accountDataService;
+    protected boolean hasError = false;
     
     public AAccountValidator(AccountDataService accountDataService) {
         this.accountDataService = accountDataService;
@@ -47,7 +48,7 @@ public abstract class AAccountValidator implements Validator {
         return AccountCommand.class.isAssignableFrom(type);
     }
 
-    private boolean validatePassword(AccountCommand cmd, Errors errors) {
+    protected boolean validatePassword(AccountCommand cmd, Errors errors) {
         if (cmd.getPassword() == null || cmd.getPassword().isEmpty()) {
             errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.MISSING_PASSWORD_KEY);
             return false;
@@ -66,36 +67,57 @@ public abstract class AAccountValidator implements Validator {
     }
     
     protected abstract boolean validateEmail(AccountCommand cmd, Errors errors);
+    
+    protected abstract boolean validateAccessLevel(AccountCommand cmd, Errors errors);
 
     private boolean validateUrl(AccountCommand cmd, Errors errors) {
         if (cmd.getUrl() == null || cmd.getUrl().trim().isEmpty()) {
             // it's ok, the url is not required
             return true;
         }
-        if (UrlValidator.validate(cmd.getUrl()) == false) {
+        if (!UrlValidator.validate(cmd.getUrl())) {
             errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.INVALID_URL_KEY);
+            return false;
         }
         return true;
     }
     
+    private boolean validateFirstName(AccountCommand cmd, Errors errors) {
+        String firstName = cmd.getFirstName();
+        boolean hasCorrectSize = firstName.length() >= 0 && firstName.length() <= 80;
+            
+        if (!hasCorrectSize) {
+            errors.rejectValue(FormKeyStore.FIRSTNAME_KEY, MessageKeyStore.INVALID_FIRSTNAME_KEY);
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean validateLastName(AccountCommand cmd, Errors errors) {
+        String LastName = cmd.getLastName();
+        boolean hasCorrectSize = LastName.length() >= 0 && LastName.length() < 80;
+            
+        if (!hasCorrectSize) {
+            errors.rejectValue(FormKeyStore.LASTNAME_KEY, MessageKeyStore.INVALID_LASTNAME_KEY);
+            return false;
+        }
+        return true;
+    }   
+    
     @Override
     public void validate(Object o, Errors errors) {
         AccountCommand cmd = (AccountCommand) o;
-        boolean hasError = false;
-        
-        if (validatePassword(cmd, errors) == false) {
-            hasError = true;
+          
+        if (!validateEmail(cmd, errors)
+            || !validatePassword(cmd, errors)
+            || !validateUrl(cmd, errors)
+            || !validateFirstName(cmd, errors)   
+            || !validateLastName(cmd, errors) 
+            || !validateAccessLevel(cmd, errors)) {
+          
+            this.hasError = true;
         }
-        if (validateEmail(cmd, errors) == false) {
-            hasError = true;
-        }
-        if (validateUrl(cmd, errors) == false) {
-            hasError = true;
-        }
-        /*
-         * No controls done on first name and last name.
-         */
-        
+                 
         if (hasError) {
             // TODO : use keys
             errors.rejectValue(

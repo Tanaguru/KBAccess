@@ -21,12 +21,10 @@
  */
 package org.opens.kbaccess.presentation;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.entity.subject.TestResult;
 import org.opens.kbaccess.entity.subject.Testcase;
 
@@ -39,15 +37,14 @@ public class TestcasePresentation {
     private Long criterionId;
     private Long id;
     private Long referenceId;
+    private String referenceCode;
     private Long resultId;
     private Long webarchiveId;
 
     private String authorDisplayedName;
     private String description;
     private String detailsUrl;
-    private String title;
     private String referenceLabel;
-    private String resultLabel;
     private String webarchiveLocalUrl;
     private String webarchiveOriginalUrl;
     private String criterionLabel;
@@ -57,6 +54,7 @@ public class TestcasePresentation {
     
     private Collection<TestResultPresentation> testResults;
     private String testLabel;
+    
     // Description of the test and criterion on the original website of the accessibility reference
     private String webRefTestLabel;
     private String webRefCriterionLabel;
@@ -102,15 +100,14 @@ public class TestcasePresentation {
         this.criterionId = testcase.getCriterion().getId();
         this.id = testcase.getId();
         this.referenceId = testcase.getCriterion().getReference().getId();
+        this.referenceCode = testcase.getCriterion().getReference().getCode();
         this.resultId = testcase.getResult().getId();
         this.webarchiveId = testcase.getWebarchive().getId();
         this.authorDisplayedName = AccountPresentation.generateDisplayedName(testcase.getAccount());
         this.criterionLabel = testcase.getCriterion().getLabel();
         this.description = testcase.getDescription();
         this.detailsUrl = createDetailsSubUrl(testcase);
-        this.title = testcase.getTitle();
         this.referenceLabel = testcase.getCriterion().getReference().getLabel();
-        this.resultLabel = testcase.getResult().getLabel();
         this.webarchiveLocalUrl = testcase.getWebarchive().getLocalUrl();
         this.webarchiveOriginalUrl = testcase.getWebarchive().getUrl();
         this.criterionLabel = testcase.getCriterion().getLabel();
@@ -199,12 +196,12 @@ public class TestcasePresentation {
         this.id = id;
     }
 
-    public Long getReferenceId() {
-        return referenceId;
+    public String getReferenceCode() {
+        return referenceCode;
     }
 
-    public void setReferenceId(Long referenceId) {
-        this.referenceId = referenceId;
+    public void setReferenceCode(String referenceCode) {
+        this.referenceCode = referenceCode;
     }
 
     public String getReferenceLabel() {
@@ -223,28 +220,12 @@ public class TestcasePresentation {
         this.resultId = resultId;
     }
 
-    public String getResultLabel() {
-        return resultLabel;
-    }
-
-    public void setResultLabel(String resultLabel) {
-        this.resultLabel = resultLabel;
-    }
-
     public Collection<TestResultPresentation> getTestResults() {
         return testResults;
     }
 
     public void setTestResults(Collection<TestResultPresentation> testResults) {
         this.testResults = testResults;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Date getWebarchiveCreationDate() {
@@ -301,5 +282,13 @@ public class TestcasePresentation {
 
     public void setWebRefCriterionLabel(String webRefCriterionLabel) {
         this.webRefCriterionLabel = webRefCriterionLabel;
+    }
+
+    public Long getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(Long referenceId) {
+        this.referenceId = referenceId;
     }
 }

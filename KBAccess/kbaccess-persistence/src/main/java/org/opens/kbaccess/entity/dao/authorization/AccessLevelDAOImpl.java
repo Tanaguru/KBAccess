@@ -33,6 +33,7 @@ public class AccessLevelDAOImpl extends AbstractJPADAO<AccessLevel, Long>
         return entityManager.createQuery(query.toString());
     }
 
+    @Override
     public AccessLevel findByCode(String code) {
         Query query = selectAccessLevel("WHERE al.accessLevel = :code");
         

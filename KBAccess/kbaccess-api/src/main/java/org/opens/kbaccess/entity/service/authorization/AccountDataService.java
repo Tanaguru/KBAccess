@@ -25,4 +25,18 @@ public interface AccountDataService extends
      * @return  The number of Account in database
      */
     Long getCount();
+    
+    /**
+     * 
+     * @param idAccount
+     * @return the number of testcases from the account of idAccount
+     */
+    Long getNbTestcases(Long idAccount);
+    
+    /**
+     * 
+     * @param idAccount
+     * @return the number or webarchives from the account of idAccount
+     */
+    Long getNbWebarchives(Long idAccount);
 }

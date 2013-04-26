@@ -6,6 +6,9 @@
 
 */
 
+body {
+    background : linear-gradient(to bottom, #F4F4F4 55px, #F8F8F8 100%) repeat scroll 0 0 transparent;
+}
 .mandatory {
     color: red;
 }

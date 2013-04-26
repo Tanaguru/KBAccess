@@ -149,5 +149,31 @@ public class AccountImpl implements Account, Serializable {
     public void setRank(int rank) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 47 * hash + (this.email != null ? this.email.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AccountImpl other = (AccountImpl) obj;
+        if (!this.id.equals(other.id)) {
+            return false;
+        }
+        if (!this.email.equals(other.email)) {
+            return false;
+        }
+        return true;
+    }
 }
 

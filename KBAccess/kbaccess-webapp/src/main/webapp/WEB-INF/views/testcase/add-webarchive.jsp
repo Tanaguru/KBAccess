@@ -18,9 +18,7 @@
                     <form:hidden path="description"/>
                     <form:hidden path="idTest"/>
                     <form:hidden path="idResult"/>
-                    <spring:hasBindErrors name="newTestcaseCommand">
-                        <form:errors path="generalErrorMessage" cssClass="alert alert-error" element="p"/>
-                    </spring:hasBindErrors>
+                    <form:errors path="createWebarchive" cssClass="alert alert-error" element="p"/>
                     <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                     <div class="control-group">
                         <form:radiobutton path="createWebarchive" value="false" id="testcase_existing_webarchive"/>
@@ -34,7 +32,7 @@
                                             <option value="${webarchive.id}">${webarive.url} : ${webarchive.creationDate}</option>
                                         </c:forEach>
                                     </form:select>
-                                    <form:errors path="idWebarchive" cssClass="error" element="p"/>
+                                    <form:errors path="idWebarchive" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +45,7 @@
                                 <label class="control-label" for="webarchive_url"><span class="mandatory" title="Champ obligatoire">*</span>URL :</label>
                                 <div class="controls">
                                     <form:input path="urlNewWebarchive" id="webarchive_url"/>
-                                    <form:errors path="urlNewWebarchive" cssClass="error" element="p"/>
+                                    <form:errors path="urlNewWebarchive" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">

@@ -26,4 +26,17 @@ public interface AccountDAO extends GenericDAO<Account, Long> {
      */
     Long count();
     
+    /**
+     * 
+     * @param idAccount
+     * @return the number of testcases from the account of idAccount
+     */
+    Long countTestcases(Long idAccount);
+    
+    /**
+     * 
+     * @param idAccount
+     * @return the number or webarchives from the account of idAccount
+     */
+    Long countWebarchives(Long idAccount);
 }

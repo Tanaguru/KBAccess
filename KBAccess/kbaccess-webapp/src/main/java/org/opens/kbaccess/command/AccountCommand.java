@@ -21,6 +21,7 @@
  */
 package org.opens.kbaccess.command;
 
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.utils.ACommand;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.utils.SHA1Hasher;
@@ -59,12 +60,12 @@ public class AccountCommand extends ACommand {
     public AccountCommand() {
     }
     
-    public void updateAccount(Account currentUser) {
-        currentUser.setEmail(email);
-        currentUser.setFirstName(firstName);
-        currentUser.setLastName(lastName);
-        currentUser.setUrl(url);
-        currentUser.setPassword(SHA1Hasher.getInstance().hashAsString(password));
+    public void updateAccount(Account account) {
+        account.setEmail(email);
+        account.setFirstName(firstName);
+        account.setLastName(lastName);
+        account.setUrl(url);
+        account.setPassword(SHA1Hasher.getInstance().hashAsString(password));
     }
 
     public String getEmail() {
@@ -113,6 +114,5 @@ public class AccountCommand extends ACommand {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-    
+    }  
 }

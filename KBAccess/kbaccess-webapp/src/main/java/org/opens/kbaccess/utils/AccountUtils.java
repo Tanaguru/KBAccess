@@ -100,7 +100,38 @@ public class AccountUtils {
         
         boolean isTestcaseOwner = currentUser.getId().equals(testcase.getAccount().getId());
         
+        // Only the testcase owner and an admin or moderator can edit a testcase
         return (isTestcaseOwner || isAdminOrModerator(currentUser));
+    }
+    
+    /**
+     * 
+     * @return true if the current user has the permission to edit an account
+     */
+    public boolean currentUserhasPermissionToEditAccount(Account account) {
+        Account currentUser = getCurrentUser();
+        
+        boolean isAccountOwner = currentUser.getId().equals(account.getId());
+        boolean isAdmin = currentUser.getAccessLevel().getPriority() == 1;
+        boolean isNotAnAdminAccount = account.getAccessLevel().getPriority() != 1;
+        
+        // Only the account owner or an admin can edit an account (unless it's another admin account)
+        return ( isAccountOwner || (isAdmin && isNotAnAdminAccount) );
+    }
+    
+    /**
+     * 
+     * @return true if the current user has the permission to edit an account ans its role
+     */
+    public boolean currentUserHasPermissionToEditAccountWithRole(Account account) {
+        Account currentUser = getCurrentUser();
+        
+        boolean isAdmin = currentUser.getAccessLevel().getPriority() == 1;
+        boolean isNotAnAdminAccount = account.getAccessLevel().getPriority() != 1;
+        
+        // The only false case is if an admin tries to edit his own account role
+        // This is done to avoid an admin to accidentally downgrade his own role and not be able to come back
+        return (isAdmin && isNotAnAdminAccount);
     }
 
     public AccountDataService getAccountDataService() {

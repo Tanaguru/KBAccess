@@ -25,5 +25,13 @@ public class AccountDataServiceImpl extends AbstractGenericDataService<Account, 
         return ((AccountDAO) entityDao).count();
     }
     
+    @Override
+    public Long getNbTestcases(Long accountId) {
+        return ((AccountDAO) entityDao).countTestcases(accountId);
+    }
     
+    @Override
+    public Long getNbWebarchives(Long accountId) {
+        return ((AccountDAO) entityDao).countWebarchives(accountId);
+    }
 }

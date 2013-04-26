@@ -55,5 +55,9 @@ public class NewAccountValidator extends AAccountValidator {
         }
         return true;
     }
-
+    
+    @Override
+    protected boolean validateAccessLevel(AccountCommand command, Errors errors) {
+        return true;
+    } 
 }

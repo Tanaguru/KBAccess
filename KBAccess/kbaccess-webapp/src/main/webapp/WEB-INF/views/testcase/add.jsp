@@ -15,14 +15,11 @@
             <h1 class="page-header">Ajout d'un testcase, étape 1/3 : Caractéristiques du testcase</h1>
             <div class="row-fluid">
                 <form:form commandName="newTestcaseCommand" action="add.html" method="POST">
-                    <spring:hasBindErrors name="newTestcaseCommand">
-                        <form:errors path="generalErrorMessage" cssClass="alert alert-error" element="p"/>
-                    </spring:hasBindErrors>
                     <table summary="">
                         <tbody>
                             <tr>
                                 <td colspan="2">
-                                    Les champs obligatoires sont préfixés d'une astérisque <%@include file="/WEB-INF/template/inline/mandatory.jspf"%>.
+                                    <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                                 </td>
                             </tr>
                             <tr>
@@ -33,7 +30,7 @@
                                     <form:select path="idTest" id="testcase_idtest" size="5">
                                         <%@include file="/WEB-INF/template/form/options/test-ids.jspf" %>
                                     </form:select>
-                                    <form:errors path="idTest" cssClass="error" element="p"/>
+                                    <form:errors path="idTest" cssClass="alert alert-error" element="p"/>
                                 </td>
                             </tr>
                             <tr>
@@ -44,7 +41,7 @@
                                     <form:select path="idResult" id="testcase_idresult" size="4">
                                         <%@include file="/WEB-INF/template/form/options/result-ids.jspf" %>
                                     </form:select>
-                                    <form:errors path="idResult" cssClass="error" element="p"/>
+                                    <form:errors path="idResult" cssClass="alert alert-error" element="p"/>
                                 </td>
                             </tr>
                             <tr>

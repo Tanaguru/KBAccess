@@ -22,7 +22,9 @@
 package org.opens.kbaccess.presentation;
 
 import java.util.Date;
+import org.opens.kbaccess.entity.authorization.AccessLevel;
 import org.opens.kbaccess.entity.authorization.Account;
+import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 
 /**
  *
@@ -41,6 +43,8 @@ public class AccountPresentation {
     
     private Date subscriptionDate;
     private Date lastOperationDate;
+    
+    private AccessLevel accessLevel;
     
     public static String generateDisplayedName(Account account) {
         boolean hasAValidFirstName;
@@ -67,10 +71,11 @@ public class AccountPresentation {
     public AccountPresentation() {
     }
 
-    public AccountPresentation(Account account) {
+    public AccountPresentation(Account account, AccountDataService accountDataService) {
         this.id = account.getId();
-        this.nbCreatedTestcases = 0L; // TODO
-        this.nbCreatedWebarchives = 0L; // TODO
+        this.accessLevel = account.getAccessLevel();
+        this.nbCreatedTestcases = accountDataService.getNbTestcases(this.id);
+        this.nbCreatedWebarchives = accountDataService.getNbWebarchives(this.id);
         this.firstName = account.getFirstName();
         this.lastName = account.getLastName();
         this.email = account.getEmail();
@@ -151,4 +156,11 @@ public class AccountPresentation {
         this.subscriptionDate = subscriptionDate;
     }
 
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
+    }
 }

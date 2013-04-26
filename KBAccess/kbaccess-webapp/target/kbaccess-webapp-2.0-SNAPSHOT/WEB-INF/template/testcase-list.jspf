@@ -2,7 +2,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<c:set var="snapshotService" value="http://www.websitethumbnail.de/shots/artviperx.php?userID=WT_7dbbe65a0bb8ca00495ab5d6a8781063&q=90&w=80&h=60&url="/>
+<c:set var='snapshotService' value='http://www.websitethumbnail.de/shots/artviperx.php?userID=WT_7dbbe65a0bb8ca00495ab5d6a8781063&q=90&w=80&h=60&url='/>
 <c:choose>
     <c:when test="${testcaseList == null or empty testcaseList}">
         <p class="alert alert-info">Aucun testcase.</p>
@@ -15,12 +15,15 @@
                 <th scope="col">Test d'accessibilité</th>
                 <th scope="col">Résultat</th>
                 <th scope="col">Date du testcase</th>
-                <th scope="col">Titre</th>
+                <th scope="col">Description</th>
                 <th scope="col">Contributeur</th>
                 <th scope="col">Actions</th>
                 <th scope="col">Détails</th>
             </tr>
             <c:forEach var="testcase" items="${testcaseList}">
+                <c:set var="testcaseUrl">
+                    <%@include file="/WEB-INF/template/inline/testcase-url.jspf" %>
+                </c:set>
                 <tr>
                     <td>
                         <a href="${testcase.webarchiveLocalUrl}" title="${testcase.webarchiveLocalUrl}">
@@ -43,12 +46,17 @@
                                 <c:otherwise>
                                 </c:otherwise>
                             </c:choose>
-                            <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="référence du test">${testResult.testLabel}</a>    
+                            <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="référence du test ${testResult.testLabel}">${testResult.testLabel}</a>    
+                            (<abbr title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>)
                         </c:forEach>
                     </td>
-                    <td>${testcase.resultLabel}</td>
+                    <td>
+                        <c:set var='resultId' value='${testcase.resultId}'/>
+                        <c:set var='withAccents' value='true' />
+                        <%@include file="/WEB-INF/template/inline/result.jspf" %>
+                    </td>
                     <td><fmt:formatDate pattern="dd/MM/yyyy hh'h'mm" value="${testcase.creationDate}"/></td>
-                    <td>${testcase.title}</td>
+                    <td>${testcase.description}</td>
                     <td>${testcase.authorDisplayedName}</td>
                     <td>     
                             <c:set var="hasCRUDPermission"
@@ -56,22 +64,25 @@
                                      or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
                                      or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
                             <c:if test="${hasCRUDPermission}">
-                                <a href="<c:url value='/testcase/edit-details.html?id=${testcase.id}'/>" title="Modifier testcase ${testcase.id}"
-                                class="tc-modify">
-                                    <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
+                                <a href="<c:url value='/testcase/edit-details/${testcase.id}/${testcaseUrl}'/>" 
+                                   title="Modifier testcase ${testcase.id}"
+                                   class="tc-modify">
+                                   <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
                                         alt="Modifier testcase ${testcase.id}" />
                                 </a>
-                                <a href="./testcase/delete.html?id=${testcase.id}"
-                                title="Supprimer testcase ${testcase.id}"
-                                class="tc-delete">
+                                <a href="<c:url value='/testcase/delete/${testcase.id}/${testcaseUrl}' />"
+                                   title="Supprimer testcase ${testcase.id}"
+                                   class="tc-delete">
                                     <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
                                             alt="Supprimer testcase ${testcase.id}" />
                                 </a>
                             </c:if>
                     </td>
                     <td>
-                        <a title="Détails du testcase n°${testcase.id}" href="<c:url value='/testcase/details/${testcase.detailsUrl}'/>" class="btn btn-info">
-                            <span class="icon-white icon-list"></span>&nbsp;Détails
+                        <a href="<c:url value='/testcase/details/${testcase.id}/${testcaseUrl}'/>"
+                           title="Détails du testcase ${testcase.id}"> 
+                            <img src="<c:url value='/assets/images/icon-crystalclear-details-button-16x16.png'/>"
+                                 alt="Détails du testcase ${testcase.id}" />
                         </a>
                     </td>
                 </tr>

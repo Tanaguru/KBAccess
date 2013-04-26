@@ -33,6 +33,8 @@ public final class FormKeyStore {
     public final static String CONFIRMATION_PASSWORD_KEY = "passwordConfirmation";
     public final static String CREATE_WEBARCHIVE_KEY = "createWebarchive";
     public final static String EMAIL_KEY = "email";
+    public final static String FIRSTNAME_KEY = "firstName";
+    public final static String LASTNAME_KEY = "lastName";
     public final static String GENERAL_ERROR_MESSAGE_KEY = "generalErrorMessage";
     public final static String ID_CRITERION_KEY = "idCriterion";
     public final static String ID_RESULT_KEY = "idResult";

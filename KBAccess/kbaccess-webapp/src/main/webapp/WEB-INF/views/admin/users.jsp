@@ -25,7 +25,7 @@
                                 <th class="thTableComptes">Rôle</th>
                                 <th class="thTableComptes">URL</th>
                                 <th class="thTableComptes">Etat</th>
-                                <th class="thTableComptes">Supprimer</th>
+                                <th class="thTableComptes">Actions</th>
                             </tr>
                             <c:forEach var="account" items="${accountList}">
                                 <tr>
@@ -45,9 +45,17 @@
                                     <td class="tdTableComptes">
                                         <c:choose>
                                             <c:when test="${authenticatedUser.accessLevel.rank < account.accessLevel.rank}">
-                                                <a href="<c:url value='/account/delete.html?id=${account.id}'/>">
-                                                    Supprimer
+                                                <a href="<c:url value='/admin/edituser/${account.id}/edit.html'/>" title="Modifier utilisateur ${account.id}"
+                                                    class="tc-modify">
+                                                    <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
+                                                        alt="Modifier utilisateur ${account.id}" />
                                                 </a>
+                                                <%--<a href="<c:url value='./admin/deleteuser/{account.id}/delete.html'/>"
+                                                    title="Supprimer account ${account.id}"
+                                                    class="tc-delete">
+                                                    <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
+                                                            alt="Supprimer account ${account.id}" />
+                                                </a>--%>
                                             </c:when>
                                             <c:otherwise>
                                                 Droits insufisants

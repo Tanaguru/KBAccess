@@ -125,7 +125,7 @@ public class WebarchiveController extends AMailerController {
         account = AccountUtils.getInstance().getCurrentUser();
         if (account == null) {
             LogFactory.getLog(WebarchiveController.class).error("An unauthentified user reached webarchive/add. Check spring security configuration.");
-            return "home";
+            return "guest/login";
         }
         // create webarchive
         webarchive = createWebarchive(account, webarchiveCommand.getUrl(), webarchiveCommand.getDescription());

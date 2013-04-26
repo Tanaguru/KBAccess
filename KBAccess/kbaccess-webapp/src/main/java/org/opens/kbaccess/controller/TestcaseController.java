@@ -375,7 +375,7 @@ public class TestcaseController extends AMailerController {
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached testcase/add-finalize. Check spring security configuration.");
-            return "home";
+            return "guest/login";
         }
         // get webarchive
         if (testcaseCommand.getCreateWebarchive() == false) {
@@ -429,9 +429,9 @@ public class TestcaseController extends AMailerController {
     /*
      * Handlers to modify a testcase
      */
-    @RequestMapping(value="edit-details", method=RequestMethod.GET, params="id")
+    @RequestMapping(value="edit-details/{id}/*", method=RequestMethod.GET)
     public String editDetailsHandler(
-            @RequestParam("id") Long id,
+            @PathVariable("id") Long id,
             Model model
             ) {
         EditTestcaseCommand editTestcaseCommand;
@@ -454,7 +454,7 @@ public class TestcaseController extends AMailerController {
         account = AccountUtils.getInstance().getCurrentUser();
         if (account == null) {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached testcase/edit-details. Check spring security configuration.");
-            return "home";
+            return "guest/login";
         } else if (!AccountUtils.getInstance().currentUserhasPermissionToEditTestcase(testcase)) {
             model.addAttribute("errorMessage", "Vous n'êtes pas autorisé à modifier ce testcase.");
             return "testcase/edit-details";
@@ -469,7 +469,7 @@ public class TestcaseController extends AMailerController {
         //return "testcase/edit-details";
     }
     
-    @RequestMapping(value="edit-details", method=RequestMethod.POST)
+    @RequestMapping(value="edit-details/{id}/*", method=RequestMethod.POST)
     public String editDetailsHandler(
             @ModelAttribute("editTestcaseCommand") EditTestcaseCommand editTestcaseCommand,
             BindingResult result,
@@ -487,7 +487,7 @@ public class TestcaseController extends AMailerController {
         account = AccountUtils.getInstance().getCurrentUser();
         if (account == null) {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached edit-details. Check spring security configuration.");
-            return "home";
+            return "guest/login";
         }
         
         // fetch testcase
@@ -514,11 +514,11 @@ public class TestcaseController extends AMailerController {
         testcaseDataService.saveOrUpdate(testcase);
         
         // confirmation message
-        model.addAttribute("successMessage", "Vos modifications ont bien été enregistrées.");
+        model.addAttribute("successMessage", "Le testcase a bien été modifié.");
         return displayTestcaseDetails(model, testcase);
     }
     
-    @RequestMapping(value="details/{id:\\d+}*", method={RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value="details/{id}/*", method={RequestMethod.GET, RequestMethod.POST })
     public String detailsHandler(
             @PathVariable("id") Long id,
             Model model
@@ -539,9 +539,9 @@ public class TestcaseController extends AMailerController {
     /*
      * Handlers to delete a testcase
      */
-    @RequestMapping(value="delete", method=RequestMethod.GET, params="id")
+    @RequestMapping(value="delete/{id}/*", method=RequestMethod.GET)
     public String deleteHandler(
-            @RequestParam("id") Long id,
+            @PathVariable("id") Long id,
             Model model
             ) {
         DeleteTestcaseCommand deleteTestcaseCommand;
@@ -565,7 +565,7 @@ public class TestcaseController extends AMailerController {
         account = AccountUtils.getInstance().getCurrentUser();
         if (account == null) {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached testcase/delete. Check spring security configuration.");
-            return "home";
+            return "guest/login";
         } else if (!AccountUtils.getInstance().currentUserhasPermissionToEditTestcase(testcase)) {
             model.addAttribute("errorMessage", "Vous n'êtes pas autorisé à supprimer ce testcase.");
             return "testcase/delete";
@@ -579,7 +579,7 @@ public class TestcaseController extends AMailerController {
         return "testcase/delete";
     }
     
-    @RequestMapping(value="delete", method=RequestMethod.POST)
+    @RequestMapping(value="delete/{id}/*", method=RequestMethod.POST)
     public String confirmDeleteHandler(
             @ModelAttribute("deleteTestcaseCommand") DeleteTestcaseCommand deleteTestcaseCommand,
             BindingResult result,
@@ -609,7 +609,7 @@ public class TestcaseController extends AMailerController {
         account = AccountUtils.getInstance().getCurrentUser();
         if (account == null) {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached testcase/delete. Check spring security configuration.");
-            return "home";
+            return "guest/login";
         } else if (!AccountUtils.getInstance().currentUserhasPermissionToEditTestcase(testcase)) {
             model.addAttribute("errorMessage", "Vous n'êtes pas autorisé à supprimer ce testcase.");
             return "testcase/delete";

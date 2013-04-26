@@ -6,6 +6,12 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
+    <c:set var="testcaseUrl">
+        <%@include file="/WEB-INF/template/inline/testcase-url.jspf" %>
+    </c:set>
+    <c:set var="title">
+        <%@include file="/WEB-INF/template/inline/testcase-details-title.jspf" %>
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
@@ -20,7 +26,7 @@
             </c:if>
             
             <div class="page-header">
-                <h1>Testcase n°${testcase.id} : ${testcase.title}</h1>
+                <h1>Testcase <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
             </div>
             <div class="row-fluid">
                 <div class="span2">
@@ -42,7 +48,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Auteur :</th>
-                           <td><a href="<c:url value='/account/details.html?id=${testcase.authorId}'/>">${testcase.authorDisplayedName}</a></td>
+                           <td><a href="<c:url value='/account/details/${testcase.authorId}/profile.html'/>">${testcase.authorDisplayedName}</a></td>
                         </tr>
                     </table>
                 </div>
@@ -57,7 +63,7 @@
                             <!--<dt>Résultat :</dt>
                             <dd>
                                 <a href="<c:url value='/testcase/list.html?result=${testcase.resultId}&amp;criterion=${testcase.criterionId}'/>">--%>
-                                    <c:set var="result" value="${testcase.resultLabel}"/>
+                                    <c:set var="resultId" value="${testcase.resultId}"/>
                                     <%@include file="/WEB-INF/template/inline/result.jspf" %>
                                 </a>
                             </dd>-->
@@ -69,7 +75,7 @@
                                         <a href="<c:url value='http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}'/>">${testResult.testLabel}</a><br />
                                         <dt>Résultat :</dt>
                                         <dd>
-                                            <c:set var="result" value="${testResult.resultLabel}"/>
+                                            <c:set var="resultId" value="${testResult.resultId}"/>
                                             <%@include file="/WEB-INF/template/inline/result.jspf" %>
                                         </dd>
                                     </c:forEach>
@@ -88,8 +94,8 @@
                         <c:choose>
                             <c:when test="${hasCRUDPermission}">
                                 <p class="alert alert-info">
-                                    <a href="<c:url value='/testcase/edit-details.html?id=${testcase.id}'/>">Modifier</a><br/>
-                                    <a href="<c:url value='/testcase/delete.html?id=${testcase.id}'/>">Supprimer</a>
+                                    <a href="<c:url value='/testcase/edit-details/${testcase.id}/${testcaseUrl}'/>">Modifier</a><br/>
+                                    <a href="<c:url value='/testcase/delete/${testcase.id}/${testcaseUrl}'/>">Supprimer</a>
                                 </p>
                             </c:when>
                             <c:otherwise>

@@ -21,10 +21,7 @@
  */
 package org.opens.kbaccess.validator;
 
-import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.EditTestcaseCommand;
-import org.opens.kbaccess.controller.TestcaseController;
-import org.opens.kbaccess.entity.service.reference.CriterionDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.reference.TestDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;

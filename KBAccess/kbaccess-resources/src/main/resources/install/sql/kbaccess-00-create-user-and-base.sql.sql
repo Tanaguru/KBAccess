@@ -1,0 +1,8 @@
+CREATE USER 'kbaccess'@'localhost' IDENTIFIED BY 'custompassword';
+GRANT USAGE ON * . * TO 'kbaccess'@'localhost' IDENTIFIED BY 'custompassword' WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0 ;
+
+CREATE DATABASE IF NOT EXISTS `kbaccess` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+GRANT ALL PRIVILEGES ON `kbaccess` . * TO 'kbaccess'@'localhost';
+
+FLUSH PRIVILEGES;
+

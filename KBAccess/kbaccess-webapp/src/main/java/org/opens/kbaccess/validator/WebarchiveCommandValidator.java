@@ -46,7 +46,7 @@ public class WebarchiveCommandValidator implements Validator {
         if (webarchiveCommand.getUrl() == null || webarchiveCommand.getUrl().isEmpty()) {
             errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.MISSING_URL_KEY);
             return false;
-        } else if (UrlValidator.validate(webarchiveCommand.getUrl()) == false) {
+        } else if (!UrlValidator.validate(webarchiveCommand.getUrl())) {
             errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.INVALID_URL_KEY);
             return false;
         }
@@ -58,7 +58,7 @@ public class WebarchiveCommandValidator implements Validator {
         WebarchiveCommand webarchiveCommand = (WebarchiveCommand) o;
         boolean hasError = false;
         
-        if (validateUrl(webarchiveCommand, errors) == false) {
+        if (!validateUrl(webarchiveCommand, errors)) {
             hasError = true;
         }
         

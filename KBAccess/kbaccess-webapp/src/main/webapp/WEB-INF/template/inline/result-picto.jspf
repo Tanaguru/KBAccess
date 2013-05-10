@@ -1,23 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
-    <%-- No accents results are used for urls --%>
     <c:choose>
-        <c:when test="${withAccents == 'true'}">
-            <c:choose>
-                <c:when test="${resultId == 1}">validé</c:when>
-                <c:when test="${resultId == 2}">invalidé</c:when>
-                <c:when test="${resultId == 3}">NA</c:when>
-                <c:when test="${resultId == 4}">indéterminé</c:when>
-                <c:otherwise>indetermine</c:otherwise>
-            </c:choose>
+        <c:when test="${resultId == 1}">
+            <img src="<c:url value='/assets/images/ico-passed-${pictoSize}.png'/>" alt="Validé"/>
+        </c:when>
+        <c:when test="${resultId == 2}">
+            <img src="<c:url value='/assets/images/ico-failed-${pictoSize}.png'/>" alt="Invalidé"/>
+        </c:when>
+        <c:when test="${resultId == 3}">
+            <img src="<c:url value='/assets/images/ico-na-${pictoSize}.png'/>" alt="NA"/>
+        </c:when>
+        <c:when test="${resultId == 4}">
+            <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="Indéterminé"/>
         </c:when>
         <c:otherwise>
-            <c:choose>
-                <c:when test="${resultId == 1}">valide</c:when>
-                <c:when test="${resultId == 2}">invalide</c:when>
-                <c:when test="${resultId == 3}">NA</c:when>
-                <c:when test="${resultId == 4}">indétermine</c:when>
-                <c:otherwise>indéterminé</c:otherwise>
-            </c:choose>
+            <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="Indéterminé"/>
         </c:otherwise>
     </c:choose>

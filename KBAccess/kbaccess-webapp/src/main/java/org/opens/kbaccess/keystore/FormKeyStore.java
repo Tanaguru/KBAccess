@@ -30,20 +30,20 @@ public final class FormKeyStore {
     private FormKeyStore() {
     }
     
-    public final static String CONFIRMATION_PASSWORD_KEY = "passwordConfirmation";
-    public final static String CREATE_WEBARCHIVE_KEY = "createWebarchive";
-    public final static String EMAIL_KEY = "email";
-    public final static String FIRSTNAME_KEY = "firstName";
-    public final static String LASTNAME_KEY = "lastName";
-    public final static String GENERAL_ERROR_MESSAGE_KEY = "generalErrorMessage";
-    public final static String ID_CRITERION_KEY = "idCriterion";
-    public final static String ID_RESULT_KEY = "idResult";
-    public final static String ID_TEST_KEY = "idTest";
-    public final static String ID_WEBARCHIVE_KEY = "idWebarchive";
-    public final static String NEW_PASSWORD_KEY = "newPassword";
-    public final static String OLD_PASSWORD_KEY = "oldPassword";
-    public final static String PASSWORD_KEY = "password";
-    public final static String TITLE_KEY = "title";
-    public final static String URL_KEY = "url";
-    public final static String URL_NEW_WEBARCHIVE_KEY = "urlNewWebarchive";
+    public static final String CONFIRMATION_PASSWORD_KEY = "passwordConfirmation";
+    public static final String CREATE_WEBARCHIVE_KEY = "createWebarchive";
+    public static final String EMAIL_KEY = "email";
+    public static final String FIRSTNAME_KEY = "firstName";
+    public static final String LASTNAME_KEY = "lastName";
+    public static final String GENERAL_ERROR_MESSAGE_KEY = "generalErrorMessage";
+    public static final String ID_CRITERION_KEY = "idCriterion";
+    public static final String ID_RESULT_KEY = "idResult";
+    public static final String ID_TEST_KEY = "idTest";
+    public static final String ID_WEBARCHIVE_KEY = "idWebarchive";
+    public static final String NEW_PASSWORD_KEY = "newPassword";
+    public static final String OLD_PASSWORD_KEY = "oldPassword";
+    public static final String PASSWORD_KEY = "password";
+    public static final String TITLE_KEY = "title";
+    public static final String URL_KEY = "url";
+    public static final String URL_NEW_WEBARCHIVE_KEY = "urlNewWebarchive";
 }

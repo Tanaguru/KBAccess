@@ -6,55 +6,54 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
+    <c:set var="title" value="Suppression du testcase ${testcase.id}" />
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
         
-        <div class="container-fluid">
-            <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
+        <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
-            <div class="page-header">
-                <h1>Supppression du testcase <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
-           </div>
-           
-            <c:choose>
-                <%-- An error occured when deleting the testcase --%>
-                <c:when test="${not empty errorMessage}">
-                    <div class="row-fluid">
-                        <p class="alert alert-error">${errorMessage}</p>
-                    </div>
-                </c:when>
-                <%-- Confirmation that the testcase has been deleted --%>
-                <c:when test="${not empty successMessage}">
-                    <div class="row-fluid">
-                        <p class="alert alert-success">${successMessage}</p>
-                    </div>
-                </c:when>
-                <%-- Ask confirmation for deleting the testcase --%>
-                <c:otherwise>
-                    <c:set var="hasCRUDPermission"
-                            value="${authenticatedUser.id == testcase.authorId
-                                     or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
-                                     or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
-                        <c:choose>
-                            <c:when test="${hasCRUDPermission}">
-                                <div class="row-fluid">
-                                    <p>Etes vous sur de vouloir supprimer ce testcase ? </p>
-                                       <form:form  class="form-horizontal" commandName="deleteTestcaseCommand" action="delete.html" method="POST">
-                                           <form:hidden path="id"></form:hidden>  
-                                           <button class="btn btn-primary">Confirmer</button>   
-                                       </form:form>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <p class="alert alert-error">
-                                    Vous n'êtes pas autorisé à supprimer ce testcase.
-                                </p>
-                            </c:otherwise>
-                        </c:choose>
-                </c:otherwise>
-             </c:choose>
-        </div>
+        <div class="page-header">
+            <h1>Supppression du testcase <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
+       </div>
+
+        <c:choose>
+            <%-- An error occured when deleting the testcase --%>
+            <c:when test="${not empty errorMessage}">
+                <div class="row-fluid">
+                    <p class="alert alert-error">${errorMessage}</p>
+                </div>
+            </c:when>
+            <%-- Confirmation that the testcase has been deleted --%>
+            <c:when test="${not empty successMessage}">
+                <div class="row-fluid">
+                    <p class="alert alert-success">${successMessage}</p>
+                </div>
+            </c:when>
+            <%-- Ask confirmation for deleting the testcase --%>
+            <c:otherwise>
+                <c:set var="hasCRUDPermission"
+                        value="${authenticatedUser.id == testcase.authorId
+                                 or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
+                                 or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
+                    <c:choose>
+                        <c:when test="${hasCRUDPermission}">
+                            <div class="row-fluid">
+                                <p>Etes-vous sûr de vouloir supprimer ce testcase ? </p>
+                                   <form:form  class="form-horizontal" commandName="deleteTestcaseCommand" action="delete.html" method="POST">
+                                       <form:hidden path="id"></form:hidden>  
+                                       <button class="btn btn-primary">Confirmer</button>   
+                                   </form:form>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <p class="alert alert-error">
+                                Vous n'êtes pas autorisé à supprimer ce testcase.
+                            </p>
+                        </c:otherwise>
+                    </c:choose>
+            </c:otherwise>
+         </c:choose>
             
         <%@include file='/WEB-INF/template/footer.jspf' %>
     </body>

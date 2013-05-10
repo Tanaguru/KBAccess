@@ -11,6 +11,7 @@
         <intercept-url pattern="/j_spring_security_check*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/guest/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/testcase/search.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/testcase/search-by-url.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/testcase/result.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/> 
         <intercept-url pattern="/testcase/list.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/testcase/details/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>

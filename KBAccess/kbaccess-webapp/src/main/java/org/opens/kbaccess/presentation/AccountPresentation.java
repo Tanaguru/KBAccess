@@ -40,6 +40,7 @@ public class AccountPresentation {
     private String lastName;
     private String email;
     private String displayedName;
+    private String myUrl;
     
     private Date subscriptionDate;
     private Date lastOperationDate;
@@ -50,8 +51,8 @@ public class AccountPresentation {
         boolean hasAValidFirstName;
         boolean hasAValidLastName;
         
-        hasAValidFirstName = (account.getFirstName() != null && account.getFirstName().isEmpty() == false);
-        hasAValidLastName = (account.getLastName() != null && account.getLastName().isEmpty() == false);
+        hasAValidFirstName = (account.getFirstName() != null && !account.getFirstName().isEmpty());
+        hasAValidLastName = (account.getLastName() != null && !account.getLastName().isEmpty());
         if (hasAValidFirstName && hasAValidLastName) {
             return new StringBuilder().append(account.getFirstName()).append(" ").append(account.getLastName()).toString();
         } else if (hasAValidFirstName) {
@@ -79,6 +80,7 @@ public class AccountPresentation {
         this.firstName = account.getFirstName();
         this.lastName = account.getLastName();
         this.email = account.getEmail();
+        this.myUrl = account.getUrl();
         this.displayedName = generateDisplayedName(account);
         this.subscriptionDate = account.getSubscriptionDate();
         this.lastOperationDate = new Date(0L); // TODO
@@ -163,4 +165,13 @@ public class AccountPresentation {
     public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
+
+    public String getMyUrl() {
+        return myUrl;
+    }
+
+    public void setMyUrl(String myUrl) {
+        this.myUrl = myUrl;
+    }
 }
+

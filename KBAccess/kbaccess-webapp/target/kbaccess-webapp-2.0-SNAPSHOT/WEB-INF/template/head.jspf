@@ -1,8 +1,0 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!-- Combo-handled YUI CSS files: -->
-    <link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/bootstrap.css'/>"/>
-    <link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/style.css'/>"/>
-    <title>${title}</title>
-</head>

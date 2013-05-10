@@ -21,7 +21,6 @@
  */
 package org.opens.kbaccess.command;
 
-import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.utils.ACommand;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.utils.SHA1Hasher;

@@ -40,7 +40,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -162,9 +161,9 @@ public class AccountController extends AController {
         accountPresentation = new AccountPresentation(currentUser, accountDataService);
         model.addAttribute("account", accountPresentation);
         
-        if (result.hasErrors())
+        if (result.hasErrors()) {
             return "account/details";
-
+        }
         
         accountCommand.updateAccount(currentUser);
         accountDataService.update(currentUser);

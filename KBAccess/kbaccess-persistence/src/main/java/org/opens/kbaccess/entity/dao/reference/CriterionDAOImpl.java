@@ -7,7 +7,6 @@ import org.opens.kbaccess.entity.reference.Criterion;
 import org.opens.kbaccess.entity.reference.CriterionImpl;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.Theme;
-import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 import org.opens.tanaguru.sdk.entity.dao.jpa.AbstractJPADAO;
 
 public class CriterionDAOImpl extends AbstractJPADAO<Criterion, Long> implements

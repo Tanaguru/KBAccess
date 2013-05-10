@@ -4,7 +4,6 @@ import java.util.Date;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.Criterion;
 import org.opens.kbaccess.entity.reference.Result;
-import org.opens.kbaccess.entity.reference.Test;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.TestcaseImpl;
 import org.opens.kbaccess.entity.subject.Webarchive;
@@ -31,7 +30,6 @@ public class TestcaseFactoryImpl implements TestcaseFactory {
     @Override
     public Testcase createFromCriterion(
             Account account,
-            String title,
             Webarchive webarchive,
             Result result,
             Criterion criterion,
@@ -40,7 +38,6 @@ public class TestcaseFactoryImpl implements TestcaseFactory {
             ) {
         Testcase tc = create();
         
-        tc.setTitle(title);
         tc.setWebarchive(webarchive);
         tc.setAccount(account);
         tc.setResult(result);

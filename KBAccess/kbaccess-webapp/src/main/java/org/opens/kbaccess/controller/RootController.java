@@ -48,6 +48,8 @@ public class RootController extends AController {
     @Autowired
     private StatisticsDataService statisticsDataService;
     
+    private static final int NB_TESTCASES_DISPLAYED = 5;
+    
     /*
      * Endpoints
      */
@@ -68,7 +70,7 @@ public class RootController extends AController {
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY,
                 TestcasePresentation.fromCollection(
-                testcaseDataService.getLastTestcases(5),
+                testcaseDataService.getLastTestcases(NB_TESTCASES_DISPLAYED),
                 true
                 ));
         

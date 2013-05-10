@@ -52,10 +52,10 @@ public class AccountWithRoleValidator extends AccountDetailsValidator {
     // 
     protected boolean validatePassword(AccountCommand cmd, Errors errors) { 
         if (passwordChanged) {
-            if (cmd.getPassword().equals(cmd.getPasswordConfirmation()) == false) {
+            if (!cmd.getPassword().equals(cmd.getPasswordConfirmation())) {
                 errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.PASSWORD_MISMATCH_KEY);
                 return false;
-            } else if (PasswordValidator.validate(cmd.getPassword()) == false) {
+            } else if (!PasswordValidator.validate(cmd.getPassword())) {
                 errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.INVALID_PASSWORD_KEY);
                 return false;
             }
@@ -69,11 +69,13 @@ public class AccountWithRoleValidator extends AccountDetailsValidator {
         AccountWithRoleCommand command = (AccountWithRoleCommand)cmd;
         Long accessLevelId = command.getAccessLevelId();
         
-        if (accessLevelId == null)
+        if (accessLevelId == null) {
             return false;
+        }
         
-        if (accessLevelDataService.read(accessLevelId) == null)
+        if (accessLevelDataService.read(accessLevelId) == null) {
             return false;
+        }
         
         return true;
     } 

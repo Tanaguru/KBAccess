@@ -14,19 +14,18 @@ import org.opens.tanaguru.sdk.entity.Reorderable;
  * @version 1.0.0
  */
 public interface Testcase extends Entity, Reorderable {
-    
     /**
      *
-     * @return the title of the testcase
+     * @return the testcase title
      */
     String getTitle();
-
+    
     /**
-     *
-     * @param label
+     * 
+     * @param title
      */
     void setTitle(String title);
-
+    
     /**
      *
      * @return the testcase description

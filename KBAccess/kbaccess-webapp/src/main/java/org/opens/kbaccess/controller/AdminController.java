@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -75,8 +74,9 @@ public class AdminController extends AController {
             
             // accountPresentation null means the user who wants to edit this user don't have rights to do so
             // but we display the user infos anyway
-            if (accountPresentation != null) 
+            if (accountPresentation != null) {
                 model.addAttribute("account", accountPresentation);
+            }
         } else {
               // Breadcrumb
             handleBreadcrumbTrail(model, "KBAccess", "/", "Utilisateur " + accountPresentation.getDisplayedName());
@@ -139,9 +139,9 @@ public class AdminController extends AController {
         currentUserHasPermissions = (AccountUtils.getInstance().currentUserHasPermissionToEditAccountWithRole(requestedUser));
         accountPresentation = new AccountPresentation(requestedUser, accountDataService);
         
-        if (!currentUserHasPermissions)       
+        if (!currentUserHasPermissions) {       
             return displayEditUserForm(model, null, accountPresentation, "Vous n'êtes pas authorisé à modifier cet utilisateur.");
-        
+        }
         // Form
         accountCommand = new AccountWithRoleCommand(requestedUser);
         accountCommand.setAccountId(requestedUser.getId());
@@ -171,9 +171,9 @@ public class AdminController extends AController {
         // Fetch account and check if it exists
         requestedUser = accountDataService.read(accountCommand.getAccountId());
         
-        if (requestedUser == null) 
+        if (requestedUser == null) {
             return displayEditUserForm(model, null, null, "Cet utilisateur n'existe pas.");
-        
+        }
         // create account presentation and check permissions to edit the account
         currentUserHasPermissions = (AccountUtils.getInstance().currentUserHasPermissionToEditAccountWithRole(requestedUser));
         

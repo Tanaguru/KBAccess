@@ -52,6 +52,7 @@ public class NewTestcaseValidator implements Validator {
     private ResultDataService resultDataService;
     private WebarchiveDataService webarchiveDataService;
     private Step step;
+    private static final int HTTP_STATUS_OK= 200;
 
     public NewTestcaseValidator(
             CriterionDataService criterionDataService,
@@ -82,25 +83,25 @@ public class NewTestcaseValidator implements Validator {
             LogFactory.getLog(NewTestcaseValidator.class.getName()).error("HEAD request failed : " + e.getMessage());
         } 
         
-        return (responseCode == 200);      
+        return (responseCode == HTTP_STATUS_OK);      
     }
     
-    private boolean validateIdCriterion(NewTestcaseCommand newTestcaseCommand, Errors errors) {
-        if (newTestcaseCommand.getIdCriterion() == null) {
-            if (newTestcaseCommand.getIdTest() == null) {
-                errors.rejectValue(FormKeyStore.ID_CRITERION_KEY, MessageKeyStore.MISSING_CRITERION_KEY);
-                return false;
-            }
-        } else if (criterionDataService.read(newTestcaseCommand.getIdCriterion()) == null) {
-            errors.rejectValue(FormKeyStore.ID_CRITERION_KEY, MessageKeyStore.INVALID_CRITERION_KEY);
-            return false;
-        }
-        /*
-         * NOTE: validateIdTest will check if the test is part of the
-         * selected criterion, if any.
-         */
-        return true;
-    }
+//    private boolean validateIdCriterion(NewTestcaseCommand newTestcaseCommand, Errors errors) {
+//        if (newTestcaseCommand.getIdCriterion() == null) {
+//            if (newTestcaseCommand.getIdTest() == null) {
+//                errors.rejectValue(FormKeyStore.ID_CRITERION_KEY, MessageKeyStore.MISSING_CRITERION_KEY);
+//                return false;
+//            }
+//        } else if (criterionDataService.read(newTestcaseCommand.getIdCriterion()) == null) {
+//            errors.rejectValue(FormKeyStore.ID_CRITERION_KEY, MessageKeyStore.INVALID_CRITERION_KEY);
+//            return false;
+//        }
+//        /*
+//         * NOTE: validateIdTest will check if the test is part of the
+//         * selected criterion, if any.
+//         */
+//        return true;
+//    }
     
     private boolean validateIdTest(NewTestcaseCommand newTestcaseCommand, Errors errors) {
 //        if (newTestcaseCommand.getIdTest() == null) {
@@ -204,7 +205,7 @@ public class NewTestcaseValidator implements Validator {
         }
         
         /* validate webarchive */
-        if (hasError == false && step == Step.STEP_WEBARCHIVE) {
+        if (!hasError && step == Step.STEP_WEBARCHIVE) {
             if (!validateCreateWebarchive(newTestcaseCommand, errors)) {
                 hasError = true;
             } else if (newTestcaseCommand.getCreateWebarchive()) {
@@ -218,8 +219,8 @@ public class NewTestcaseValidator implements Validator {
             }
         }
         
-        if (hasError) 
+        if (hasError) {
             errors.rejectValue(FormKeyStore.GENERAL_ERROR_MESSAGE_KEY, MessageKeyStore.MISSING_REQUIRED_FIELD);
-    }
-    
+        }
+   } 
 }

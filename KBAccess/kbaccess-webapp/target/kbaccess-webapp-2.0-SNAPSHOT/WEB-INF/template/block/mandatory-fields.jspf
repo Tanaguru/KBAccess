@@ -1,4 +1,0 @@
-<%@ page pageEncoding="UTF-8" %>
-<p class="alert alert-info">
-    Les champs obligatoires sont préfixés d'une astérisque <%@include file="/WEB-INF/template/inline/mandatory.jspf" %>
-</p>

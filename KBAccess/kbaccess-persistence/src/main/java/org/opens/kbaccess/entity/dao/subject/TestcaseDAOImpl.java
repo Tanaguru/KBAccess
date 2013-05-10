@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.*;
 import org.opens.kbaccess.entity.subject.TestResultImpl;
@@ -34,6 +35,7 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         sb.append(getEntityClass().getName());
         sb.append(" tc ");
         sb.append(where);
+        LogFactory.getLog(TestcaseDAOImpl.class).info(sb.toString());
         return entityManager.createQuery(sb.toString());
     }
 
@@ -160,26 +162,27 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         boolean hasLevel = (level != null);
         boolean hasTest = (test != null);
         boolean hasResult = (result != null);
+
         boolean isSelectionValid = (
-                (hasTest == false || (
+                (!hasTest || (
                     // a test imply a criterion
-                    (hasTest ^ hasCriterion || test.getCriterion().getId() == criterion.getId()) &&
+                    (hasTest ^ hasCriterion || test.getCriterion().getId().equals(criterion.getId())) &&
                     // a test imply a reference
-                    (hasTest ^ hasReference || test.getCriterion().getReference().getId() == reference.getId()) &&
+                    (hasTest ^ hasReference || test.getCriterion().getReference().getId().equals(reference.getId())) &&
                     // a test imply a theme
-                    (hasTest ^ hasTheme || test.getCriterion().getTheme().getId() == theme.getId()) &&
+                    (hasTest ^ hasTheme || test.getCriterion().getTheme().getId().equals(theme.getId())) &&
                     // a test imply a level
-                    (hasTest ^ hasLevel || test.getCriterion().getLevel().getId() == level.getId())
-                )) && (hasCriterion == false || (
+                    (hasTest ^ hasLevel || test.getCriterion().getLevel().getId().equals(level.getId()))
+                )) && (!hasCriterion || (
                     // a criterion imply a reference
-                    (hasCriterion ^ hasReference || criterion.getReference().getId() == reference.getId()) &&
+                    (hasCriterion ^ hasReference || criterion.getReference().getId().equals(reference.getId())) &&
                     // a criterion imply a theme
-                    (hasCriterion ^ hasTheme || criterion.getTheme().getId() == theme.getId()) &&
+                    (hasCriterion ^ hasTheme || criterion.getTheme().getId().equals(theme.getId())) &&
                     // a criterion imply a level
-                    (hasCriterion ^ hasLevel || criterion.getLevel().getId() == level.getId())
-                )) && (hasTheme == false || (
+                    (hasCriterion ^ hasLevel || criterion.getLevel().getId().equals(level.getId()))
+                )) && (!hasTheme || (
                     // a theme imply a reference
-                    (hasTheme ^ hasReference || theme.getCriterionList().get(0).getReference().getId() == reference.getId())
+                    (hasTheme ^ hasReference || theme.getCriterionList().get(0).getReference().getId().equals(reference.getId()))
                 ))
                 // a level imply a reference
                 // FIXME: we have no way to check that the given level is associated with some criterion of the given reference
@@ -188,11 +191,13 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
                 //))
                 );
         
+        
         // validate request
-        if (isSelectionValid == false) {
+        if (!isSelectionValid) {
+            Logger.getLogger(this.getClass()).debug("SelectionInValid");
             return null;
         }
-        
+        Logger.getLogger(this.getClass()).debug("SelectionValid");
         // create request
         if (hasReference) {
             addTable(request, ReferenceImpl.class.getName(), "r", nbTableAdded++);
@@ -266,6 +271,8 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         if (hasTest) {
             query.setParameter("test", test);
         }
+//        System.out.println(query.toString());
+//        Logger.getLogger(this.getClass()).debug(query.toString());
         testcases = query.getResultList();
         return testcases;
     }

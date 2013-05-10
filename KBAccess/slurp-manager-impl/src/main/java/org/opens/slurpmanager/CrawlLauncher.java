@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.opens.slurpmanager.exception.WebarchiveCreationException;
 import org.opens.slurpmanager.scope.CrawlScope;
-import org.springframework.beans.BeansException;
 
 /**
  *
@@ -22,7 +21,7 @@ public class CrawlLauncher {
         run("slurp-manager");
     }
 
-    private static void run(String bundleName) throws BeansException {
+    private static void run(String bundleName) {
         ResourceBundle parametersBundle = ResourceBundle.getBundle(bundleName);
         SlurpManager slurpManager = new SlurpManagerImpl();
         String url = parametersBundle.getString("url");

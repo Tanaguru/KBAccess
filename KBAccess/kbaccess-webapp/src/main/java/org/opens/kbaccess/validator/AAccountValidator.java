@@ -38,6 +38,7 @@ public abstract class AAccountValidator implements Validator {
 
     protected AccountDataService accountDataService;
     protected boolean hasError = false;
+    private static final int MAX_NAME_LENGTH = 80;
     
     public AAccountValidator(AccountDataService accountDataService) {
         this.accountDataService = accountDataService;
@@ -56,10 +57,10 @@ public abstract class AAccountValidator implements Validator {
                 cmd.getPasswordConfirmation().isEmpty()) {
             errors.rejectValue(FormKeyStore.CONFIRMATION_PASSWORD_KEY, MessageKeyStore.MISSING_CONFIRMATION_PASSWORD_KEY);
             return false;
-        } else if (cmd.getPassword().equals(cmd.getPasswordConfirmation()) == false) {
+        } else if (!cmd.getPassword().equals(cmd.getPasswordConfirmation())) {
             errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.PASSWORD_MISMATCH_KEY);
             return false;
-        } else if (PasswordValidator.validate(cmd.getPassword()) == false) {
+        } else if (!PasswordValidator.validate(cmd.getPassword())) {
             errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.INVALID_PASSWORD_KEY);
             return false;
         }
@@ -84,7 +85,7 @@ public abstract class AAccountValidator implements Validator {
     
     private boolean validateFirstName(AccountCommand cmd, Errors errors) {
         String firstName = cmd.getFirstName();
-        boolean hasCorrectSize = firstName.length() >= 0 && firstName.length() <= 80;
+        boolean hasCorrectSize = firstName.length() >= 0 && firstName.length() <= MAX_NAME_LENGTH;
             
         if (!hasCorrectSize) {
             errors.rejectValue(FormKeyStore.FIRSTNAME_KEY, MessageKeyStore.INVALID_FIRSTNAME_KEY);
@@ -94,8 +95,8 @@ public abstract class AAccountValidator implements Validator {
     }
     
     private boolean validateLastName(AccountCommand cmd, Errors errors) {
-        String LastName = cmd.getLastName();
-        boolean hasCorrectSize = LastName.length() >= 0 && LastName.length() < 80;
+        String lastName = cmd.getLastName();
+        boolean hasCorrectSize = (lastName.length() >= 0 && lastName.length() < MAX_NAME_LENGTH);
             
         if (!hasCorrectSize) {
             errors.rejectValue(FormKeyStore.LASTNAME_KEY, MessageKeyStore.INVALID_LASTNAME_KEY);

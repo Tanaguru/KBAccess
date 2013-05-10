@@ -46,8 +46,7 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
     @Override
     public Testcase createFromTest(Account account, Webarchive webarchive, Result result, Test test, String description) {
         int rank = ((TestcaseDAO) entityDao).findMaxPriorityValueFromTable(); 
-        String title = computeTitleFromCriterionAndUrl(test.getCriterion(), webarchive, result);
-        Testcase tc = ((TestcaseFactory) entityFactory).createFromCriterion(account, title, webarchive, result, test.getCriterion(), description, rank);
+        Testcase tc = ((TestcaseFactory) entityFactory).createFromCriterion(account, webarchive, result, test.getCriterion(), description, rank);
 
         tc.addTestResult(testResultDataService.getByTestResult(test, result));
         return tc;
@@ -56,10 +55,9 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
     @Override
     public Testcase createFromCriterion(Account account, Webarchive webarchive, Result result, Criterion criterion, String description) {
         int rank = ((TestcaseDAO) entityDao).findMaxPriorityValueFromTable();
-        String title = computeTitleFromCriterionAndUrl(criterion, webarchive, result);
         
         result = computeResultFromTestResult(result);
-        return ((TestcaseFactory) entityFactory).createFromCriterion(account, title, webarchive, result, criterion, description, rank);
+        return ((TestcaseFactory) entityFactory).createFromCriterion(account, webarchive, result, criterion, description, rank);
     }
 
     @Override

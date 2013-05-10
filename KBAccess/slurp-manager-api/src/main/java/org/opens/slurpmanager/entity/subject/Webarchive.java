@@ -6,7 +6,6 @@
 package org.opens.slurpmanager.entity.subject;
 
 import java.util.Date;
-import java.util.Locale;
 import org.opens.tanaguru.sdk.entity.Entity;
 import org.opens.tanaguru.sdk.entity.Reorderable;
 

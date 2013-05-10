@@ -11,7 +11,7 @@
   
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess-impl-reference</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
   
     <name>kbaccess-impl-reference</name>
     <url>http://maven.apache.org</url>
@@ -43,13 +43,13 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kbaccess-api</artifactId>
-            <version>${project.version}</version>
+            <version>${kbaccess.version}</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kbaccess-impl-authorization</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+            <version>${kbaccess.version}</version>
+        </dependency>-->
     </dependencies>
 
 </project>

@@ -14,9 +14,8 @@
        http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
        http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd">
     
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="file:///etc/kbaccess/kbaccess.conf"/>    
+    <bean id="exposedPropertiesConfigurer" class="org.opens.tgol.util.webapp.ExposablePropertyPlaceholderConfigurer">
+        <property name="location" value="file:///etc/kbaccess/kbaccess.conf"/>
     </bean>
 
     <import resource="beans-persistence.xml"/>

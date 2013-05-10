@@ -1,92 +1,78 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-    <c:url var="selectFormAction" value="/testcase/result.html" />
-    
-    <form:form method="POST" commandName="testcaseSearchCommand" action="${selectFormAction}">
-    
-    <div id="control-group">
+  
+<form method="get" action="list.html">
+    <div class="control-group">
         <label class="control-label" for="selectReferentiel">R&eacute;f&eacute;rentiel</label>
-            <form:select path="reference" id="selectReferentiel" size="1">
-                <option value="" <c:if test="${testcaseSearchCommand.reference == null || empty testcaseSearchCommand.reference}">selected="selected"</c:if>>Tous</option>
+        <select name="reference" id="selectReferentiel" size="1">
+                <option value="" selected="selected">Tous</option>
                 <c:forEach var="ref" items="${referenceList}">
-                    <option value="${ref.code}" <c:if test='${ref.code == testcaseSearchCommand.reference}'>selected="selected"</c:if> >${ref.label}</option>
+                    <option value="${ref.id}">${ref.label}</option>
                 </c:forEach>
-            </form:select>              
+        </select>              
     </div>
-    
-    <div id="control-group">
+
+    <div class="control-group">
         <label class="control-label" for="selectTheme">Th&eacute;matique</label>
-            <form:select path="theme" id="selectTheme" size="1">
-                <option value="" <c:if test="${testcaseSearchCommand.theme == null || empty testcaseSearchCommand.theme}">selected="selected"</c:if>>Tous</option>
+            <select name="theme" id="selectTheme" size="1">
+                <option value="" selected="selected">Tous</option>
                 <c:forEach var="entry" items="${themeByRef}">
-                    <optgroup id="${entry.key.code}" label="${entry.key.label}">
+                    <optgroup id="${entry.key.code}-theme" label="${entry.key.label}">
                         <c:forEach var="theme" items="${entry.value}">
-                            <option value="${theme.code}"
-                                    <c:if test="${theme.code == testcaseSearchCommand.theme}">selected="selected"</c:if>
-                                    >${theme.rank}. ${theme.label}</option>
+                            <option value="${theme.id}">${theme.rank}. ${theme.label}</option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
-            </form:select>
+            </select>
     </div>
-    <div id="control-group">
+    <div class="control-group">
         <label class="control-label" for="selectCritere">Crit&egrave;re</label>
-            <form:select path="criterion"  id="selectCritere" size="1">
-                <option value="" <c:if test="${testcaseSearchCommand.criterion == null || empty testcaseSearchCommand.criterion}">selected="selected"</c:if>>Tous</option>
+            <select name="criterion"  id="selectCritere" size="1">
+                <option value="" selected="selected">Tous</option>
                 <c:forEach var="entry" items="${criterionByRef}">
                     <optgroup id="${entry.key.code}-criterion" label="${entry.key.label}">
                         <c:forEach var="criterion" items="${entry.value}">
-                            <option value="${criterion.code}"
-                                    <c:if test="${criterion.code == testcaseSearchCommand.criterion}">selected="selected"</c:if>
-                                    >${criterion.label}</option>
+                            <option value="${criterion.id}">${criterion.label}</option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
-            </form:select>
+            </select>
     </div>
-    <div id="control-group">
+    <div class="control-group">
         <label class="control-label" for="selectTest">Test</label>
-            <form:select path="test" id="selectTest" size="1">
-                <option value="" <c:if test="${testcaseSearchCommand.test == null || empty testcaseSearchCommand.test}">selected="selected"</c:if>>Tous</option>
+            <select name="test" id="selectTest" size="1">
+                <option value="" selected="selected">Tous</option>
                 <c:forEach var="entry" items="${testByRef}">
                     <optgroup id="${entry.key.code}-test" label="${entry.key.label}">
                         <c:forEach var="test" items="${entry.value}">
-                            <option value="${test.code}"
-                                    <c:if test="${test.code == testcaseSearchCommand.test}">selected="selected"</c:if>
-                                    >${test.label}</option>
+                            <option value="${test.id}">${test.label}</option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
-            </form:select>
+            </select>
      </div>
-     <div id="control-group">
+     <div class="control-group">
         <label class="control-label" for="selectNiveau">Niveau</label>
-            <form:select path="grade" id="selectNiveau" size="1">
-                <option value="" <c:if test="${testcaseSearchCommand.grade == null || empty testcaseSearchCommand.grade}">selected="selected"</c:if>>Tous</option>
+            <select name="grade" id="selectNiveau" size="1">
+                <option value="" selected="selected">Tous</option>
                 <c:forEach var="entry" items="${levelByRef}">
-                    <optgroup id="${entry.key.code}-test" label="${entry.key.label}">
+                    <optgroup id="${entry.key.code}-level" label="${entry.key.label}">
                         <c:forEach var="level" items="${entry.value}">
-                            <option value="${level.code}"
-                                    <c:if test="${level.code == testcaseSearchCommand.grade}">selected="selected"</c:if>
-                                    >${level.label}</option>
+                            <option value="${level.id}">${level.label}</option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
-            </form:select>
+            </select>
     </div>
-    <div id="control-group">
+    <div class="control-group">
         <label class="control-label" for="selectResultat">Résultat</label>
-            <form:select path="result"  id="selectResultat" size="1">
-                <option value="" <c:if test="${testcaseSearchCommand.result == null || empty testcaseSearchCommand.result}">selected="selected"</c:if>>Tous</option>
+            <select name="result"  id="selectResultat" size="1">
+                <option value="" selected="selected">Tous</option>
                 <c:forEach var="result" items="${resultList}">
-                    <option value="${result.code}"
-                            <c:if test="${result.code == testcaseSearchCommand.result}">selected="selected"</c:if>
-                            >${result.label}</option>
+                    <option value="${result.id}">${result.label}</option>
                 </c:forEach>
-            </form:select>
+            </select>
     </div>
     <br />
     <input type="submit" value="Rechercher" />
-    </form:form>
-    
+</form>

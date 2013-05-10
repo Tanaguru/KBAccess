@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee         http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>KBAccess</display-name>
+     <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/conf/kbaccess-service.xml,
+            /WEB-INF/conf/kbaccess-security.xml
+        </param-value>
+    </context-param>
     <listener>
         <listener-class>
             org.springframework.web.context.ContextLoaderListener
@@ -16,17 +23,23 @@
             org.springframework.security.web.session.HttpSessionEventPublisher
         </listener-class>
     </listener>
+    <!-- This listener is set to access properties from the jsp-->
+    <listener>
+        <listener-class>
+            org.opens.tgol.util.webapp.ConfigPropertiesExposerListener
+        </listener-class>
+    </listener>
     <!-- spring mvc -->
     <servlet>
         <servlet-name>kbaccess-webapp</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
+<!--    <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
-    </servlet>
+    </servlet>-->
     <servlet-mapping>
         <servlet-name>kbaccess-webapp</servlet-name>
         <url-pattern>/index.html</url-pattern>
@@ -43,21 +56,7 @@
         <servlet-name>kbaccess-webapp</servlet-name>
         <url-pattern>/j_spring_security_logout</url-pattern>
     </servlet-mapping>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            /WEB-INF/conf/kbaccess-service.xml,
-            /WEB-INF/conf/kbaccess-security.xml
-        </param-value>
-    </context-param>
-    <!-- spring security -->
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
+
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>
@@ -90,10 +89,10 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <!-- session timeout configuration : set to 30 min as default -->
-    <servlet-mapping>
+<!--    <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

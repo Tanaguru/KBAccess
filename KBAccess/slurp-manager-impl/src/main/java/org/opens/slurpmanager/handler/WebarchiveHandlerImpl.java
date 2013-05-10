@@ -2,7 +2,6 @@ package org.opens.slurpmanager.handler;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.opens.slurpmanager.entity.factory.subject.WebarchiveFactory;
 import org.opens.slurpmanager.entity.factory.subject.WebresourceFactory;
@@ -92,7 +91,7 @@ public class WebarchiveHandlerImpl implements WebarchiveHandler {
      * @return the accessible url of the webarchive, or an error message
      */
     @Override
-    synchronized public String create(String url, CrawlScope scope, String description)
+    public synchronized String create(String url, CrawlScope scope, String description)
             throws WebarchiveCreationException {
 //        Crawler localCrawler = initializeLocalCrawler();
         crawler.setUrl(addProtocolToUrl(url));

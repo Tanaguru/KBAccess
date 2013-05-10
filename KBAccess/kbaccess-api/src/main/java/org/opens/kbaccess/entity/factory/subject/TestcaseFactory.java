@@ -3,7 +3,6 @@ package org.opens.kbaccess.entity.factory.subject;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.Criterion;
 import org.opens.kbaccess.entity.reference.Result;
-import org.opens.kbaccess.entity.reference.Test;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.tanaguru.sdk.entity.factory.GenericFactory;
@@ -27,7 +26,6 @@ public interface TestcaseFactory extends GenericFactory<Testcase> {
      */
     Testcase createFromCriterion(
             Account account,
-            String title,
             Webarchive webarchive,
             Result result,
             Criterion criterion,

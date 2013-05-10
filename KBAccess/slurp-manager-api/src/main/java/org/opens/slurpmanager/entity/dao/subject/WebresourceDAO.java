@@ -14,6 +14,6 @@ import org.opens.slurpmanager.entity.subject.Webresource;
  */
 public interface WebresourceDAO extends GenericDAO<Webresource, Long> {
 
-    public Webresource retrieveByUrl(String url);
+    Webresource retrieveByUrl(String url);
     
 }

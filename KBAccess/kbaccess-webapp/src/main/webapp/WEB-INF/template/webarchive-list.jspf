@@ -4,7 +4,7 @@
         <p id="tableTestcases">Aucune webarchive</p>
     </c:when>
     <c:otherwise>
-        <table class="table table-strip" summary="Liste des Webarchives" id="tableWebarchives">
+        <table class="table table-strip" id="tableWebarchives">
             <tr>
                 <th scope="col">URL</th>
                 <th scope="col">Date</th>

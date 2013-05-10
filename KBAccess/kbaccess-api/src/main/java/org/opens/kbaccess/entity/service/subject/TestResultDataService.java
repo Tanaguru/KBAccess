@@ -21,7 +21,6 @@
  */
 package org.opens.kbaccess.entity.service.subject;
 
-import java.io.Serializable;
 import org.opens.kbaccess.entity.reference.Result;
 import org.opens.kbaccess.entity.reference.Test;
 import org.opens.kbaccess.entity.subject.TestResult;

@@ -69,9 +69,10 @@ public class GuestController extends AMailerController {
     private String generateNewPassword() {
         String passwordChars = "abcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder password;
+        final int passwordLength = 8;
         
         password = new StringBuilder();
-        for (int i = 0; i < 8; ++i) {
+        for (int i = 0; i < passwordLength; ++i) {
             password.append(passwordChars.charAt(random.nextInt(passwordChars.length())));
         }
         return password.toString();
@@ -86,7 +87,7 @@ public class GuestController extends AMailerController {
     }
     
     private boolean sendAuthTokenAndSubscribeNotificationByMail(String lang, Account account) {
-        if (sendSubsciptionNotification(account) == false) {
+        if (!sendSubsciptionNotification(account)) {
             LogFactory.getLog(GuestController.class).error("Unable to send the subscription notification");
         }
         if (!sendAuthToken(lang, account)) {
@@ -97,7 +98,7 @@ public class GuestController extends AMailerController {
     }
 
     private boolean sendNewPasswordByMail(String lang, Account account, String password) {
-        if (sendNewPassword(lang, account, password) == false) {
+        if (!sendNewPassword(lang, account, password)) {
             LogFactory.getLog(GuestController.class).error("Error sending new password by mail to " + account.getEmail());
             return false;
         }
@@ -130,7 +131,7 @@ public class GuestController extends AMailerController {
     @RequestMapping(value="subscribe", method=RequestMethod.GET)
     public String subscribeHandler(Model model) {
         // check if the user has the right to be there
-        if (checkAuthority() == false) {
+        if (!checkAuthority()) {
             return forwardBannedUsers();
         }
         //
@@ -152,7 +153,7 @@ public class GuestController extends AMailerController {
         String authToken;
         
         // check if the user has the right to be there
-        if (checkAuthority() == false) {
+        if (!checkAuthority()) {
             return forwardBannedUsers();
         }
         // handle login form and breadcrumb
@@ -177,7 +178,7 @@ public class GuestController extends AMailerController {
         Logger.getLogger(this.getClass()).debug(al.getId());
         Logger.getLogger(this.getClass()).debug(al.getCdAccessLevel());
         // send subscribe confirmation, with auth token, and notification
-        if (sendAuthTokenAndSubscribeNotificationByMail(null, newAccount) == false) {
+        if (!sendAuthTokenAndSubscribeNotificationByMail(null, newAccount)) {
             model.addAttribute("subscribeError", "Une erreur s'est produite. Merci de contacter l'administrateur.");
         } else {
             accountDataService.saveOrUpdate(newAccount);
@@ -192,7 +193,7 @@ public class GuestController extends AMailerController {
     @RequestMapping(value="login", method=RequestMethod.GET)
     public String loginHandler(Model model) {
         // check if the user has the right to be there
-        if (checkAuthority() == false) {
+        if (!checkAuthority()) {
             return forwardBannedUsers();
         }
         //
@@ -206,7 +207,7 @@ public class GuestController extends AMailerController {
     @RequestMapping(value="password-lost", method= RequestMethod.GET)
     public String passwordLostHandler(Model model) {
         // check if the user has the right to be there
-        if (checkAuthority() == false) {
+        if (!checkAuthority()) {
             return forwardBannedUsers();
         }
         // handle login form and breadcrumb
@@ -228,7 +229,7 @@ public class GuestController extends AMailerController {
         String password;
         
         // check if the user has the right to be there
-        if (checkAuthority() == false) {
+        if (!checkAuthority()) {
             return forwardBannedUsers();
         }
         // handle login form and breadcrumb
@@ -267,7 +268,7 @@ public class GuestController extends AMailerController {
         LogFactory.getLog(GuestController.class).info("activateAccountHandler()");
         
         // check if the user has the right to be there
-        if (checkAuthority() == false) {
+        if (!checkAuthority()) {
             return forwardBannedUsers();
         }
         // handle login form and breadcrumb

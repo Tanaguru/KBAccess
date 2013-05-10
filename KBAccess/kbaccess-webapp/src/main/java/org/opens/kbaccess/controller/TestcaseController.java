@@ -349,6 +349,7 @@ public class TestcaseController extends AMailerController {
         Webarchive webarchive;
         Account currentUser;
         Testcase newTestcase;
+        TestcasePresentation testcasePresentation;
         NewTestcaseValidator newTestcaseValidator = new NewTestcaseValidator(
                 criterionDataService,
                 testDataService,
@@ -378,7 +379,7 @@ public class TestcaseController extends AMailerController {
             return "guest/login";
         }
         // get webarchive
-        if (testcaseCommand.getCreateWebarchive() == false) {
+        if (!testcaseCommand.getCreateWebarchive()) {
             webarchive = webarchiveDataService.read(testcaseCommand.getIdWebarchive());
         } else {
             webarchive = webarchiveController.createWebarchive(
@@ -418,11 +419,14 @@ public class TestcaseController extends AMailerController {
                     );            
         }
         // persist testcase
+        newTestcase.setTitle("title"); // FIXME: title is not used anymore
         testcaseDataService.saveOrUpdate(newTestcase);
         // email notification
         sendTestcaseCreationNotification(newTestcase);
         // display testcase
-        model.addAttribute("testcase", newTestcase);
+        
+        testcasePresentation = new TestcasePresentation(newTestcase, true);
+        model.addAttribute("testcase", testcasePresentation);
         return "testcase/add-summary";
     }
     

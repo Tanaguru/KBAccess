@@ -24,6 +24,6 @@ public interface WebarchiveFactory extends GenericFactory<Webarchive> {
      * @param rank The rank of the webarchive
      * @return 
      */
-    public Webarchive create(Account account, String url, String description, int rank);
+    Webarchive create(Account account, String url, String description, int rank);
     
 }

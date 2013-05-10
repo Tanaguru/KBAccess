@@ -18,7 +18,6 @@
  */
 package org.opens.kbaccess.command;
 
-import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
 import org.opens.kbaccess.utils.SHA1Hasher;
@@ -62,8 +61,9 @@ public class AccountWithRoleCommand extends AccountCommand {
         account.setLastName(this.lastName);
         account.setUrl(this.url);
         
-        if (passwordChanged) 
+        if (passwordChanged) {
             account.setPassword(SHA1Hasher.getInstance().hashAsString(this.password));
+        }
     }
     
     public Long getAccessLevelId() {

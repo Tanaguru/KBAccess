@@ -26,7 +26,6 @@ import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -54,7 +53,7 @@ public class PasswordLostValidator implements Validator {
         if (account == null) {
             errors.rejectValue("email", MessageKeyStore.INVALID_EMAIL_KEY);
             return false;
-        } else if (account.isActivated() == false) {
+        } else if (!account.isActivated()) {
             errors.rejectValue("email", MessageKeyStore.INACTIVE_ACCOUNT_KEY);
         }
         return true;
@@ -65,7 +64,7 @@ public class PasswordLostValidator implements Validator {
         PasswordLostCommand command = (PasswordLostCommand)o;
         boolean hasError = false;
         
-        if (validateEmail(command, errors) == false) {
+        if (!validateEmail(command, errors)) {
             hasError = true;
         }
         

@@ -4,4 +4,4 @@
         <c:set var='resultId' value='${testcase.resultId}'/>
         <c:set var='withAccents' value='true' />
         <%@include file='/WEB-INF/template/inline/result.jspf' %>
-        <br />sur ${testcase.webarchiveOriginalUrl}
+        <br />sur <c:url value='${testcase.webarchiveOriginalUrl}'/>

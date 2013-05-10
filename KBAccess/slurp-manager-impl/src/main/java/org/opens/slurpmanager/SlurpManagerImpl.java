@@ -22,7 +22,7 @@ public class SlurpManagerImpl implements SlurpManager{
 
     public SlurpManagerImpl(){
     }
-
+    
     public String create(String url, CrawlScope scope, String description)
             throws WebarchiveCreationException{
         initializeSpringContext();

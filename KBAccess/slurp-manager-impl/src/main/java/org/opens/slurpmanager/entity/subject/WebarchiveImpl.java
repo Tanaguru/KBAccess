@@ -7,7 +7,6 @@ package org.opens.slurpmanager.entity.subject;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Locale;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -86,7 +85,7 @@ public class WebarchiveImpl implements Webarchive, Serializable {
 
     @Override
     public void setId(Long id) {
-        this.id = id;;
+        this.id = id;
     }
 
     @Override

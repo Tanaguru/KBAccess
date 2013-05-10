@@ -55,7 +55,7 @@ public class ChangePasswordValidator implements Validator {
                 cmd.getPasswordConfirmation().isEmpty()) {
             errors.rejectValue(FormKeyStore.CONFIRMATION_PASSWORD_KEY, MessageKeyStore.MISSING_CONFIRMATION_PASSWORD_KEY);
             return false;
-        } else if (cmd.getNewPassword().equals(cmd.getPasswordConfirmation()) == false) {
+        } else if (!cmd.getNewPassword().equals(cmd.getPasswordConfirmation())) {
             errors.rejectValue(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.PASSWORD_MISMATCH_KEY);
             return false;
         } else if (PasswordValidator.validate(cmd.getNewPassword())) {
@@ -84,11 +84,11 @@ public class ChangePasswordValidator implements Validator {
         ChangePasswordCommand cmd = (ChangePasswordCommand) o;
         boolean hasError = false;
         
-        if (validateNewPassword(cmd, errors) == false) {
+        if (!validateNewPassword(cmd, errors)) {
             hasError = true;
         }
         
-        if (validateOldPassword(cmd, errors) == false) {
+        if (!validateOldPassword(cmd, errors)) {
             hasError = true;
         }
         

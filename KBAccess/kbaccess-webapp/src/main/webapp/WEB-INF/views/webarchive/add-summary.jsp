@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
-
+    <c:set var="title" value="Récapitulatif de l'ajout de webarchive" />
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -14,10 +14,10 @@
             <div class="page-header"><h1>Synthése de la webarchive</h1></div>
 
             <div class="row-fluid">
-                <h2>Synthése</h2>
+                <h2>Synthèse</h2>
                 <p>
                     Une archive de la page ${webarchive.url} 
-                    a été créée à la date du ${webarchive.creationDate} et accessible à l'Url suivante :
+                    a été créée à la date du ${webarchive.creationDate} et est accessible à l'Url suivante :
                 </p>
                 <p>
                     <a href="${webarchive.localUrl}">${webarchive.localUrl}</a>

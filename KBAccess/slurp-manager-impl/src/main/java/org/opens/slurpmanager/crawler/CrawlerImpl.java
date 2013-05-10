@@ -34,14 +34,15 @@ public class CrawlerImpl implements Crawler {
     private CrawlScope scope;
     private String url;
     private File currentJobOutputDir;
-    private final String urlStrToReplace = "# URLS HERE";
+    private static final String urlStrToReplace = "# URLS HERE";
     protected CrawlJob crawlJob;
     protected String resultFilePath;
     private String dateFormat = "yyyyMMddHHmmss";
     private SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
     
     private static final Logger logger = Logger.getLogger(CrawlerImpl.class.getName());
-
+    private static final int ONE_SECOND = 1000;
+    
     /**
      * 
      */
@@ -68,8 +69,8 @@ public class CrawlerImpl implements Crawler {
     }
     /**
      *
-     */
-    protected String warcDir = "latest/warcs";
+        */
+       protected String warcDir = "latest/warcs";
 
     public String getWarcDir() {
         return warcDir;
@@ -126,6 +127,16 @@ public class CrawlerImpl implements Crawler {
     public void setArchivePrefix(String archivePrefix) {
         this.archivePrefix = archivePrefix;
     }
+    
+    private boolean deleteContext = true;
+    public boolean getDeleteContext() {
+        return deleteContext;
+    }
+
+    public void setDeleteContext(boolean deleteContext) {
+        this.deleteContext = deleteContext;
+    }
+    
     private Date currentDate;
     @Override
     public Date getResultDate() {
@@ -135,7 +146,12 @@ public class CrawlerImpl implements Crawler {
     @Override
     public String getResult() {
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return archivePrefix + sdf.format(currentDate) + "/" + url;
+        StringBuilder strb = new StringBuilder();
+        strb.append(archivePrefix);
+        strb.append(sdf.format(currentDate));
+        strb.append("/");
+        strb.append(url);
+        return strb.toString().replaceAll("/http:/", "").replaceAll("/https:/", "");
     }
 
     private String errorMessage;
@@ -173,7 +189,7 @@ public class CrawlerImpl implements Crawler {
             crawlJob.launch();
             if (!crawlJob.isRunning()) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(ONE_SECOND);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(
                             WebarchiveHandlerImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -191,7 +207,7 @@ public class CrawlerImpl implements Crawler {
                 }
                 Logger.getLogger(WebarchiveHandlerImpl.class.getName()).info(
                         "crawljob is running");
-                Thread.sleep(2000);
+                Thread.sleep(ONE_SECOND * 2);
             } catch (InterruptedException e) {
                 errorMessage = e.getMessage();
                 return false;
@@ -231,7 +247,7 @@ public class CrawlerImpl implements Crawler {
         try {
             BufferedReader in = new BufferedReader(
                     new FileReader(crawlConfigFilePath + "/" + heritrixFileName));
-
+          
             String c;
             StringBuffer newContextFile = new StringBuffer();
             while ((c = in.readLine()) != null) {
@@ -264,17 +280,20 @@ public class CrawlerImpl implements Crawler {
      * @return
      */
     private boolean removeConfigFile(File file) {
-        if (file.exists()) {
-            File[] files = file.listFiles();
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isDirectory()) {
-                    removeConfigFile(files[i]);
-                } else {
-                    files[i].delete();
+        if (deleteContext) {
+            if (file.exists()) {
+                File[] files = file.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    if (files[i].isDirectory()) {
+                        removeConfigFile(files[i]);
+                    } else {
+                        files[i].delete();
+                    }
                 }
             }
+            return (file.delete());
         }
-        return (file.delete());
+        return true;
     }
 
     /**
@@ -294,7 +313,7 @@ public class CrawlerImpl implements Crawler {
         File sourceWarcFile = null;
         if (warcFileDir.exists()) {
             File[] files = warcFileDir.listFiles();
-            if (files.length == 1) {
+            if (files.length == 1) {        
                 String fileName = files[0].getName();
                 if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equalsIgnoreCase(warcExtension)) {
                     sourceWarcFile = new File(warcFileDir.getPath() + "/" + fileName);
@@ -369,7 +388,7 @@ public class CrawlerImpl implements Crawler {
 
         if (currentDate != null) {
             //wayback seems to add 1 second to the date comparing to heritrix date
-            currentDate.setTime(currentDate.getTime() + 1000);
+            currentDate.setTime(currentDate.getTime() + ONE_SECOND);
         } else {
             currentDate = new Date();
         }

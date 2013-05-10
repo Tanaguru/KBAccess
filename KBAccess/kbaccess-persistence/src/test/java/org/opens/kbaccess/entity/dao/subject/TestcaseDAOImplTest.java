@@ -24,6 +24,9 @@ package org.opens.kbaccess.entity.dao.subject;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.authorization.AccountImpl;
 import org.opens.kbaccess.entity.reference.*;
@@ -171,172 +174,201 @@ public class TestcaseDAOImplTest extends AbstractDaoTestCase {
         /* */
         TestcaseDAO instance = getBean();
         /* */
-        List result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(4, result.size());
-        assertFalse(Arrays.asList(1L, 2L, 3L, 4L).retainAll(asIdList(result)));
+//        List result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(4, result.size());
+//        assertFalse(Arrays.asList(1L, 2L, 3L, 4L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : using reference */
+//        System.out.println("findAllFromUserSelection : [nuc] reference");
+//        /* */
+//        reference = new ReferenceImpl();
+//        criterion = null;
+//        theme = null;
+//        test = null;
+//        level = null;
+//        resultArg = null;
+//        
+//        reference.setId(1L);
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        assertFalse(Arrays.asList(1L, 2L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : using criterion */
+//        System.out.println("findAllFromUserSelection : [nuc] criterion");
+//        /* */
+//        reference = null;
+//        criterion = new CriterionImpl();
+//        theme = null;
+//        test = null;
+//        level = null;
+//        resultArg = null;
+//        
+//        criterion.setId(3L);
+//        /* */
+//        instance = getBean();
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        assertFalse(Arrays.asList(3L, 4L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : theme */
+//        System.out.println("findAllFromUserSelection : [nuc] theme");
+//        /* */
+//        reference = null;
+//        criterion = null;
+//        theme = new ThemeImpl();
+//        test = null;
+//        level = null;
+//        resultArg = null;
+//        
+//        theme.setId(1L);
+//        /* */
+//        instance = getBean();
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        assertFalse(Arrays.asList(1L, 2L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : test, result = * */
+//        System.out.println("findAllFromUserSelection : [nuc] test");
+//        /* */
+//        reference = null;
+//        criterion = null;
+//        theme = null;
+//        test = new TestImpl();
+//        level = null;
+//        resultArg = null;
+//        
+//        test.setId(1L);
+//        /* */
+//        instance = getBean();
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        assertFalse(Arrays.asList(1L, 2L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : test, result = passed */
+//        System.out.println("findAllFromUserSelection : [nuc] test passed");
+//        /* */
+//        reference = null;
+//        criterion = null;
+//        theme = null;
+//        test = new TestImpl();
+//        level = null;
+//        resultArg = new ResultImpl();
+//        
+//        test.setId(1L);
+//        resultArg.setId(1L);
+//        /* */
+//        instance = getBean();
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(1, result.size());
+//        assertFalse(Arrays.asList(1L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : test, result = failed */
+//        System.out.println("findAllFromUserSelection : [nuc] test failed");
+//        /* */
+//        reference = null;
+//        criterion = null;
+//        theme = null;
+//        test = new TestImpl();
+//        level = null;
+//        resultArg = new ResultImpl();
+//        
+//        test.setId(1L);
+//        resultArg.setId(2L);
+//        /* */
+//        instance = getBean();
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(1, result.size());
+//        assertFalse(Arrays.asList(2L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : level */
+//        System.out.println("findAllFromUserSelection : [nuc] level");
+//        /* */
+//        reference = null;
+//        criterion = null;
+//        theme = null;
+//        test = null;
+//        level = new LevelImpl();
+//        resultArg = null;
+//        
+//        level.setId(4L);
+//        /* */
+//        instance = getBean();
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        assertFalse(Arrays.asList(3L, 4L).retainAll(asIdList(result)));
+//        
+//        /* nominal use case : result */
+//        System.out.println("findAllFromUserSelection : [nuc] result");
+//        /* */
+//        reference = null;
+//        criterion = null;
+//        theme = null;
+//        test = null;
+//        level = null;
+//        resultArg = new ResultImpl();
+//        
+//        resultArg.setId(2L);
+//        /* */
+//        instance = getBean();
+//        /* */
+//        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+//        /* */
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        assertFalse(Arrays.asList(2L, 4L).retainAll(asIdList(result)));
         
+        // TODO error cases
         /* nominal use case : using reference */
-        System.out.println("findAllFromUserSelection : [nuc] reference");
+        System.out.println("findAllFromUserSelection : [nuc] reference and wrong relative test");
         /* */
         reference = new ReferenceImpl();
         criterion = null;
         theme = null;
-        test = null;
-        level = null;
-        resultArg = null;
-        
-        reference.setId(1L);
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertFalse(Arrays.asList(1L, 2L).retainAll(asIdList(result)));
-        
-        /* nominal use case : using criterion */
-        System.out.println("findAllFromUserSelection : [nuc] criterion");
-        /* */
-        reference = null;
-        criterion = new CriterionImpl();
-        theme = null;
-        test = null;
-        level = null;
-        resultArg = null;
-        
-        criterion.setId(3L);
-        /* */
-        instance = getBean();
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertFalse(Arrays.asList(3L, 4L).retainAll(asIdList(result)));
-        
-        /* nominal use case : theme */
-        System.out.println("findAllFromUserSelection : [nuc] theme");
-        /* */
-        reference = null;
-        criterion = null;
-        theme = new ThemeImpl();
-        test = null;
-        level = null;
-        resultArg = null;
-        
-        theme.setId(1L);
-        /* */
-        instance = getBean();
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertFalse(Arrays.asList(1L, 2L).retainAll(asIdList(result)));
-        
-        /* nominal use case : test, result = * */
-        System.out.println("findAllFromUserSelection : [nuc] test");
-        /* */
-        reference = null;
-        criterion = null;
-        theme = null;
         test = new TestImpl();
         level = null;
         resultArg = null;
         
-        test.setId(1L);
+        reference.setId(new Long(1));
+        test.setId(new Long(1));
+        Criterion crit = new CriterionImpl();
+        Reference ref = new ReferenceImpl();
+        crit.setId(new Long(1));
+        ref.setId(new Long(1));
+        Long long1 = new Long(1);
+        Long long2 = new Long(1);
+        System.out.println(long1.hashCode());
+        System.out.println(long2.hashCode());
+        crit.setReference(reference );
+        test.setCriterion(crit);
+
         /* */
-        instance = getBean();
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
+        List result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
         /* */
         assertNotNull(result);
         assertEquals(2, result.size());
         assertFalse(Arrays.asList(1L, 2L).retainAll(asIdList(result)));
-        
-        /* nominal use case : test, result = passed */
-        System.out.println("findAllFromUserSelection : [nuc] test passed");
-        /* */
-        reference = null;
-        criterion = null;
-        theme = null;
-        test = new TestImpl();
-        level = null;
-        resultArg = new ResultImpl();
-        
-        test.setId(1L);
-        resultArg.setId(1L);
-        /* */
-        instance = getBean();
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertFalse(Arrays.asList(1L).retainAll(asIdList(result)));
-        
-        /* nominal use case : test, result = failed */
-        System.out.println("findAllFromUserSelection : [nuc] test failed");
-        /* */
-        reference = null;
-        criterion = null;
-        theme = null;
-        test = new TestImpl();
-        level = null;
-        resultArg = new ResultImpl();
-        
-        test.setId(1L);
-        resultArg.setId(2L);
-        /* */
-        instance = getBean();
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertFalse(Arrays.asList(2L).retainAll(asIdList(result)));
-        
-        /* nominal use case : level */
-        System.out.println("findAllFromUserSelection : [nuc] level");
-        /* */
-        reference = null;
-        criterion = null;
-        theme = null;
-        test = null;
-        level = new LevelImpl();
-        resultArg = null;
-        
-        level.setId(4L);
-        /* */
-        instance = getBean();
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertFalse(Arrays.asList(3L, 4L).retainAll(asIdList(result)));
-        
-        /* nominal use case : result */
-        System.out.println("findAllFromUserSelection : [nuc] result");
-        /* */
-        reference = null;
-        criterion = null;
-        theme = null;
-        test = null;
-        level = null;
-        resultArg = new ResultImpl();
-        
-        resultArg.setId(2L);
-        /* */
-        instance = getBean();
-        /* */
-        result = instance.findAllFromUserSelection(reference, criterion, theme, test, level, resultArg);
-        /* */
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertFalse(Arrays.asList(2L, 4L).retainAll(asIdList(result)));
-        
-        // TODO error cases
     }
 }

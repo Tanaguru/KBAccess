@@ -1,21 +1,17 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div id="hd" class="navbar">
+<div id="hd" class="navbar navbar-inverse">
     <div class="navbar-inner">
-        <div class="container">
-            <a href="<c:url value='/'/>" class="brand">
-                <img src="<c:url value='/assets/images/kbaccess-logo-header.png'/>" height="24"  alt="KBAccess - Retour à l'accueil"/>
-            </a>
+        <nav class="container">
             <ul class="nav">
-                <li><a href="<c:url value='/testcase/add.html'/>">Créer un testcase</a></li>
-                <li><a href="<c:url value='/testcase/search.html'/>">Chercher un testcase</a></li>
+                <li><a href="<c:url value='/'/>" id="brand-name" class="brand">KBAccess</a></li>
             </ul>
-                
+
             <%@include file="/WEB-INF/template/identification.jspf" %>
-        </div>
+        </nav>
     </div>
 </div>
         
 <div class="container-fluid">
         <div class="row-fluid">
             <%@include file="/WEB-INF/template/menu.jspf" %>
-            <div class="span9">
+            <div class="span10">

@@ -30,7 +30,6 @@ import org.opens.kbaccess.entity.service.reference.CriterionDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.reference.TestDataService;
 import org.opens.kbaccess.entity.service.subject.TestResultDataService;
-import org.opens.kbaccess.entity.service.subject.TestcaseDataServiceImpl;
 import org.opens.kbaccess.entity.subject.TestResult;
 import org.opens.kbaccess.entity.subject.Testcase;
 
@@ -45,7 +44,6 @@ public class EditTestcaseCommand extends ACommand {
     private Long idResult;
     private Long idTestResult;
     private Long idCriterion;
-    private String title;
     private String description;
     
     public EditTestcaseCommand() {
@@ -76,11 +74,13 @@ public class EditTestcaseCommand extends ACommand {
          * i.e : submission of the edited testcase
          * We need to compute his new Criterion, test and result
          */
-        if (this.idTestResult == null) 
+        if (this.idTestResult == null) {
             this.idTestResult = testResultDataService.getByTestResult(test, result).getId();
-                
-        if (this.idCriterion == null) 
+        }
+        
+        if (this.idCriterion == null) {
             this.idCriterion = testcase.getCriterion().getId();
+        }
         
         TestResult testResult = testResultDataService.read(this.idTestResult);
          
@@ -92,14 +92,6 @@ public class EditTestcaseCommand extends ACommand {
         newTestResultList.add(testResult);
         testcase.setTestResults(newTestResultList);
         testcase.setCriterion(test.getCriterion());
-        
-        this.title = TestcaseDataServiceImpl.computeTitleFromCriterionAndUrl(
-                testcase.getCriterion(), 
-                testcase.getWebarchive(), 
-                testcase.getResult()
-                );
-        
-        testcase.setTitle(this.title);
     }
 
     public String getDescription() {
@@ -124,14 +116,6 @@ public class EditTestcaseCommand extends ACommand {
 
     public void setIdResult(Long idResult) {
         this.idResult = idResult;
-    }
-    
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
     
      public Long getIdTest() {

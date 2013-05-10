@@ -1,11 +1,12 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
+    <c:set var="title" value="Contact" />
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
 
-        <div class="container-fluid">
             <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
             
             <div class="page-header"><h1>Contact</h1></div>
@@ -21,7 +22,6 @@
                 <h2><span lang="en">Team</span> KBAccess</h2>
                 <p><a href="mailto:&#116;&#101;&#097;&#109;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;">&#116;&#101;&#097;&#109;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;</a></p>
             </div>
-        </div>
 
         <%@ include file='/WEB-INF/template/footer.jspf' %>
     </body>

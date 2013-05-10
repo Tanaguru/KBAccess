@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-    <artifactId>kbaccess</artifactId>
-    <groupId>org.opens.kbaccess</groupId>
-    <version>2.0-SNAPSHOT</version>
-  </parent>
+        <artifactId>kbaccess</artifactId>
+        <groupId>org.opens.kbaccess</groupId>
+        <version>2.0-SNAPSHOT</version>
+    </parent>
 
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess-webapp</artifactId>
@@ -24,22 +24,29 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kbaccess-i18n</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>2.0-SNAPSHOT</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kbaccess-resources</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>${kbaccess.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kbaccess-persistence</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>${kbaccess.version}</version>
         </dependency>
         <dependency>
             <groupId>org.opens.slurpmanager</groupId>
             <artifactId>slurp-manager-api</artifactId>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.opens</groupId>
+            <artifactId>tgol-api</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.opens.slurpmanager</groupId>
@@ -121,6 +128,7 @@
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
+            <scope>runtime</scope>
         </dependency>            
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -144,7 +152,10 @@
             <scope>runtime</scope>
             <type>tld</type>
         </dependency>    
-        
+        <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+        </dependency>
         
     </dependencies>
     
@@ -167,8 +178,25 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1.1</version>
                 <configuration>
+                    <warSourceExcludes>target/kbaccess-webapp-2.0-SNAPSHOT/assets/less</warSourceExcludes>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>1.0-beta-3</version>
+                <configuration>
+                    <sourceDirectory>src/main/webapp/assets/less</sourceDirectory>
+                    <outputDirectory>target/kbaccess-webapp-2.0-SNAPSHOT/assets/css</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

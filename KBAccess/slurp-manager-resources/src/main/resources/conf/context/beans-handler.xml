@@ -42,7 +42,7 @@
             <value>http://localhost:8080/wayback/wayback</value>
         </property> -->
         <!--<property name="outputDir">
-            <value>/home/user/wayback/warcs</value>
+            <value>/tmp/wayback/warcs</value>
         </property>-->
     </bean>
 

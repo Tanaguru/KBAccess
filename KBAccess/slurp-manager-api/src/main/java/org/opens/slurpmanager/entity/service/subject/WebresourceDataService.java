@@ -14,5 +14,5 @@ import org.opens.slurpmanager.entity.subject.Webresource;
 public interface WebresourceDataService extends
         GenericDataService<Webresource, Long> {
 
-    public Webresource findByUrl(String url);
+    Webresource findByUrl(String url);
 }

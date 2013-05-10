@@ -29,10 +29,10 @@ public class TestcaseImpl implements Testcase, Serializable {
     @GeneratedValue
     @Column(name = "ID_TESTCASE")
     protected Long id;
-    @Column(name = "TITLE", nullable = false)
-    protected String title;
-    @Column(name = "DESCRIPTION", nullable = true)
+    @Column(name = "DESCRIPTION", length = 5000, nullable = true)
     protected String description;
+    @Column(name = "TITLE", nullable = true)
+    protected String title;
     @Column(name = "PRIORITY", nullable = false)
     protected int rank;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -108,11 +108,6 @@ public class TestcaseImpl implements Testcase, Serializable {
     }
 
     @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
     public Date getCreationDate() {
         return creationDate;
     }
@@ -143,11 +138,6 @@ public class TestcaseImpl implements Testcase, Serializable {
     }
 
     @Override
-    public void setTitle(String title) {
-        this.title = StringEscapeUtils.escapeHtml(title);
-    }
-
-    @Override
     public void setCreationDate(Date date) {
         this.creationDate = date;
     }
@@ -170,5 +160,15 @@ public class TestcaseImpl implements Testcase, Serializable {
     @Override
     public void setRank(int rank) {
         this.rank = rank;
+    }
+    
+    @Override
+    public String getTitle() {
+        return this.title;
+    }
+    
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

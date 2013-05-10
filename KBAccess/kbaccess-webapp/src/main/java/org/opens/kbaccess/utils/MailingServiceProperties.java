@@ -31,6 +31,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  *
@@ -95,7 +96,7 @@ public class MailingServiceProperties {
             // is just called once. Even in case of error.
             authTokenEmailBody = new HashMap<String, String>();
             lostPasswordEmailBody = new HashMap<String, String>();
-            if (emailTemplateDirectory.isDirectory() == false) {
+            if (!emailTemplateDirectory.isDirectory()) {
                 // if we do not found the directory, log it and return,
                 // the application has to be restart before the directory
                 // is evaluated again.
@@ -221,7 +222,7 @@ public class MailingServiceProperties {
     }
 
     public void setSubscriptionNotificationMailingList(String[] subscriptionNotificationMailingList) {
-        this.subscriptionNotificationMailingList = subscriptionNotificationMailingList;
+        this.subscriptionNotificationMailingList = (String[])ArrayUtils.clone(subscriptionNotificationMailingList);
     }
 
     public String[] getTestcaseCreationNotificationMailingList() {
@@ -229,7 +230,7 @@ public class MailingServiceProperties {
     }
 
     public void setTestcaseCreationNotificationMailingList(String[] testcaseCreationNotificationMailingList) {
-        this.testcaseCreationNotificationMailingList = testcaseCreationNotificationMailingList;
+        this.testcaseCreationNotificationMailingList = (String[])ArrayUtils.clone(testcaseCreationNotificationMailingList);
     }
 
     public String[] getWebarchiveCreationNotificationMailingList() {
@@ -237,7 +238,7 @@ public class MailingServiceProperties {
     }
 
     public void setWebarchiveCreationNotificationMailingList(String[] webarchiveCreationNotificationMailingList) {
-        this.webarchiveCreationNotificationMailingList = webarchiveCreationNotificationMailingList;
+        this.webarchiveCreationNotificationMailingList = (String[])ArrayUtils.clone(webarchiveCreationNotificationMailingList);
     }
 
 }

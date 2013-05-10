@@ -1,11 +1,12 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
+    <c:set var="title" value="Remerciements" />
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
 
-        <div class="container-fluid">
             <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
 
             <div class="page-header"><h1>Crédits et remerciements</h1></div>
@@ -18,7 +19,6 @@
                     <li>Et surtout à tous les contributeurs de KBAccess !</li>
                 </ul>
             </div>
-        </div>
 
         <%@include file='/WEB-INF/template/footer.jspf' %>
     </body>

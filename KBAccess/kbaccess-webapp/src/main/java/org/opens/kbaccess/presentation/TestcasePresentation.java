@@ -39,15 +39,18 @@ public class TestcasePresentation {
     private Long referenceId;
     private String referenceCode;
     private Long resultId;
+    private String resultCode;
     private Long webarchiveId;
 
     private String authorDisplayedName;
     private String description;
     private String detailsUrl;
     private String referenceLabel;
+    private String referenceLabelForUrl;
     private String webarchiveLocalUrl;
     private String webarchiveOriginalUrl;
     private String criterionLabel;
+    private String themeLabel;
 
     private Date webarchiveCreationDate;
     private Date creationDate;
@@ -102,13 +105,16 @@ public class TestcasePresentation {
         this.referenceId = testcase.getCriterion().getReference().getId();
         this.referenceCode = testcase.getCriterion().getReference().getCode();
         this.resultId = testcase.getResult().getId();
+        this.resultCode = testcase.getResult().getCode();
         this.webarchiveId = testcase.getWebarchive().getId();
+        this.themeLabel = testcase.getCriterion().getTheme().getLabel();
         this.authorDisplayedName = AccountPresentation.generateDisplayedName(testcase.getAccount());
         this.criterionLabel = testcase.getCriterion().getLabel();
         this.description = testcase.getDescription();
         this.detailsUrl = createDetailsSubUrl(testcase);
         this.referenceLabel = testcase.getCriterion().getReference().getLabel();
-        this.webarchiveLocalUrl = testcase.getWebarchive().getLocalUrl();
+        this.referenceLabelForUrl = this.referenceLabel.replaceAll("\\s", "");
+        this.webarchiveLocalUrl = testcase.getWebarchive().getLocalUrl().replaceAll("/http:/", "");
         this.webarchiveOriginalUrl = testcase.getWebarchive().getUrl();
         this.criterionLabel = testcase.getCriterion().getLabel();
         this.webRefCriterionLabel = this.criterionLabel.replace(".", "-");
@@ -215,6 +221,10 @@ public class TestcasePresentation {
     public Long getResultId() {
         return resultId;
     }
+    
+    public String getResultCode() {
+        return resultCode;
+    }
 
     public void setResultId(Long resultId) {
         this.resultId = resultId;
@@ -222,6 +232,10 @@ public class TestcasePresentation {
 
     public Collection<TestResultPresentation> getTestResults() {
         return testResults;
+    }
+    
+    public String getTestResultLabel() {
+        return testResults.iterator().next().getTestLabel();
     }
 
     public void setTestResults(Collection<TestResultPresentation> testResults) {
@@ -290,5 +304,21 @@ public class TestcasePresentation {
 
     public void setReferenceId(Long referenceId) {
         this.referenceId = referenceId;
+    }
+
+    public String getReferenceLabelForUrl() {
+        return referenceLabelForUrl;
+    }
+
+    public void setReferenceLabelForUrl(String referenceLabelForUrl) {
+        this.referenceLabelForUrl = referenceLabelForUrl;
+    }
+
+    public String getThemeLabel() {
+        return themeLabel;
+    }
+
+    public void setThemeLabel(String themeLabel) {
+        this.themeLabel = themeLabel;
     }
 }

@@ -1,12 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
-    <%-- No accents results are used for urls --%>
+    <%-- No pictograms and no accents are used for urls --%>
     <c:choose>
         <c:when test="${withAccents == 'true'}">
             <c:choose>
                 <c:when test="${resultId == 1}">validé</c:when>
                 <c:when test="${resultId == 2}">invalidé</c:when>
-                <c:when test="${resultId == 3}">NAm</c:when>
+                <c:when test="${resultId == 3}">NA</c:when>
                 <c:when test="${resultId == 4}">indéterminé</c:when>
                 <c:otherwise>indetermine</c:otherwise>
             </c:choose>

@@ -15,14 +15,14 @@ import org.opens.slurpmanager.scope.CrawlScope;
  */
 public interface SlurpManager {
 
-    public String create(String url, CrawlScope scope, String description) throws WebarchiveCreationException;
+    String create(String url, CrawlScope scope, String description) throws WebarchiveCreationException;
 
-    public List<String> retrieveAll();
+    List<String> retrieveAll();
 
-    public String retrieve(String url);
+    String retrieve(String url);
 
-    public void update(String url);
+    void update(String url);
 
-    public void delete(String url);
+    void delete(String url);
 
 }

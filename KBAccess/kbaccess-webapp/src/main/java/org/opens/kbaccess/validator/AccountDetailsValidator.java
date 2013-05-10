@@ -47,11 +47,11 @@ public class AccountDetailsValidator extends AAccountValidator {
             errors.rejectValue(FormKeyStore.EMAIL_KEY, MessageKeyStore.MISSING_EMAIL_KEY);
             return false;
         }
-        if (EmailValidator.validate(cmd.getEmail()) == false) {
+        if (!EmailValidator.validate(cmd.getEmail())) {
             errors.rejectValue(FormKeyStore.EMAIL_KEY, MessageKeyStore.INVALID_EMAIL_KEY);
             return false;
         }
-        if (originalEmail.equals(cmd.getEmail()) == false &&
+        if (!originalEmail.equals(cmd.getEmail()) &&
                 accountDataService.getAccountFromEmail(cmd.getEmail()) != null) {
             errors.rejectValue(FormKeyStore.EMAIL_KEY, MessageKeyStore.EMAIL_ALREADY_IN_USE_KEY);
             return false;

@@ -13,13 +13,16 @@
   <name>kbaccess-resources</name>
   <url>http://maven.apache.org</url>
   <properties>
-    <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
+    <sonar.jdbc.username>sonar</sonar.jdbc.username>
+    <tanaguru.version>1.5.2</tanaguru.version>
     <sonar.jdbc.password>sonar</sonar.jdbc.password>
+    <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <kbaccess.version>2.0-SNAPSHOT</kbaccess.version>
+    <displaytag.version>1.2</displaytag.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
     <spring.version>3.0.5.RELEASE</spring.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <sonar.host.url>http://localhost:9000</sonar.host.url>
-    <sonar.jdbc.username>sonar</sonar.jdbc.username>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -94,14 +97,19 @@
         <version>1.5.2</version>
       </dependency>
       <dependency>
+        <groupId>org.opens</groupId>
+        <artifactId>tgol-api</artifactId>
+        <version>1.5.2</version>
+      </dependency>
+      <dependency>
         <groupId>org.opens.slurpmanager</groupId>
         <artifactId>slurp-manager-api</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>2.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.opens.slurpmanager</groupId>
         <artifactId>slurp-manager-impl</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>2.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>javax</groupId>
@@ -159,6 +167,11 @@
         <groupId>cglib</groupId>
         <artifactId>cglib-nodep</artifactId>
         <version>2.2.2</version>
+      </dependency>
+      <dependency>
+        <groupId>displaytag</groupId>
+        <artifactId>displaytag</artifactId>
+        <version>1.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

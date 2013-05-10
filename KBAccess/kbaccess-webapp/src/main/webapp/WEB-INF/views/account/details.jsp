@@ -20,14 +20,12 @@
 
         <div class="page-header"><h1>Utilisateur ${account.displayedName}</h1></div>
         <div class="row-fluid">
-<!--            <div class="span2"><img src="" alt="Avatar"/></div>-->
             <div class="span12">
                 <ul class="unstyled">
                     <li>${account.nbCreatedTestcases} testcases créés</li>
                     <li>${account.nbCreatedWebarchives} webarchives créées</li>
                     <li>inscrit le <fmt:formatDate pattern="dd/MM/yyyy" value="${account.subscriptionDate}"/></li>
                     <li><a href="${account.myUrl}">${account.myUrl}</a></li>
-                    <%--<li>dernière activité le <fmt:formatDate pattern="dd/MM/yyyy" value="${account.lastOperationDate}"/></li>--%>
                 </ul>
             </div>
         </div>

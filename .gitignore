@@ -1,13 +1,4 @@
-/KBAccess/target/
-/KBaccess/kbaccess-api/target/
-/KBaccess/kbaccess-i18n/target/
-/KBaccess/kbaccess-impl-authorization/target/
-/KBaccess/kbaccess-impl-reference/target/
-/KBaccess/kbaccess-impl-statistics/target/
-/KBaccess/kbaccess-impl-subject/target/
-/KBaccess/kbaccess-persistence/target/
-/KBaccess/kbaccess-resources/target/
-/KBaccess/kbaccess-webapp/target/
-/KBAccess/slurp-manager-api/target/
-/KBAccess/slurp-manager-impl/target/
-/KBAccess/slurp-manager-resources/target/
+###############
+# Directories #
+###############
+target/

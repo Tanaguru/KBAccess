@@ -11,10 +11,9 @@
         <div class="container-fluid">
             <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
 
-            <div class="page-header"><h1>Synthése de la webarchive</h1></div>
+            <div class="page-header"><h1>Synthèse de la webarchive</h1></div>
 
             <div class="row-fluid">
-                <h2>Synthèse</h2>
                 <p>
                     Une archive de la page ${webarchive.url} 
                     a été créée à la date du ${webarchive.creationDate} et est accessible à l'Url suivante :

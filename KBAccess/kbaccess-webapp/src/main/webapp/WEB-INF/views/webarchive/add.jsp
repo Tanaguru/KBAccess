@@ -15,7 +15,6 @@
         <div class="page-header"><h1>Ajout de webarchive</h1></div>
 
         <div class="row-fluid">
-            <h2>Ajouter une webarchive</h2>
             <div id="ajout-webarchive-1" class="boite">
                 <form:form  commandName="newWebarchiveCommand" action="add.html" method="POST">
                     <spring:hasBindErrors name="newWebarchiveCommand">

@@ -43,5 +43,14 @@ public interface TestDAO extends GenericDAO<Test, Long> {
      *      The test corresponding to a code
      */
     Test findByCode(String code);
+    
+    /**
+     *
+     * @param label
+     * @param referenceCode
+     * @return
+     *      The test corresponding to a label and a reference code
+     */
+    Test findByLabelAndReferenceCode(String label, String referenceCode);
 
 }

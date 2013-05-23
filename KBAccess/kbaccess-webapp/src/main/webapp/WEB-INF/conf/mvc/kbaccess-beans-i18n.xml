@@ -15,6 +15,7 @@
         <property name="basenames">
             <list>
                 <value>subscribe-I18N</value>
+                <value>reference-I18N</value>
 	    </list>
 	</property>
     </bean>

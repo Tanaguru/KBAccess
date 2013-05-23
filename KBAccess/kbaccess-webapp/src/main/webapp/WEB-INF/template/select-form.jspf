@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
   
-<form method="get" action="list.html">
+<form method="get" action="list.html" class="span2">
     <div class="control-group">
         <label class="control-label" for="selectReferentiel">R&eacute;f&eacute;rentiel</label>
         <select name="reference" id="selectReferentiel" size="1">
@@ -32,7 +32,7 @@
                 <c:forEach var="entry" items="${criterionByRef}">
                     <optgroup id="${entry.key.code}-criterion" label="${entry.key.label}">
                         <c:forEach var="criterion" items="${entry.value}">
-                            <option value="${criterion.id}">${criterion.label}</option>
+                            <option value="${criterion.id}">${criterion.label} - ${criterion.description}</option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
@@ -45,7 +45,7 @@
                 <c:forEach var="entry" items="${testByRef}">
                     <optgroup id="${entry.key.code}-test" label="${entry.key.label}">
                         <c:forEach var="test" items="${entry.value}">
-                            <option value="${test.id}">${test.label}</option>
+                            <option value="${test.id}">${test.label} &#45; ${test.description}</option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>

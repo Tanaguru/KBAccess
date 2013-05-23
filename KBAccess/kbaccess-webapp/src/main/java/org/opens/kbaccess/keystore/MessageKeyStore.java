@@ -63,4 +63,7 @@ public final class MessageKeyStore {
     public static final String NOT_RESPONDING_URL = "notRespondingUrl";
 
     public static final String PASSWORD_MISMATCH_KEY = "passwordMismatch";
+    
+    public static final String WEBARCHIVE_TOO_LONG_DESCRIPTION = "webarchiveTooLongDescription";
+    public static final String TESTCASE_TOO_LONG_DESCRIPTION = "testcaseTooLongDescription";
 }

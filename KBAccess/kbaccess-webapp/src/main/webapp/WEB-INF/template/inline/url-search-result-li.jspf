@@ -1,23 +1,16 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page pageEncoding="UTF-8" %>
-    <%-- No pictograms and no accents are used for urls --%>
-    <c:choose>
-        <c:when test="${withAccents == 'true'}">
-            <c:choose>
-                <c:when test="${resultId == 1}">validé</c:when>
-                <c:when test="${resultId == 2}">invalidé</c:when>
-                <c:when test="${resultId == 3}">NA</c:when>
-                <c:when test="${resultId == 4}">indéterminé</c:when>
-                <c:otherwise>indetermine</c:otherwise>
-            </c:choose>
-        </c:when>
-        <c:otherwise>
-            <c:choose>
-                <c:when test="${resultId == 1}">valide</c:when>
-                <c:when test="${resultId == 2}">invalide</c:when>
-                <c:when test="${resultId == 3}">NA</c:when>
-                <c:when test="${resultId == 4}">indétermine</c:when>
-                <c:otherwise>indéterminé</c:otherwise>
-            </c:choose>
-        </c:otherwise>
-    </c:choose>
+
+<li>
+    <c:set var="resultLabel">
+        <c:choose>
+            <c:when test="${testcase.resultId == 1}">Passed</c:when>
+            <c:when test="${testcase.resultId == 2}">Failed</c:when>
+            <c:when test="${testcase.resultId == 3}">Not Applicable</c:when>
+            <c:when test="${testcase.resultId == 4}">Pre-qualified</c:when>
+        </c:choose>
+    </c:set>
+    <a href="<c:url value='${testcase.webarchiveLocalUrl}'/>">${testcase.testCode}-${resultLabel}</a>
+    ${testcase.webarchiveOriginalUrl} : <fmt:formatDate pattern="yyyy MMMM dd hh:mm:ss" value="${testcase.webarchiveCreationDate}"/>
+</li>

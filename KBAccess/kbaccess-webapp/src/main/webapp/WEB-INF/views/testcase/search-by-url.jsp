@@ -2,17 +2,17 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Recherche de testcase par URL"/>
+    <c:set var="title" value="Recherche d'exemple par URL"/>
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
         
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
 
-        <div class="page-header"><h1>Recherche par URL</h1></div>
+        <div class="page-header"><h1>Recherche d'exemple par URL</h1></div>
 
         <div class="row-fluid">
-            <p>Il est possible de chercher des <span lang="en">testcases</span> sans passer par le formulaire de recherche, en saisissant dans l'URL directement ce que l'on cherche.</p>
+            <p>Il est possible de chercher des <span lang="en">exemples</span> sans passer par le formulaire de recherche, en saisissant dans l'URL directement ce que l'on cherche.</p>
             <p>Les formalismes possibles sont les suivants&nbsp;:</p>
             <dl>
                 <dt>Par test&nbsp;:</dt>

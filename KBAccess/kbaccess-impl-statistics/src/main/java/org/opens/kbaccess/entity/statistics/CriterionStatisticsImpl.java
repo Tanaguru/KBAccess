@@ -1,7 +1,5 @@
 package org.opens.kbaccess.entity.statistics;
 
-import org.opens.kbaccess.entity.statistics.CriterionStatistics;
-
 /*
  * URLManager - URL Indexer
  * Copyright (C) 2008-2012  Open-S Company
@@ -32,14 +30,46 @@ public class CriterionStatisticsImpl implements CriterionStatistics {
 
     private Long id;
     private String code;
+    private String label;
+    private String referenceCode;
+    private Long referenceId;
+    private String referenceLabel;
     private Long testcaseCount;
     
     public CriterionStatisticsImpl() {
     }
 
-    public CriterionStatisticsImpl(Long id, String code, Long testcaseCount) {
+    public CriterionStatisticsImpl(
+            Long id, 
+            String code, 
+            String label, 
+            String referenceCode,
+            Long referenceId, 
+            String referenceLabel,
+            Long testcaseCount) {
         this.id = id;
         this.code = code;
+        this.label = label;
+        this.referenceCode = referenceCode;
+        this.referenceId = referenceId;
+        this.referenceLabel = referenceLabel;
+        this.testcaseCount = testcaseCount;
+    }
+    
+    public CriterionStatisticsImpl(
+            Long id, 
+            String code, 
+            String label, 
+            String referenceCode,
+            Long referenceId, 
+//            String referenceLabel,
+            Long testcaseCount) {
+        this.id = id;
+        this.code = code;
+        this.label = label;
+        this.referenceCode = referenceCode;
+        this.referenceId = referenceId;
+//        this.referenceLabel = referenceLabel;
         this.testcaseCount = testcaseCount;
     }
 
@@ -61,6 +91,46 @@ public class CriterionStatisticsImpl implements CriterionStatistics {
     @Override
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public String getLabel() {
+        return label;
+    }
+
+    @Override
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    @Override
+    public String getReferenceCode() {
+        return referenceCode;
+    }
+
+    @Override
+    public void setReferenceCode(String referenceCode) {
+        this.referenceCode = referenceCode;
+    }
+    
+    @Override
+    public Long getReferenceId() {
+        return referenceId;
+    }
+    
+    @Override
+    public void setReferenceId(Long referenceId) {
+        this.referenceId = referenceId;
+    }
+    
+    @Override
+    public String getReferenceLabel() {
+        return referenceLabel;
+    }
+
+    @Override
+    public void setReferenceLabel(String referenceLabel) {
+        this.referenceLabel = referenceLabel;
     }
 
     @Override

@@ -21,6 +21,9 @@
  */
 package org.opens.kbaccess.validator;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.WebarchiveCommand;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
@@ -34,6 +37,8 @@ import org.springframework.validation.Validator;
  */
 public class WebarchiveCommandValidator implements Validator {
 
+    private static final int HTTP_STATUS_OK= 200;
+    
     public WebarchiveCommandValidator() {
     }
 
@@ -42,6 +47,21 @@ public class WebarchiveCommandValidator implements Validator {
         return WebarchiveCommand.class.isAssignableFrom(type);
     }
 
+    private boolean hasValidHttpResponse(String url) {
+        int responseCode = -1;
+        
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("HEAD");
+
+            responseCode = connection.getResponseCode();
+        } catch (Exception e) {
+            LogFactory.getLog(NewTestcaseValidator.class.getName()).error("HEAD request failed : " + e.getMessage());
+        } 
+        
+        return (responseCode == HTTP_STATUS_OK);      
+    }
+    
     private boolean validateUrl(WebarchiveCommand webarchiveCommand, Errors errors) {
         if (webarchiveCommand.getUrl() == null || webarchiveCommand.getUrl().isEmpty()) {
             errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.MISSING_URL_KEY);
@@ -49,16 +69,29 @@ public class WebarchiveCommandValidator implements Validator {
         } else if (!UrlValidator.validate(webarchiveCommand.getUrl())) {
             errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.INVALID_URL_KEY);
             return false;
+        } else if (!hasValidHttpResponse(webarchiveCommand.getUrl())) {
+            errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.NOT_RESPONDING_URL);
+            return false;
         }
         return true;
     }
-
+    
+    private boolean validateDescription(WebarchiveCommand webarchiveCommand, Errors errors) {
+        if (webarchiveCommand.getDescriptionNewWebarchive().length() > 255) {
+            errors.rejectValue(FormKeyStore.DESCRIPTION_WEBARCHIVE_KEY, MessageKeyStore.WEBARCHIVE_TOO_LONG_DESCRIPTION);
+            return false;
+        }
+        
+        return true;
+    }
+    
     @Override
     public void validate(Object o, Errors errors) {
         WebarchiveCommand webarchiveCommand = (WebarchiveCommand) o;
         boolean hasError = false;
         
-        if (!validateUrl(webarchiveCommand, errors)) {
+        if (!validateUrl(webarchiveCommand, errors)
+            || !validateDescription(webarchiveCommand, errors)) {
             hasError = true;
         }
         

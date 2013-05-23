@@ -85,15 +85,15 @@ public class AccountController extends AController {
         
         // handle login form
         handleUserLoginForm(model);
-        //
+        
         currentUser = AccountUtils.getInstance().getCurrentUser();
+
+        
         if (currentUser == null) {
-            LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/details, check spring security configuration");
-            return "guest/login";
+            requestedUserIsCurrentUser = false;
+        } else {
+            requestedUserIsCurrentUser = id == null || id.equals(currentUser.getId());
         }
-        
-        requestedUserIsCurrentUser = (id == null || id.equals(currentUser.getId()));
-        
         
         // fetch the requested account and check it exists
         if (requestedUserIsCurrentUser) {
@@ -121,7 +121,14 @@ public class AccountController extends AController {
             model.addAttribute("title", "Utilisateur " + accountPresentation.getDisplayedName() + " - KBAccess");
             handleBreadcrumbTrail(model, "KBAccess", "/", "Utilisateur " + accountPresentation.getDisplayedName());
         }
+        
         model.addAttribute("account", accountPresentation);
+        model.addAttribute(
+                ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
+                TestcasePresentation.fromCollection(
+                testcaseDataService.getLastTestcasesFromAccount(requestedUser, 5),
+                true
+                ));
         return "account/details";
     }
     
@@ -194,13 +201,13 @@ public class AccountController extends AController {
         return "webarchive/list";
     }
     
-    @RequestMapping("my-testcases")
+    @RequestMapping("my-examples")
     public String myTestcasesHanlder(Model model) {
         Account currentUser;
 
         // 
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mes testcases");
+        handleBreadcrumbTrail(model, "KBAccess", "/", "Mes exemples");
         //
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
@@ -215,7 +222,7 @@ public class AccountController extends AController {
                 testcaseDataService.getAllFromAccount(currentUser),
                 true
                 ));
-        model.addAttribute("testcaseListH1", "Mes testcases");
+        model.addAttribute("testcaseListH1", "Mes exemples");
         return "testcase/list";
     }
     

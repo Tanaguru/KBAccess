@@ -84,6 +84,9 @@ public abstract class AController {
             Map<Reference, Collection<Level>> levelByRefMap = new HashMap<Reference, Collection<Level>>();
 
             results = (Collection) resultDataService.findAll();
+            // We dont wan't this result to be in the search form
+            results.remove(resultDataService.getByCode("Indéterminé"));
+            
             references = (Collection) referenceDataService.findAll();
             for (Reference reference : references) {
                 themeByRefMap.put(reference, themeDataService.getThemeListFromReference(reference));
@@ -165,7 +168,7 @@ public abstract class AController {
         model.addAttribute("criterionByRef", criterionByRef);
         model.addAttribute("testByRef", testByRef);
         model.addAttribute("levelByRef", levelByRef);
-        model.addAttribute("resultList", results);
+        model.addAttribute("resultList", results);     
     }
     
     /*

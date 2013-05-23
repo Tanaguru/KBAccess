@@ -53,6 +53,54 @@ public interface CriterionStatistics {
     
     /**
      * 
+     * @return The label of the criterion in database
+     */
+    String getLabel();
+    
+    /**
+     * 
+     * @param label The label of the criterion in database
+     */
+    void setLabel(String label);
+    
+    /**
+     * 
+     * @return The code of the criterion's reference in database
+     */
+    String getReferenceCode();
+    
+    /**
+     * 
+     * @param referenceCode The code of the criterion's reference in database
+     */
+    void setReferenceCode(String referenceCode);
+    
+    /**
+     * 
+     * @return The id of the criterion's reference in database
+     */
+    Long getReferenceId();
+    
+    /**
+     * 
+     * @param referenceId The code of the criterion's reference in database
+     */
+    void setReferenceId(Long referenceId);
+    
+     /**
+     * 
+     * @return The label of the criterion's reference in database
+     */
+    String getReferenceLabel();
+    
+    /**
+     * 
+     * @param referenceLabel The label of the criterion's reference in database
+     */
+    void setReferenceLabel(String referenceLabel);
+    
+    /**
+     * 
      * @return The number of testcases relating to this criterion
      */
     Long getTestcaseCount();

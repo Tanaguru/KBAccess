@@ -23,6 +23,7 @@ package org.opens.kbaccess.entity.service.statistics;
 
 import java.util.Collection;
 import org.opens.kbaccess.entity.dao.statistics.StatisticsDAO;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 
 /**
@@ -42,6 +43,21 @@ public interface StatisticsDataService {
      *              the number of testcases associated with each one.
      */
     Collection<CriterionStatistics> getCriterionOrderByTestcaseCount(
+            boolean asc,
+            int limit
+            );
+    
+    /**
+     * Return a list of account statistic entity sorted by
+     * the number of testcases associated with each one.
+     * NOTE: Its result may be cached.
+     * 
+     * @param asc   Whether to sort the list ascending or descending
+     * @param limit The maximum number of entity to return
+     * @return      A list of account statistic entity sorted by
+     *              the number of testcases associated with each one.
+     */
+    Collection<AccountStatistics> getAccountOrderByTestcaseCount(
             boolean asc,
             int limit
             );

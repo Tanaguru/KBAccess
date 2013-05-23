@@ -9,27 +9,44 @@
         <%@include file='/WEB-INF/template/header.jspf' %>
         
         <div class="row-fluid hero-unit span12">
-            <h1 id="kbintro-p">
-                KBAccess, la base de connaissance des <strong>bons</strong> et <strong>mauvais</strong> exemples <strong>d'accessibilité</strong>.
+            <h1>
+                KBAccess, la base de connaissance des <span class="bold">bons</span> et <span class="bold">mauvais</span>
+                exemples <span class="bold">d'accessibilité</span>.<br />
             </h1>
+            <p>
+                Pour un web plus accessible. <a href="contribute.html">Contribuez !</a>
+            <p>
         </div>
 
-         <div class="row-fluid">
-            <div class="span4">
+         <div class="row-fluid statistics-div">
+            <div class="span3">
                 <h2>Statistiques</h2>
                 <ul id="statistics-list" class="unstyled">
-                    <li><span id="stat-testcase-count">${statistics.testcaseCount}</span> Testcases</li>
-                    <li><span id="stat-webarchive-count">${statistics.webarchiveCount}</span> Web Archives</li>
-                    <li><span id="stat-reference-count">${statistics.frameOfReferenceCount}</span> Référentiels</li>
-                    <li><span id="stat-user-count">${statistics.userCount}</span> Utilisateurs</li>
+                    <li>
+                        <span id="stat-testcase-count">${statistics.testcaseCount}</span> Exemple<c:if test="${statistics.testcaseCount > 1}">s</c:if>
+                    </li>
+                    <li>
+                        <span id="stat-webarchive-count">${statistics.webarchiveCount}</span> Web Archive<c:if test="${statistics.webarchiveCount > 1}">s</c:if>
+                    </li>
+                    <li>
+                        <span id="stat-reference-count">${statistics.frameOfReferenceCount}</span> Référentiel<c:if test="${statistics.frameOfReferenceCount > 1}">s</c:if>
+                    </li>
+                    <li>
+                        <span id="stat-user-count">${statistics.userCount}</span> Contributeur<c:if test="${statistics.userCount > 1}">s</c:if>
+                    </li>
                 </ul>
             </div>
-            <div class="span4">
+            <div class="span3">
+                <h2>Contributeurs les plus actifs</h2>
+                <c:set var="accountStatistics" value="${statistics.bestContributors}"/>
+                <%@include file="/WEB-INF/template/block/account-statistics.jspf" %>
+            </div>    
+            <div class="span3">
                 <h2>Critères les plus fournis</h2>
                 <c:set var="criterionStatistics" value="${statistics.mostReferencedCriterion}"/>
                 <%@include file="/WEB-INF/template/block/criterion-statistics.jspf" %>
             </div>
-            <div class="span4">
+            <div class="span3">
                 <h2>Critères les moins fournis</h2>
                 <c:set var="criterionStatistics" value="${statistics.leastReferencedCriterion}"/>
                 <%@include file="/WEB-INF/template/block/criterion-statistics.jspf" %>
@@ -37,7 +54,7 @@
         </div> 
 
         <div class="row-fluid">
-            <h2>Les derniers Testcases</h2>
+            <h2>Les derniers exemples</h2>
             
             <c:set var="isHome" value="${true}"/>
             <%@include file='/WEB-INF/template/testcase-list.jspf' %>

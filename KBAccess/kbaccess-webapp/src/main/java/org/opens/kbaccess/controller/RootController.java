@@ -1,10 +1,10 @@
 /*
- * URLManager - URL Indexer
- * Copyright (C) 2008-2012  Open-S Company
+ * KBAccess - Collaborative database of accessibility examples
+ * Copyright (C) 2012-2016  Open-S Company
  *
- * This file is part of URLManager.
+ * This file is part of KBAccess.
  *
- * URLManager is free software: you can redistribute it and/or modify
+ * KBAccess is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
@@ -45,7 +45,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -189,13 +188,6 @@ public class RootController extends AController {
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model, "KBAccess", "/", "Mentions légales");
         return "legal";
-    }
-
-    @RequestMapping("thanks")
-    public String thanksHandler(Model model) {
-        handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Remerciement");
-        return "thanks";
     }
     
     /*

@@ -33,6 +33,7 @@ public class TestResultPresentation {
     private Long testId;
     
     private String testLabel;
+    private String testCode;
 
     public TestResultPresentation() {
     }
@@ -41,6 +42,7 @@ public class TestResultPresentation {
         this.resultId = testResult.getResult().getId();
         this.testId = testResult.getTest().getId();
         this.testLabel = testResult.getTest().getLabel();
+        this.testCode = testResult.getTest().getCode();
     }
 
     public Long getResultId() {
@@ -66,5 +68,12 @@ public class TestResultPresentation {
     public void setTestLabel(String testLabel) {
         this.testLabel = testLabel;
     }
-    
+
+    public String getTestCode() {
+        return testCode;
+    }
+
+    public void setTestCode(String testCode) {
+        this.testCode = testCode;
+    }
 }

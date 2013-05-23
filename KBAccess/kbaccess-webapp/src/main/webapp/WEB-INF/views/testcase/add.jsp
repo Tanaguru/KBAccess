@@ -4,7 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Ajout de testcase 1/3 - Testcase " />
+    <c:set var="title" value="Ajout d'un exemple 1/3 - Exemple" />
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -12,9 +12,11 @@
 
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <h1 class="page-header">Ajout d'un testcase, étape 1/3 : Caractéristiques du testcase</h1>
+        <h1 class="page-header">Ajout d'un exemple, étape 1/3 : Caractéristiques de l'exemple</h1>
         <div class="row-fluid">
-            <form:form commandName="newTestcaseCommand" action="add.html" method="POST">
+            <c:url var='addUrl' value='/example/add.html'/>
+            
+            <form:form commandName="newTestcaseCommand" action="${addUrl}" method="POST">
                 <table>
                     <tbody>
                         <tr>
@@ -46,10 +48,11 @@
                         </tr>
                         <tr>
                             <td class="col1">
-                                <label for="testcase_description">Commentaire :</label>
+                                <label for="testcase_description">Description :</label>
                             </td>
                             <td>
                                 <form:textarea path="description" id="testcase_description" rows="4" cols="35"/>
+                                <form:errors path="description" cssClass="alert alert-error" element="p"/>
                             </td>
                         </tr>
                         <tr>

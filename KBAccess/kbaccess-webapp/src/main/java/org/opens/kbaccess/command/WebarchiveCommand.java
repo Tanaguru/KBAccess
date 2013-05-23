@@ -20,31 +20,32 @@
  * Contact us by mail: open-s AT open-s DOT com
  */
 package org.opens.kbaccess.command;
+import org.opens.kbaccess.command.utils.ACommand;
 
 /**
  *
  * @author bcareil
  */
-public class WebarchiveCommand {
+public class WebarchiveCommand extends ACommand {
     private String url;
-    private String description;
+    private String descriptionNewWebarchive;
     private String scope;
 
     public WebarchiveCommand() {
     }
 
-    public WebarchiveCommand(String url, String description, String scope) {
+    public WebarchiveCommand(String url, String descriptionNewWebarchive, String scope) {
         this.url = url;
-        this.description = description;
+        this.descriptionNewWebarchive = descriptionNewWebarchive;
         this.scope = scope;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionNewWebarchive() {
+        return descriptionNewWebarchive;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionNewWebarchive(String descriptionNewWebarchive) {
+        this.descriptionNewWebarchive = descriptionNewWebarchive;
     }
 
     public String getUrl() {

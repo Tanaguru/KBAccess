@@ -1,7 +1,5 @@
 package org.opens.kbaccess.entity.statistics;
 
-import org.opens.kbaccess.entity.statistics.CriterionStatistics;
-
 /*
  * URLManager - URL Indexer
  * Copyright (C) 2008-2012  Open-S Company
@@ -26,20 +24,19 @@ import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 
 /**
  *
- * @author bcareil
+ * @author blebail
  */
-public class CriterionStatisticsImpl implements CriterionStatistics {
+public class AccountStatisticsImpl implements AccountStatistics {
 
     private Long id;
-    private String code;
     private Long testcaseCount;
+    private String displayedName;
     
-    public CriterionStatisticsImpl() {
+    public AccountStatisticsImpl() {
     }
 
-    public CriterionStatisticsImpl(Long id, String code, Long testcaseCount) {
+    public AccountStatisticsImpl(Long id, Long testcaseCount) {
         this.id = id;
-        this.code = code;
         this.testcaseCount = testcaseCount;
     }
 
@@ -54,13 +51,13 @@ public class CriterionStatisticsImpl implements CriterionStatistics {
     }
 
     @Override
-    public String getCode() {
-        return code;
+    public String getDisplayedName() {
+        return displayedName;
     }
 
     @Override
-    public void setCode(String code) {
-        this.code = code;
+    public void setDisplayedName(String displayedName) {
+        this.displayedName = displayedName;
     }
 
     @Override

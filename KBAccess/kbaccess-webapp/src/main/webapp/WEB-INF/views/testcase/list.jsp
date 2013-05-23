@@ -4,7 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Tous les testcases" />
+    <c:set var="title" value="${testcaseListTitle}" />
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>

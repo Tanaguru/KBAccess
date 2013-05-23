@@ -27,6 +27,7 @@ import org.opens.kbaccess.entity.service.reference.ReferenceDataService;
 import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 
 /**
@@ -36,6 +37,7 @@ import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 public class StatisticsPresentation {
     
     private static final int NB_CRITERION_STATISTICS = 3;
+    private static final int NB_ACCOUNT_STATISTICS = 3;
     
     private Long testcaseCount;
     private Long webarchiveCount;
@@ -44,6 +46,8 @@ public class StatisticsPresentation {
     
     Collection<CriterionStatistics> mostReferencedCriterion;
     Collection<CriterionStatistics> leastReferencedCriterion;
+    
+    Collection<AccountStatistics> bestContributors;
 
     public StatisticsPresentation() {
     }
@@ -62,6 +66,7 @@ public class StatisticsPresentation {
         
         mostReferencedCriterion = statisticsDataService.getCriterionOrderByTestcaseCount(false, NB_CRITERION_STATISTICS);
         leastReferencedCriterion = statisticsDataService.getCriterionOrderByTestcaseCount(true, NB_CRITERION_STATISTICS);
+        bestContributors = statisticsDataService.getAccountOrderByTestcaseCount(false, NB_ACCOUNT_STATISTICS);
     }
 
     public Long getFrameOfReferenceCount() {
@@ -86,6 +91,14 @@ public class StatisticsPresentation {
 
     public void setMostReferencedCriterion(Collection<CriterionStatistics> mostReferencedCriterion) {
         this.mostReferencedCriterion = mostReferencedCriterion;
+    }
+
+    public Collection<AccountStatistics> getBestContributors() {
+        return bestContributors;
+    }
+
+    public void setBestContributors(Collection<AccountStatistics> bestContributors) {
+        this.bestContributors = bestContributors;
     }
 
     public Long getTestcaseCount() {

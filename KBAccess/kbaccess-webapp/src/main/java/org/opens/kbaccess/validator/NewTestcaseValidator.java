@@ -183,6 +183,24 @@ public class NewTestcaseValidator implements Validator {
         return true;
     }
     
+    private boolean validateDescription(NewTestcaseCommand newTestcaseCommand, Errors errors) {
+        if (newTestcaseCommand.getDescription().length() > 5000) {
+            errors.rejectValue(FormKeyStore.DESCRIPTION_TESTCASE_KEY, MessageKeyStore.TESTCASE_TOO_LONG_DESCRIPTION);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean validateDescriptionWebArchive(NewTestcaseCommand newTestcaseCommand, Errors errors) {
+        if (newTestcaseCommand.getDescriptionNewWebarchive().length() > 255) {
+            errors.rejectValue(FormKeyStore.DESCRIPTION_WEBARCHIVE_KEY, MessageKeyStore.WEBARCHIVE_TOO_LONG_DESCRIPTION);
+            return false;
+        }
+        
+        return true;
+    }
+    
     /*
      * Validator implementation
      */
@@ -200,7 +218,8 @@ public class NewTestcaseValidator implements Validator {
         /* validate testcase */
         //if (!validateIdCriterion(newTestcaseCommand, errors)
         if (!validateIdTest(newTestcaseCommand, errors)
-            || !validateIdResult(newTestcaseCommand, errors)) {
+            || !validateIdResult(newTestcaseCommand, errors)
+            || !validateDescription(newTestcaseCommand, errors)) {
             hasError = true;
         }
         
@@ -212,6 +231,8 @@ public class NewTestcaseValidator implements Validator {
                 if (!validateUrlNewWebarchive(newTestcaseCommand, errors)) {
                     hasError = true;
                 }
+            } else if (!validateDescriptionWebArchive(newTestcaseCommand, errors)) {
+              hasError = true;  
             } else {
                 if (!validateIdWebarchive(newTestcaseCommand, errors)) {
                     hasError = true;

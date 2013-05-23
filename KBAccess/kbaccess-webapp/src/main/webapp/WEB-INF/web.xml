@@ -50,11 +50,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>kbaccess-webapp</servlet-name>
-        <url-pattern>/j_spring_security_check</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>kbaccess-webapp</servlet-name>
-        <url-pattern>/j_spring_security_logout</url-pattern>
+        <url-pattern>/kba/*</url-pattern>
     </servlet-mapping>
 
     <filter>
@@ -97,7 +93,7 @@
         <session-timeout>30</session-timeout>
     </session-config>
     <!-- friendly error pages -->
-    <!--    <error-page>
+<!--    <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/views/error.jsp</location>
     </error-page>

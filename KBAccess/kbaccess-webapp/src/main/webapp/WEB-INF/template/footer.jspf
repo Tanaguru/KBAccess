@@ -6,11 +6,10 @@
 <div class="container">
     <div class="row">
         <p style="text-align: center">
-            <a href="<c:url value='/thanks.html'/>">Remerciements</a>
-            - <a href="<c:url value='/legal.html'/>">Mentions l&eacute;gales</a>
+            <a href="<c:url value='/legal.html'/>">Mentions l&eacute;gales</a>
             - <a href="<c:url value='/contact.html'/>">Nous contacter</a>
             <br/>
-            &copy; <a href="http://www.Open-S.com" title="Open-S - Solutions innovantes pour les professionnels du web">Open-S</a> 2010-2012
+            &copy; <a href="http://www.Open-S.com" title="Open-S - Solutions innovantes pour les professionnels du web">Open-S</a> 2013-2014
         </p>
     </div>
 </div>

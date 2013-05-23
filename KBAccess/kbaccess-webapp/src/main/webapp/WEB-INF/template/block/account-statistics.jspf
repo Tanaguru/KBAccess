@@ -1,10 +1,9 @@
 <%@ page pageEncoding="UTF-8" %>
 <ol>
-    <c:forEach var="criterion" items="${criterionStatistics}">
+    <c:forEach var="account" items="${accountStatistics}">
         <li>
-            <a href="<c:url value='/testcase/list.html?criterion=${criterion.id}'/>"
-               title="Lister les testcases du critère ${criterion.code}">${criterion.code}</a>
-            (${criterion.testcaseCount} testcase<c:if test="${criterion.testcaseCount > 1}">s</c:if>)
+            <a href="<c:url value='/account/details/${account.id}/profile.html'/>">${account.displayedName}</a>
+            (${account.testcaseCount} exemple<c:if test="${account.testcaseCount > 1}">s</c:if>)
         </li>
     </c:forEach>
 </ol>

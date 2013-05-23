@@ -37,5 +37,10 @@ public class TestDataServiceImpl extends AbstractGenericDataService<Test, Long>
     public Test getByCode(String code) {
         return ((TestDAO) entityDao).findByCode(code);
     }
+    
+    @Override
+    public Test getByLabelAndReferenceCode(String label, String referenceCode) {
+        return ((TestDAO) entityDao).findByLabelAndReferenceCode(label, referenceCode);
+    }
 
 }

@@ -4,7 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Edition du testcase ${testcase.id}" />
+    <c:set var="title" value="Edition de l'exemple ${testcase.id}" />
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
@@ -12,7 +12,7 @@
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <div class="page-header">
-            <h1>Modification du testcase <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
+            <h1>Modification de l'exemple <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
         </div>
 
         <c:choose>
@@ -32,7 +32,8 @@
                                 <div class="controls">
                                     <form:select path="idTest" size="5" id="testcase_test">
                                         <%@include file="/WEB-INF/template/form/options/test-ids.jspf" %>
-                                    </form:select>                                    
+                                    </form:select>           
+                                    <form:errors path="idTest" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>.
                             <div class="control-group">
@@ -41,12 +42,14 @@
                                     <form:select path="idResult"  id="testcase_result" size="5">
                                         <%@include file="/WEB-INF/template/form/options/result-ids.jspf" %>
                                     </form:select>
+                                    <form:errors path="idResult" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label for="testcase_description">Commentaire :</label>
+                                <label for="testcase_description">Description :</label>
                                 <div class="controls">
-                                    <form:textarea path="description" id="testcase_description" rows="4" cols="35" />                                      
+                                    <form:textarea path="description" id="testcase_description" rows="4" cols="35" />      
+                                    <form:errors path="description" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="form-actions">

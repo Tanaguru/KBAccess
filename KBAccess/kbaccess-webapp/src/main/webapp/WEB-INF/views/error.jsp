@@ -6,8 +6,6 @@
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
-
-            <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
             
             <div class="page-header"><h1>Erreur</h1></div>
             <div class="row-fluid">

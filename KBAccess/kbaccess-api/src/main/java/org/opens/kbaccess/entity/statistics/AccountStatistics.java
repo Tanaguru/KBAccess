@@ -23,43 +23,43 @@ package org.opens.kbaccess.entity.statistics;
 
 /**
  *
- * @author bcareil
+ * @author blebail
  */
-public interface CriterionStatistics {
+public interface AccountStatistics {
     
     /**
      * 
-     * @return The id of the criterion in database
+     * @return The id of the account in database
      */
     Long getId();
     
     /**
      * 
-     * @param id The id of the criterion in database
+     * @param id The id of the account in database
      */
     void setId(Long id);
     
     /**
      * 
-     * @return The internationalization code of the entity
+     * @return The displayed name of the account in database
      */
-    String getCode();
+    String getDisplayedName();
     
     /**
      * 
-     * @param code The internationalization code of the entity
+     * @param displayedName The displayed name of the account in database
      */
-    void setCode(String code);
+    void setDisplayedName(String displayedName);
     
     /**
      * 
-     * @return The number of testcases relating to this criterion
+     * @return The number of testcases relating to this account
      */
     Long getTestcaseCount();
     
     /**
      * 
-     * @param testcaseCount The number of testcases relating to this criterion
+     * @param testcaseCount The number of testcases relating to this account
      */
     void setTestcaseCount(Long testcaseCount);
     

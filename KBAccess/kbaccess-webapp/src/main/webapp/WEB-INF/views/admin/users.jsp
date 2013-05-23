@@ -17,7 +17,7 @@
                     <p class="alert alert-info">Aucun résultat.</p>
                 </c:when>
                 <c:otherwise>
-                    <table id="tableComptes" class="table table-strip">
+                    <table summary="Liste de tous les utilisateurs" id="tableComptes" class="table table-strip">
                         <tr>
                             <th class="thTableComptes">Email</th>
                             <th class="thTableComptes">Nom</th>

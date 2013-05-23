@@ -18,20 +18,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Contact us by mail: open-s AT open-s DOT com
- */
+ */ 
 package org.opens.kbaccess.controller;
 
+import java.util.Collection;
+import java.util.Iterator;
 import org.opens.kbaccess.controller.utils.AController;
+import org.opens.kbaccess.entity.authorization.Account;
+import org.opens.kbaccess.entity.reference.Criterion;
+import org.opens.kbaccess.entity.reference.Level;
+import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.reference.Result;
+import org.opens.kbaccess.entity.reference.Test;
+import org.opens.kbaccess.entity.reference.Theme;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
+import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.StatisticsPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
+import org.opens.kbaccess.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  *
@@ -51,30 +65,116 @@ public class RootController extends AController {
     private static final int NB_TESTCASES_DISPLAYED = 5;
     
     /*
+     * Private methods
+     */
+        private String getAndDisplayTestcasesFromUrlSearch(Model model, String codeRef, String codeTest, String codeResult) {
+            Collection<TestcasePresentation> testcases = null;
+            Reference reference = null;
+            Test test = null;
+            Theme theme = null;
+            Level level = null;
+            Criterion criterion = null;
+            Result result = null;
+            StringBuilder errorMessage = new StringBuilder();
+
+            // Reference
+            model.addAttribute("codeRef", codeRef);
+            reference = referenceDataService.getByCode(codeRef);
+            if (reference == null) {
+                errorMessage.append("Le référentiel ").append(codeRef).append(" n'existe pas. ");
+            }
+
+
+            // Test
+            if (codeTest != null) {
+                model.addAttribute("codeTest", codeTest);
+                test = testDataService.getByLabelAndReferenceCode(codeTest, codeRef);
+
+                if (test == null) {
+                    errorMessage.append("Le test ").append(codeTest).append("(").append(codeRef).append(") n'existe pas. ");
+                }
+            } else {
+                model.addAttribute("codeTest", "Tous");
+            }
+
+            // Result
+            // FIX : internationalisation
+            if (codeResult != null) {
+                model.addAttribute("codeResult", codeResult);
+
+                if (codeResult.equals("Passed")) {
+                    codeResult = "Validé";
+                }
+
+                if (codeResult.equals("Failed")) {
+                    codeResult = "Invalidé";
+                }
+
+                result = resultDataService.getByCode(codeResult);
+                if (result == null) {
+                    errorMessage.append("Le résultat ").append(codeResult).append(" n'existe pas. ");
+                }
+            } else {
+                model.addAttribute("codeResult", "Tous");
+            }
+
+            if (errorMessage.length() != 0) {
+                model.addAttribute("errorMessage", errorMessage.toString());
+            } else {
+                // testcases fetch
+                testcases = TestcasePresentation.fromCollection(
+                        testcaseDataService.getAllFromUserSelection(reference, criterion, theme, test, level, result),
+                        true);
+            }
+            // result list
+            model.addAttribute(ModelAttributeKeyStore.TESTCASE_LIST_KEY, testcases);
+            return "testcase/url-search-result";
+        }
+    /*
      * Endpoints
      */
-    @RequestMapping(value={"index"})
+
+    @RequestMapping(value = {"index"})
     public String homeHandler(Model model) {
         handleUserLoginForm(model);
         handleTestcaseSearchForm(model);
+
+        StatisticsPresentation statisticsPresentation = new StatisticsPresentation(
+                testcaseDataService,
+                webarchiveDataService,
+                referenceDataService,
+                accountDataService,
+                statisticsDataService);
+
+        // Generate a displayable name for most active contributors
+        for (Iterator it = statisticsPresentation.getBestContributors().iterator(); it.hasNext();) {
+            AccountStatistics accountStatistics = (AccountStatistics) it.next();
+            Account account = accountDataService.read(accountStatistics.getId());
+
+            accountStatistics.setDisplayedName(AccountPresentation.generateDisplayedName(account));
+        }
+
         model.addAttribute(
                 ModelAttributeKeyStore.STATISTICS_KEY,
-                new StatisticsPresentation(
-                    testcaseDataService,
-                    webarchiveDataService,
-                    referenceDataService,
-                    accountDataService,
-                    statisticsDataService
-                    )
-                );
+                statisticsPresentation);
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY,
                 TestcasePresentation.fromCollection(
                 testcaseDataService.getLastTestcases(NB_TESTCASES_DISPLAYED),
-                true
-                ));
-        
+                true));
+
         return "home";
+    }
+    
+    @RequestMapping("contribute")
+    public String contributeHandler(Model model) {
+        Account account = AccountUtils.getInstance().getCurrentUser();
+        
+        if (account == null) {
+            return "forward:/guest/subscribe.html";
+        } else {
+            return "forward:/example/add.html";
+        }
     }
     
     @RequestMapping("contact")
@@ -96,6 +196,38 @@ public class RootController extends AController {
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model, "KBAccess", "/", "Remerciement");
         return "thanks";
+    }
+    
+    /*
+     * Search by url
+     * Only 3 patterns
+     */
+    @RequestMapping(value="{ref}/{testOrResult}/")
+    public String searchByRefAndTest(
+            @PathVariable("ref") String codeRef,
+            @PathVariable("testOrResult") String codeTestOrResult,
+            Model model
+            ) {
+        
+        // if the code contains a number, then it's a test code and not a result code
+        boolean isATestCode = codeTestOrResult.matches(".*\\d.*");
+        
+        if (isATestCode) {
+            return getAndDisplayTestcasesFromUrlSearch(model, codeRef, codeTestOrResult, null);
+        } else {
+            return getAndDisplayTestcasesFromUrlSearch(model, codeRef, null, codeTestOrResult);
+        }
+    }
+     
+    @RequestMapping(value="{ref}/{test}/{result}/")
+    public String searchByRefAndTestAndResult(
+            @PathVariable("ref") String codeRef,
+            @PathVariable("test") String codeTest,
+            @PathVariable("result") String codeResult,
+            Model model
+            ) {
+        
+        return getAndDisplayTestcasesFromUrlSearch(model, codeRef, codeTest, codeResult);
     }
     
     /*

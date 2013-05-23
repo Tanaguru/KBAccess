@@ -29,8 +29,10 @@
                     <p class="alert alert-error">${subscribeError}</p>
                 </c:when>
                 <c:otherwise>
+                    <c:url var='subscribeUrl' value='/guest/subscribe.html'/>
+                    
                     <form:form commandName="newAccountCommand" 
-                            action="subscribe.html"
+                            action="${subscribeUrl}"
                             method="POST"
                             class="form-horizontal">
                         <spring:hasBindErrors name="newAccountCommand">

@@ -43,5 +43,13 @@ public interface TestDataService extends GenericDataService<Test, Long> {
      *      The list of tests corresponding to a criterion
      */
     List<Test> getTestListFromCriterion(Criterion criterion);
-
+    
+    /**
+     * This method is used for the search by URL i.e : /AW21/1.1.1/
+     * @param label
+     * @param referenceCode
+     * @return
+     *      The test corresponding to a label and a reference
+     */
+    Test getByLabelAndReferenceCode(String label, String referenceCode);
 }

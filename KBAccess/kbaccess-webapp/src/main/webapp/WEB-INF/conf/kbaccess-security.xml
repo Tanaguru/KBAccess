@@ -10,15 +10,16 @@
     <http auto-config="true">
         <intercept-url pattern="/j_spring_security_check*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/guest/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/testcase/search.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/testcase/search-by-url.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/testcase/result.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/> 
-        <intercept-url pattern="/testcase/list.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        <intercept-url pattern="/testcase/details/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/example/search.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/example/search-by-url.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/example/result.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/> 
+        <intercept-url pattern="/example/list.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/example/details/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/webarchive/list.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-        
+        <intercept-url pattern="/kba/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/account/details/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/account/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>
-        <intercept-url pattern="/testcase/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>
+        <intercept-url pattern="/example/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>
         <intercept-url pattern="/webarchive/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>
         
         <intercept-url pattern="/admin/**" access="ROLE_admin"/>

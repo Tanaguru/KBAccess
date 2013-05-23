@@ -4,7 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Ajout de testcase 2/3 - Webarchive " />
+    <c:set var="title" value="Ajout d'un exemple 2/3 - Webarchive " />
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -12,7 +12,7 @@
 
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <h1 class="page-header">Ajout d'un testcase, étape 2/3 : Attacher une webarchive</h1>
+        <h1 class="page-header">Ajout d'un exemple, étape 2/3 : Attacher une webarchive</h1>
         <div class="row-fluid">
             <form:form commandName="newTestcaseCommand" action="add-finalize.html" method="POST">
                 <form:hidden path="description"/>
@@ -49,9 +49,10 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="webarchive_description">Commentaire :</label>
+                            <label for="webarchive_description">Description :</label>
                             <div class="controls">
                                 <form:textarea path="descriptionNewWebarchive" id="webarchive_description" rows="4" cols="35"/>
+                                <form:errors path="descriptionNewWebarchive" cssClass="alert alert-error" element="p"/>
                             </div>
                         </div>
                     </div>

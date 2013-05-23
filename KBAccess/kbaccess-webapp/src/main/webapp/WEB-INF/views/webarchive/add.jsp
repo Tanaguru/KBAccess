@@ -17,20 +17,24 @@
         <div class="row-fluid">
             <div id="ajout-webarchive-1" class="boite">
                 <form:form  commandName="newWebarchiveCommand" action="add.html" method="POST">
-                    <spring:hasBindErrors name="newWebarchiveCommand">
-                        <form:errors path="generalErrorMessage" cssClass="alert alert-error" element="p"/>
-                    </spring:hasBindErrors>
+                    <c:if test="${generalErrorMessage != null}">
+                        <p class="alert alert-error">
+                            ${generalErrorMessage}
+                        </p>
+                    </c:if>
                     <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                     <div class="control-group">
                         <label class="control-label" for="webpage_url"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> URL&nbsp;:</label>
                         <div class="controls">
                             <form:input id="webpage_url" path="url" />
+                            <form:errors path="url" cssClass="alert alert-error" element="p"/>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="webpage_description">Description&nbsp;:</label>
                         <div class="controls">
-                            <form:textarea id="webpage_description" path="description" rows="4" cols="35" />
+                            <form:textarea id="webpage_description" path="descriptionNewWebarchive" rows="4" cols="35" />
+                            <form:errors path="descriptionNewWebarchive" cssClass="alert alert-error" element="p"/>
                         </div>
                     </div>
                     <div class="form-actions">

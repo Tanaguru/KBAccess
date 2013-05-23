@@ -30,6 +30,14 @@ body {
     border-top : none;
 }
 
+.data-table-caption {
+    position: absolute !important;
+    height: 1px; width: 1px; 
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
 .screenshot {
     width : 140px;
     height : 90px;
@@ -92,16 +100,37 @@ body {
 }
 
 .hero-unit h1 {
-    font-size: 25px;
+    font-family : @fontFamilyRegular;
+    font-size: 35px;
     text-align : center;
+}
+
+.hero-unit p {
+    margin-top : 25px;
+    text-align : center;
+    font-size : 25px;
+}
+
+.statistics-div h2 {
+    font-size : 21.5px;
 }
 
 #originalUrl-link-img {
     padding-left : 5px;
 }
 
-.tc-delete {
-    margin-left : 15px;
+.tc-action-link {
+    margin-left : 5px;
+}
+
+.reference-abbr {
+    font-size : 12px;
+    font-variant : small-caps;
+}
+
+.abbr-reference-h1 {
+    font-size : 33px;
+    font-variant : small-caps;
 }
 
 #testcase .creationDateCol, #testcase .testResultLabelCol {
@@ -130,6 +159,19 @@ body {
     margin-left : 15px;
 }
 
+.bold {
+    font-family : @fontFamilyBold;
+}
+
+.testcase-h1-url {
+    font-size : 25.5px;
+}
+
+.tc-details-ul, .tc-details-ul li {
+    list-style-type : none;
+    padding : 0px;
+    margin : 0px;
+}
 
 /* Override boostrap */ 
 h1, h2, h3, h4, h5, h6 {
@@ -180,4 +222,29 @@ textarea {
 .navbar-inverse .brand, .navbar-inverse .nav > li > a {
     color: #ffffff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* This is to make Bootstrap alert messages color contrast WCAG2 compliant */
+.alert-info {
+    background-color : #D9EDF7;
+    color : #3A68AD;
+}
+
+.alert-success {
+    background-color : #DFF0D8;
+    color : #467547;
+}
+
+.alert-error {
+    background-color : #F2DEDE;
+    color : #BB312F;
+}
+
+.alert-warning {
+    background-color : #FCF8E3;
+    color : #9A6402;
+}
+
+.alert a {
+    color : #0060CD;
 }

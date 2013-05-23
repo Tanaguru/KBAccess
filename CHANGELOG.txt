@@ -1,0 +1,13 @@
+--------------------------
+KBAccess 2.0-RC1, 2013-05-23
+--------------------------
+
+- Project refactoring
+- New UI (with bootstrap) 
+- Statistics (number of contributors/testcases/webarchives/references, most/least furnished criterion, top3 contributors)
+- Terminology change : former term "testcase" is now "example"
+- Contributors now have a profile page
+- Ability to visualize testcase details
+- Clean URLs for SEO purposes
+
+https://github.com/Tanaguru/KBAccess/issues?milestone=1&state=closed

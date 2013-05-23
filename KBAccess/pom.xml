@@ -4,7 +4,7 @@
   
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess</artifactId>
-    <version>2.0-SNAPSHOT</version>
+    <version>2.0-RC1</version>
   
     <packaging>pom</packaging>
     <name>kbaccess</name>

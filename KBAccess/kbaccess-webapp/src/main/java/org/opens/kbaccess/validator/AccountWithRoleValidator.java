@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008-2012  Open-S Company
+ * Copyright (C) 2012-2016  Open-S Company
  *
  * KBAccess is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as

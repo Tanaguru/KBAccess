@@ -46,4 +46,6 @@ public final class FormKeyStore {
     public static final String TITLE_KEY = "title";
     public static final String URL_KEY = "url";
     public static final String URL_NEW_WEBARCHIVE_KEY = "urlNewWebarchive";
+    public static final String DESCRIPTION_WEBARCHIVE_KEY = "descriptionNewWebarchive";
+    public static final String DESCRIPTION_TESTCASE_KEY = "description";
 }

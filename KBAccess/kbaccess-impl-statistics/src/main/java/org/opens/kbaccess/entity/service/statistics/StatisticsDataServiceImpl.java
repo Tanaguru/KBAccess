@@ -23,6 +23,7 @@ package org.opens.kbaccess.entity.service.statistics;
 
 import java.util.Collection;
 import org.opens.kbaccess.entity.dao.statistics.StatisticsDAO;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 
 /**
@@ -39,6 +40,14 @@ public class StatisticsDataServiceImpl implements StatisticsDataService {
             int limit
             ) {
         return statisticsDAO.findCriterionOrderByTestcaseCount(asc, limit);
+    }
+    
+    @Override
+    public Collection<AccountStatistics> getAccountOrderByTestcaseCount(
+            boolean asc,
+            int limit
+            ) {
+        return statisticsDAO.findAccountOrderByTestcaseCount(asc, limit);
     }
 
     @Override

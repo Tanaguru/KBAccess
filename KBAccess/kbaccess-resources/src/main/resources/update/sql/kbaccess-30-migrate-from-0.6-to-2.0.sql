@@ -4,7 +4,9 @@
 -- Target data version : KBAccess 2.0
 --
 -- Replace 'migrate_06' with 0.6 database name
+-- example : sed -i 's/migrate_06./kbaccess./g' kbaccess-30-migrate-from-0.6-to-2.0.sql
 -- Replace 'migrate_20' with 2.0 database name
+-- example : sed -i 's/migrate_20./kbaccess_20./g' kbaccess-30-migrate-from-0.6-to-2.0.sql
 
 SET FOREIGN_KEY_CHECKS=0;
 

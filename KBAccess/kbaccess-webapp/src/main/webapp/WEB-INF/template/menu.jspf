@@ -2,16 +2,16 @@
 <%@page import="org.opens.kbaccess.entity.authorization.AccessLevelEnumType" %>
 <nav id="menu" class="span2">
     <ul id="menuList">
-        <li><a href="<c:url value='/testcase/search.html'/>">Rechercher par choix</a></li>
-        <li><a href="<c:url value='/testcase/search-by-url.html'/>">Rechercher par <abbr title="Uniform Resource Locator">URL</abbr></a></li>
+        <li><a href="<c:url value='/example/search.html'/>">Rechercher par choix</a></li>
+        <li><a href="<c:url value='/example/search-by-url.html'/>">Rechercher par <abbr title="Uniform Resource Locator">URL</abbr></a></li>
         <c:if test='${authenticatedUser != null and
                       (authenticatedUser.accessLevel.accessLevelEnumType.type == "contrib" or
                        authenticatedUser.accessLevel.accessLevelEnumType.type == "moder" or
                        authenticatedUser.accessLevel.accessLevelEnumType.type == "admin")}'>
 
-        <li class="menu-spacing"><a href="<c:url value='/testcase/add.html'/>">Ajouter un testcase</a></li>
-        <li><a href="<c:url value='/account/my-testcases.html'/>">Mes testcases</a></li>
-        <li><a href="<c:url value='/testcase/list.html'/>">Voir tous les testcases</a></li>
+        <li class="menu-spacing"><a href="<c:url value='/example/add.html'/>">Ajouter un exemple</a></li>
+        <li><a href="<c:url value='/account/my-examples.html'/>">Mes exemples</a></li>
+        <li><a href="<c:url value='/example/list.html'/>">Voir tous les exemples</a></li>
         <li class="menu-spacing"><a href="<c:url value='/webarchive/add.html'/>">Ajouter une webarchive</a></li>
         <li><a href="<c:url value='/account/my-webarchives.html'/>">Mes webarchives</a></li>
         <li><a href="<c:url value='/webarchive/list.html'/>">Voir toutes les webarchives</a></li>

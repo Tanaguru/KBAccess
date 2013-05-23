@@ -57,6 +57,7 @@ public class TestcasePresentation {
     
     private Collection<TestResultPresentation> testResults;
     private String testLabel;
+    private String testCode; 
     
     // Description of the test and criterion on the original website of the accessibility reference
     private String webRefTestLabel;
@@ -121,8 +122,11 @@ public class TestcasePresentation {
         this.webarchiveCreationDate = testcase.getWebarchive().getCreationDate();
         this.creationDate = testcase.getCreationDate();
         if (withTestResults) {
-            this.testResults = testResultCollectionToPresentation(testcase.getTestResults());
-            this.testLabel = this.testResults.iterator().next().getTestLabel();
+            this.testResults = testResultCollectionToPresentation(testcase.getTestResults());  
+            
+            TestResultPresentation testResult = this.testResults.iterator().next();
+            this.testLabel = testResult.getTestLabel();
+            this.testCode = testResult.getTestCode();
             this.webRefTestLabel = this.testLabel.replace(".", "-");
         } else {
             this.testResults = null;
@@ -320,5 +324,13 @@ public class TestcasePresentation {
 
     public void setThemeLabel(String themeLabel) {
         this.themeLabel = themeLabel;
+    }
+
+    public String getTestCode() {
+        return testCode;
+    }
+
+    public void setTestCode(String testCode) {
+        this.testCode = testCode;
     }
 }

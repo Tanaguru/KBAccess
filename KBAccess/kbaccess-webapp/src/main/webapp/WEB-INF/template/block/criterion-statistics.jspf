@@ -1,10 +1,12 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <ol>
     <c:forEach var="criterion" items="${criterionStatistics}">
         <li>
-            <a href="<c:url value='/testcase/list.html?criterion=${criterion.id}'/>"
-               title="Lister les testcases du critère ${criterion.code}">${criterion.code}</a>
-            (${criterion.testcaseCount} testcase<c:if test="${criterion.testcaseCount > 1}">s</c:if>)
+            <a href="<c:url value='/example/list.html?reference=${criterion.referenceId}&criterion=${criterion.id}'/>">
+                ${criterion.label} <abbr class="reference-abbr" title="<fmt:message key="${criterion.referenceCode}"/>">${criterion.referenceCode}</abbr>
+            </a>
+            (${criterion.testcaseCount} exemple<c:if test="${criterion.testcaseCount > 1}">s</c:if>)
         </li>
     </c:forEach>
 </ol>

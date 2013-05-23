@@ -22,6 +22,7 @@
 package org.opens.kbaccess.entity.dao.statistics;
 
 import java.util.List;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 
 /**
@@ -44,4 +45,17 @@ public interface StatisticsDAO {
             int limit
             );
     
+   /**
+     * Return a list of account statistic entity sorted by
+     * the number of testcases associated with each one.
+     * 
+     * @param asc   Whether to sort the list ascending or descending
+     * @param limit The maximum number of entity to return
+     * @return      A list of account statistic entity sorted by
+     *              the number of testcases associated with each one.
+     */
+    List<AccountStatistics> findAccountOrderByTestcaseCount(
+            boolean asc,
+            int limit
+            );
 }

@@ -128,9 +128,9 @@ public class WebarchiveController extends AMailerController {
             return "guest/login";
         }
         // create webarchive
-        webarchive = createWebarchive(account, webarchiveCommand.getUrl(), webarchiveCommand.getDescription());
+        webarchive = createWebarchive(account, webarchiveCommand.getUrl(), webarchiveCommand.getDescriptionNewWebarchive());
         if (webarchive == null) {
-            result.rejectValue(
+            model.addAttribute(
                     FormKeyStore.GENERAL_ERROR_MESSAGE_KEY,
                     "Impossible de créer la webarchive, vérifier l'url saisie puis réessayez."
                     );

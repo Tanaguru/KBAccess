@@ -71,6 +71,10 @@ public class EditTestcaseValidator implements Validator {
             hasError = true;
         }
         
+        if (!validateDescription(editTestcaseCommand, errors)) {
+            hasError = true;
+        }
+        
 //        if (validateIdCriterion(editTestcaseCommand, errors) == false) {
 //            LogFactory.getLog(EditTestcaseValidator.class.getName()).info("valideIdCriterion");
 //            hasError = true;
@@ -114,6 +118,15 @@ public class EditTestcaseValidator implements Validator {
             errors.rejectValue(FormKeyStore.ID_RESULT_KEY, MessageKeyStore.INVALID_RESULT_KEY);
             return false;
         }
+        return true;
+    }
+    
+     private boolean validateDescription(EditTestcaseCommand editTestcaseCommand, Errors errors) {
+        if (editTestcaseCommand.getDescription().length() > 5000) {
+            errors.rejectValue(FormKeyStore.DESCRIPTION_TESTCASE_KEY, MessageKeyStore.TESTCASE_TOO_LONG_DESCRIPTION);
+            return false;
+        }
+        
         return true;
     }
 

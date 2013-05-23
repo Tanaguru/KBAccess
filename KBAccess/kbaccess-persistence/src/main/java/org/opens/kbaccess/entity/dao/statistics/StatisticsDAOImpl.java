@@ -28,6 +28,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.apache.commons.logging.LogFactory;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
+import org.opens.kbaccess.entity.statistics.AccountStatisticsImpl;
 import org.opens.kbaccess.entity.statistics.CriterionStatistics;
 import org.opens.kbaccess.entity.statistics.CriterionStatisticsImpl;
 
@@ -52,9 +55,10 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
         /*
          * Full request exemple :
-         * SELECT c.ID_CRITERION AS id, c.CD_CRITERION AS code, COUNT(t.ID_TESTCASE) AS testcaseCount
+         * SELECT c.ID_CRITERION, c.CD_CRITERION, c.LABEL, r.CD_REFERENCE, r.ID_REFERENCE, COUNT(t.ID_TESTCASE) AS testcaseCount 
          * FROM criterion AS c
          * LEFT JOIN testcase AS t ON t.ID_CRITERION = c.ID_CRITERION
+         * LEFT JOIN reference AS r ON c.ID_REFERENCE = r.ID_REFERENCE
          * GROUP BY c.ID_CRITERION ORDER BY testcaseCount ASC LIMIT 3;
          * 
          * This request only work with MySQL since the count on a null element
@@ -70,10 +74,57 @@ public class StatisticsDAOImpl implements StatisticsDAO {
          * by GROUP BY, which is intended actually.
          */
         sb.append(
-                "SELECT c.ID_CRITERION, c.CD_CRITERION, COUNT(t.ID_TESTCASE) AS testcaseCount " +
+                "SELECT c.ID_CRITERION, c.CD_CRITERION, c.LABEL , r.CD_REFERENCE, r.ID_REFERENCE, COUNT(t.ID_TESTCASE) AS testcaseCount " +
+//                "SELECT c.ID_CRITERION, c.CD_CRITERION, c.LABEL , r.CD_REFERENCE, r.ID_REFERENCE, r.LABEL , COUNT(t.ID_TESTCASE) AS testcaseCount " +
+//                "SELECT c.ID_CRITERION, c.CD_CRITERION, c.LABEL AS critLabel, r.CD_REFERENCE, r.ID_REFERENCE, r.LABEL AS referenceLabel, COUNT(t.ID_TESTCASE) AS testcaseCount " +
                 "FROM criterion AS c " +
                 "LEFT JOIN testcase AS t ON t.ID_CRITERION = c.ID_CRITERION " +
+                "LEFT JOIN reference AS r ON c.ID_REFERENCE = r.ID_REFERENCE " +
                 "GROUP BY c.ID_CRITERION ORDER BY testcaseCount "
+                );
+        if (asc) {
+            sb.append("ASC");
+        } else {
+            sb.append("DESC");
+        }
+        sb.append(" LIMIT ").append(limit);
+        query = entityManager.createNativeQuery(sb.toString());
+//        query.
+        LogFactory.getLog(this.getClass().getName()).info(sb.toString());
+        result = query.getResultList();
+        for (Iterator it = result.iterator(); it.hasNext();) {
+            Object[] line = (Object[]) it.next();
+            
+//            LogFactory.getLog(this.getClass().getName()).info("r.LABEL = " + (String)line[5]);
+            
+            retval.add(new CriterionStatisticsImpl(
+                    ((BigInteger)line[0]).longValue(), // c.ID_CRITERION
+                    (String)line[1], // c.CD_CRITERION
+                    (String)line[2],
+                    (String)line[3],
+                    ((BigInteger)line[4]).longValue(),
+//                    (String)line[5],
+                    ((BigInteger)line[5]).longValue()
+                    ));
+        }
+        return retval;
+    }
+    
+    @Override
+    public List<AccountStatistics> findAccountOrderByTestcaseCount(
+            boolean asc,
+            int limit
+            ) {
+        StringBuilder sb = new StringBuilder();
+        Query query;
+        List result;
+        List<AccountStatistics> retval = new ArrayList<AccountStatistics>(limit);
+
+        sb.append(
+                "SELECT a.ID_ACCOUNT, COUNT(t.ID_TESTCASE) AS testcaseCount " +
+                "FROM account AS a, testcase AS t " +
+                "WHERE t.ID_ACCOUNT = a.ID_ACCOUNT " +
+                "GROUP BY a.ID_ACCOUNT ORDER BY testcaseCount "
                 );
         if (asc) {
             sb.append("ASC");
@@ -87,10 +138,9 @@ public class StatisticsDAOImpl implements StatisticsDAO {
         for (Iterator it = result.iterator(); it.hasNext();) {
             Object[] line = (Object[]) it.next();
             
-            retval.add(new CriterionStatisticsImpl(
+            retval.add(new AccountStatisticsImpl(
                     ((BigInteger)line[0]).longValue(),
-                    (String)line[1],
-                    ((BigInteger)line[2]).longValue()
+                    ((BigInteger)line[1]).longValue()
                     ));
         }
         return retval;

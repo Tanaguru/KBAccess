@@ -13,7 +13,7 @@
             <div class="row-fluid">
                 <h2 lang="en">Mailing-list</h2>
                 <p>
-                    Pour suivre l'ajout de nouveaux testcases / webarchives et discuter avec les contributeurs,
+                    Pour suivre l'ajout de nouveaux exemples / webarchives et discuter avec les contributeurs,
                     vous pouvez vous abonner à la mailing-list <code>&#117;&#115;&#101;&#114;&#115;&#045;&#102;&#114;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;</code>. <br/>
                     Pour cela envoyez un mail à <a href="mailto:&#117;&#115;&#101;&#114;&#115;&#045;&#102;&#114;&#045;&#115;&#117;&#098;&#115;&#099;&#114;&#105;&#098;&#101;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;">&#117;&#115;&#101;&#114;&#115;&#045;&#102;&#114;&#045;&#115;&#117;&#098;&#115;&#099;&#114;&#105;&#098;&#101;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;</a>
                 </p>

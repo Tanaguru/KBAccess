@@ -59,12 +59,7 @@ public class AccountPresentation {
             return account.getFirstName();
         } else if (hasAValidLastName) {
             return account.getLastName();
-        } else {
-            /*String[] userAndDomain;
-            
-            userAndDomain = account.getEmail().replace(".", " point ").split("@", 2);
-            return new StringBuilder().append(userAndDomain[0]).append(" chez ").append(userAndDomain[1]).toString();*/
-            
+        } else {          
             return account.getEmail();
         }
     }

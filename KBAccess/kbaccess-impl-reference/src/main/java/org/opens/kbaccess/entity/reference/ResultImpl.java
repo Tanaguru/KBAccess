@@ -89,4 +89,23 @@ public class ResultImpl implements Result{
         this.rank = rank;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ResultImpl other = (ResultImpl) obj;
+        
+        return this.getId().equals(other.getId());
+    }
 }

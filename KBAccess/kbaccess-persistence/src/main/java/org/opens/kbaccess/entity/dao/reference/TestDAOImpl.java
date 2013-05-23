@@ -90,5 +90,20 @@ public class TestDAOImpl extends AbstractJPADAO<Test, Long> implements TestDAO {
             return null;
         }
     }
-
+    
+    @Override
+    public Test findByLabelAndReferenceCode(String label, String referenceCode) {
+        try {
+            Query query = entityManager.createQuery("SELECT t FROM "
+                    + getEntityClass().getName() + " t" 
+                    + " WHERE t.label = :label"
+                    + " AND t.criterion.reference.code = :reference");
+            query.setParameter("label", label);
+            query.setParameter("reference", referenceCode);
+            return (Test) query.getSingleResult();
+        } catch (NoResultException e) {
+            // In case of query with no result, return null
+            return null;
+        }
+    }
 }

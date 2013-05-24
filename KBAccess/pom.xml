@@ -26,7 +26,7 @@
     
     <properties>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <kbaccess.version>2.0-SNAPSHOT</kbaccess.version>
+        <kbaccess.version>2.0-RC1</kbaccess.version>
         <displaytag.version>1.2</displaytag.version>
         <tanaguru.version>1.5.2</tanaguru.version>
     </properties>

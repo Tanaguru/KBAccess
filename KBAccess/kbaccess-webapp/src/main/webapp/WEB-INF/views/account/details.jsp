@@ -51,13 +51,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_password_confirmation"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> Mot de passe (confirmation) :</label>
-                                <div class="controls">
-                                    <form:password path="passwordConfirmation" id="account_password_confirmation"/>	
-                                    <form:errors path="passwordConfirmation" cssClass="alert alert-error" element="p"/>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label" for="account_last_name">Nom :</label>
                                 <div class="controls">
                                     <form:input path="lastName" id="account_last_name" maxlength="30"/>
@@ -77,6 +70,12 @@
                                     <form:input path="url" id="account_url"/>
                                     <form:errors path="url" cssClass="alert alert-error" element="p"/>
                                 </div>
+                            </div>
+                            <div class="control-group">
+                               <label class="control-label" for="change_password"></label>
+                               <div class="controls">
+                                   <a id="change-password-btn" href="<c:url value='/account/change-password.html'/>" class="btn">Changement de mot de passe</a>
+                               </div>
                             </div>
                             <div class="form-actions">
                                 <button class="btn btn-primary">Modifier</button>

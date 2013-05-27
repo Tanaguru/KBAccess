@@ -60,7 +60,7 @@
                         <th scope="row">URL :</th>
                         <td>
                             <a href="${testcase.webarchiveLocalUrl}" rel="nofollow">Archive web de ${testcase.webarchiveOriginalUrl}</a>
-                            &nbsp;en date du <fmt:formatDate pattern="dd/MM/yyyy hh'h'mm" value="${testcase.webarchiveCreationDate}"/>
+                            &nbsp;en date du <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${testcase.webarchiveCreationDate}"/>
                            <%-- <a href="${testcase.webarchiveOriginalUrl}" title="${testcase.webarchiveOriginalUrl}">
                                 <img id="originalUrl-link-img" src="<c:url value='/assets/images/window-duplicate.png'/>" alt="${testcase.webarchiveOriginalUrl}"/>
                             </a>--%>

@@ -2,6 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title" value="Ajout d'un exemple 2/3 - Webarchive " />
@@ -29,7 +31,9 @@
                             <div class="controls">
                                 <form:select path="idWebarchive" id="testcase_idwebarchive">
                                     <c:forEach var="webarchive" items="${webarchiveList}">
-                                        <option value="${webarchive.id}">${webarive.url} : ${webarchive.creationDate}</option>
+                                        <option value="${webarchive.id}">
+                                            ${webarchive.url} : 
+                                            <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${webarchive.creationDate}"/></option>
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="idWebarchive" cssClass="alert alert-error" element="p"/>

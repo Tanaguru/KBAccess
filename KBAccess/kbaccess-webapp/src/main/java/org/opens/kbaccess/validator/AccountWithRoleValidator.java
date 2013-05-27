@@ -22,9 +22,6 @@ import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.command.AccountWithRoleCommand;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
-import org.opens.kbaccess.keystore.FormKeyStore;
-import org.opens.kbaccess.keystore.MessageKeyStore;
-import org.opens.kbaccess.validator.utils.PasswordValidator;
 import org.springframework.validation.Errors;
 
 /**
@@ -50,17 +47,7 @@ public class AccountWithRoleValidator extends AccountDetailsValidator {
     @Override
     // We override this method because as an admin we don't need to enter a password to edit an account
     // 
-    protected boolean validatePassword(AccountCommand cmd, Errors errors) { 
-        if (passwordChanged) {
-            if (!cmd.getPassword().equals(cmd.getPasswordConfirmation())) {
-                errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.PASSWORD_MISMATCH_KEY);
-                return false;
-            } else if (!PasswordValidator.validate(cmd.getPassword())) {
-                errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.INVALID_PASSWORD_KEY);
-                return false;
-            }
-        }
-        
+    protected boolean validatePassword(AccountCommand cmd, Errors errors) {       
         return true;
     }
 

@@ -22,24 +22,22 @@
 package org.opens.kbaccess.validator;
 
 import org.opens.kbaccess.command.ChangePasswordCommand;
-import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
-import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.utils.SHA1Hasher;
 import org.opens.kbaccess.validator.utils.PasswordValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
  *
- * @author bcareil
+ * @author blebail
  */
 public class ChangePasswordValidator implements Validator {
 
-    @Autowired
+    private final String originalEmail;
+    
     private AccountDataService accountDataService;
     
     @Override
@@ -47,9 +45,33 @@ public class ChangePasswordValidator implements Validator {
         return ChangePasswordCommand.class.isAssignableFrom(type);
     }
 
+    public ChangePasswordValidator(AccountDataService accountDataService, String originalEmail) {
+        this.accountDataService = accountDataService;
+        this.originalEmail = originalEmail;
+    }
+    
+    private boolean validateCurrentPassword(ChangePasswordCommand cmd, Errors errors) {
+        if (cmd.getCurrentPassword() == null || cmd.getCurrentPassword().isEmpty()) {
+            errors.rejectValue(FormKeyStore.CURRENT_PASSWORD_KEY, MessageKeyStore.MISSING_CURRENT_PASSWORD_KEY);
+            return false;
+        } else  {
+            String cmdPasswordHash = SHA1Hasher.getInstance().hashAsString(cmd.getCurrentPassword());
+            String accountPasswordHash = accountDataService.getAccountFromEmail(this.originalEmail).getPassword();
+            
+            if (!cmdPasswordHash.equals(accountPasswordHash)) {
+                errors.rejectValue(FormKeyStore.CURRENT_PASSWORD_KEY, MessageKeyStore.INVALID_PASSWORD_KEY);
+                return false;
+            }
+        }
+        return true;
+    }    
+    
     private boolean validateNewPassword(ChangePasswordCommand cmd, Errors errors) {
         if (cmd.getNewPassword() == null || cmd.getNewPassword().isEmpty()) {
-            errors.rejectValue(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.MISSING_PASSWORD_KEY);
+            errors.rejectValue(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.MISSING_NEW_PASSWORD_KEY);
+            return false;
+        } else if (!PasswordValidator.validate(cmd.getNewPassword())) {
+            errors.rejectValue(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.INVALID_NEW_PASSWORD_KEY);
             return false;
         } else if (cmd.getPasswordConfirmation() == null ||
                 cmd.getPasswordConfirmation().isEmpty()) {
@@ -58,43 +80,23 @@ public class ChangePasswordValidator implements Validator {
         } else if (!cmd.getNewPassword().equals(cmd.getPasswordConfirmation())) {
             errors.rejectValue(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.PASSWORD_MISMATCH_KEY);
             return false;
-        } else if (PasswordValidator.validate(cmd.getNewPassword())) {
-            errors.rejectValue(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.INVALID_PASSWORD_KEY);
-            return false;
-        }
+        } 
+        
         return true;
     }
-
-    private boolean validateOldPassword(ChangePasswordCommand cmd, Errors errors) {
-        if (cmd.getOldPassword() == null || cmd.getOldPassword().isEmpty()) {
-            errors.reject(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.MISSING_PASSWORD_KEY);
-            return false;
-        } else {
-            Account account = AccountUtils.getInstance().getCurrentUser();
-            
-            if (account.getPassword().equals(SHA1Hasher.getInstance().hashAsString(cmd.getOldPassword()))) {
-                return true;
-            }
-        }
-        return false;
-    }    
     
     @Override
     public void validate(Object o, Errors errors) {
         ChangePasswordCommand cmd = (ChangePasswordCommand) o;
         boolean hasError = false;
         
-        if (!validateNewPassword(cmd, errors)) {
-            hasError = true;
-        }
-        
-        if (!validateOldPassword(cmd, errors)) {
+        if (!validateCurrentPassword(cmd, errors) 
+            || !validateNewPassword(cmd, errors)) {
             hasError = true;
         }
         
         if (hasError) {
-            // TODO : use keys
-            errors.rejectValue("formGeneralErrorMessage", "mandatoryFieldsContainErrors");
+            errors.rejectValue(FormKeyStore.GENERAL_ERROR_MESSAGE_KEY, MessageKeyStore.ERROR_PASSWORD_CHANGE_KEY);
         }
     }
 

@@ -53,7 +53,7 @@
      </div>
      <div class="control-group">
         <label class="control-label" for="selectNiveau">Niveau</label>
-            <select name="grade" id="selectNiveau" size="1">
+            <select name="level" id="selectNiveau" size="1">
                 <option value="" selected="selected">Tous</option>
                 <c:forEach var="entry" items="${levelByRef}">
                     <optgroup id="${entry.key.code}-level" label="${entry.key.label}">

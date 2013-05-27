@@ -36,7 +36,7 @@
                             method="POST"
                             class="form-horizontal">
                         <spring:hasBindErrors name="newAccountCommand">
-                            <form:errors path="generalErrorMessage" cssClass="error" element="p"/>
+                            <form:errors path="generalErrorMessage" cssClass="alert alert-error" element="p"/>
                         </spring:hasBindErrors>
                         <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                         <div class="control-group">
@@ -50,6 +50,7 @@
                             <label class="control-label" for="subscription_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> Mot de passe :</label>
                             <div class="controls">
                                 <form:password path="password" id="subscription_password"/>
+                                <p class="label-indication">8 caractères minimum avec majuscule(s), minuscule(s) et chiffre(s)</p>
                                 <form:errors path="password" cssClass="alert alert-error" element="p"/>
                             </div>
                         </div>

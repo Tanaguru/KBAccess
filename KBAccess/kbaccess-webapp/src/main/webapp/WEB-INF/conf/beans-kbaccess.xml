@@ -107,8 +107,8 @@
     
     <!-- mailing service -->
     <bean id="mailingServiceProperties" class="org.opens.kbaccess.utils.MailingServiceProperties">
-        <property name="defaultReturnAddress" value="no-reply@kbacces.org"/>
-        <property name="emailTemplateDirectoryName" value="/home/blebail/Documents/sources/KBAccess/KBAccess/kbaccess-resources/src/main/resources/conf/exemple/email-template"/>
+        <property name="defaultReturnAddress" value="no-reply@kbaccess.org"/>
+        <property name="emailTemplateDirectoryName" value="/etc/kbaccess/conf/email-template"/>
         <property name="smtpHost" value="localhost"/>
         <property name="subscriptionNotificationMailingList" value="blebail@tanaguru.com"/>
         <property name="testcaseCreationNotificationMailingList" value="blebail@tanaguru.com"/>

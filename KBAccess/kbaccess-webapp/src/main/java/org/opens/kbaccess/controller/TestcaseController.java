@@ -1,10 +1,10 @@
 /*
- * URLManager - URL Indexer
- * Copyright (C) 2008-2012  Open-S Company
+ * KBAccess - Collaborative database of accessibility examples
+ * Copyright (C) 2012-2016  Open-S Company
  *
- * This file is part of URLManager.
+ * This file is part of KBAccess.
  *
- * URLManager is free software: you can redistribute it and/or modify
+ * KBAccess is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
@@ -73,9 +73,24 @@ public class TestcaseController extends AMailerController {
         StringBuilder criteria = new StringBuilder();
         
         // building criteria list
+        if (reference != null) {
+            criteria.append("Référenciel ");
+            criteria.append(reference.getLabel());
+            criteria.append(", ");
+        }
+         if (theme != null) {
+            criteria.append("Thématique ");
+            criteria.append(theme.getLabel());
+            criteria.append(", ");
+        }
         if (criterion != null) {
             criteria.append("Critère ");
             criteria.append(criterion.getLabel());
+            criteria.append(", ");
+        }
+         if (test != null) {
+            criteria.append("Test ");
+            criteria.append(test.getLabel());
             criteria.append(", ");
         }
         if (level != null) {
@@ -83,24 +98,9 @@ public class TestcaseController extends AMailerController {
             criteria.append(level.getLabel());
             criteria.append(", ");
         }
-        if (reference != null) {
-            criteria.append("Référenciel ");
-            criteria.append(reference.getLabel());
-            criteria.append(", ");
-        }
         if (result != null) {
             criteria.append("Résultat ");
             criteria.append(result.getLabel());
-            criteria.append(", ");
-        }
-        if (test != null) {
-            criteria.append("Test ");
-            criteria.append(test.getLabel());
-            criteria.append(", ");
-        }
-        if (theme != null) {
-            criteria.append("Thématique ");
-            criteria.append(theme.getLabel());
             criteria.append(", ");
         }
         

@@ -19,6 +19,9 @@ SET FOREIGN_KEY_CHECKS=0;
 -- Then we update the ID_ACCESS_LEVEL column according to the ACCESS_LEVEL column
 -- In KBAccess 0.6 there were only administrators and contributors
 --
+-- Finally we generate a subscription date :
+-- Date of the first testcase created
+-- Or : fixed date
 
 ALTER TABLE migrate_20.account
 ADD COLUMN ACCESS_LEVEL varchar(255);
@@ -37,6 +40,19 @@ WHERE ACCESS_LEVEL = 'contributeur';
 
 ALTER TABLE migrate_20.account
 DROP COLUMN ACCESS_LEVEL;
+
+UPDATE migrate_20.account
+SET SUBSCRIPTION_DATE = '2010-06-22 00:00:00';
+
+-- UPDATE migrate_20.account as a1
+-- SET
+--     a1.SUBSCRIPTION_DATE = a2.SUBSCRIPTION_DATE
+-- FROM
+--     (SELECT MIN(tc.CREATION_DATE) AS SUBSCRIPTION_DATE
+--     FROM migrate_20.account a, migrate_20.testcase tc 
+--     WHERE tc.ID_ACCOUNT = a.ID_ACCOUNT)a2
+-- WHERE 
+--     a2.ID_ACCOUNT = a1.ID_ACCOUNT;
 
 
 --

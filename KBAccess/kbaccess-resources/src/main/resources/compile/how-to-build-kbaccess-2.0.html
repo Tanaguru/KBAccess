@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>How to build KBAccess 2.0</title>
+		<style>
+			
+			body {
+				font-family : serif, sans-serif;
+			}
+
+			#main-div {
+				margin-left : 30px;	
+			}
+
+			h1 {
+				background-color: black;
+				color: white; 
+				padding : 25px 0px 25px 30px;
+			}
+
+			pre {
+				width : 80%;
+				background-color : #dfdfdf;
+				padding-top : 15px;
+				padding-bottom : 15px;
+			}
+
+			.release pre {
+				background-color : #E4CCF0;
+				color : purple;
+			}
+
+			.red {
+				color : red;
+			}
+
+			.blue {
+				color : blue;
+			}
+
+			.purple {
+				color : purple;
+			}
+		</style>
+	</head>
+<body>
+	<h1>How to build KBAccess 2.0</h1>
+		
+	<div id="main-div">
+	
+	<h2>Index :</h2>
+		<ul>
+			<li><a href="how-to-configure-wayback-1.6.0.html">How to configure wayback 1.6.0</a></li>
+			<li><a href="how-to-build-kbaccess-2.0.html">How to build KBAccess 2.0</a></li>
+			<li><a href="how-to-deploy-kbaccess-2.0.html">How to deploy KBAccess 2.0</a></li>
+		</ul>
+	
+	<hr />
+	
+	<h2>Summary</h2>
+	<ol>
+		<li><a href="#1">Get KBAccess 2.0 sources</a></li>
+		<li><a href="#2">Install Tanaguru libraries</a>
+		<li><a href="#3">Build KBAccess 2.0</a>	
+			<ul>
+				<li><a href="#4">With Command line</a></li>
+				<li><a href="#5">With Netbeans</a></li>
+			</ul>
+		</li>
+	</ol>
+	
+	<hr />
+	
+	<h2 id="1">Get KBAccess 2.0 sources</h2>
+	<p>
+		Download KBAccess 2.0 sources :
+	</p>
+		
+<pre>
+	mkdir KBAccess-src
+	cd KBAccess-src
+	git clone https://github.com/Tanaguru/KBAccess.git
+</pre>
+
+	<h2 id="2">Install Tanaguru libraries</h2>
+	<p>
+		Copy every files from the <em>KBAccess-src/KBAccess/kbaccess-resources/src/main/resources/lib/</em> folder.<br />
+		This folder contains :
+		<ul>
+			<li><em>commons-entity-1.5.2.jar</em></li>
+			<li><em>commons-entity-jpa-1.5.2.jar</em></li>
+			<li><em>tgol-api-1.5.2.jar</em></li>
+			<li><em>tanaguru-mvn-manaul-install.sh</em></li>
+		</ul>
+		
+		And install the libraries into the local maven repository by running <em>tanaguru-mvn-manual-install.sh</em>:
+	</p>
+
+<pre>
+	cp KBAccess-src/KBAccess/kbaccess-resources/src/main/resources/lib/* .
+	./tanaguru-mvn-manual-install.sh
+</pre>
+
+	<h2 id="3">Build KBAccess 2.0</h2>	
+	<h3 id="4">With command line</h3>
+
+<pre>
+	cd KBAccess-src/KBAccess
+	mvn clean compile
+</pre>
+
+	<h3 id="5">With Netbeans</h3>
+	<p>
+		Open the maven project <em>kbaccess</em> and all its sub projects.<br />
+		Right-click on <em>kbaccess</em> project and click <em>Clean and Build</em>.
+	</p>
+	
+	<a href="#">Back to the top</a>
+	</div>
+</body>
+</html>

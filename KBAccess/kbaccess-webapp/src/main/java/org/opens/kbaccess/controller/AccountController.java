@@ -23,6 +23,7 @@ package org.opens.kbaccess.controller;
 
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.AccountCommand;
+import org.opens.kbaccess.command.ChangePasswordCommand;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
@@ -32,6 +33,7 @@ import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.AccountDetailsValidator;
+import org.opens.kbaccess.validator.ChangePasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -157,7 +159,6 @@ public class AccountController extends AController {
         }
         
         // Handle login and breadcrumb
-        handleUserLoginForm(model);
         handleBreadcrumbTrail(model, "KBAccess", "/", "Mon Compte");
         
         // validate new account details
@@ -165,16 +166,20 @@ public class AccountController extends AController {
         accountDetailsValidator.validate(accountCommand, result);
         model.addAttribute("accountCommand", accountCommand);
         
-        accountPresentation = new AccountPresentation(currentUser, accountDataService);
-        model.addAttribute("account", accountPresentation);
-        
         if (result.hasErrors()) {
+            handleUserLoginForm(model);
+            accountPresentation = new AccountPresentation(currentUser, accountDataService);
+            model.addAttribute("account", accountPresentation);
             return "account/details";
         }
         
         accountCommand.updateAccount(currentUser);
         accountDataService.update(currentUser);
         
+        accountPresentation = new AccountPresentation(currentUser, accountDataService);
+        
+        handleUserLoginForm(model);
+        model.addAttribute("account", accountPresentation);
         model.addAttribute("successMessage", "Vos modifications ont bien été enregistrées.");
         return "account/details";
     }
@@ -224,6 +229,63 @@ public class AccountController extends AController {
                 ));
         model.addAttribute("testcaseListH1", "Mes exemples");
         return "testcase/list";
+    }
+    
+    @RequestMapping(value="change-password", method=RequestMethod.GET)
+    public String changePasswordHandler(Model model) {   
+        ChangePasswordCommand changePasswordCommand;
+        Account currentUser;
+        
+        //
+        handleUserLoginForm(model);
+        handleBreadcrumbTrail(model, "KBAccess", "/", "Mon compte", "/account/my-account.html", "Changement de mot de passe");
+        //
+        currentUser = AccountUtils.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/change-password, check spring security configuration");
+            return "guest/login";
+        }
+        
+        changePasswordCommand = new ChangePasswordCommand();
+        model.addAttribute("changePasswordCommand", changePasswordCommand);
+        
+        return "account/change-password";
+    }
+    
+    @RequestMapping(value="change-password", method=RequestMethod.POST)
+    public String changePasswordHandler(
+             @ModelAttribute("changePasswordCommand") ChangePasswordCommand changePasswordCommand,
+             BindingResult result,
+             Model model
+             ) {
+        Account currentUser = AccountUtils.getInstance().getCurrentUser();
+        
+        //
+        handleUserLoginForm(model);
+        handleBreadcrumbTrail(model, "KBAccess", "/", "Mon compte", "/account/my-account.html", "Changement de mot de passe");
+        
+        if (currentUser == null) {
+            LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/change-password, check spring security configuration");
+            return "guest/login";
+        }
+        
+        // validate new account details
+        ChangePasswordValidator changePasswordValidator = new ChangePasswordValidator(accountDataService, currentUser.getEmail());
+        changePasswordValidator.validate(changePasswordCommand, result);
+        model.addAttribute("changePasswordCommand", changePasswordCommand);
+        
+        if (result.hasErrors()) {
+            return "account/change-password";
+        }
+        
+        changePasswordCommand.updateAccount(currentUser);
+        accountDataService.update(currentUser);
+        
+        
+        handleUserLoginForm(model);
+        model.addAttribute("successMessage", "Le mot de passe a bien été modifié.");
+        
+        return "account/change-password";
     }
     
     /*

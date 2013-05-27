@@ -25,6 +25,7 @@ import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
+import org.opens.kbaccess.utils.SHA1Hasher;
 import org.opens.kbaccess.validator.utils.EmailValidator;
 import org.springframework.validation.Errors;
 
@@ -58,7 +59,22 @@ public class AccountDetailsValidator extends AAccountValidator {
         }
         return true;
     }
-    
+
+    @Override
+    protected boolean validatePassword(AccountCommand cmd, Errors errors) {
+        String cmdPasswordHash = SHA1Hasher.getInstance().hashAsString(cmd.getPassword());
+        String accountPasswordHash = accountDataService.getAccountFromEmail(this.originalEmail).getPassword();
+        
+        if (cmd.getPassword() == null || cmd.getPassword().isEmpty()) {
+            errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.MISSING_PASSWORD_KEY);
+            return false;
+        } else if (!cmdPasswordHash.equals(accountPasswordHash)) {
+            errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.INVALID_PASSWORD_KEY);
+            return false;
+        }
+        return true;
+    }
+ 
     @Override
     protected boolean validateAccessLevel(AccountCommand cmd, Errors errors) {
         return true;

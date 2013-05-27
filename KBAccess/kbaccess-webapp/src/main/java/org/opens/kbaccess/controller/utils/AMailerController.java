@@ -31,6 +31,8 @@ import org.opens.kbaccess.controller.GuestController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
+import org.opens.kbaccess.presentation.AccountPresentation;
+import org.opens.kbaccess.presentation.TestcasePresentation;
 import org.opens.kbaccess.utils.MailingServiceProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -207,16 +209,23 @@ public class AMailerController extends AController {
         message = new StringBuilder();
         recipients = mailingServiceProperties.getTestcaseCreationNotificationMailingList();
         subject = TESTCASE_CREATION_NOTIFICATION_SUBJECT;
+        TestcasePresentation testcasePresentation = new TestcasePresentation(newTestcase, true);
+        Account account = accountDataService.read(testcasePresentation.getAuthorId());
+        
         // create message
         message.append(
                 "Hello,\n\n" +
-                "A new testcase has been created on KBAcces :\n" +
-                "* id : ").append(newTestcase.getId().toString()).append("\n" +
-                "* test : ").append(newTestcase.getCriterion().getLabel()).append("\n" +
-                "* accound : (").append(newTestcase.getAccount().getId()).append(") ")
-                .append(newTestcase.getAccount().getEmail()).append("\n" +
-                "* webarchive : ").append(newTestcase.getWebarchive().getUrl()).append(" "
-                ).append(newTestcase.getWebarchive().getCreationDate()).append("\n\n" +
+                "A new testcase has been created on KBAccess :\n" +
+                "* url : ").append("http://www.kbaccess.org/example/details/" + testcasePresentation.getId() + 
+                "/exemple-accessibilite-" + testcasePresentation.getTestLabel() + 
+                "-" + testcasePresentation.getReferenceLabel().replace(" ", "") + 
+                "-" + testcasePresentation.getResultCode() + ".html\n" + 
+                "* id : ").append(testcasePresentation.getId().toString()).append("\n" +
+                "* test : ").append(testcasePresentation.getTestLabel()).append("\n" +
+                "* account : (").append(account.getId()).append(") ")
+                .append(account.getEmail()).append("\n" +
+                "* webarchive : ").append(testcasePresentation.getWebarchiveOriginalUrl()).append(" "
+                ).append(testcasePresentation.getWebarchiveCreationDate()).append("\n\n" +
                 "If you receive this email, it means you are in the KBAccess " +
                 "testcase creation notification mailing list. To unsubscribe, modify " +
                 "the KBAccess configuration and restart the service.\n\n" +
@@ -250,7 +259,7 @@ public class AMailerController extends AController {
                 "* local url : ").append(webarchive.getLocalUrl()).append("\n" +
                 "* description : ").append(webarchive.getDescription()).append("\n" +
                 "* creation date : ").append(webarchive.getCreationDate()).append("\n" +
-                "* accound : (").append(webarchive.getAccount().getId()).append(") ")
+                "* account : (").append(webarchive.getAccount().getId()).append(") ")
                 .append(webarchive.getAccount().getEmail()).append("\n" +
                 "\n" +
                 "If you receive this email, it means you are in the KBAccess " +

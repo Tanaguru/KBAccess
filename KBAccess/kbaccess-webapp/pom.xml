@@ -156,6 +156,10 @@
             <groupId>displaytag</groupId>
             <artifactId>displaytag</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+        </dependency>
         
     </dependencies>
     

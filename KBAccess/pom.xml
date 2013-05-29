@@ -224,6 +224,11 @@
                 <artifactId>displaytag</artifactId>
                 <version>${displaytag.version}</version>
             </dependency>
+             <dependency>
+            <groupId>org.owasp.esapi</groupId>
+                <artifactId>esapi</artifactId>
+                <version>2.0GA</version>
+             </dependency>
         </dependencies>
     </dependencyManagement>
     <profiles>

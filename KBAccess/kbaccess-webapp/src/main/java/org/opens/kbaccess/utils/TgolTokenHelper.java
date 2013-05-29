@@ -66,6 +66,7 @@ public final class TgolTokenHelper {
         if (tokenHelper == null) {
             tokenHelper = new TgolTokenHelper();
         }
+        
         return tokenHelper;
     }
 

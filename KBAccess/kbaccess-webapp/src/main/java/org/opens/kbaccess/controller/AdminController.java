@@ -220,4 +220,39 @@ public class AdminController extends AController {
     public void setAccessLevelDataService(AccessLevelDataService accessLevelDataService) {
         this.accessLevelDataService = accessLevelDataService;
     }
+    
+    /*
+     * DEBUG PURPOSES
+     * TO REMOVE ON RC1
+     */
+    @RequestMapping(value="deleteuser/{id}/*", method=RequestMethod.GET)
+    public String deleteUserHandler(
+            @PathVariable("id") Long id,
+            Model model
+            ) {
+        Account requestedUser;
+        boolean currentUserIsValid = (AccountUtils.getInstance().getCurrentUser() != null);
+        boolean currentUserHasPermissions;
+        
+        // current user not authentified
+        if (!currentUserIsValid) {
+            LogFactory.getLog(AccountController.class).error("An unauthentified user reached admin/deleteuser, check spring security configuration");
+            return "guest/login";
+        }
+       
+        // Fetch account and check if it exists
+        requestedUser = accountDataService.read(id);
+        if (requestedUser == null) {
+            return "home";
+        }
+        
+        // create account presentation and check permissions to edit the account
+        currentUserHasPermissions = (AccountUtils.getInstance().currentUserHasPermissionToEditAccountWithRole(requestedUser));
+        
+        if (currentUserHasPermissions) {
+            accountDataService.delete(id);
+            handleBreadcrumbTrail(model, "KBAccess", "/", "delete user");
+        }
+        return "forward:/admin/users.html";
+    }
 }

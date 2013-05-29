@@ -76,3 +76,16 @@ GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.SQL_IDENTIFIER TO PUBLIC
 GRANT DBA TO SA
 SET SCHEMA SYSTEM_LOBS
 INSERT INTO BLOCKS VALUES(0,2147483647,0)
+SET SCHEMA PUBLIC
+INSERT INTO ACCESS_LEVEL VALUES(1,'admin','un type qui rox','administrateur',1)
+INSERT INTO ACCESS_LEVEL VALUES(2,'moder','un type qui fout rien','moderateur',1)
+INSERT INTO ACCESS_LEVEL VALUES(3,'contrib','un type qui fait autre chose que ce pour quoi il est paye','contributeur',1)
+INSERT INTO ACCESS_LEVEL VALUES(4,'guest','un type qui a rien a faire de sa vie','invite',1)
+INSERT INTO ACCOUNT VALUES(1,'1','84','account1@domain.com','jean','dupont','6d96270004515a0486bb7f76196a72b40c55a47f','0031-11-25 00:00:00.000000','accout1.website.com',1)
+INSERT INTO ACCOUNT VALUES(2,'1','42','account2@domain.com','william','smith','e6e8ea7465f12e4d3b5a067a4c4dc698436b3478','0031-11-26 00:00:00.000000','accout2.website.com',2)
+INSERT INTO ACCOUNT VALUES(3,'0','84','account3@domain.com','martin','herdberg','64dc1be0c2e0c9e50381d1577511a2d939e19eba','0031-11-27 00:00:00.000000','accout3.website.com',3)
+INSERT INTO REFERENCE VALUES(1,'AW2.1','criterion','test','desc ref AW 2.1','ref AW2.1',1,'http://accessiweb.com/ref/aw/2.1')
+INSERT INTO REFERENCE VALUES(2,'AW1.0','criterion','test','desc ref AW 1.0','ref AW10',2,'http://accessiweb.com/ref/aw/1.0')
+INSERT INTO REFERENCE VALUES(3,'RGAA','test','','desc ref RGAA','ref RGAA',2,'http://rgaa.net/ref/rgaa')
+INSERT INTO THEME VALUES(1,'th1','th1 images lol','images',1)
+INSERT INTO THEME VALUES(2,'th2','th2 tableaux lol','tableaux',2)

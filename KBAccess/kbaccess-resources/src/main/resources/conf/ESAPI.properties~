@@ -149,8 +149,8 @@ Encoder.DefaultCodecList=HTMLEntityCodec,PercentCodec,JavaScriptCodec
 # To calculate these values, you can run:
 #		java -classpath esapi.jar org.owasp.esapi.reference.crypto.JavaEncryptor
 #
-Encryptor.MasterKey=
-Encryptor.MasterSalt=
+Encryptor.MasterKey=UPCWMoQUKJJO7LTgudw3JQ==
+Encryptor.MasterSalt=WhQg4NbwQ89yTSrHoMX0hs0YnhA=
 
 # Provides the default JCE provider that ESAPI will "prefer" for its symmetric
 # encryption and hashing. (That is it will look to this provider first, but it

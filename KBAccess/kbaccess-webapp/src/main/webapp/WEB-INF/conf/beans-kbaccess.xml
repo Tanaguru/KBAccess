@@ -105,6 +105,37 @@
         </property>
     </bean>
     
+    <!-- Définition d'un validateur -->
+    <bean id="tgolTokenHelper" class="org.opens.kbaccess.utils.TgolTokenHelper" factory-method="getInstance"/>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="tgolTokenHelper"/>
+        </property>
+        <property name="targetMethod">
+            <value>setEsapiPropertyValue</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <value>/etc/kbaccess</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject">
+            <ref local="tgolTokenHelper"/>
+        </property>
+        <property name="targetMethod">
+            <value>setTokenDurationValidity</value>
+        </property>
+        <property name="arguments">
+            <list>
+                <value>3600</value>
+            </list>
+        </property>
+    </bean>
+    
     <!-- mailing service -->
     <bean id="mailingServiceProperties" class="org.opens.kbaccess.utils.MailingServiceProperties">
         <property name="defaultReturnAddress" value="no-reply@kbaccess.org"/>

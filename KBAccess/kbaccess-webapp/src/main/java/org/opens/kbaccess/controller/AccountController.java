@@ -24,6 +24,7 @@ package org.opens.kbaccess.controller;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.command.ChangePasswordCommand;
+import org.opens.kbaccess.command.NewPasswordCommand;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
@@ -32,8 +33,10 @@ import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
 import org.opens.kbaccess.utils.AccountUtils;
+import org.opens.kbaccess.utils.TgolTokenHelper;
 import org.opens.kbaccess.validator.AccountDetailsValidator;
 import org.opens.kbaccess.validator.ChangePasswordValidator;
+import org.opens.kbaccess.validator.NewPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +45,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -52,9 +56,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AccountController extends AController {
     
     @Autowired
-    private AccountDataService accountDataService;
-    @Autowired
     private WebarchiveDataService webarchiveDataService;
+    
+    /*
+     * Private methods
+     */
+    private boolean isTokenValid(String token) {
+        boolean isAccountValid = true;
+        boolean isTokenValid = true;
+        TgolTokenHelper tokenHelper = TgolTokenHelper.getInstance();
+        
+        String requestedUserEmail = tokenHelper.getUserEmailFromToken(token);
+                
+        if (accountDataService.getAccountFromEmail(requestedUserEmail) == null) {
+            isAccountValid = false;
+            LogFactory.getLog(AccountController.class).info("Token with an invalid email");
+        }
+        
+        if (!tokenHelper.checkUserToken(token)) {
+            isTokenValid = false;
+            LogFactory.getLog(AccountController.class).info("Token with an invalid structure");
+        }
+        
+        return (isAccountValid && isTokenValid);
+    }
+    
+    private String displayNewPasswordForm(Model model, NewPasswordCommand newPasswordCommand) {
+        // Breadcrumb
+        handleBreadcrumbTrail(model, "KBAccess", "/", "Nouveau mot de passe");
+        
+        model.addAttribute("newPasswordCommand", newPasswordCommand);
+        
+        return "account/new-password";
+    }
     
     /*
      * account details handler
@@ -286,6 +320,61 @@ public class AccountController extends AController {
         model.addAttribute("successMessage", "Le mot de passe a bien été modifié.");
         
         return "account/change-password";
+    }
+    
+    @RequestMapping(value="new-password", method=RequestMethod.GET)
+    public String newPasswordHandler(
+            Model model,
+            @RequestParam(value="token", required=true) String token
+            ) {    
+        NewPasswordCommand newPasswordCommand;
+        
+        LogFactory.getLog(AccountController.class).info("token : " + token);
+        
+        if (!isTokenValid(token)) {
+            return "guest/login";
+        }
+
+        // New password form
+        newPasswordCommand = new NewPasswordCommand();
+        newPasswordCommand.setToken(token);
+
+        return displayNewPasswordForm(model, newPasswordCommand);    
+    }
+    
+    @RequestMapping(value="new-password", method=RequestMethod.POST)
+    public String newPasswordHandler(
+            @ModelAttribute("newPasswordCommand") NewPasswordCommand newPasswordCommand,
+            BindingResult result,
+            Model model
+            ) {   
+        String token = newPasswordCommand.getToken();
+        TgolTokenHelper tokenHelper = TgolTokenHelper.getInstance();
+        
+        if (!isTokenValid(token)) {
+            return "guest/login";
+        }
+        
+        NewPasswordValidator newPasswordValidator = new NewPasswordValidator(accountDataService, null);
+        newPasswordValidator.validate(newPasswordCommand, result);
+        
+        if (result.hasErrors()) {
+            return displayNewPasswordForm(model, newPasswordCommand);
+        }
+        
+        // Update account's password
+        String requestedUserEmail = tokenHelper.getUserEmailFromToken(token);
+        Account requestedUser = accountDataService.getAccountFromEmail(requestedUserEmail);
+        requestedUser.setAuthCode(null);
+        newPasswordCommand.updateAccount(requestedUser);
+        accountDataService.update(requestedUser);
+        
+        // Set the token as used
+        tokenHelper.setTokenUsed(token);
+        
+        model.addAttribute("successMessage", "Le mot de passe a bien été modifié.");
+        
+        return displayNewPasswordForm(model, newPasswordCommand);        
     }
     
     /*

@@ -2,46 +2,7 @@
 <html>
 	<head>
 		<title>How to build KBAccess 2.0</title>
-		<style>
-			
-			body {
-				font-family : serif, sans-serif;
-			}
-
-			#main-div {
-				margin-left : 30px;	
-			}
-
-			h1 {
-				background-color: black;
-				color: white; 
-				padding : 25px 0px 25px 30px;
-			}
-
-			pre {
-				width : 80%;
-				background-color : #dfdfdf;
-				padding-top : 15px;
-				padding-bottom : 15px;
-			}
-
-			.release pre {
-				background-color : #E4CCF0;
-				color : purple;
-			}
-
-			.red {
-				color : red;
-			}
-
-			.blue {
-				color : blue;
-			}
-
-			.purple {
-				color : purple;
-			}
-		</style>
+		<link rel="stylesheet" media="screen" type="text/css" href="style.css" />
 	</head>
 <body>
 	<h1>How to build KBAccess 2.0</h1>
@@ -90,6 +51,7 @@
 			<li><em>commons-entity-1.5.2.jar</em></li>
 			<li><em>commons-entity-jpa-1.5.2.jar</em></li>
 			<li><em>tgol-api-1.5.2.jar</em></li>
+			<li><em>esapi.jar</em></li>
 			<li><em>tanaguru-mvn-manaul-install.sh</em></li>
 		</ul>
 		
@@ -98,6 +60,7 @@
 
 <pre>
 	cp KBAccess-src/KBAccess/kbaccess-resources/src/main/resources/lib/* .
+	chmod 744 tanaguru-mvn-manual-install.sh
 	./tanaguru-mvn-manual-install.sh
 </pre>
 

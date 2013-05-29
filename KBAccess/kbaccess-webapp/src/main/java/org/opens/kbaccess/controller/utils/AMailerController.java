@@ -21,6 +21,9 @@
  */
 package org.opens.kbaccess.controller.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -31,9 +34,9 @@ import org.opens.kbaccess.controller.GuestController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
-import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
 import org.opens.kbaccess.utils.MailingServiceProperties;
+import org.opens.kbaccess.utils.TgolTokenHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -56,6 +59,8 @@ public class AMailerController extends AController {
             "[KBAccess] A new testcase has been created";
     private static final String WEBARCHIVE_CREATION_NOTIFICATION_SUBJECT =
             "[KBAccess] A new webarchive has been created";
+    private static final String NEW_PASSWORD_TOKEN_SUBJECT =
+            "[KBAccess] Password change request";
     
     @Autowired
     private MailingServiceProperties mailingServiceProperties;
@@ -133,6 +138,16 @@ public class AMailerController extends AController {
         String subject;
         String[] subjectAndMessage;
         
+        // Encode token
+        String token = account.getAuthCode();
+        
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(this.getClass()).warn(ex);
+        }
+        
+        // Construct email
         message = mailingServiceProperties.getAuthTokenEmailBody(lang);
         if (message == null) {
             return false;
@@ -141,24 +156,47 @@ public class AMailerController extends AController {
         subject = subjectAndMessage[0];
         
         // We replace the token key
-        message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, account.getAuthCode());
+        message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, token);
         // Then we replace the email key
         message = message.replace(EMAIL_KEY, account.getEmail());
         
         return sendMail(subject, message, new String[] {account.getEmail()});
     }
     
-    
-    public boolean sendNewPassword(String lang, Account account, String password) {
-        String[] subjectAndMessage;
+    public boolean sendNewPasswordToken(Account account) {
+        StringBuilder message;
+        String[] recipients = new String[1];
         String subject;
-        String message;
         
-        subjectAndMessage = splitMessageBody(mailingServiceProperties.getLostPasswordEmailBody(lang));
-        subject = subjectAndMessage[0];
-        message = subjectAndMessage[1];
-        message = message.replace(PASSWORD_KEY, password);
-        return sendMail(subject, message, new String[] {account.getEmail()});
+        message = new StringBuilder();
+        ArrayList<String> rec = new ArrayList<String>();
+        rec.add(account.getEmail());
+        recipients = rec.toArray(recipients);
+        subject = NEW_PASSWORD_TOKEN_SUBJECT;
+        // create message
+      
+        Logger.getLogger(AMailerController.class).debug(account.toString());
+        String token = TgolTokenHelper.getInstance().getTokenUser(account, true);
+        
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(this.getClass()).warn(ex);
+        }
+        
+        message.append(
+                "Hello,\n\n" +
+                "A password change for your KBAccess account has been requested.\n" +
+                "You can set a new password by clicking on the following link : \n" +
+                "http://localhost:8080/kbaccess-webapp-2.0-RC1/account/new-password.html?token=")
+                .append(token)
+                .append("\n\nIf you didn't request a password change please ignore this email.\n\n" +
+                "Regards,\n" +
+                "-- \n" +
+                "The KBAccess Team\n"
+                );
+        // send it*/
+        return sendMail(subject, message.toString(), recipients);
     }
     
     public boolean sendSubsciptionNotification(Account account) {
@@ -170,10 +208,7 @@ public class AMailerController extends AController {
         recipients = mailingServiceProperties.getSubscriptionNotificationMailingList();
         subject = SUBSCRIPTION_NOTIFICATION_SUBJECT;
         // create message
-        
-//        Log logger = new Log4JLogger(Logger.getLogger(this.getClass()));
-//        logger.info(account.toString());
-//        logger.info(account.toString());
+      
         Logger.getLogger(AMailerController.class).debug(account.toString());
         
         message.append(

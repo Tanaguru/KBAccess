@@ -4,15 +4,12 @@ Bienvenue sur KBAccess,
 
 Si vous recevez cet email, cela signifie que vous venez de créer un compte sur kbaccess.org. Si ce n'est pas le cas, merci d'ignorer ce message.
 
-Votre nouveau compte a besoin d'être activé. Pour cela, suivez ce lien
+Votre nouveau compte a besoin d'être activé. Pour cela, cliquez sur le lien suivant :
 
-http://localhost:8080/kbaccess-webapp-2.0-SNAPSHOT/guest/activate-account.html?email=${email}&token=${authToken}
+http://www.kbaccess.org/guest/activate-account.html?email=${email}&token=${authToken}
 
-Si un formulaire vous demande un jeton, voici le votre :
 
-${authToken}
-
-A bientôt sur http://kbaccess.org .
+A bientôt sur http://www.kbaccess.org .
 
 Cordialement,
 

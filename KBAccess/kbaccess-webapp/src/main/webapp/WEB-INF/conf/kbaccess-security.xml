@@ -10,6 +10,7 @@
     <http auto-config="true">
         <intercept-url pattern="/j_spring_security_check*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/guest/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/account/new-password.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/example/search.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/example/search-by-url.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/example/result.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/> 

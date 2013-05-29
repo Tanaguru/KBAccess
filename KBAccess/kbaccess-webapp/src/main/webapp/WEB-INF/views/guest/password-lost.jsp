@@ -17,14 +17,14 @@
             <c:choose>
                 <c:when test="${passwordSent}">
                     <p class="alert alert-success">
-                        Vous allez recevoir un mail contenant votre nouveau mot de passe.
+                        Vous allez recevoir un mail pour redéfinir votre mot de passe.
                     </p>                    
                 </c:when>
                 <c:when test="${passwordLostError != null}">
                     <p class="alert alert-error">${passwordLostError}</p>
                 </c:when>
                 <c:otherwise>
-                    <p>Veuillez saisir votre adresse email et nous vous enverrons un nouveau mot de passe :</p>
+                    <p>Veuillez saisir votre adresse email :</p>
                     <form:form  class="form-horizontal" commandName="passwordLostCommand" action="password-lost.html" method="POST">
                         <div class="control-group">
                             <label class="control-label" for="password_lost_email">Email :</label>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class="form-actions">
-                            <button class="btn btn-primary">M'envoyer un nouveau mot de passe</button>
+                            <button class="btn btn-primary">Envoyer</button>
                         </div>
                     </form:form>
                 </c:otherwise>

@@ -38,7 +38,7 @@ public class ChangePasswordValidator implements Validator {
 
     private final String originalEmail;
     
-    private AccountDataService accountDataService;
+    protected AccountDataService accountDataService;
     
     @Override
     public boolean supports(Class type) {
@@ -66,7 +66,7 @@ public class ChangePasswordValidator implements Validator {
         return true;
     }    
     
-    private boolean validateNewPassword(ChangePasswordCommand cmd, Errors errors) {
+    protected boolean validateNewPassword(ChangePasswordCommand cmd, Errors errors) {
         if (cmd.getNewPassword() == null || cmd.getNewPassword().isEmpty()) {
             errors.rejectValue(FormKeyStore.NEW_PASSWORD_KEY, MessageKeyStore.MISSING_NEW_PASSWORD_KEY);
             return false;

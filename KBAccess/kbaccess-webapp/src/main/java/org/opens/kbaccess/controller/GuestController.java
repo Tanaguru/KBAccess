@@ -77,8 +77,8 @@ public class GuestController extends AMailerController {
         return true;
     }
     
-    private boolean sendNewPasswordTokenByMail(Account account) {
-        if (!sendNewPasswordToken(account)) {
+    private boolean sendNewPasswordTokenByMail(String lang, Account account) {
+        if (!sendNewPasswordToken(lang, account)) {
             LogFactory.getLog(GuestController.class).error("Error sending new password token by mail to " + account.getEmail());
             return false;
         }
@@ -225,7 +225,7 @@ public class GuestController extends AMailerController {
         // send new password token by mail
         account = accountDataService.getAccountFromEmail(passwordLostCommand.getEmail());
         token = generateToken(account, true);
-        if (account != null && sendNewPasswordTokenByMail(account)) {
+        if (account != null && sendNewPasswordTokenByMail(null, account)) {
             model.addAttribute("passwordSent", true);
             account.setAuthCode(token);
             accountDataService.update(account);

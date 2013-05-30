@@ -50,13 +50,14 @@
                                                 <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
                                                     alt="Modifier utilisateur ${account.id}" />
                                             </a>
-                                            <%-- DEBUG PURPOSES, TO REMOVE--%>
+                                            <%-- 
                                             <a href="<c:url value='/admin/deleteuser/${account.id}/delete.html'/>"
                                                 title="Supprimer account ${account.id}"
                                                 class="tc-delete">
                                                 <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
                                                         alt="Supprimer account ${account.id}" />
                                             </a>
+                                            --%>
                                         </c:when>
                                         <c:otherwise>
                                             Droits insufisants

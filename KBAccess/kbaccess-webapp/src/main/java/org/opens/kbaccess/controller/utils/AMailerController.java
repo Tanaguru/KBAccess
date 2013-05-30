@@ -59,8 +59,6 @@ public class AMailerController extends AController {
             "[KBAccess] A new testcase has been created";
     private static final String WEBARCHIVE_CREATION_NOTIFICATION_SUBJECT =
             "[KBAccess] A new webarchive has been created";
-    private static final String NEW_PASSWORD_TOKEN_SUBJECT =
-            "[KBAccess] Password change request";
     
     @Autowired
     private MailingServiceProperties mailingServiceProperties;
@@ -163,16 +161,11 @@ public class AMailerController extends AController {
         return sendMail(subject, message, new String[] {account.getEmail()});
     }
     
-    public boolean sendNewPasswordToken(Account account) {
-        StringBuilder message;
-        String[] recipients = new String[1];
+    public boolean sendNewPasswordToken(String lang, Account account) {
+        String message;
         String subject;
+        String[] subjectAndMessage;
         
-        message = new StringBuilder();
-        ArrayList<String> rec = new ArrayList<String>();
-        rec.add(account.getEmail());
-        recipients = rec.toArray(recipients);
-        subject = NEW_PASSWORD_TOKEN_SUBJECT;
         // create message
       
         Logger.getLogger(AMailerController.class).debug(account.toString());
@@ -184,19 +177,18 @@ public class AMailerController extends AController {
             Logger.getLogger(this.getClass()).warn(ex);
         }
         
-        message.append(
-                "Hello,\n\n" +
-                "A password change for your KBAccess account has been requested.\n" +
-                "You can set a new password by clicking on the following link : \n" +
-                "http://localhost:8080/kbaccess-webapp-2.0-RC1/account/new-password.html?token=")
-                .append(token)
-                .append("\n\nIf you didn't request a password change please ignore this email.\n\n" +
-                "Regards,\n" +
-                "-- \n" +
-                "The KBAccess Team\n"
-                );
-        // send it*/
-        return sendMail(subject, message.toString(), recipients);
+         // Construct email
+        message = mailingServiceProperties.getLostPasswordEmailBody(lang);
+        if (message == null) {
+            return false;
+        }
+        subjectAndMessage = splitMessageBody(message);
+        subject = subjectAndMessage[0];
+        
+        // We replace the token key
+        message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, token);
+        
+        return sendMail(subject, message, new String[] {account.getEmail()});
     }
     
     public boolean sendSubsciptionNotification(Account account) {

@@ -237,6 +237,7 @@ public class AccountController extends AController {
         }
         model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchiveDataService.getAllFromUserAccount(currentUser));
         model.addAttribute("webarchiveListH1", "Mes webarchives");
+        model.addAttribute("title", "Mes Webarchives");
         return "webarchive/list";
     }
     

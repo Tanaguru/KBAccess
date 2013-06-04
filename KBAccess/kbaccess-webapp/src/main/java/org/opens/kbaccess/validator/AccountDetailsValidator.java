@@ -1,10 +1,10 @@
 /*
- * URLManager - URL Indexer
- * Copyright (C) 2008-2012  Open-S Company
+ * KBAccess - Collaborative database of accessibility examples
+ * Copyright (C) 2012-2016  Open-S Company
  *
- * This file is part of URLManager.
+ * This file is part of KBAccess.
  *
- * URLManager is free software: you can redistribute it and/or modify
+ * KBAccess is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
@@ -25,6 +25,7 @@ import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
+import org.opens.kbaccess.utils.SHA1Hasher;
 import org.opens.kbaccess.validator.utils.EmailValidator;
 import org.springframework.validation.Errors;
 
@@ -58,7 +59,22 @@ public class AccountDetailsValidator extends AAccountValidator {
         }
         return true;
     }
-    
+
+    @Override
+    protected boolean validatePassword(AccountCommand cmd, Errors errors) {
+        String cmdPasswordHash = SHA1Hasher.getInstance().hashAsString(cmd.getPassword());
+        String accountPasswordHash = accountDataService.getAccountFromEmail(this.originalEmail).getPassword();
+        
+        if (cmd.getPassword() == null || cmd.getPassword().isEmpty()) {
+            errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.MISSING_PASSWORD_KEY);
+            return false;
+        } else if (!cmdPasswordHash.equals(accountPasswordHash)) {
+            errors.rejectValue(FormKeyStore.PASSWORD_KEY, MessageKeyStore.INVALID_PASSWORD_KEY);
+            return false;
+        }
+        return true;
+    }
+ 
     @Override
     protected boolean validateAccessLevel(AccountCommand cmd, Errors errors) {
         return true;

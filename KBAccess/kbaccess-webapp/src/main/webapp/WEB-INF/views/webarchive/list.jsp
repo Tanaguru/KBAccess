@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Toutes les webarchives" />
+    <c:set var="title" value="${title}" />
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>

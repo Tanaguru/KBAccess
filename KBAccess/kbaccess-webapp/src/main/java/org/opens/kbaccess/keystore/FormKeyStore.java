@@ -1,10 +1,10 @@
 /*
- * URLManager - URL Indexer
- * Copyright (C) 2008-2012  Open-S Company
+ * KBAccess - Collaborative database of accessibility examples
+ * Copyright (C) 2012-2016  Open-S Company
  *
- * This file is part of URLManager.
+ * This file is part of KBAccess.
  *
- * URLManager is free software: you can redistribute it and/or modify
+ * KBAccess is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
@@ -41,7 +41,7 @@ public final class FormKeyStore {
     public static final String ID_TEST_KEY = "idTest";
     public static final String ID_WEBARCHIVE_KEY = "idWebarchive";
     public static final String NEW_PASSWORD_KEY = "newPassword";
-    public static final String OLD_PASSWORD_KEY = "oldPassword";
+    public static final String CURRENT_PASSWORD_KEY = "currentPassword";
     public static final String PASSWORD_KEY = "password";
     public static final String TITLE_KEY = "title";
     public static final String URL_KEY = "url";

@@ -41,19 +41,14 @@ WHERE ACCESS_LEVEL = 'contributeur';
 ALTER TABLE migrate_20.account
 DROP COLUMN ACCESS_LEVEL;
 
+UPDATE migrate_20.account AS a SET SUBSCRIPTION_DATE = 
+    (SELECT MIN(tc.CREATION_DATE)
+    FROM migrate_20.testcase tc 
+    WHERE tc.ID_ACCOUNT = a.ID_ACCOUNT);
+
 UPDATE migrate_20.account
-SET SUBSCRIPTION_DATE = '2010-06-22 00:00:00';
-
--- UPDATE migrate_20.account as a1
--- SET
---     a1.SUBSCRIPTION_DATE = a2.SUBSCRIPTION_DATE
--- FROM
---     (SELECT MIN(tc.CREATION_DATE) AS SUBSCRIPTION_DATE
---     FROM migrate_20.account a, migrate_20.testcase tc 
---     WHERE tc.ID_ACCOUNT = a.ID_ACCOUNT)a2
--- WHERE 
---     a2.ID_ACCOUNT = a1.ID_ACCOUNT;
-
+SET SUBSCRIPTION_DATE = '2010-06-22 00:00:00'
+WHERE SUBSCRIPTION_DATE IS NULL;
 
 --
 -- Webarchive

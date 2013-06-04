@@ -33,12 +33,14 @@ public final class MessageKeyStore {
     public static final String EMAIL_ALREADY_IN_USE_KEY = "emailAlreadyInUse";
 
     public static final String GENERIC_ERROR_KEY = "genericError";
+    public static final String ERROR_PASSWORD_CHANGE_KEY = "errorPasswordChange";
 
     public static final String INACTIVE_ACCOUNT_KEY = "inactiveAccount";
 
     public static final String INVALID_CRITERION_KEY = "invalidCriterion";
     public static final String INVALID_EMAIL_KEY = "invalidEmail";
     public static final String INVALID_PASSWORD_KEY = "invalidPassword";
+    public static final String INVALID_NEW_PASSWORD_KEY = "invalidNewPassword";
     public static final String INVALID_RESULT_KEY = "invalidResult";
     public static final String INVALID_TEST_FOR_GIVEN_CRITERION_KEY = "invalidTestForGivenCriterion";
     public static final String INVALID_TEST_KEY = "invalidTest";
@@ -53,6 +55,8 @@ public final class MessageKeyStore {
     public static final String MISSING_CRITERION_KEY = "missingCriterion";
     public static final String MISSING_EMAIL_KEY = "missingEmail";
     public static final String MISSING_PASSWORD_KEY = "missingPassword";
+    public static final String MISSING_CURRENT_PASSWORD_KEY = "missingCurrentPassword";
+    public static final String MISSING_NEW_PASSWORD_KEY = "missingNewPassword";
     public static final String MISSING_REQUIRED_FIELD = "requiredFieldIsMissing";
     public static final String MISSING_RESULT_KEY = "missingResult";
     public static final String MISSING_TEST_KEY = "missingTest";

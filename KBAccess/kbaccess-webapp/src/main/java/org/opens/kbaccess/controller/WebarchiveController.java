@@ -86,7 +86,7 @@ public class WebarchiveController extends AMailerController {
         handleBreadcrumbTrail(model, "KBAccess", "/", "Liste des webarchives");
         // result list, title and h1
         model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchiveDataService.findAll());
-        model.addAttribute("title", "Tous les testcases - KBAccess");
+        model.addAttribute("title", "Toutes les webarchives");
         model.addAttribute("webarchiveListH1", "Liste des webarchives");
         return "webarchive/list";
     }

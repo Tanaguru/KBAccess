@@ -18,13 +18,13 @@
         </c:if>
         <c:if test="${isHome == null || isHome == false}">
             <c:set var="tableCaption" value="${testcaseListTitle}" />
-        </c:if>
-        <c:set var="testcaseUrl">
-                <%@include file="/WEB-INF/template/inline/testcase-url.jspf" %>
-        </c:set>
-        
+        </c:if>        
         <display:table summary="${tableCaption}" id="testcase" name="testcaseList" sort="page" pagesize="20" partialList="true" size="${nbTestcases}" requestURI="" class="table data-table table-strip">
             <display:caption class="data-table-caption">${tableCaption}</display:caption>
+            
+             <c:set var="testcaseUrl">
+                <%@include file="/WEB-INF/template/inline/testcase-url.jspf" %>
+            </c:set>
             
             <c:if test="${isHome == true}">
                 <display:setProperty name="paging.banner.all_items_found" value="" />
@@ -55,7 +55,7 @@
                 <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
             </display:column>
             <display:column title="Date de l'exemple" headerClass="creationDateCol" headerScope="col">
-                <fmt:formatDate pattern="dd/MM/yyyy hh'h'mm" value="${testcase.creationDate}"/>
+                <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${testcase.creationDate}"/>
             </display:column>
             <%--<display:column title="Description" headerClass="descriptionCol" headerScope="col">
                 ${testcase.description}

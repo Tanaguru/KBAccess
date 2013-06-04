@@ -21,6 +21,9 @@
  */
 package org.opens.kbaccess.controller.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -31,7 +34,9 @@ import org.opens.kbaccess.controller.GuestController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
+import org.opens.kbaccess.presentation.TestcasePresentation;
 import org.opens.kbaccess.utils.MailingServiceProperties;
+import org.opens.kbaccess.utils.TgolTokenHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -131,6 +136,16 @@ public class AMailerController extends AController {
         String subject;
         String[] subjectAndMessage;
         
+        // Encode token
+        String token = account.getAuthCode();
+        
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(this.getClass()).warn(ex);
+        }
+        
+        // Construct email
         message = mailingServiceProperties.getAuthTokenEmailBody(lang);
         if (message == null) {
             return false;
@@ -139,23 +154,40 @@ public class AMailerController extends AController {
         subject = subjectAndMessage[0];
         
         // We replace the token key
-        message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, account.getAuthCode());
+        message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, token);
         // Then we replace the email key
         message = message.replace(EMAIL_KEY, account.getEmail());
         
         return sendMail(subject, message, new String[] {account.getEmail()});
     }
     
-    
-    public boolean sendNewPassword(String lang, Account account, String password) {
-        String[] subjectAndMessage;
-        String subject;
+    public boolean sendNewPasswordToken(String lang, Account account) {
         String message;
+        String subject;
+        String[] subjectAndMessage;
         
-        subjectAndMessage = splitMessageBody(mailingServiceProperties.getLostPasswordEmailBody(lang));
+        // create message
+      
+        Logger.getLogger(AMailerController.class).debug(account.toString());
+        String token = TgolTokenHelper.getInstance().getTokenUser(account, true);
+        
+        try {
+            token = URLEncoder.encode(token, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(this.getClass()).warn(ex);
+        }
+        
+         // Construct email
+        message = mailingServiceProperties.getLostPasswordEmailBody(lang);
+        if (message == null) {
+            return false;
+        }
+        subjectAndMessage = splitMessageBody(message);
         subject = subjectAndMessage[0];
-        message = subjectAndMessage[1];
-        message = message.replace(PASSWORD_KEY, password);
+        
+        // We replace the token key
+        message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, token);
+        
         return sendMail(subject, message, new String[] {account.getEmail()});
     }
     
@@ -168,10 +200,7 @@ public class AMailerController extends AController {
         recipients = mailingServiceProperties.getSubscriptionNotificationMailingList();
         subject = SUBSCRIPTION_NOTIFICATION_SUBJECT;
         // create message
-        
-//        Log logger = new Log4JLogger(Logger.getLogger(this.getClass()));
-//        logger.info(account.toString());
-//        logger.info(account.toString());
+      
         Logger.getLogger(AMailerController.class).debug(account.toString());
         
         message.append(
@@ -207,16 +236,23 @@ public class AMailerController extends AController {
         message = new StringBuilder();
         recipients = mailingServiceProperties.getTestcaseCreationNotificationMailingList();
         subject = TESTCASE_CREATION_NOTIFICATION_SUBJECT;
+        TestcasePresentation testcasePresentation = new TestcasePresentation(newTestcase, true);
+        Account account = accountDataService.read(testcasePresentation.getAuthorId());
+        
         // create message
         message.append(
                 "Hello,\n\n" +
-                "A new testcase has been created on KBAcces :\n" +
-                "* id : ").append(newTestcase.getId().toString()).append("\n" +
-                "* test : ").append(newTestcase.getCriterion().getLabel()).append("\n" +
-                "* accound : (").append(newTestcase.getAccount().getId()).append(") ")
-                .append(newTestcase.getAccount().getEmail()).append("\n" +
-                "* webarchive : ").append(newTestcase.getWebarchive().getUrl()).append(" "
-                ).append(newTestcase.getWebarchive().getCreationDate()).append("\n\n" +
+                "A new testcase has been created on KBAccess :\n" +
+                "* url : ").append("http://www.kbaccess.org/example/details/" + testcasePresentation.getId() + 
+                "/exemple-accessibilite-" + testcasePresentation.getTestLabel() + 
+                "-" + testcasePresentation.getReferenceLabel().replace(" ", "") + 
+                "-" + testcasePresentation.getResultCode() + ".html\n" + 
+                "* id : ").append(testcasePresentation.getId().toString()).append("\n" +
+                "* test : ").append(testcasePresentation.getTestLabel()).append("\n" +
+                "* account : (").append(account.getId()).append(") ")
+                .append(account.getEmail()).append("\n" +
+                "* webarchive : ").append(testcasePresentation.getWebarchiveOriginalUrl()).append(" "
+                ).append(testcasePresentation.getWebarchiveCreationDate()).append("\n\n" +
                 "If you receive this email, it means you are in the KBAccess " +
                 "testcase creation notification mailing list. To unsubscribe, modify " +
                 "the KBAccess configuration and restart the service.\n\n" +
@@ -250,7 +286,7 @@ public class AMailerController extends AController {
                 "* local url : ").append(webarchive.getLocalUrl()).append("\n" +
                 "* description : ").append(webarchive.getDescription()).append("\n" +
                 "* creation date : ").append(webarchive.getCreationDate()).append("\n" +
-                "* accound : (").append(webarchive.getAccount().getId()).append(") ")
+                "* account : (").append(webarchive.getAccount().getId()).append(") ")
                 .append(webarchive.getAccount().getEmail()).append("\n" +
                 "\n" +
                 "If you receive this email, it means you are in the KBAccess " +

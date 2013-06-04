@@ -27,12 +27,6 @@
             <version>2.0-RC1</version>
             <scope>runtime</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>kbaccess-resources</artifactId>
-            <version>${kbaccess.version}</version>
-            <scope>runtime</scope>
-        </dependency>-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>kbaccess-persistence</artifactId>
@@ -41,6 +35,7 @@
         <dependency>
             <groupId>org.opens.slurpmanager</groupId>
             <artifactId>slurp-manager-api</artifactId>
+            <version>${kbaccess.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -51,6 +46,7 @@
         <dependency>
             <groupId>org.opens.slurpmanager</groupId>
             <artifactId>slurp-manager-impl</artifactId>
+            <version>${kbaccess.version}</version>
             <scope>runtime</scope>
             <exclusions>
                 <exclusion>
@@ -156,6 +152,10 @@
             <groupId>displaytag</groupId>
             <artifactId>displaytag</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+        </dependency>
         
     </dependencies>
     
@@ -178,7 +178,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1.1</version>
                 <configuration>
-                    <warSourceExcludes>target/kbaccess-webapp-2.0-SNAPSHOT/assets/less</warSourceExcludes>
+                    <warSourceExcludes>target/kbaccess-webapp-${kbaccess.version}/assets/less</warSourceExcludes>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
@@ -188,7 +188,7 @@
                 <version>1.0-beta-3</version>
                 <configuration>
                     <sourceDirectory>src/main/webapp/assets/less</sourceDirectory>
-                    <outputDirectory>target/kbaccess-webapp-2.0-SNAPSHOT/assets/css</outputDirectory>
+                    <outputDirectory>target/kbaccess-webapp-${kbaccess.version}/assets/css</outputDirectory>
                 </configuration>
                 <executions>
                     <execution>

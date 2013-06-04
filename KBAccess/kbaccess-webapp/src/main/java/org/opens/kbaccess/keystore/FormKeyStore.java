@@ -41,7 +41,7 @@ public final class FormKeyStore {
     public static final String ID_TEST_KEY = "idTest";
     public static final String ID_WEBARCHIVE_KEY = "idWebarchive";
     public static final String NEW_PASSWORD_KEY = "newPassword";
-    public static final String OLD_PASSWORD_KEY = "oldPassword";
+    public static final String CURRENT_PASSWORD_KEY = "currentPassword";
     public static final String PASSWORD_KEY = "password";
     public static final String TITLE_KEY = "title";
     public static final String URL_KEY = "url";

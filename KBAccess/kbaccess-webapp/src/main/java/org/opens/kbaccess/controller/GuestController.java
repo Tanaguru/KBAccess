@@ -22,9 +22,7 @@
 package org.opens.kbaccess.controller;
 
 import java.util.Calendar;
-import java.util.Random;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Logger;
 import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.command.PasswordLostCommand;
 import org.opens.kbaccess.controller.utils.AMailerController;
@@ -35,7 +33,7 @@ import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.utils.MailingServiceProperties;
-import org.opens.kbaccess.utils.SHA1Hasher;
+import org.opens.kbaccess.utils.TgolTokenHelper;
 import org.opens.kbaccess.validator.NewAccountValidator;
 import org.opens.kbaccess.validator.PasswordLostValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,50 +54,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class GuestController extends AMailerController {
     
     @Autowired
-    private AccountDataService accountDataService;
-    @Autowired
     private AccessLevelDataService accessLevelDataService;
     @Autowired
     private MailingServiceProperties mailingServiceProperties;
-    private Random random = new Random();
     
     /*
      * private methods
      */
-    private String generateNewPassword() {
-        String passwordChars = "abcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder password;
-        final int passwordLength = 8;
+    private String generateToken(Account account, boolean hasExpiration) {
+        TgolTokenHelper tokenHelper = TgolTokenHelper.getInstance();
         
-        password = new StringBuilder();
-        for (int i = 0; i < passwordLength; ++i) {
-            password.append(passwordChars.charAt(random.nextInt(passwordChars.length())));
-        }
-        return password.toString();
-    }
-
-    private String generateAuthToken(String email) {
-        StringBuilder sb;
-        
-        sb = new StringBuilder();
-        sb.append(email).append(String.valueOf(random.nextInt()));
-        return SHA1Hasher.getInstance().hashAsString(sb.toString());
+        return tokenHelper.getTokenUser(account, hasExpiration);
     }
     
     private boolean sendAuthTokenAndSubscribeNotificationByMail(String lang, Account account) {
-        if (!sendSubsciptionNotification(account)) {
-            LogFactory.getLog(GuestController.class).error("Unable to send the subscription notification");
-        }
         if (!sendAuthToken(lang, account)) {
-            LogFactory.getLog(GuestController.class).debug("Unalbe to send the auth token");
-            return false;
+            LogFactory.getLog(GuestController.class).debug("Unable to send the auth token");
+            return false; 
+        } else if (!sendSubsciptionNotification(account)) {
+            LogFactory.getLog(GuestController.class).error("Unable to send the subscription notification");
         }
         return true;
     }
-
-    private boolean sendNewPasswordByMail(String lang, Account account, String password) {
-        if (!sendNewPassword(lang, account, password)) {
-            LogFactory.getLog(GuestController.class).error("Error sending new password by mail to " + account.getEmail());
+    
+    private boolean sendNewPasswordTokenByMail(String lang, Account account) {
+        if (!sendNewPasswordToken(lang, account)) {
+            LogFactory.getLog(GuestController.class).error("Error sending new password token by mail to " + account.getEmail());
             return false;
         }
         return true;
@@ -165,18 +145,18 @@ public class GuestController extends AMailerController {
             model.addAttribute("newAccountCommand", accountCommand);
             return "guest/subscribe";
         }
-        // create auth token
-        authToken = generateAuthToken(accountCommand.email);
+        
         // create account
         newAccount = accountDataService.create();
         accountCommand.updateAccount(newAccount);
-        newAccount.setAuthCode(authToken);
+        
         AccessLevel al = accessLevelDataService.getByCode(AccessLevelEnumType.CONTRIBUTOR.getType());
         newAccount.setAccessLevel(al);
         newAccount.setSubscriptionDate(Calendar.getInstance().getTime());
         
-        Logger.getLogger(this.getClass()).debug(al.getId());
-        Logger.getLogger(this.getClass()).debug(al.getCdAccessLevel());
+        authToken = generateToken(newAccount, false);
+        newAccount.setAuthCode(authToken);
+        
         // send subscribe confirmation, with auth token, and notification
         if (!sendAuthTokenAndSubscribeNotificationByMail(null, newAccount)) {
             model.addAttribute("subscribeError", "Une erreur s'est produite. Merci de contacter l'administrateur.");
@@ -226,7 +206,7 @@ public class GuestController extends AMailerController {
             ) {
         PasswordLostValidator passwordLostValidator =  new PasswordLostValidator(accountDataService);
         Account account;
-        String password;
+        String token;
         
         // check if the user has the right to be there
         if (!checkAuthority()) {
@@ -241,13 +221,14 @@ public class GuestController extends AMailerController {
             model.addAttribute("passwordLostCommand", passwordLostCommand);
             return "guest/password-lost";
         }
-        // generate the new password and send it by mail
-        password = generateNewPassword();
+        
+        // send new password token by mail
         account = accountDataService.getAccountFromEmail(passwordLostCommand.getEmail());
-        if (account != null && sendNewPasswordByMail(null, account, password)) {
-            account.setPassword(SHA1Hasher.getInstance().hashAsString(password));
-            accountDataService.saveOrUpdate(account);
+        token = generateToken(account, true);
+        if (account != null && sendNewPasswordTokenByMail(null, account)) {
             model.addAttribute("passwordSent", true);
+            account.setAuthCode(token);
+            accountDataService.update(account);
         } else {
             model.addAttribute("passwordLostError", "Une erreure s'est produite. Merci de contacter l'administrateur.");
         }
@@ -313,14 +294,6 @@ public class GuestController extends AMailerController {
     public void setAccountDataService(AccountDataService accountDataService) {
         this.accountDataService = accountDataService;
     }
-
-//    public AccountFactory getAccountFactory() {
-//        return accountFactory;
-//    }
-//
-//    public void setAccountFactory(AccountFactory accountFactory) {
-//        this.accountFactory = accountFactory;
-//    }
 
     @Override
     public MailingServiceProperties getMailingServiceProperties() {

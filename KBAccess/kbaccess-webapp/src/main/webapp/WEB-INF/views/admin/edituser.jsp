@@ -49,20 +49,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_password">Mot de passe :</label>
-                                <div class="controls">
-                                    <form:password path="password" id="account_password"/>
-                                    <form:errors path="password" cssClass="alert alert-error" element="p"/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label" for="account_password_confirmation">Mot de passe (confirmation) :</label>
-                                <div class="controls">
-                                    <form:password path="passwordConfirmation" id="account_password_confirmation"/>	
-                                    <form:errors path="passwordConfirmation" cssClass="alert alert-error" element="p"/>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label" for="account_last_name">Nom :</label>
                                 <div class="controls">
                                     <form:input path="lastName" id="account_last_name" maxlength="30"/>

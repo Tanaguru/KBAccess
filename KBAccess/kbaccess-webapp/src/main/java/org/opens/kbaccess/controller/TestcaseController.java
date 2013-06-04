@@ -73,9 +73,24 @@ public class TestcaseController extends AMailerController {
         StringBuilder criteria = new StringBuilder();
         
         // building criteria list
+        if (reference != null) {
+            criteria.append("Référenciel ");
+            criteria.append(reference.getLabel());
+            criteria.append(", ");
+        }
+         if (theme != null) {
+            criteria.append("Thématique ");
+            criteria.append(theme.getLabel());
+            criteria.append(", ");
+        }
         if (criterion != null) {
             criteria.append("Critère ");
             criteria.append(criterion.getLabel());
+            criteria.append(", ");
+        }
+         if (test != null) {
+            criteria.append("Test ");
+            criteria.append(test.getLabel());
             criteria.append(", ");
         }
         if (level != null) {
@@ -83,24 +98,9 @@ public class TestcaseController extends AMailerController {
             criteria.append(level.getLabel());
             criteria.append(", ");
         }
-        if (reference != null) {
-            criteria.append("Référenciel ");
-            criteria.append(reference.getLabel());
-            criteria.append(", ");
-        }
         if (result != null) {
             criteria.append("Résultat ");
             criteria.append(result.getLabel());
-            criteria.append(", ");
-        }
-        if (test != null) {
-            criteria.append("Test ");
-            criteria.append(test.getLabel());
-            criteria.append(", ");
-        }
-        if (theme != null) {
-            criteria.append("Thématique ");
-            criteria.append(theme.getLabel());
             criteria.append(", ");
         }
         

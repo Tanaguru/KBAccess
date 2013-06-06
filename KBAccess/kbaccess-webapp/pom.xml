@@ -225,5 +225,46 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <activation>
+              <property>
+                <name>intserver.deployPath</name>
+              </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                         <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <scp file="${project.build.directory}/${project.build.finalName}.war" todir="${intserver.deployPath}/ROOT.war" keyfile="${intserver.keyFile}" passphrase="${intserver.passPhrase}" />
+                                        <!-- see also: http://ant.apache.org/manual/Tasks/scp.html -->
+<!--                                        <exec executable="/bin/sh">
+                                            <arg value="/root/bin/restart-kbaccess-instance.sh"/>
+                                        </exec>-->
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>ant</groupId>
+                                <artifactId>ant-jsch</artifactId>
+                                <version>1.6.5</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

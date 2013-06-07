@@ -22,7 +22,8 @@
         <module>slurp-manager-api</module>
         <module>slurp-manager-impl</module>
         <module>slurp-manager-resources</module>
-    </modules>
+    <!--<module>kbaccess-test-ui</module>-->
+  </modules>
     
     <properties>
         <spring.version>3.0.5.RELEASE</spring.version>

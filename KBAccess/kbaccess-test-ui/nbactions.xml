@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>test</actionName>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            <properties>
+                <webDriverFirefoxBin>/opt/firefox/firefox</webDriverFirefoxBin>
+                
+                
+                
+                
+                
+                <hostLocation>http://localhost:8080/</hostLocation>
+                
+                
+                
+                
+                
+                <hostBaseUrl>/kbaccess-webapp-2.0-RC1/</hostBaseUrl>
+                <dbUrl>jdbc:mysql://localhost:3306/migrate_20</dbUrl>
+                <dbUser>kbaccess</dbUser>
+                <dbPassword>kb4cc3ss</dbPassword>
+                
+                
+            </properties>
+        </action>
+    </actions>

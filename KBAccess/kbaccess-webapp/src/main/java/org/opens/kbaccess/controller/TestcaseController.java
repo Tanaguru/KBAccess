@@ -528,7 +528,7 @@ public class TestcaseController extends AMailerController {
         return displayTestcaseDetails(model, testcase);
     }
     
-    @RequestMapping(value="details/{id}/*", method={RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value="details/{id}/*", method={RequestMethod.GET, RequestMethod.POST})
     public String detailsHandler(
             @PathVariable("id") Long id,
             Model model
@@ -536,11 +536,10 @@ public class TestcaseController extends AMailerController {
         Testcase testcase;
         
         // fetch testcase
-        testcase = testcaseDataService.read(id, true);
-        if (testcase == null) {
-            // handle breadcrumb
-            handleBreadcrumbTrail(model, "KBAccess", "/", "Exemple introuvable");
-            return "testcase/details";
+        try {
+            testcase = testcaseDataService.read(id, true);
+        } catch (NullPointerException e) {
+            return "home";
         }
         
         return displayTestcaseDetails(model, testcase);

@@ -141,9 +141,13 @@
         <property name="defaultReturnAddress" value="no-reply@kbaccess.org"/>
         <property name="emailTemplateDirectoryName" value="/etc/kbaccess/conf/email-template"/>
         <property name="smtpHost" value="localhost"/>
-        <property name="subscriptionNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>
+        <property name="subscriptionNotificationMailingList" value="blebail@tanaguru.com"/>
+        <property name="testcaseCreationNotificationMailingList" value="blebail@tanaguru.com"/>
+        <property name="webarchiveCreationNotificationMailingList" value="blebail@tanaguru.com"/>
+   
+<!--        <property name="subscriptionNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>
         <property name="testcaseCreationNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>
-        <property name="webarchiveCreationNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>
+        <property name="webarchiveCreationNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>-->
     </bean>
     
     <!-- slurp -->

@@ -60,7 +60,7 @@ public class AccountCommand extends ACommand {
     }
     
     public void updateAccount(Account account) {
-        account.setEmail(email);
+        account.setEmail(email.toLowerCase());
         account.setFirstName(firstName);
         account.setLastName(lastName);
         account.setUrl(url);

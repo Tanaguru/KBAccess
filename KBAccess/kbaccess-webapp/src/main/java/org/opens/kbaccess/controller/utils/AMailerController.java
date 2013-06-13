@@ -23,7 +23,6 @@ package org.opens.kbaccess.controller.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -155,9 +154,7 @@ public class AMailerController extends AController {
         
         // We replace the token key
         message = subjectAndMessage[1].replace(AUTH_TOKEN_KEY, token);
-        // Then we replace the email key
-        message = message.replace(EMAIL_KEY, account.getEmail());
-        
+
         return sendMail(subject, message, new String[] {account.getEmail()});
     }
     

@@ -33,6 +33,7 @@
                     
                     <form:form commandName="newAccountCommand" 
                             action="${subscribeUrl}"
+                            id="subscribe-form"
                             method="POST"
                             class="form-horizontal">
                         <spring:hasBindErrors name="newAccountCommand">
@@ -42,16 +43,16 @@
                         <div class="control-group">
                             <label class="control-label" for="subscription_email"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> Email :</label>
                             <div class="controls">
-                                <form:input path="email" id="subscription_email"/>
-                                <form:errors path="email" cssClass="alert alert-error" element="p"/>
+                                <form:input path="email" id="subscription_email" cssErrorClass="validation-error"/>
+                                <form:errors path="email" cssClass="alert alert-error" element="span"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="subscription_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> Mot de passe :</label>
                             <div class="controls">
-                                <form:password path="password" id="subscription_password"/>
+                                <form:password path="password" id="subscription_password" cssErrorClass="validation-error"/>
+                                <form:errors path="password" cssClass="alert alert-error" element="span"/>
                                 <p class="label-indication">8 caractères minimum avec majuscule(s), minuscule(s) et chiffre(s)</p>
-                                <form:errors path="password" cssClass="alert alert-error" element="p"/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -60,29 +61,29 @@
                                 Mot de passe (confirmation) :
                             </label>
                             <div class="controls">
-                                <form:password path="passwordConfirmation" id="subscription_password_confirmation"/>
-                                <form:errors path="passwordConfirmation" cssClass="alert alert-error" element="p"/>
+                                <form:password path="passwordConfirmation" id="subscription_password_confirmation" cssErrorClass="validation-error"/>
+                                <form:errors path="passwordConfirmation" cssClass="alert alert-error" element="span"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="subscription_lastname">Nom :</label>
                             <div class="controls">
-                                <form:input path="lastName" id="subscription_lastname" maxlength="30"/>
-                                <form:errors path="lastName" cssClass="alert alert-error" element="p"/>         
+                                <form:input path="lastName" id="subscription_lastname" maxlength="30" cssErrorClass="validation-error"/>
+                                <form:errors path="lastName" cssClass="alert alert-error" element="span"/>         
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="subscription_firstname">Prénom :</label>
                             <div class="controls">
-                                <form:input path="firstName" id="subscription_firstname" maxlength="30"/>
-                                <form:errors path="firstName" cssClass="alert alert-error" element="p"/>
+                                <form:input path="firstName" id="subscription_firstname" maxlength="30" cssErrorClass="validation-error"/>
+                                <form:errors path="firstName" cssClass="alert alert-error" element="span"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="subscription_url">URL site web :</label>
                             <div class="controls">
-                                <form:input path="url" id="subscription_url" />
-                                <form:errors path="url" cssClass="alert alert-error" element="p"/>
+                                <form:input path="url" id="subscription_url" cssErrorClass="validation-error"/>
+                                <form:errors path="url" cssClass="alert alert-error" element="span"/>
                             </div>
                         </div>
                         <div class="form-actions">

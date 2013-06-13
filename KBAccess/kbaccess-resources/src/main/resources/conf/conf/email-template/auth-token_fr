@@ -6,7 +6,7 @@ Si vous recevez cet email, cela signifie que vous venez de créer un compte sur 
 
 Votre nouveau compte a besoin d'être activé. Pour cela, cliquez sur le lien suivant :
 
-http://www.kbaccess.org/guest/activate-account.html?email=${email}&token=${authToken}
+http://www.kbaccess.org/guest/activate-account.html?token=${authToken}
 
 
 A bientôt sur http://www.kbaccess.org .

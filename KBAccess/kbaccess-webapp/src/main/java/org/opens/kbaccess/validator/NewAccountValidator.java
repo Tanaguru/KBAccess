@@ -44,7 +44,7 @@ public class NewAccountValidator extends AAccountValidator {
             errors.rejectValue(FormKeyStore.EMAIL_KEY, MessageKeyStore.MISSING_EMAIL_KEY);
             return false;
         }
-        if (!EmailValidator.validate(cmd.getEmail())) {
+        if (!EmailValidator.validate(cmd.getEmail().toLowerCase())) {
             errors.rejectValue(FormKeyStore.EMAIL_KEY, MessageKeyStore.INVALID_EMAIL_KEY);
             return false;
         }

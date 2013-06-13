@@ -241,7 +241,6 @@ public class GuestController extends AMailerController {
     @RequestMapping(value="activate-account", method=RequestMethod.GET)
     public String activateAccountHandler(
             @RequestParam(value="token", required=false) String token,
-            @RequestParam(value="email", required=false) String email,
             Model model
             ) {
         Account account;
@@ -260,22 +259,19 @@ public class GuestController extends AMailerController {
             LogFactory.getLog(GuestController.class).error("An authentified user reached guest/activate-account. Check spring security configuration");
             return "home";
         } 
-        // check parameters
-        if (token == null || token.isEmpty() || email == null || email.isEmpty()) {
-            // if there are empty, display the form
-            return "guest/activate-account";
+        
+        if (!AccountUtils.getInstance().isTokenValid(token)) {
+            return "guest/login";
         } else {
             // otherwise, activate the associated account
+            String email = TgolTokenHelper.getInstance().getUserEmailFromToken(token);
             account = accountDataService.getAccountFromEmail(email);
+            
             if (account != null && token.equals(account.getAuthCode())) {
                 account.setActivated(true);
                 account.setAuthCode(null);
                 accountDataService.saveOrUpdate(account);
-                model.addAttribute("accountActivated", true);
-            } else {
-                // or display an error
-                model.addAttribute("activateAccountError", "Jeton ou adresse email invalide.");
-            }
+            } 
         }
         
         LogFactory.getLog(GuestController.class).info("endOfActivateAccountHandler()");

@@ -45,8 +45,6 @@ public final class TgolTokenHelper {
     public void setTokenDurationValidity(int tokenDurationValidity) {
         this.tokenDurationValidity = tokenDurationValidity;
     }
-
-    private Map<String, Boolean> tokenUsage = new HashMap<String, Boolean>();
     
     /**
      * The unique instance of TgolTokenHelper
@@ -97,7 +95,6 @@ public final class TgolTokenHelper {
             }
             String token = cryptoToken.getToken();
             
-            tokenUsage.put(token, Boolean.FALSE);
             return token;
         } catch (EncryptionException ex) {
             Logger.getLogger(this.getClass()).warn(ex);
@@ -145,23 +142,7 @@ public final class TgolTokenHelper {
                     + cryptoToken.getExpirationDate());
             return false;
         }
-        
-        if (!tokenUsage.containsKey(token) || 
-            tokenUsage.get(token).booleanValue()) {
-            Logger.getLogger(this.getClass()).info(
-                    "!tokenUsage.containsKey(token) || "
-                    + " tokenUsage.get(token).booleanValue() " );
-            return false;
-        }
-        
+
         return true;
     }
-    
-    public void setTokenUsed(String token) {
-        tokenUsage.put(token,Boolean.TRUE);   
-    }
-    
-    /*
-     * Accessors
-     */ 
 }

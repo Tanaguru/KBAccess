@@ -21,6 +21,8 @@
  */
 package org.opens.kbaccess.utils;
 
+import org.apache.commons.logging.LogFactory;
+import org.opens.kbaccess.controller.AccountController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.subject.Testcase;
@@ -133,7 +135,35 @@ public class AccountUtils {
         // This is done to avoid an admin to accidentally downgrade his own role and not be able to come back
         return (isAdmin && isNotAnAdminAccount);
     }
-
+    
+    /**
+     * @param token
+     * @return true if the token is valid
+     */
+    public boolean isTokenValid(String token) {
+        boolean isAccountValid = true;
+        boolean isTokenValid = true;
+        TgolTokenHelper tokenHelper = TgolTokenHelper.getInstance();
+        
+        String requestedUserEmail = tokenHelper.getUserEmailFromToken(token);
+                
+        if (accountDataService.getAccountFromEmail(requestedUserEmail) == null) {
+            isAccountValid = false;
+            LogFactory.getLog(AccountController.class).info("Token with an invalid email");
+        }
+        
+        if (!tokenHelper.checkUserToken(token)) {
+            isTokenValid = false;
+            LogFactory.getLog(AccountController.class).info("Token with an invalid structure");
+        }
+        
+        return (isAccountValid && isTokenValid);
+    }
+    
+    /*
+     * Accessors
+     */
+    
     public AccountDataService getAccountDataService() {
         return accountDataService;
     }

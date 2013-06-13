@@ -35,7 +35,7 @@ public class AccountDAOImpl extends AbstractJPADAO<Account, Long> implements
     public Account findByEmail(String email) {
         try {
             Query query = selectAccounts("WHERE n.email = :email");
-            query.setParameter("email", email);
+            query.setParameter("email", email.toLowerCase());
             return (Account) query.getSingleResult();
         } catch (NoResultException e) {
             // In case of query with no result, return null

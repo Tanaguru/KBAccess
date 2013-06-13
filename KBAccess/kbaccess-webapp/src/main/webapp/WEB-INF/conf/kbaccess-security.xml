@@ -52,7 +52,7 @@
                 users-by-username-query=
                     "SELECT EMAIL, PASSWORD, ACTIVATED as enabled
                     FROM account
-                    WHERE EMAIL=?"
+                    WHERE EMAIL=LOWER(?)"
                 authorities-by-username-query=
                     "SELECT account.EMAIL, CONCAT('ROLE_', access_level.CD_ACCESS_LEVEL) as authorities
                     FROM account, access_level
@@ -68,5 +68,4 @@
             </beans:list>
         </beans:property>
     </beans:bean>
-
 </beans:beans>

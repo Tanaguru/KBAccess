@@ -37,7 +37,7 @@
             <display:column title="Exemple" headerClass="webarchiveLocalUrlCol" class="screenshot" headerScope="col">
                 <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>" title="Détails de l'exemple ${testcase.id}">
                     <img src="${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
-                </a><br/>
+                </a>
             </display:column>
             <display:column title="Page d'origine" headerClass="webarchiveOriginalUrlCol" headerScope="col">
                 <a href="${testcase.webarchiveOriginalUrl}">

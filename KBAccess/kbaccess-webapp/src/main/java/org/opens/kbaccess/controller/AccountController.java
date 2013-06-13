@@ -61,25 +61,6 @@ public class AccountController extends AController {
     /*
      * Private methods
      */
-    private boolean isTokenValid(String token) {
-        boolean isAccountValid = true;
-        boolean isTokenValid = true;
-        TgolTokenHelper tokenHelper = TgolTokenHelper.getInstance();
-        
-        String requestedUserEmail = tokenHelper.getUserEmailFromToken(token);
-                
-        if (accountDataService.getAccountFromEmail(requestedUserEmail) == null) {
-            isAccountValid = false;
-            LogFactory.getLog(AccountController.class).info("Token with an invalid email");
-        }
-        
-        if (!tokenHelper.checkUserToken(token)) {
-            isTokenValid = false;
-            LogFactory.getLog(AccountController.class).info("Token with an invalid structure");
-        }
-        
-        return (isAccountValid && isTokenValid);
-    }
     
     private String displayNewPasswordForm(Model model, NewPasswordCommand newPasswordCommand) {
         // Breadcrumb
@@ -332,7 +313,7 @@ public class AccountController extends AController {
         
         LogFactory.getLog(AccountController.class).info("token : " + token);
         
-        if (!isTokenValid(token)) {
+        if (!AccountUtils.getInstance().isTokenValid(token)) {
             return "guest/login";
         }
 
@@ -352,7 +333,7 @@ public class AccountController extends AController {
         String token = newPasswordCommand.getToken();
         TgolTokenHelper tokenHelper = TgolTokenHelper.getInstance();
         
-        if (!isTokenValid(token)) {
+        if (!AccountUtils.getInstance().isTokenValid(token)) {
             return "guest/login";
         }
         
@@ -366,12 +347,13 @@ public class AccountController extends AController {
         // Update account's password
         String requestedUserEmail = tokenHelper.getUserEmailFromToken(token);
         Account requestedUser = accountDataService.getAccountFromEmail(requestedUserEmail);
-        requestedUser.setAuthCode(null);
-        newPasswordCommand.updateAccount(requestedUser);
-        accountDataService.update(requestedUser);
         
         // Set the token as used
-        tokenHelper.setTokenUsed(token);
+        requestedUser.setAuthCode(null);
+        
+        // Update account
+        newPasswordCommand.updateAccount(requestedUser);
+        accountDataService.update(requestedUser);
         
         model.addAttribute("successMessage", "Le mot de passe a bien été modifié.");
         

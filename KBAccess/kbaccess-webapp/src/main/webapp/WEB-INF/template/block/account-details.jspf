@@ -61,7 +61,7 @@
                             <c:set var="pictoSize" value="m"/>
                             <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
                         </td>
-                        <td><fmt:formatDate pattern="dd/MM/yyyy hh'h'mm" value="${testcase.creationDate}"/></td>
+                        <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${testcase.creationDate}"/></td>
                         <td>
                             <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>"
                                 title="Détails de l'exemple ${testcase.id}"

@@ -22,7 +22,7 @@
                         title="Lien vers la webarchive du site ${webarchive.url}"
                         >${webarchive.url}</a>
                     </td>
-                    <td><fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${webarchive.creationDate}"/></td>
+                    <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></td>
                     <td>${webarchive.scope}</td>
                     <td>${webarchive.description}</td>
                     <td>

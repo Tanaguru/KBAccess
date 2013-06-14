@@ -55,7 +55,7 @@
                 <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
             </display:column>
             <display:column title="Date de l'exemple" headerClass="creationDateCol" headerScope="col">
-                <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${testcase.creationDate}"/>
+                <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${testcase.creationDate}"/>
             </display:column>
             <%--<display:column title="Description" headerClass="descriptionCol" headerScope="col">
                 ${testcase.description}

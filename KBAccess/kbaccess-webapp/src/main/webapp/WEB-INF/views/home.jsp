@@ -11,7 +11,7 @@
         <div class="row-fluid hero-unit span12">
             <h1>
                 KBAccess, la base de connaissance de <span class="bold">bons</span> et <span class="bold">mauvais</span>
-                exemples <span class="bold">d'accessibilité</span>.<br />
+                exemples <span class="bold">d'accessibilité</span>.
             </h1>
             <p>
                 Pour un web plus accessible. <a href="contribute.html">Contribuez !</a>

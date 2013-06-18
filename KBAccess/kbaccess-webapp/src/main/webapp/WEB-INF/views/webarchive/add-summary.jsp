@@ -1,8 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Récapitulatif de l'ajout de webarchive" />
+    <c:set var="title">
+        <fmt:message key="webarchive.addSummaryTitle" />
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -11,18 +15,21 @@
         <div class="container-fluid">
             <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
 
-            <div class="page-header"><h1>Synthèse de la webarchive</h1></div>
+            <div class="page-header"><h1><fmt:message key="webarchive.addSummaryH1" /></h1></div>
 
             <div class="row-fluid">
                 <p>
-                    Une archive de la page ${webarchive.url} 
-                    a été créée à la date du ${webarchive.creationDate} et est accessible à l'Url suivante :
+                    <fmt:message key="webarchive.addSummaryInfos1" />
+                    ${webarchive.url}
+                    <fmt:message key="webarchive.addSummaryInfos2" />
+                    <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/>
+                    <fmt:message key="webarchive.addSummaryInfos3" />
                 </p>
                 <p>
                     <a href="${webarchive.localUrl}">${webarchive.localUrl}</a>
                 </p>
-                <p>Votre webarchive a bien été créée, mais ne sera consultable <strong>que dans quelques minutes</strong>.</p>
-                <p><a href="<c:url value='/'/>">Revenir à l'accueil</a></p>
+                <p><fmt:message key="webarchive.addSummaryNote" /></p>
+                <p><a href="<c:url value='/'/>"><fmt:message key="backToHome" /></a></p>
             </div>
         </div>
 

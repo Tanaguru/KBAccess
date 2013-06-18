@@ -1,10 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Ajout de webarchive" />
+    <c:set var="title">
+        <fmt:message key="webarchive.addTitle" />
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -12,7 +15,7 @@
         
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
-        <div class="page-header"><h1>Ajout de webarchive</h1></div>
+        <div class="page-header"><h1><fmt:message key="webarchive.addH1" /></h1></div>
 
         <div class="row-fluid">
             <div id="ajout-webarchive-1" class="boite">
@@ -31,14 +34,14 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="webpage_description">Description&nbsp;:</label>
+                        <label class="control-label" for="webpage_description"><fmt:message key="description" />&nbsp;:</label>
                         <div class="controls">
                             <form:textarea id="webpage_description" path="descriptionNewWebarchive" rows="4" cols="35" />
                             <form:errors path="descriptionNewWebarchive" cssClass="alert alert-error" element="p"/>
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button class="btn btn-primary">Archiver</button>
+                        <button class="btn btn-primary"><fmt:message key="webarchive.archive" /></button>
                     </div>
                 </form:form>
             </div>

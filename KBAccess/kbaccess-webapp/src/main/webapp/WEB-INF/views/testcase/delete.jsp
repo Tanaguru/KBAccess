@@ -6,7 +6,9 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Suppression de l'exemple ${testcase.id}" />
+    <c:set var="title">
+        <fmt:message key="testcase.deleteTitle" /> ${testcase.id}
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
@@ -14,7 +16,7 @@
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <div class="page-header">
-            <h1>Supppression de l'exemple <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
+            <h1><fmt:message key="testcase.deleteH1" /> <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
        </div>
 
         <c:choose>
@@ -39,16 +41,16 @@
                     <c:choose>
                         <c:when test="${hasCRUDPermission}">
                             <div class="row-fluid">
-                                <p>Etes-vous sûr de vouloir supprimer cet exemple ? </p>
+                                <p><fmt:message key="testcase.deleteConfirmation" /> </p>
                                    <form:form  class="form-horizontal" commandName="deleteTestcaseCommand" action="delete.html" method="POST">
                                        <form:hidden path="id"></form:hidden>  
-                                       <button class="btn btn-primary">Confirmer</button>   
+                                       <button class="btn btn-primary"><fmt:message key="testcase.deleteButton" /></button>   
                                    </form:form>
                             </div>
                         </c:when>
                         <c:otherwise>
                             <p class="alert alert-error">
-                                Vous n'êtes pas autorisé à supprimer cet exemple.
+                                <fmt:message key="testcase.deleteNotAuthorized" />
                             </p>
                         </c:otherwise>
                     </c:choose>

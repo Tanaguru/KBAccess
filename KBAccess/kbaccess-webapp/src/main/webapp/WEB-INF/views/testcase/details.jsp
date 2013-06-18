@@ -26,7 +26,7 @@
 
         <div class="row-fluid">
             <header class="page-header span12">
-                <h1>Exemple <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
+                <h1><fmt:message key="accessibility.example" /> <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
             </header>
         </div>
         <div class="row-fluid">
@@ -34,9 +34,9 @@
                 <img alt="Aperçu de la page ${testcase.webarchiveLocalUrl}" src="${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}" />
             </div>     
             <div class="span6">
-                <h2>Caractéristiques</h2>
-                <table class="data-table table table-condensed table-vertical" summary="Caractéristiques de l'exemple ${testcase.id}">
-                    <caption class="data-table-caption">Caractéristiques de l'exemple ${testcase.id}</caption>
+                <h2><fmt:message key="testcase.detailsSpecs" /></h2>
+                <table class="data-table table table-condensed table-vertical" summary="<fmt:message key="testcase.detailsSpecsOfExample" /> ${testcase.id}">
+                    <caption class="data-table-caption"><fmt:message key="testcase.detailsSpecsOfExample" /> ${testcase.id}</caption>
                     <c:set var="isFirst" value="${true}"/>
                     <c:forEach var="testResult" items="${testcase.testResults}">  
                         <tr>
@@ -47,7 +47,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th scope="row">Résultat :</th>
+                            <th scope="row"><fmt:message key="result" /> :</th>
                             <td>
                                 <c:set var="resultId" value="${testResult.resultId}"/>
                                 <c:set var="pictoSize" value="s"/>
@@ -59,35 +59,37 @@
                     <tr>
                         <th scope="row">URL :</th>
                         <td>
-                            <a href="${testcase.webarchiveLocalUrl}" rel="nofollow">Archive web de ${testcase.webarchiveOriginalUrl}</a>
-                            &nbsp;en date du <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${testcase.webarchiveCreationDate}"/>
+                            <a href="${testcase.webarchiveLocalUrl}" rel="nofollow">
+                                <fmt:message key="testcase.detailsArchiveOf" /> ${testcase.webarchiveOriginalUrl}
+                            </a>
+                            <fmt:message key="testcase.detailsDateOf" /> <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${testcase.webarchiveCreationDate}"/>
                            <%-- <a href="${testcase.webarchiveOriginalUrl}" title="${testcase.webarchiveOriginalUrl}">
                                 <img id="originalUrl-link-img" src="<c:url value='/assets/images/window-duplicate.png'/>" alt="${testcase.webarchiveOriginalUrl}"/>
                             </a>--%>
                         </td>
                     </tr>
                 </table>
-                <h2>Informations</h2>
-                <table class="data-table table table-condensed table-vertical" summary="Informations sur l'exemple ${testcase.id}">
-                    <caption class="data-table-caption">Informations sur l'exemple ${testcase.id}</caption>
+                <h2><fmt:message key="testcase.detailsInfos" /></h2>
+                <table class="data-table table table-condensed table-vertical" summary="<fmt:message key="testcase.detailsInfosOnExample" /> ${testcase.id}">
+                    <caption class="data-table-caption"><fmt:message key="testcase.detailsInfosOnExample" />${testcase.id}</caption>
                     <tr>
-                        <th scope="row">Contributeur :</th>
+                        <th scope="row"><fmt:message key="contributor" /> :</th>
                         <td>
                             <a href="<c:url value='/account/details/${testcase.authorId}/profile.html'/>">${testcase.authorDisplayedName}</a>
                             &nbsp; 
                             <%--<c:if test="${!isTestcaseCreator}">--%>
                                 (<a href="<c:url value='/example/list.html?account=${testcase.authorId}'/>">
-                                    Tous les exemples de ${testcase.authorDisplayedName}
+                                    <fmt:message key="testcase.detailsAllExamplesOf" /> ${testcase.authorDisplayedName}
                                 </a>)  
                             <%--</c:if>--%>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">Date :</th>
-                        <td><fmt:formatDate pattern="dd/MM/yyyy hh'h'mm" value="${testcase.creationDate}"/></td>
+                        <th scope="row"><fmt:message key="date" /> :</th>
+                        <td><fmt:formatDate dateStyle="short" timeStyle="short" value="${testcase.creationDate}"/></td>
                     </tr>
                     <tr>
-                        <th scope="row">Description :</th>
+                        <th scope="row"><fmt:message key="description" /> :</th>
                         <td>${testcase.description}&nbsp;</td>
                     </tr>
                 </table>
@@ -98,7 +100,7 @@
                             or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
                 <c:if test="${hasCRUDPermission}">
                 <div class="span3">
-                    <h3>Actions</h3>
+                    <h3><fmt:message key="testcase.detailsActions" /></h3>
                         <div class="alert alert-info">
                             <ul class="tc-details-ul">
                                 <li>
@@ -107,7 +109,7 @@
                                     <a href="<c:url value='/example/edit-details/${testcase.id}/${testcaseUrl}'/>" 
                                        title="Modifier exemple ${testcase.id}"
                                        class="tc-action-link">
-                                       Modifier
+                                       <fmt:message key="testcase.detailsEdit" />
                                     </a>
                                 <li>
                                     <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
@@ -115,7 +117,7 @@
                                     <a href="<c:url value='/example/delete/${testcase.id}/${testcaseUrl}' />"
                                         title="Supprimer exemple ${testcase.id}"
                                         class="tc-action-link">
-                                        Supprimer
+                                        <fmt:message key="testcase.detailsDelete" />
                                     </a>
                                 </li>
                             </ul>
@@ -123,19 +125,19 @@
                 </div>
                 </c:if>
             <div class="span3">
-                <h3>Voir aussi</h3>
+                <h3><fmt:message key="testcase.detailsSeeAlso" /></h3>
                 <c:set var="isTestcaseCreator"
                        value="${authenticatedUser.id == testcase.authorId}"/>
                 <div class="alert alert-info">
                     <ul class="tc-details-ul">             
                         <li>
                             <a href="<c:url value='/example/list.html?reference=${testcase.referenceId}'/>">
-                                Tous les exemples sur : ${testcase.referenceLabel}
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> ${testcase.referenceLabel}
                             </a>
                         </li>
                         <li>
                             <a href="<c:url value='/example/list.html?criterion=${testcase.criterionId}'/>">
-                                Tous les exemples sur : Critère ${testcase.criterionLabel}
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> Critère ${testcase.criterionLabel}
                             </a>     
                         </li>
                         <c:forEach var="testResult" items="${testcase.testResults}">
@@ -148,7 +150,7 @@
                             </c:choose>
                             <li>
                                 <a href="<c:url value='/example/list.html?test=${testResult.testId}'/>">
-                                    Tous les exemples sur : Test ${testResult.testLabel}
+                                    <fmt:message key="testcase.detailsAllExamplesOn" /> Test ${testResult.testLabel}
                                 </a>
                             </li>
                         </c:forEach>

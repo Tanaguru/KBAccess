@@ -3,10 +3,11 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Ajout d'un exemple 2/3 - Webarchive " />
+    <c:set var="title">
+	<fmt:message key="testcase.addWaTitle" />
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -14,7 +15,7 @@
 
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <h1 class="page-header">Ajout d'un exemple, étape 2/3 : Attacher une webarchive</h1>
+        <h1 class="page-header"><fmt:message key="testcase.addWaH1" /></h1>
         <div class="row-fluid">
             <form:form commandName="newTestcaseCommand" action="add-finalize.html" method="POST">
                 <form:hidden path="description"/>
@@ -24,7 +25,7 @@
                 <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                 <div class="control-group">
                     <form:radiobutton path="createWebarchive" value="false" id="testcase_existing_webarchive"/>
-                    <label class="control-label" for="testcase_existing_webarchive">Utiliser une webarchive existante</label>
+                    <label class="control-label" for="testcase_existing_webarchive"><fmt:message key="testcase.addWaExisting" /></label>
                     <div class="controls">
                         <div class="control-group">
                             <label class="control-label" for="testcase_idwebarchive"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Webarchive :</label>
@@ -33,7 +34,7 @@
                                     <c:forEach var="webarchive" items="${webarchiveList}">
                                         <option value="${webarchive.id}">
                                             ${webarchive.url} : 
-                                            <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${webarchive.creationDate}"/></option>
+                                            <fmt:formatDate dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></option>
                                     </c:forEach>
                                 </form:select>
                                 <form:errors path="idWebarchive" cssClass="alert alert-error" element="p"/>
@@ -43,7 +44,7 @@
                 </div>
                 <div class="control-group">
                     <form:radiobutton path="createWebarchive" value="true" id="testcase_create_webarchive"/>
-                    <label class="control-label" for="testcase_create_webarchive">... ou créer une nouvelle webarchive</label>
+                    <label class="control-label" for="testcase_create_webarchive"><fmt:message key="testcase.addWaCreate" /></label>
                     <div class="controls">
                         <div class="control-group">
                             <label class="control-label" for="webarchive_url"><span class="mandatory" title="Champ obligatoire">*</span>URL :</label>
@@ -53,7 +54,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="webarchive_description">Description :</label>
+                            <label for="webarchive_description"><fmt:message key="description" /> :</label>
                             <div class="controls">
                                 <form:textarea path="descriptionNewWebarchive" id="webarchive_description" rows="4" cols="35"/>
                                 <form:errors path="descriptionNewWebarchive" cssClass="alert alert-error" element="p"/>
@@ -62,7 +63,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button class="btn btn-info">Ajouter</button>
+                    <button class="btn btn-info"><fmt:message key="testcase.addButton" /></button>
                 </div>
             </form:form>
         </div>

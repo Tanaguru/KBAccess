@@ -1,21 +1,23 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Contact" />
+    <c:set var="title">
+        <fmt:message key="contact.pageTitle"/>    
+    </c:set>
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
 
             <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
             
-            <div class="page-header"><h1>Contact</h1></div>
+            <div class="page-header"><h1><fmt:message key="contact.h1"/>   </h1></div>
             <div class="row-fluid">
-                <h2 lang="en">Mailing-list</h2>
+                <h2><fmt:message key="contact.mailingList"/>   </h2>
                 <p>
-                    Pour suivre l'ajout de nouveaux exemples / webarchives et discuter avec les contributeurs,
-                    vous pouvez vous abonner à la mailing-list <code>&#117;&#115;&#101;&#114;&#115;&#045;&#102;&#114;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;</code>. <br/>
-                    Pour cela envoyez un mail à <a href="mailto:&#117;&#115;&#101;&#114;&#115;&#045;&#102;&#114;&#045;&#115;&#117;&#098;&#115;&#099;&#114;&#105;&#098;&#101;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;">&#117;&#115;&#101;&#114;&#115;&#045;&#102;&#114;&#045;&#115;&#117;&#098;&#115;&#099;&#114;&#105;&#098;&#101;&#064;&#107;&#098;&#097;&#099;&#099;&#101;&#115;&#115;&#046;&#111;&#114;&#103;</a>
+                    <fmt:message key="contact.mailingListMessage"/>   
                 </p>
             </div>
             <div class="row-fluid">

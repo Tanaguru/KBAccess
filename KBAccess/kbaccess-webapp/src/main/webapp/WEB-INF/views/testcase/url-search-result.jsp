@@ -1,25 +1,29 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
-<html lang="fr">
-    <c:set var="title" value="Résultat de recherche portant sur ${codeRef} ${codeTest} ${codeResult}" />
+<html>
+    <c:set var="title">
+	<fmt:message key="testcase.searchUrlResultTitle" /> ${codeRef} ${codeTest} ${codeResult}
+    </c:set>
+    
     <%@include file="/WEB-INF/template/head.jspf" %>
     
     <body>
         <p>
-            Résultat de recherche portant sur :<br />
-            Referentiel : ${codeRef}<br />
+            <fmt:message key="testcase.searchUrlResultTitle" /> :<br />
+            <fmt:message key="accessibility.reference" /> : ${codeRef}<br />
             Test : ${codeTest}<br />
-            Resultat : ${codeResult}<br />
-            Niveau : Tous<br />
+            <fmt:message key="result" /> : ${codeResult}<br />
+            <fmt:message key="accessibility.level" /> : <fmt:message key="all" /><br />
             <c:choose>
                 <c:when test="${errorMessage != null}">
-                <h1>Erreur</h1>
+                <h1><fmt:message key="error" /></h1>
                 ${errorMessage}
                 </c:when>
                 <c:when test="${testcaseList == null or empty testcaseList}">
-                    Aucun résultat
+                    <fmt:message key="testcase.searchUrlResultNoResult" />
                 </c:when>
                 <c:otherwise>
                     <ul id="resultat">

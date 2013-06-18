@@ -1,17 +1,21 @@
 <%@page pageEncoding="UTF-8" contentType="text/html" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Erreur" />
+    <c:set var="title">
+         <fmt:message key="error.pageTitle"/>
+    </c:set>
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
             
-            <div class="page-header"><h1>Erreur</h1></div>
+            <div class="page-header"><h1><fmt:message key="error.h1"/></h1></div>
             <div class="row-fluid">
                 <h2 lang="en"></h2>
                 <p class="alert alert-error">
-                    La page à laquelle vous essayez d'accéder n'existe pas ou plus. 
+                     <fmt:message key="error.message"/> 
                 </p>
             </div>
 

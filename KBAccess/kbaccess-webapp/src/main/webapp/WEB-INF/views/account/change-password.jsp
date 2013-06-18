@@ -5,7 +5,9 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html lang="fr">
-    <c:set var="title" value="Profile de l'utilisateur ${account.id}" />
+    <c:set var="title">
+	<fmt:message key="account.changePasswordTitle" />
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -14,7 +16,7 @@
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
         
         <div class="page-header">
-            <h1>Changement de mot de passe</h1>
+            <h1><fmt:message key="account.changePasswordH1" /></h1>
         </div>
         
         <c:if test="${not empty successMessage}">
@@ -36,7 +38,7 @@
                         <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
 
                         <div class="control-group">
-                            <label class="control-label" for="current_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> Mot de passe actuel :</label>
+                            <label class="control-label" for="current_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> <fmt:message key="account.changePasswordCurrentPassword" /> :</label>
                             <div class="controls">
                                 <form:password path="currentPassword" id="current_password"/>
                                 <form:errors path="currentPassword" cssClass="alert alert-error" element="p"/>
@@ -44,22 +46,22 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label" for="new_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> Nouveau mot de passe :</label>
+                            <label class="control-label" for="new_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> <fmt:message key="account.changePasswordNewPassword" /> :</label>
                             <div class="controls">
                                 <form:password path="newPassword" id="new_password"/>
-                                <p class="label-indication">8 caractères minimum avec majuscule(s), minuscule(s) et chiffre(s)</p>
+                                <p class="label-indication"><fmt:message key="passwordIndication" /></p>
                                 <form:errors path="newPassword" cssClass="alert alert-error" element="p"/>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="account_password_confirmation"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> Nouveau mot de passe (confirmation) :</label>
+                            <label class="control-label" for="account_password_confirmation"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> <fmt:message key="account.changePasswordNewPasswordConfirmation" /> :</label>
                             <div class="controls">
                                 <form:password path="passwordConfirmation" id="account_password_confirmation"/>	
                                 <form:errors path="passwordConfirmation" cssClass="alert alert-error" element="p"/>
                             </div>
                         </div>
                         <div class="form-actions">
-                            <button class="btn btn-primary">Changer le mot de passe</button>
+                            <button class="btn btn-primary"><fmt:message key="account.changePasswordButton" /></button>
                         </div>
                    </form:form>
             </div>

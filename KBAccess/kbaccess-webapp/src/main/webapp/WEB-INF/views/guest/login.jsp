@@ -2,31 +2,29 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="fr">
-    <%-- set title --%>
-    <c:set var="title" value="Connexion" />
-    <c:if test="${not empty error}">
-        <c:set var="title" value="Erreur de connexion - KBAccess"/>
-    </c:if>
-    <%-- include html header --%>
+<html>
+    <c:set var="title">
+	<fmt:message key="guest.loginTitle" />
+    </c:set>
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
 
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
-        <div class="page-header"><h1>Connexion</h1></div>
+        <div class="page-header"><h1><fmt:message key="guest.loginH1" /></h1></div>
         <div class="row-fluid">
             <c:choose>
                 <c:when test='${param.error == "errorOnLogin"}'>
                     <p class="alert alert-error">
-                        <strong>Erreur de connexion :</strong> mauvais email ou mot de passe.
+                        <fmt:message key="guest.loginBadInfos" />
                     </p>
                 </c:when>
                 <c:when test='${param.error == "sessionTimeout"}'>
                     <p class="alert alert-error">
-                        <strong>Erreur de connexion :</strong> votre session a expirée.
+                        <fmt:message key="guest.loginExpiredSession" />
                     </p>
                 </c:when>
             </c:choose>
@@ -39,16 +37,16 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="login_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %>Mot de passe :</label>
+                    <label class="control-label" for="login_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %><fmt:message key="password" /> :</label>
                     <div class="controls">
                         <input type="password" name="j_password" id="login_password"/>
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button class="btn btn-primary">Connexion</button>
+                    <button class="btn btn-primary"><fmt:message key="guest.loginButton" /></button>
                 </div>
             </form>
-            <p class="alert alert-info"><a href="<c:url value='/guest/password-lost.html'/>">Mot de passe oublié ?</a></p>
+            <p class="alert alert-info"><a href="<c:url value='/guest/password-lost.html'/>"><fmt:message key="guest.loginLostPasswordLink" /></a></p>
         </div>
                         
         <%@include file='/WEB-INF/template/footer.jspf' %>

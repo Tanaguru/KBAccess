@@ -16,16 +16,19 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>    
-<value>testcase-searchpages-I18N</value>
-                <value>testcase-detailspages-I18N</value>
-                <value>testcase-addpages-I18N</value>
+                <value>account-pages-I18N</value>
+                <value>admin-pages-I18N</value>
+                <value>guest-pages-I18N</value>
+                <value>testcase-search-pages-I18N</value>
+                <value>testcase-details-pages-I18N</value>
+                <value>testcase-add-pages-I18N</value>
                 <value>general-I18N</value>
                 <value>reference-I18N</value>
-                <value>homepage-I18N</value>
-                <value>legalpage-I18N</value>
-                <value>contactpage-I18N</value>
-                <value>errorpage-I18N</value>
-                <value>webarchive-I18N</value>
+                <value>home-page-I18N</value>
+                <value>legal-page-I18N</value>
+                <value>contact-page-I18N</value>
+                <value>error-page-I18N</value>
+                <value>webarchive-pages-I18N</value>
 	    </list>
 	</property>
     </bean>

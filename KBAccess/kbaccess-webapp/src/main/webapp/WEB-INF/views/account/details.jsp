@@ -4,8 +4,10 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html lang="fr">
-    <c:set var="title" value="Profile de l'utilisateur ${account.id}" />
+<html>
+    <c:set var="title">
+	<fmt:message key="account.detailsTitle" /> ${account.id}
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
@@ -22,7 +24,7 @@
 
         <c:if test="${accountCommand != null}">
             <div class="row-fluid">
-                <h2>Modification des informations personnelles</h2>
+                <h2><fmt:message key="account.detailsEditSettings" /></h2>
                 <spring:hasBindErrors name="accountCommand">
                     <form:errors path="generalErrorMessage" cssClass="alert alert-error" element="p"/>         
                 </spring:hasBindErrors>
@@ -34,38 +36,36 @@
                             <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                             <div class="control-group">
                                 <label class="control-label" for="account_email">
-                                    <%--<%@include file="/WEB-INF/template/inline/mandatory.jspf" %>--%>
                                     Email :
                                 </label>
                                 <div class="controls">
                                     <form:input path="email" id="account_email" disabled="${'true'}"/>
                                     <form:hidden path="email"/>
-                                    <%--<form:errors path="email" cssClass="alert alert-error" element="p"/>--%>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> Mot de passe :</label>
+                                <label class="control-label" for="account_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> <fmt:message key="password" /> :</label>
                                 <div class="controls">
                                     <form:password path="password" id="account_password"/>
                                     <form:errors path="password" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_last_name">Nom :</label>
+                                <label class="control-label" for="account_last_name"><fmt:message key="guest.subscribeLastName" /> :</label>
                                 <div class="controls">
                                     <form:input path="lastName" id="account_last_name" maxlength="30"/>
                                     <form:errors path="lastName" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_first_name">Prénom :</label>
+                                <label class="control-label" for="account_first_name"><fmt:message key="guest.subscribeFirstName" /> :</label>
                                 <div class="controls">
                                     <form:input path="firstName" id="account_first_name" maxlength="30"/>
                                     <form:errors path="firstName" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_url">URL site web :</label>
+                                <label class="control-label" for="account_url"><fmt:message key="websiteUrl" /> :</label>
                                 <div class="controls">
                                     <form:input path="url" id="account_url"/>
                                     <form:errors path="url" cssClass="alert alert-error" element="p"/>
@@ -74,11 +74,13 @@
                             <div class="control-group">
                                <label class="control-label" for="change_password"></label>
                                <div class="controls">
-                                   <a id="change-password-btn" href="<c:url value='/account/change-password.html'/>" class="btn">Changement de mot de passe</a>
+                                   <a id="change-password-btn" href="<c:url value='/account/change-password.html'/>" class="btn">
+                                       <fmt:message key="account.detailsChangePasswordButton" />
+                                   </a>
                                </div>
                             </div>
                             <div class="form-actions">
-                                <button class="btn btn-primary">Modifier</button>
+                                <button class="btn btn-primary"><fmt:message key="account.detailsButton" /></button>
                             </div>
                        </form:form>
                 </div>

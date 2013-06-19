@@ -16,6 +16,10 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>    
+                <value>results-I18N</value>
+                <value>footer-I18N</value>
+                <value>identification-I18N</value>
+                <value>menu-I18N</value>
                 <value>account-pages-I18N</value>
                 <value>admin-pages-I18N</value>
                 <value>guest-pages-I18N</value>

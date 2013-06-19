@@ -75,7 +75,7 @@
                                 <label class="control-label" for="account_access_level"><fmt:message key="admin.usersRole" />:</label>
                                 <div class="controls">
                                     <form:select path="accessLevelId" id="account_access_level" size="1">
-                                        <%@include file="/WEB-INF/template/form/options/roles.jspf" %>
+                                        <%@include file="/WEB-INF/template/form/options/roles-ids.jspf" %>
                                     </form:select>
                                 </div>
                             </div>

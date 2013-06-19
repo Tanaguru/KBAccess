@@ -31,11 +31,13 @@
                             <th class="thTableComptes"><fmt:message key="admin.usersActions" /></th>
                         </tr>
                         <c:forEach var="account" items="${accountList}">
+                            <c:set var='accessLevelId' value='${account.accessLevel.id}' />
+                            
                             <tr>
                                 <td class="tdTableComptes">${account.email}</td>
                                 <td class="tdTableComptes">${account.lastName}</td>
                                 <td class="tdTableComptes">${account.firstName}</td>
-                                <td class="tdTableComptes">${account.accessLevel.label}</td>
+                                <td class="tdTableComptes"><%@include file='/WEB-INF/template/inline/roles.jspf' %></td>
                                 <td class="tdTableComptes"><a href="${account.url}" rel="nofollow">${account.url}</a></td>
                                 <c:choose>
                                     <c:when test="${account.activated}">

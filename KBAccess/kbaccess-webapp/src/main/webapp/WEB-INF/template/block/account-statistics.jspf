@@ -1,9 +1,11 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <ol>
     <c:forEach var="account" items="${accountStatistics}">
         <li>
             <a href="<c:url value='/account/details/${account.id}/profile.html'/>">${account.displayedName}</a>
-            (${account.testcaseCount} exemple<c:if test="${account.testcaseCount > 1}">s</c:if>)
+            (${account.testcaseCount} <fmt:message key="accessibility.example"/><c:if test="${account.testcaseCount > 1}">s</c:if>)
         </li>
     </c:forEach>
 </ol>

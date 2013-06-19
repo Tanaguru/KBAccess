@@ -44,7 +44,8 @@
             <c:set var="contributorColumn"><fmt:message key="contributor" /></c:set>
             
             <display:column title="${exampleColumn}" headerClass="webarchiveLocalUrlCol" class="screenshot" headerScope="col">
-                <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>" title="Détails de l'exemple ${testcase.id}">
+                <c:set var="detailsAlt" scope="page"><fmt:message key="testcase.detailsOfTestcase" /></c:set>
+                <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>" title="${detailsAlt} ${testcase.id}">
                     <img src="${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
                 </a>
             </display:column>
@@ -54,7 +55,8 @@
                 </a>
             </display:column>    
             <display:column title="${accessibilityTestColumn}" headerClass="testResultLabelCol" headerScope="col">
-                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="référence du test ${testcase.testResultLabel}">${testcase.testResultLabel}</a>    
+                <c:set var="referenceAlt" scope="page"><fmt:message key="testcase.referenceOfTest" /></c:set>
+                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="${referenceAlt} ${testcase.testResultLabel}">${testcase.testResultLabel}</a>    
                 <abbr class="reference-abbr" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
             </display:column>
             <display:column title="${resultColumn}" headerClass="resultCodeCol" class="resultCodeRow" headerScope="col">

@@ -13,6 +13,10 @@
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
         
+        <c:set var="bcDeletionOfExample" scope="page"><fmt:message key="breadcrumb.deletionOfExample" /> ${deleteTestcaseCommand.id}</c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcDeletionOfExample}" value=""/>
+        
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <div class="page-header">

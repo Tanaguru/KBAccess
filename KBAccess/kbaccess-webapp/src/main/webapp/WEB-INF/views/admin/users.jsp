@@ -10,6 +10,9 @@
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
         
+        <c:set var="bcUserList" scope="page"><fmt:message key="breadcrumb.userList" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcUserList}" value=""/>
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
         <div class="page-header"><h1><fmt:message key="admin.usersH1" /></h1></div>

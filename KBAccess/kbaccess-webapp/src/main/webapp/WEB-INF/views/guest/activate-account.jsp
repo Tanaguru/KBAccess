@@ -11,6 +11,9 @@
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
 
+         <c:set var="bcAccountActivation" scope="page"><fmt:message key="breadcrumb.accountActivation" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcAccountActivation}" value=""/>
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <div class="page-header"><h1><fmt:message key="guest.activateH1" /></h1></div>

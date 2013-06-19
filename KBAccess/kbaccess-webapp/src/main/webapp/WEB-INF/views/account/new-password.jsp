@@ -13,6 +13,10 @@
     <body>
         <%@ include file='/WEB-INF/template/header.jspf' %>
         
+        <c:set var="bcNewPassword" scope="page"><fmt:message key="breadcrumb.newPassword" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcNewPassword}" value=""/>
+        
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
         
         <div class="page-header">

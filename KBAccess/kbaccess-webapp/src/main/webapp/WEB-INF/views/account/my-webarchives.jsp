@@ -5,20 +5,20 @@
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title">
-        <fmt:message key="webarchive.listTitle" />
+        <fmt:message key="account.myWebarchivesTitle" />
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
         
-        <c:set var="bcListOfWebarchives" scope="page"><fmt:message key="breadcrumb.listOfWebarchives" /></c:set>
+        <c:set var="bcMyWebarchives" scope="page"><fmt:message key="breadcrumb.myWebarchives" /></c:set>
         <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
-        <c:set target="${breadcrumbTrail}" property="${bcListOfWebarchives}" value=""/>
+        <c:set target="${breadcrumbTrail}" property="${bcMyWebarchives}" value=""/>
         
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <h1 class="page-header"><fmt:message key="webarchive.listH1" /></h1>
+        <h1 class="page-header"><fmt:message key="account.myWebarchivesH1" /></h1>
         <div class="row-fluid">
             <%@include file='/WEB-INF/template/webarchive-list.jspf'%>
         </div>

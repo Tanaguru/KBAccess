@@ -13,6 +13,10 @@
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
         
+        <c:set var="bcAddWebarchive" scope="page"><fmt:message key="breadcrumb.addWebarchive" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcAddWebarchive}" value=""/>
+        
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <div class="page-header"><h1><fmt:message key="webarchive.addH1" /></h1></div>

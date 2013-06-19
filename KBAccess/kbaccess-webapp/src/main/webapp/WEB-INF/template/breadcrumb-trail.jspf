@@ -1,14 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <div id="breadcrumbTrail" class="row-fluid">
     <ul class="breadcrumb">
-        <c:forEach var="item" items="${breadcrumbTrail}">
+        <c:forEach var="item" items="${breadcrumbTrail}" varStatus="status">
             <li>
-                <c:if test="${item.value != null}">
+                <c:if test="${!empty item.value}">
                     <a href="<c:url value='${item.value}'/>">
                 </c:if>
                 ${item.key}
-                <c:if test="${item.value != null}">
-                    </a> <span class="divider">&gt;</span>
+                <c:if test="${!empty item.value}">
+                    </a>
+                </c:if>
+                <c:if test="${!status.last}">
+                        <span class="divider">&gt;</span>			
                 </c:if>
             </li>
         </c:forEach>

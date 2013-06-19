@@ -25,6 +25,7 @@ import org.opens.kbaccess.command.AccountWithRoleCommand;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.AccountWithRoleValidator;
@@ -53,7 +54,7 @@ public class AdminController extends AController {
      */
     private String displayUserList(Model model) {
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Liste des utilisateurs");
+        handleBreadcrumbTrail(model);
         
         model.addAttribute("title", "Liste des utilisateurs - KBAccess");
         model.addAttribute("accountList", accountDataService.findAll());
@@ -79,9 +80,9 @@ public class AdminController extends AController {
             }
         } else {
               // Breadcrumb
-            handleBreadcrumbTrail(model, "KBAccess", "/", "Utilisateur " + accountPresentation.getDisplayedName());
+            handleBreadcrumbTrail(model);
             // create form
-            model.addAttribute("title", "Utilisateur " + accountPresentation.getDisplayedName() + " - KBAccess");
+            model.addAttribute("title", "Utilisateur " + accountPresentation.getDisplayedName());
             model.addAttribute("account", accountPresentation);
             model.addAttribute("accountCommand", accountCommand);
             model.addAttribute("accessLevelList", accessLevelDataService.findAll());

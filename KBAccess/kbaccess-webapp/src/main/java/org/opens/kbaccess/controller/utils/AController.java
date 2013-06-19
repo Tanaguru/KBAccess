@@ -152,7 +152,16 @@ public abstract class AController {
         model.addAttribute(
                 ModelAttributeKeyStore.BREADCRUMB_TRAIL_KEY,
                 buildBreadcrumbTrail(breadcrumb)
-                );
+                );  
+    }
+    
+    public void handleBreadcrumbTrail(Model model) {
+        Map<String, String> breadcrumb = new LinkedHashMap<String, String>();        
+
+            model.addAttribute(
+                    ModelAttributeKeyStore.BREADCRUMB_TRAIL_KEY,
+                    breadcrumb
+                    );
     }
     
     public void handleTestcaseSearchForm(Model model) {

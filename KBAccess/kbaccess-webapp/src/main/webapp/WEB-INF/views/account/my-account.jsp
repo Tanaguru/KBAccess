@@ -6,52 +6,53 @@
 <!DOCTYPE html>
 <html>
     <c:set var="title">
-	<fmt:message key="admin.editUserTitle" />
+	<fmt:message key="account.myAccountTitle" />
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
     <body>
         <%@ include file='/WEB-INF/template/header.jspf' %>
         
-        <c:set var="bcEditUser" scope="page"><fmt:message key="user" /> ${account.displayedName}</c:set>
+        <c:set var="bcMyAccount" scope="page"><fmt:message key="breadcrumb.myAccount" /></c:set>
         <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
-        <c:set target="${breadcrumbTrail}" property="${bcEditUser}" value=""/>
+        <c:set target="${breadcrumbTrail}" property="${bcMyAccount}" value=""/>
         
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
+        
         <c:if test="${not empty successMessage}">
                 <div class="row-fluid">
                     <p class="alert alert-success">${successMessage}</p>
                 </div>
         </c:if>
-        <c:if test="${not empty errorMessage}">
-                <div class="row-fluid">
-                    <p class="alert alert-error">${errorMessage}</p>
-                </div>
-        </c:if>
-        <c:if test="${not empty account}">
-            <%@include file="/WEB-INF/template/block/account-details.jspf" %>
-        </c:if>
+
+        <%@include file="/WEB-INF/template/block/account-details.jspf" %>
+
         <c:if test="${accountCommand != null}">
             <div class="row-fluid">
-                <h2><fmt:message key="admin.editUserEditInfos" /></h2>
+                <h2><fmt:message key="account.detailsEditSettings" /></h2>
                 <spring:hasBindErrors name="accountCommand">
                     <form:errors path="generalErrorMessage" cssClass="alert alert-error" element="p"/>         
                 </spring:hasBindErrors>
                     <div class="boite">
-                        <form:form action="edituser.html"
+                        <form:form action="my-account.html"
                                 commandName="accountCommand"
                                 method="POST"
                                 class="form-horizontal">
-                            <div class="control-group">       
+                            <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
+                            <div class="control-group">
+                                <label class="control-label" for="account_email">
+                                    Email :
+                                </label>
                                 <div class="controls">
-                                    <form:hidden path="accountId"/>                        
+                                    <form:input path="email" id="account_email" disabled="${'true'}"/>
+                                    <form:hidden path="email"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_email">Email :</label>
+                                <label class="control-label" for="account_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> <fmt:message key="password" /> :</label>
                                 <div class="controls">
-                                    <form:input path="email" id="account_email"/>
-                                    <form:errors path="email" cssClass="alert alert-error" element="p"/>
+                                    <form:password path="password" id="account_password"/>
+                                    <form:errors path="password" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -76,21 +77,20 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_access_level"><fmt:message key="admin.usersRole" />:</label>
-                                <div class="controls">
-                                    <form:select path="accessLevelId" id="account_access_level" size="1">
-                                        <%@include file="/WEB-INF/template/form/options/roles-ids.jspf" %>
-                                    </form:select>
-                                </div>
+                               <label class="control-label" for="change_password"></label>
+                               <div class="controls">
+                                   <a id="change-password-btn" href="<c:url value='/account/change-password.html'/>" class="btn">
+                                       <fmt:message key="account.detailsChangePasswordButton" />
+                                   </a>
+                               </div>
                             </div>
                             <div class="form-actions">
-                                <button class="btn btn-primary"><fmt:message key="admin.editUserButton" /></button>
+                                <button class="btn btn-primary"><fmt:message key="account.detailsButton" /></button>
                             </div>
                        </form:form>
+                    </div>
                 </div>
-            </div>
-        </c:if>
-            
+            </c:if>
         <%@ include file='/WEB-INF/template/footer.jspf' %>
     </body>
 </html>

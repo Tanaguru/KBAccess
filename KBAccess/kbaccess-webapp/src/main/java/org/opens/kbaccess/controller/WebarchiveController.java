@@ -28,6 +28,7 @@ import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.keystore.FormKeyStore;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.WebarchiveCommandValidator;
@@ -83,11 +84,9 @@ public class WebarchiveController extends AMailerController {
     public String listHandler(Model model) {
         // handle login and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Liste des webarchives");
+        handleBreadcrumbTrail(model);
         // result list, title and h1
         model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchiveDataService.findAll());
-        model.addAttribute("title", "Toutes les webarchives");
-        model.addAttribute("webarchiveListH1", "Liste des webarchives");
         return "webarchive/list";
     }
     
@@ -95,7 +94,7 @@ public class WebarchiveController extends AMailerController {
     public String addHandler(Model model) {
         // handle login form and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Ajout d'une webarchive");
+        handleBreadcrumbTrail(model);
         // create form command
         model.addAttribute("newWebarchiveCommand", new WebarchiveCommand());
         return "webarchive/add";
@@ -114,7 +113,7 @@ public class WebarchiveController extends AMailerController {
         webarchiveCommandValidator = new WebarchiveCommandValidator();
         // handle login form and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Ajout d'une webarchive");
+        handleBreadcrumbTrail(model);
         // validate form
         webarchiveCommandValidator.validate(webarchiveCommand, result);
         if (result.hasErrors()) {

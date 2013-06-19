@@ -12,7 +12,10 @@
 
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
-
+        
+         <c:set var="bcForgottenPassword" scope="page"><fmt:message key="breadcrumb.forgottenPassword" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcForgottenPassword}" value=""/>
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf' %>
 
         <div class="page-header"><h1><fmt:message key="guest.lostPasswordH1" /></h1></div>

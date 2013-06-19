@@ -12,7 +12,11 @@
 
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
-
+        
+        <c:set var="bcAddExampleStep2" scope="page"><fmt:message key="breadcrumb.addExampleStep2" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcAddExampleStep2}" value=""/>
+        
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
         <h1 class="page-header"><fmt:message key="testcase.addWaH1" /></h1>

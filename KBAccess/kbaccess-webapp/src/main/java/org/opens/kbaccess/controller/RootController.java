@@ -23,6 +23,8 @@ package org.opens.kbaccess.controller;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.Criterion;
@@ -35,6 +37,7 @@ import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.StatisticsPresentation;
@@ -179,14 +182,15 @@ public class RootController extends AController {
     @RequestMapping("contact")
     public String contactHandler(Model model) {
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Contact");
+        handleBreadcrumbTrail(model);
+        
         return "contact";
     }
 
     @RequestMapping("legal")
     public String legalHandler(Model model) {
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mentions légales");
+        handleBreadcrumbTrail(model);
         return "legal";
     }
     

@@ -15,7 +15,11 @@
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
-
+        
+        <c:set var="bcAddExampleDetails" scope="page"><fmt:message key="accessibility.example" /> ${testcase.id}</c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcAddExampleDetails}" value=""/>
+        
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
         <%-- If we just edited the testcase --%>
         <c:if test="${not empty successMessage}">

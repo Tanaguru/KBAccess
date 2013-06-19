@@ -29,6 +29,7 @@ import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
@@ -64,7 +65,7 @@ public class AccountController extends AController {
     
     private String displayNewPasswordForm(Model model, NewPasswordCommand newPasswordCommand) {
         // Breadcrumb
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Nouveau mot de passe");
+        handleBreadcrumbTrail(model);
         
         model.addAttribute("newPasswordCommand", newPasswordCommand);
         
@@ -74,29 +75,12 @@ public class AccountController extends AController {
     /*
      * account details handler
      */
+
     @RequestMapping(value="my-account", method=RequestMethod.GET)
-    public String myAccountHandler(Model model) {    
-        return this.detailsHandler(AccountUtils.getInstance().getCurrentUser().getId(), model);
-    }
-    
-    @RequestMapping(value="my-account", method=RequestMethod.POST)
     public String myAccountHandler(
-             @ModelAttribute("accountCommand") AccountCommand accountCommand,
-             BindingResult result,
-             Model model
-             ) {
-        
-        return this.detailsHandler(accountCommand, result, model);
-    }
-    
-    @RequestMapping(value="details/{id}/*", method=RequestMethod.GET)
-    public String detailsHandler(
-            @PathVariable("id") Long id,
             Model model
             ) {
-        boolean requestedUserIsCurrentUser;
         AccountPresentation accountPresentation;
-        Account requestedUser;
         Account currentUser;
         AccountCommand accountCommand;
         
@@ -104,60 +88,37 @@ public class AccountController extends AController {
         handleUserLoginForm(model);
         
         currentUser = AccountUtils.getInstance().getCurrentUser();
-
-        
+ 
         if (currentUser == null) {
-            requestedUserIsCurrentUser = false;
-        } else {
-            requestedUserIsCurrentUser = id == null || id.equals(currentUser.getId());
+            return "home";
         }
         
-        // fetch the requested account and check it exists
-        if (requestedUserIsCurrentUser) {
-            requestedUser = currentUser;
-        } else {
-            requestedUser = accountDataService.read(id);
-            if (requestedUser == null) {          
-                return "home";
-            } 
-        }
-        accountPresentation = new AccountPresentation(requestedUser, accountDataService);
-        // if the user consult its account details, offer him the possibility to update it 
-        if (requestedUserIsCurrentUser) {
-            
-            accountCommand = new AccountCommand(requestedUser);
-            model.addAttribute("accountCommand", accountCommand);
-            model.addAttribute("account", accountPresentation);
-        }
+        accountPresentation = new AccountPresentation(currentUser, accountDataService);
         
-        // and give a more explicit breadcrumb path
-        if (requestedUserIsCurrentUser) {
-            model.addAttribute("title", "Mon compte - KBAccess");
-            handleBreadcrumbTrail(model, "KBAccess", "/", "Mon compte");
-        } else {
-            model.addAttribute("title", "Utilisateur " + accountPresentation.getDisplayedName() + " - KBAccess");
-            handleBreadcrumbTrail(model, "KBAccess", "/", "Utilisateur " + accountPresentation.getDisplayedName());
-        }
+        // Add edit settings form
+        accountCommand = new AccountCommand(currentUser);
+        model.addAttribute("accountCommand", accountCommand);        
         
+        handleBreadcrumbTrail(model);
+        
+        // Account details and testcases
         model.addAttribute("account", accountPresentation);
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
                 TestcasePresentation.fromCollection(
-                testcaseDataService.getLastTestcasesFromAccount(requestedUser, 5),
+                testcaseDataService.getLastTestcasesFromAccount(currentUser, 5),
                 true
                 ));
-        return "account/details";
+        return "account/my-account";
     }
     
-    @RequestMapping(value="details/{id}/*", method=RequestMethod.POST)
-    public String detailsHandler(
+    @RequestMapping(value="my-account", method=RequestMethod.POST)
+    public String myAccountHandler(
             @ModelAttribute("accountCommand") AccountCommand accountCommand,
             BindingResult result,
             Model model
             ) {
         Account currentUser = AccountUtils.getInstance().getCurrentUser();
-        Account requestedUser = accountDataService.getAccountFromEmail(accountCommand.getEmail());
-        boolean requestedUserIsCurrentUser;
         AccountPresentation accountPresentation;
            
         // check authority (spring security should avoid that this test passed)
@@ -166,15 +127,9 @@ public class AccountController extends AController {
             return "guest/login";
         }
         
-        requestedUserIsCurrentUser = currentUser.equals(requestedUser);
-        
-        if (!requestedUserIsCurrentUser) {
-            LogFactory.getLog(AccountController.class).error("An authentified user tried to edit the mail input form in order to edit another account than his (potential XSS)");
-            return "home";
-        }
-        
         // Handle login and breadcrumb
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mon Compte");
+        handleUserLoginForm(model);
+        handleBreadcrumbTrail(model);
         
         // validate new account details
         AccountDetailsValidator accountDetailsValidator = new AccountDetailsValidator(accountDataService, currentUser.getEmail());
@@ -182,12 +137,12 @@ public class AccountController extends AController {
         model.addAttribute("accountCommand", accountCommand);
         
         if (result.hasErrors()) {
-            handleUserLoginForm(model);
             accountPresentation = new AccountPresentation(currentUser, accountDataService);
             model.addAttribute("account", accountPresentation);
-            return "account/details";
+            return "account/my-account";
         }
         
+        // update account
         accountCommand.updateAccount(currentUser);
         accountDataService.update(currentUser);
         
@@ -195,7 +150,44 @@ public class AccountController extends AController {
         
         handleUserLoginForm(model);
         model.addAttribute("account", accountPresentation);
+        model.addAttribute(
+                ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
+                TestcasePresentation.fromCollection(
+                testcaseDataService.getLastTestcasesFromAccount(currentUser, 5),
+                true
+                ));
         model.addAttribute("successMessage", "Vos modifications ont bien été enregistrées.");
+        return "account/my-account";
+    }
+    
+    @RequestMapping(value="details/{id}/*", method=RequestMethod.GET)
+    public String detailsHandler(
+            @PathVariable("id") Long id,
+            Model model
+            ) {
+        AccountPresentation accountPresentation;
+        Account requestedUser;
+        
+        // handle login form
+        handleUserLoginForm(model);
+
+        // fetch the requested account and check it exists
+        requestedUser = accountDataService.read(id);
+        if (requestedUser == null) {          
+            return "home";
+        } 
+        
+        accountPresentation = new AccountPresentation(requestedUser, accountDataService);
+        
+        handleBreadcrumbTrail(model);
+        
+        model.addAttribute("account", accountPresentation);
+        model.addAttribute(
+                ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
+                TestcasePresentation.fromCollection(
+                testcaseDataService.getLastTestcasesFromAccount(requestedUser, 5),
+                true
+                ));
         return "account/details";
     }
     
@@ -209,7 +201,7 @@ public class AccountController extends AController {
         
         //
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mes webarchives");
+        handleBreadcrumbTrail(model);
         //
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
@@ -217,9 +209,7 @@ public class AccountController extends AController {
             return "guest/login";
         }
         model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchiveDataService.getAllFromUserAccount(currentUser));
-        model.addAttribute("webarchiveListH1", "Mes webarchives");
-        model.addAttribute("title", "Mes Webarchives");
-        return "webarchive/list";
+        return "account/my-webarchives";
     }
     
     @RequestMapping("my-examples")
@@ -228,23 +218,22 @@ public class AccountController extends AController {
 
         // 
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mes exemples");
+        handleBreadcrumbTrail(model);
         //
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
             LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/my-testcases, check spring security configuration");
             return "guest/login";
         }
-        //
         
+        //
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
                 TestcasePresentation.fromCollection(
                 testcaseDataService.getAllFromAccount(currentUser),
                 true
                 ));
-        model.addAttribute("testcaseListH1", "Mes exemples");
-        return "testcase/list";
+        return "account/my-examples";
     }
     
     @RequestMapping(value="change-password", method=RequestMethod.GET)
@@ -254,7 +243,7 @@ public class AccountController extends AController {
         
         //
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mon compte", "/account/my-account.html", "Changement de mot de passe");
+        handleBreadcrumbTrail(model);
         //
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
@@ -278,7 +267,7 @@ public class AccountController extends AController {
         
         //
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mon compte", "/account/my-account.html", "Changement de mot de passe");
+        handleBreadcrumbTrail(model);
         
         if (currentUser == null) {
             LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/change-password, check spring security configuration");

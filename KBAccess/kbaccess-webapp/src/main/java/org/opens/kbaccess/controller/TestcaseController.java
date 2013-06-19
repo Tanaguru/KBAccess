@@ -33,6 +33,7 @@ import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.keystore.FormKeyStore;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
@@ -120,7 +121,7 @@ public class TestcaseController extends AMailerController {
     private String displayAddTestcaseForm(Model model, NewTestcaseCommand newTestcaseCommand) {
         // handle login and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Ajout d'un exemple (1/3)");
+        handleBreadcrumbTrail(model);
         // create the form command
         model.addAttribute("testByRef", getTestByRef());
         model.addAttribute("resultList", getResults());
@@ -131,7 +132,7 @@ public class TestcaseController extends AMailerController {
     private String displayAttachWebarchiveForm(Model model, NewTestcaseCommand newTestcaseCommand) {
         // handle login and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Ajout d'un exemple (2/3)");
+        handleBreadcrumbTrail(model);
         // create the form command
         model.addAttribute("webarchiveList", webarchiveDataService.findAll());
         model.addAttribute("newTestcaseCommand", newTestcaseCommand);
@@ -141,7 +142,7 @@ public class TestcaseController extends AMailerController {
     private String displayEditTestcaseForm(Model model, EditTestcaseCommand editTestcaseCommand, String errorMessage) {
         // handle login form and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Edition des détails de l'exemple " + editTestcaseCommand.getId());
+        handleBreadcrumbTrail(model);
         // create form
         if (errorMessage != null) {
             model.addAttribute("errorMessage", errorMessage);
@@ -159,7 +160,7 @@ public class TestcaseController extends AMailerController {
         // handle form login
         handleUserLoginForm(model);
         // handle breadcrumb
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Exemple " + testcase.getId());
+        handleBreadcrumbTrail(model);
         model.addAttribute("testcase", testcasePresentation);
         return "testcase/details";
     }
@@ -172,7 +173,7 @@ public class TestcaseController extends AMailerController {
     public String searchByUrlHandler(Model model) {
         // handle login form and breadcrumb trail
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Recherche d'exemples par URL");
+        handleBreadcrumbTrail(model);
         return "testcase/search-by-url";
     }
     
@@ -180,57 +181,11 @@ public class TestcaseController extends AMailerController {
     public String searchHandler(Model model) {
         // handle login form, breadcrumb and search form
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Recherche d'exemples");
+        handleBreadcrumbTrail(model);
         handleTestcaseSearchForm(model);
         return "testcase/search";
     }
-    
-//    @RequestMapping(value="result", method=RequestMethod.POST)
-//    public String searchHandler(
-//            @ModelAttribute("testcaseSearchCommand") TestcaseSearchCommand testcaseSearchCommand,
-//            Model model
-//            ) {
-//        List testcaseResultList;
-//        Reference reference;
-//        Criterion criterion;
-//        Theme theme;
-//        Test test;
-//        Level level;
-//        Result result;
-//        
-//        reference = referenceDataService.getByCode(testcaseSearchCommand.getReference());
-//        criterion = criterionDataService.getByCode(testcaseSearchCommand.getCriterion());
-//        theme = themeDataService.getByCode(testcaseSearchCommand.getTheme());
-//        test = testDataService.getByCode(testcaseSearchCommand.getTest());
-//        level = levelDataService.getByCode(testcaseSearchCommand.getGrade());
-//        result = resultDataService.getByCode(testcaseSearchCommand.getResult());
-//        testcaseResultList = TestcasePresentation.fromCollection(
-//                testcaseDataService.getAllFromUserSelection(reference, criterion, theme, test, level, result),
-//                true
-//                );
-//        // handle login form and breadcrumb
-//        handleUserLoginForm(model);
-//        handleBreadcrumbTrail(model, "KBAccess", "/", "Recherche de testcases", "/testcase/search.html", "Resultat");
-//        // display user search criteria in the search form
-//        handleTestcaseSearchForm(model, testcaseSearchCommand);
-////        model.addAttribute("showTestcaseSearchForm", true);
-//        model.addAttribute("showTestcaseSearchForm", false);
-//        // display result list
-//        model.addAttribute(
-//                ModelAttributeKeyStore.TESTCASE_LIST_KEY,
-//                testcaseResultList
-//                );
-//        // set the title
-//        model.addAttribute(
-//                "title",
-//                buildListTitleFromSearchCriteria(reference, criterion, theme, test, level, result)
-//                );
-//        // set h1
-//        model.addAttribute("testcaseListH1", buildListTitleFromSearchCriteria(reference, criterion, theme, test, level, result));
-//        //
-//        return "testcase/list";
-//    }
-//    
+       
     @RequestMapping(value="list")
     public String listHandler(
             Model model,
@@ -377,7 +332,7 @@ public class TestcaseController extends AMailerController {
         }
         // handle login and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Ajout d'un exemple (3/3)");
+        handleBreadcrumbTrail(model);
         // sanity check
         currentUser = AccountUtils.getInstance().getCurrentUser();
         if (currentUser == null) {
@@ -476,7 +431,6 @@ public class TestcaseController extends AMailerController {
         editTestcaseCommand = new EditTestcaseCommand(testcase);
 
         return displayEditTestcaseForm(model, editTestcaseCommand, null);
-        //return "testcase/edit-details";
     }
     
     @RequestMapping(value="edit-details/{id}/*", method=RequestMethod.POST)
@@ -560,7 +514,7 @@ public class TestcaseController extends AMailerController {
         
         // handle login and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Suppression de l'exemple " + id);
+        handleBreadcrumbTrail(model);
         
         // fetch test case
         try {
@@ -600,7 +554,7 @@ public class TestcaseController extends AMailerController {
         
         // handle login and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Suppression de l'exemple " + deleteTestcaseCommand.getId());
+        handleBreadcrumbTrail(model);
         
         // fetch test case
         try {

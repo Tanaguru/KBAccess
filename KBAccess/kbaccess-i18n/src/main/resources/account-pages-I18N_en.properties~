@@ -14,9 +14,3 @@ account.changePasswordButton=Change password
 
 account.resetPasswordTitle=Reset password
 account.resetPasswordH1=Reset password
-
-account.myAccountTitle=My account
-account.myExamplesTitle=My examples
-account.myExamplesH1=My examples
-account.myWebarchivesTitle=My webarchives
-account.myWebarchivesH1=My webarchives

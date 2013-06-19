@@ -11,7 +11,10 @@
     <%@include file='/WEB-INF/template/head.jspf'%>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
-
+        
+         <c:set var="bcSignIn" scope="page"><fmt:message key="breadcrumb.signIn" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcSignIn}" value=""/>
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <div class="page-header"><h1><fmt:message key="guest.loginH1" /></h1></div>

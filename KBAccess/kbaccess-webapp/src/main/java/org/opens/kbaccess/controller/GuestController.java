@@ -31,6 +31,7 @@ import org.opens.kbaccess.entity.authorization.AccessLevelEnumType;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.utils.MailingServiceProperties;
 import org.opens.kbaccess.utils.TgolTokenHelper;
@@ -116,7 +117,7 @@ public class GuestController extends AMailerController {
         }
         //
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Inscription");
+        handleBreadcrumbTrail(model);
         //
         model.addAttribute("newAccountCommand", new AccountCommand());
         return "guest/subscribe";
@@ -138,7 +139,7 @@ public class GuestController extends AMailerController {
         }
         // handle login form and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Inscription");
+        handleBreadcrumbTrail(model);
         // validate the user input
         newAccountValidator.validate(accountCommand, result);
         if (result.hasErrors()) {
@@ -159,7 +160,7 @@ public class GuestController extends AMailerController {
         
         // send subscribe confirmation, with auth token, and notification
         if (!sendAuthTokenAndSubscribeNotificationByMail(null, newAccount)) {
-            model.addAttribute("subscribeError", "Une erreur s'est produite. Merci de contacter l'administrateur.");
+            model.addAttribute("subscribeError", MessageKeyStore.SUBSCRIBE_ERROR);
         } else {
             accountDataService.saveOrUpdate(newAccount);
             model.addAttribute("newAccountCreated", true);
@@ -177,7 +178,7 @@ public class GuestController extends AMailerController {
             return forwardBannedUsers();
         }
         //
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Identification");
+        handleBreadcrumbTrail(model);
         return "guest/login";
     }
     
@@ -192,7 +193,7 @@ public class GuestController extends AMailerController {
         }
         // handle login form and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mot de passe oublié");
+        handleBreadcrumbTrail(model);
         //
         model.addAttribute("passwordLostCommand", new PasswordLostCommand());
         return "guest/password-lost";
@@ -214,7 +215,7 @@ public class GuestController extends AMailerController {
         }
         // handle login form and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mot de passe oublié");
+        handleBreadcrumbTrail(model);
         // validate form
         passwordLostValidator.validate(passwordLostCommand, result);
         if (result.hasErrors()) {
@@ -230,7 +231,7 @@ public class GuestController extends AMailerController {
             account.setAuthCode(token);
             accountDataService.update(account);
         } else {
-            model.addAttribute("passwordLostError", "Une erreure s'est produite. Merci de contacter l'administrateur.");
+            model.addAttribute("passwordLostError", MessageKeyStore.PASSWORD_LOST_ERROR);
         }
         return "guest/password-lost";
     }
@@ -253,7 +254,7 @@ public class GuestController extends AMailerController {
         }
         // handle login form and breadcrumb
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Activation du compte");
+        handleBreadcrumbTrail(model);
         // sanity check
         if (AccountUtils.getInstance().getCurrentUser() != null) {
             LogFactory.getLog(GuestController.class).error("An authentified user reached guest/activate-account. Check spring security configuration");

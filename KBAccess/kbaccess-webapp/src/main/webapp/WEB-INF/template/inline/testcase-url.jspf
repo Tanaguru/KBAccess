@@ -5,4 +5,4 @@
             <c:set var='withAccents' value='false' />
             <%@include file='/WEB-INF/template/inline/result.jspf' %>
         </c:set>
-        exemple-accessibilite-${testcase.testLabel}-${testcase.referenceLabelForUrl}-${result}.html
+        <fmt:message key="accessibility" />-<fmt:message key="accessibility.example" />-${testcase.testLabel}-${testcase.referenceLabelForUrl}-${result}.html

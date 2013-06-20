@@ -1,0 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page pageEncoding="UTF-8" %>
+<c:choose>
+    <c:when test="${accessLevelId == 1}"><fmt:message key="roles.administrator" /></c:when>
+    <c:when test="${accessLevelId == 2}"><fmt:message key="roles.moderator" /></c:when>
+    <c:when test="${accessLevelId == 3}"><fmt:message key="roles.contributor" /></c:when>
+    <c:otherwise><fmt:message key="roles.anonymous" /></c:otherwise>
+</c:choose>
+        

@@ -25,6 +25,7 @@ import org.opens.kbaccess.command.AccountWithRoleCommand;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.AccountWithRoleValidator;
@@ -53,7 +54,7 @@ public class AdminController extends AController {
      */
     private String displayUserList(Model model) {
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Liste des utilisateurs");
+        handleBreadcrumbTrail(model);
         
         model.addAttribute("title", "Liste des utilisateurs - KBAccess");
         model.addAttribute("accountList", accountDataService.findAll());
@@ -68,6 +69,7 @@ public class AdminController extends AController {
              String errorMessage) {
         // handle login form and breadcrumb
         handleUserLoginForm(model);
+        handleBreadcrumbTrail(model);
         
         if (errorMessage != null) {
             model.addAttribute("errorMessage", errorMessage);
@@ -78,10 +80,8 @@ public class AdminController extends AController {
                 model.addAttribute("account", accountPresentation);
             }
         } else {
-              // Breadcrumb
-            handleBreadcrumbTrail(model, "KBAccess", "/", "Utilisateur " + accountPresentation.getDisplayedName());
             // create form
-            model.addAttribute("title", "Utilisateur " + accountPresentation.getDisplayedName() + " - KBAccess");
+            model.addAttribute("title", "Utilisateur " + accountPresentation.getDisplayedName());
             model.addAttribute("account", accountPresentation);
             model.addAttribute("accountCommand", accountCommand);
             model.addAttribute("accessLevelList", accessLevelDataService.findAll());
@@ -132,7 +132,7 @@ public class AdminController extends AController {
         // Fetch account and check if it exists
         requestedUser = accountDataService.read(id);
         if (requestedUser == null) {
-            return displayEditUserForm(model, null, null, "Cet utilisateur n'existe pas.");
+            return displayEditUserForm(model, null, null, MessageKeyStore.USER_DOESNT_EXIST);
         }
         
         // create account presentation and check permissions to edit the account
@@ -140,7 +140,7 @@ public class AdminController extends AController {
         accountPresentation = new AccountPresentation(requestedUser, accountDataService);
         
         if (!currentUserHasPermissions) {       
-            return displayEditUserForm(model, null, accountPresentation, "Vous n'êtes pas authorisé à modifier cet utilisateur.");
+            return displayEditUserForm(model, null, accountPresentation, MessageKeyStore.NOT_AUTHORIZED_TO_EDIT_USER);
         }
         // Form
         accountCommand = new AccountWithRoleCommand(requestedUser);
@@ -172,14 +172,14 @@ public class AdminController extends AController {
         requestedUser = accountDataService.read(accountCommand.getAccountId());
         
         if (requestedUser == null) {
-            return displayEditUserForm(model, null, null, "Cet utilisateur n'existe pas.");
+            return displayEditUserForm(model, null, null, MessageKeyStore.USER_DOESNT_EXIST);
         }
         // create account presentation and check permissions to edit the account
         currentUserHasPermissions = (AccountUtils.getInstance().currentUserHasPermissionToEditAccountWithRole(requestedUser));
         
         if (!currentUserHasPermissions) {
             accountPresentation = new AccountPresentation(requestedUser, accountDataService);
-            return displayEditUserForm(model, null, accountPresentation, "Vous n'êtes pas authorisé à modifier cet utilisateur.");
+            return displayEditUserForm(model, null, accountPresentation, MessageKeyStore.NOT_AUTHORIZED_TO_EDIT_USER);
         }
         // Check if password has been changed
         passwordChanged = (accountCommand.getPassword() != null) && !(accountCommand.getPassword().isEmpty());
@@ -205,7 +205,7 @@ public class AdminController extends AController {
         accountDataService.update(requestedUser);
         
         accountPresentation = new AccountPresentation(requestedUser, accountDataService);
-        model.addAttribute("successMessage", "L'utilisateur a bien été modifié.");
+        model.addAttribute("successMessage", MessageKeyStore.USER_EDITED);
         return displayEditUserForm(model, accountCommand, accountPresentation, null);
     }
     

@@ -1,4 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <p class="alert alert-info">
-    Les champs obligatoires sont préfixés d'une astérisque <%@include file="/WEB-INF/template/inline/mandatory.jspf" %>
+    <fmt:message key="mandatoryFieldLabel"/> <%@include file="/WEB-INF/template/inline/mandatory.jspf" %>
 </p>

@@ -31,10 +31,8 @@ public final class MessageKeyStore {
     }
     
     public static final String EMAIL_ALREADY_IN_USE_KEY = "emailAlreadyInUse";
-
     public static final String GENERIC_ERROR_KEY = "genericError";
     public static final String ERROR_PASSWORD_CHANGE_KEY = "errorPasswordChange";
-
     public static final String INACTIVE_ACCOUNT_KEY = "inactiveAccount";
 
     public static final String INVALID_CRITERION_KEY = "invalidCriterion";
@@ -65,9 +63,22 @@ public final class MessageKeyStore {
     public static final String MISSING_WEBARCHIVE_KEY = "missingWebarchive";
     
     public static final String NOT_RESPONDING_URL = "notRespondingUrl";
-
     public static final String PASSWORD_MISMATCH_KEY = "passwordMismatch";
-    
     public static final String WEBARCHIVE_TOO_LONG_DESCRIPTION = "webarchiveTooLongDescription";
     public static final String TESTCASE_TOO_LONG_DESCRIPTION = "testcaseTooLongDescription";
+    
+    public static final String TESTCASE_EDITED = "testcaseEdited";
+    public static final String TESTCASE_DELETED = "testcaseDeleted";
+    public static final String TESTCASE_DOESNT_EXIST = "testcaseDoesntExist";
+    public static final String NOT_AUTHORIZED_TO_EDIT_TESTCASE = "notAuthorizedToEditTestcase";
+    public static final String NOT_AUTHORIZED_TO_DELETE_TESTCASE = "notAuthorizedToDeleteTestcase";
+    public static final String ACCOUNT_EDITED = "accountEdited";
+    public static final String PASSWORD_CHANGED = "passwordChanged";
+    
+    public static final String SUBSCRIBE_ERROR = "subscribeError";
+    public static final String PASSWORD_LOST_ERROR = "passwordLostError";
+    public static final String CANNOT_CREATE_WEBARCHIVE = "cannotCreateWebarchive";
+    public static final String USER_DOESNT_EXIST = "userDoesntExist";
+    public static final String NOT_AUTHORIZED_TO_EDIT_USER = "notAuthorizedToEditUser";
+    public static final String USER_EDITED = "userEdited";
 }

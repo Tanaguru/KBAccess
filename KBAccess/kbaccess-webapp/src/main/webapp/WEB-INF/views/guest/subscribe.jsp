@@ -27,7 +27,7 @@
                     </p>
                 </c:when>
                 <c:when test="${not empty subscribeError}">
-                    <p class="alert alert-error">${subscribeError}</p>
+                    <p class="alert alert-error"><fmt:message key="${subscribeError}"/></p>
                 </c:when>
                 <c:otherwise>
                     <c:url var='subscribeUrl' value='/guest/subscribe.html'/>

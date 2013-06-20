@@ -4,7 +4,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html lang="fr">
+<html>
     <c:set var="title">
 	<fmt:message key="account.resetPasswordTitle" />
     </c:set>
@@ -26,7 +26,7 @@
         <c:choose>
             <c:when test="${not empty successMessage}">
                     <div class="row-fluid">
-                        <p class="alert alert-success">${successMessage}</p>
+                        <p class="alert alert-success"><fmt:message key="${successMessage}"/></p>
                     </div>
             </c:when>
             <c:otherwise>

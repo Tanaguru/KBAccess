@@ -20,7 +20,7 @@
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
         <c:if test="${not empty successMessage}">
                 <div class="row-fluid">
-                    <p class="alert alert-success">${successMessage}</p>
+                    <p class="alert alert-success"><fmt:message key="${successMessage}"/></p>
                 </div>
         </c:if>
 

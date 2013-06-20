@@ -31,6 +31,7 @@ import org.opens.kbaccess.entity.authorization.AccessLevelEnumType;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.utils.MailingServiceProperties;
 import org.opens.kbaccess.utils.TgolTokenHelper;
@@ -159,7 +160,7 @@ public class GuestController extends AMailerController {
         
         // send subscribe confirmation, with auth token, and notification
         if (!sendAuthTokenAndSubscribeNotificationByMail(null, newAccount)) {
-            model.addAttribute("subscribeError", "Une erreur s'est produite. Merci de contacter l'administrateur.");
+            model.addAttribute("subscribeError", MessageKeyStore.SUBSCRIBE_ERROR);
         } else {
             accountDataService.saveOrUpdate(newAccount);
             model.addAttribute("newAccountCreated", true);
@@ -230,7 +231,7 @@ public class GuestController extends AMailerController {
             account.setAuthCode(token);
             accountDataService.update(account);
         } else {
-            model.addAttribute("passwordLostError", "Une erreure s'est produite. Merci de contacter l'administrateur.");
+            model.addAttribute("passwordLostError", MessageKeyStore.PASSWORD_LOST_ERROR);
         }
         return "guest/password-lost";
     }

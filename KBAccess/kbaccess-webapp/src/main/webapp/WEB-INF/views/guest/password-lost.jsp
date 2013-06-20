@@ -27,7 +27,7 @@
                     </p>                    
                 </c:when>
                 <c:when test="${passwordLostError != null}">
-                    <p class="alert alert-error">${passwordLostError}</p>
+                    <p class="alert alert-error"><fmt:message key="${passwordLostError}"/></p>
                 </c:when>
                 <c:otherwise>
                     <p><fmt:message key="guest.lostPasswordInputEmail" /> :</p>

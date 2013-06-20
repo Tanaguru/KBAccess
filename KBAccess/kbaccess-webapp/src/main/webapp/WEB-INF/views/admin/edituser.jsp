@@ -20,12 +20,12 @@
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
         <c:if test="${not empty successMessage}">
                 <div class="row-fluid">
-                    <p class="alert alert-success">${successMessage}</p>
+                    <p class="alert alert-success"><fmt:message key="${successMessage}" /></p>
                 </div>
         </c:if>
         <c:if test="${not empty errorMessage}">
                 <div class="row-fluid">
-                    <p class="alert alert-error">${errorMessage}</p>
+                    <p class="alert alert-error"><fmt:message key="${errorMessage}" /></p>
                 </div>
         </c:if>
         <c:if test="${not empty account}">

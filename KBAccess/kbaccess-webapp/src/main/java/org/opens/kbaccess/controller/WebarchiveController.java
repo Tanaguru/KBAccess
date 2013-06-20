@@ -28,6 +28,7 @@ import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.keystore.FormKeyStore;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.WebarchiveCommandValidator;
@@ -130,7 +131,7 @@ public class WebarchiveController extends AMailerController {
         if (webarchive == null) {
             model.addAttribute(
                     FormKeyStore.GENERAL_ERROR_MESSAGE_KEY,
-                    "Impossible de créer la webarchive, vérifier l'url saisie puis réessayez."
+                    MessageKeyStore.CANNOT_CREATE_WEBARCHIVE
                     );
             model.addAttribute("newWebarchiveCommand", webarchiveCommand);
             return "webarchive/add";

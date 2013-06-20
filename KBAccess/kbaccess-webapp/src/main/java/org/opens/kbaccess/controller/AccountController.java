@@ -29,6 +29,7 @@ import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
@@ -155,7 +156,7 @@ public class AccountController extends AController {
                 testcaseDataService.getLastTestcasesFromAccount(currentUser, 5),
                 true
                 ));
-        model.addAttribute("successMessage", "Vos modifications ont bien été enregistrées.");
+        model.addAttribute("successMessage", MessageKeyStore.ACCOUNT_EDITED);
         return "account/my-account";
     }
     
@@ -287,7 +288,7 @@ public class AccountController extends AController {
         
         
         handleUserLoginForm(model);
-        model.addAttribute("successMessage", "Le mot de passe a bien été modifié.");
+        model.addAttribute("successMessage", MessageKeyStore.PASSWORD_CHANGED);
         
         return "account/change-password";
     }
@@ -343,7 +344,7 @@ public class AccountController extends AController {
         newPasswordCommand.updateAccount(requestedUser);
         accountDataService.update(requestedUser);
         
-        model.addAttribute("successMessage", "Le mot de passe a bien été modifié.");
+        model.addAttribute("successMessage", MessageKeyStore.PASSWORD_CHANGED);
         
         return displayNewPasswordForm(model, newPasswordCommand);        
     }

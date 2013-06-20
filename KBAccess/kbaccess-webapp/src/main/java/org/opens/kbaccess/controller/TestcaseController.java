@@ -35,6 +35,7 @@ import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.keystore.FormKeyStore;
+import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
@@ -123,18 +124,16 @@ public class TestcaseController extends AMailerController {
         return "testcase/add-webarchive";        
     }
     
-    private String displayEditTestcaseForm(Model model, EditTestcaseCommand editTestcaseCommand, String errorMessage) {
+    private String displayEditTestcaseForm(Model model, EditTestcaseCommand editTestcaseCommand) {
         // handle login form and breadcrumb
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
+        
         // create form
-        if (errorMessage != null) {
-            model.addAttribute("errorMessage", errorMessage);
-        } else {
-            model.addAttribute("testByRef", getTestByRef());
-            model.addAttribute("resultList", getResults());
-            model.addAttribute("editTestcaseCommand", editTestcaseCommand);
-        }
+        model.addAttribute("testByRef", getTestByRef());
+        model.addAttribute("resultList", getResults());
+        model.addAttribute("editTestcaseCommand", editTestcaseCommand);
+        
         return "testcase/edit-details";
     }
     
@@ -147,6 +146,16 @@ public class TestcaseController extends AMailerController {
         handleBreadcrumbTrail(model);
         model.addAttribute("testcase", testcasePresentation);
         return "testcase/details";
+    }
+    
+    private String displayTestcaseError(Model model, String errorMessage) {
+        // handle login form and breadcrumb
+        handleUserLoginForm(model);
+        handleBreadcrumbTrail(model);
+        
+        // create form    
+        model.addAttribute("errorMessage", errorMessage);
+        return "testcase/error";
     }
 
     /*
@@ -393,8 +402,8 @@ public class TestcaseController extends AMailerController {
         }
         
         if (testcase == null) {
-            model.addAttribute("errorMessage", "Cet exemple n'existe pas");
-            return "testcase/edit-details";
+            LogFactory.getLog(TestcaseController.class.getName()).debug("testcase is null");
+            return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
         // check permissions
         account = AccountUtils.getInstance().getCurrentUser();
@@ -402,8 +411,7 @@ public class TestcaseController extends AMailerController {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached testcase/edit-details. Check spring security configuration.");
             return "guest/login";
         } else if (!AccountUtils.getInstance().currentUserhasPermissionToEditTestcase(testcase)) {
-            model.addAttribute("errorMessage", "Vous n'êtes pas autorisé à modifier cet exemple.");
-            return "testcase/edit-details";
+            return displayTestcaseError(model, MessageKeyStore.NOT_AUTHORIZED_TO_EDIT_TESTCASE);
         }
         
         testcasePresentation = new TestcasePresentation(testcase, true);
@@ -411,7 +419,7 @@ public class TestcaseController extends AMailerController {
         // create form
         editTestcaseCommand = new EditTestcaseCommand(testcase);
 
-        return displayEditTestcaseForm(model, editTestcaseCommand, null);
+        return displayEditTestcaseForm(model, editTestcaseCommand);
     }
     
     @RequestMapping(value="edit-details/{id}/*", method=RequestMethod.POST)
@@ -439,19 +447,19 @@ public class TestcaseController extends AMailerController {
         testcase = testcaseDataService.read(editTestcaseCommand.getId(), true);
         
         if (testcase == null) {
-            return displayEditTestcaseForm(model, null, "Exemple invalide.");
+            return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
         
         // check permisions
         if (!AccountUtils.getInstance().currentUserhasPermissionToEditTestcase(testcase)) {
-            return displayEditTestcaseForm(model, null, "Vous n'êtes pas autorisé à modifier cet exemple.");
+            return displayTestcaseError(model, MessageKeyStore.NOT_AUTHORIZED_TO_EDIT_TESTCASE);
         }
         
         // validate form
         testcaseValidator.validate(editTestcaseCommand, result);
         
         if (result.hasErrors()) {    
-            return displayEditTestcaseForm(model, editTestcaseCommand, null);
+            return displayEditTestcaseForm(model, editTestcaseCommand);
         }
         
         // update testcase
@@ -459,7 +467,7 @@ public class TestcaseController extends AMailerController {
         testcaseDataService.saveOrUpdate(testcase);
         
         // confirmation message
-        model.addAttribute("successMessage", "L'exemple a bien été modifié.");
+        model.addAttribute("successMessage", MessageKeyStore.TESTCASE_EDITED);
         return displayTestcaseDetails(model, testcase);
     }
     
@@ -473,8 +481,9 @@ public class TestcaseController extends AMailerController {
         // fetch testcase
         try {
             testcase = testcaseDataService.read(id, true);
-        } catch (NullPointerException e) {
-            return "home";
+        } catch (NullPointerException e) { 
+            LogFactory.getLog(TestcaseController.class.getName()).debug("testcase doesn't exist");
+            return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
         
         return displayTestcaseDetails(model, testcase);
@@ -501,8 +510,7 @@ public class TestcaseController extends AMailerController {
         try {
             testcase = testcaseDataService.read(id, true);
         } catch (NullPointerException e) {
-            model.addAttribute("errorMessage", "Cet exemple n'existe pas");  
-            return "testcase/delete";
+            return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
 
         // check permissions
@@ -511,8 +519,7 @@ public class TestcaseController extends AMailerController {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached testcase/delete. Check spring security configuration.");
             return "guest/login";
         } else if (!AccountUtils.getInstance().currentUserhasPermissionToEditTestcase(testcase)) {
-            model.addAttribute("errorMessage", "Vous n'êtes pas autorisé à supprimer cet exemple.");
-            return "testcase/delete";
+            return displayTestcaseError(model, MessageKeyStore.NOT_AUTHORIZED_TO_DELETE_TESTCASE);
         }
         
         deleteTestcaseCommand = new DeleteTestcaseCommand(testcase);
@@ -541,13 +548,11 @@ public class TestcaseController extends AMailerController {
         try {
             testcase = testcaseDataService.read(deleteTestcaseCommand.getId(), true);
         } catch (NullPointerException e) {
-            model.addAttribute("errorMessage", "testcase doesn't exist");  
-            return "testcase/delete";
+            return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
         
         if (testcase == null) {
-            model.addAttribute("errorMessage", "Ce testcase n'existe pas");
-            return "testcase/delete";
+            return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
         // check permissions
         account = AccountUtils.getInstance().getCurrentUser();
@@ -555,8 +560,7 @@ public class TestcaseController extends AMailerController {
             LogFactory.getLog(TestcaseController.class).error("An unauthentified user reached testcase/delete. Check spring security configuration.");
             return "guest/login";
         } else if (!AccountUtils.getInstance().currentUserhasPermissionToEditTestcase(testcase)) {
-            model.addAttribute("errorMessage", "Vous n'êtes pas autorisé à supprimer ce testcase.");
-            return "testcase/delete";
+            return displayTestcaseError(model, MessageKeyStore.NOT_AUTHORIZED_TO_DELETE_TESTCASE);
         }
         
         // delete the testcase
@@ -565,7 +569,7 @@ public class TestcaseController extends AMailerController {
         testcasePresentation = new TestcasePresentation(testcase, true);
         model.addAttribute("testcase", testcasePresentation);
         // confirmation message
-        model.addAttribute("successMessage", "L'exemple " + testcase.getId() + " a bien été supprimé.");
+        model.addAttribute("successMessage", MessageKeyStore.TESTCASE_DELETED);
         
         return "testcase/delete";
     }

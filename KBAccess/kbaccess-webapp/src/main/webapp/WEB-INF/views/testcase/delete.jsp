@@ -5,7 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html lang="fr">
+<html>
     <c:set var="title">
         <fmt:message key="testcase.deleteTitle" /> ${testcase.id}
     </c:set>
@@ -24,16 +24,10 @@
        </div>
 
         <c:choose>
-            <%-- An error occured when deleting the testcase --%>
-            <c:when test="${not empty errorMessage}">
-                <div class="row-fluid">
-                    <p class="alert alert-error">${errorMessage}</p>
-                </div>
-            </c:when>
             <%-- Confirmation that the testcase has been deleted --%>
             <c:when test="${not empty successMessage}">
                 <div class="row-fluid">
-                    <p class="alert alert-success">${successMessage}</p>
+                    <p class="alert alert-success"><fmt:message key="${successMessage}" /></p>
                 </div>
             </c:when>
             <%-- Ask confirmation for deleting the testcase --%>

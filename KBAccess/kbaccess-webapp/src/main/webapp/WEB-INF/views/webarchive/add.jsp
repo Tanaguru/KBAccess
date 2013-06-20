@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html lang="fr">
+<html>
     <c:set var="title">
         <fmt:message key="webarchive.addTitle" />
     </c:set>
@@ -26,7 +26,7 @@
                 <form:form  commandName="newWebarchiveCommand" action="add.html" method="POST">
                     <c:if test="${generalErrorMessage != null}">
                         <p class="alert alert-error">
-                            ${generalErrorMessage}
+                            <fmt:message key="${generalErrorMessage}" />
                         </p>
                     </c:if>
                     <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>

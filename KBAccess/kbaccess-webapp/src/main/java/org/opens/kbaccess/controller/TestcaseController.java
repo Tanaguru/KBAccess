@@ -22,6 +22,8 @@
 package org.opens.kbaccess.controller;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.DeleteTestcaseCommand;
 import org.opens.kbaccess.command.EditTestcaseCommand;
@@ -33,7 +35,6 @@ import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.keystore.FormKeyStore;
-import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
@@ -61,8 +62,8 @@ public class TestcaseController extends AMailerController {
 
     /*
      * Private methods
-     */    
-    private String buildListTitleFromSearchCriteria(
+     */      
+    private Map<String, String> buildMapFromSearchParameters(
             Reference reference,
             Criterion criterion,
             Theme theme,
@@ -70,52 +71,35 @@ public class TestcaseController extends AMailerController {
             Level level,
             Result result
             ) {
-        StringBuilder title = new StringBuilder();
-        StringBuilder criteria = new StringBuilder();
+        Map<String, String> parametersMap = new LinkedHashMap<String, String>();
         
         // building criteria list
         if (reference != null) {
-            criteria.append("Référenciel ");
-            criteria.append(reference.getLabel());
-            criteria.append(", ");
+            parametersMap.put("accessibility.reference", reference.getLabel());
         }
          if (theme != null) {
-            criteria.append("Thématique ");
-            criteria.append(theme.getLabel());
-            criteria.append(", ");
+            parametersMap.put("accessibility.theme", theme.getLabel());
         }
         if (criterion != null) {
-            criteria.append("Critère ");
-            criteria.append(criterion.getLabel());
-            criteria.append(", ");
+            parametersMap.put("accessibility.criterion", criterion.getLabel());
         }
          if (test != null) {
-            criteria.append("Test ");
-            criteria.append(test.getLabel());
-            criteria.append(", ");
+            parametersMap.put("accessibility.test", test.getLabel());
         }
         if (level != null) {
-            criteria.append("Niveau ");
-            criteria.append(level.getLabel());
-            criteria.append(", ");
+            parametersMap.put("accessibility.level", level.getCode());
         }
         if (result != null) {
-            criteria.append("Résultat ");
-            criteria.append(result.getLabel());
-            criteria.append(", ");
+            parametersMap.put("result", result.getCode());
         }
         
         // post process criteria list
-        if (criteria.length() == 0) {
+        if (parametersMap.isEmpty()) {
             // no criteria
-            title.append("Tous les testcases");
-        } else {
-            // delete ending comma of the criteria
-            criteria.delete(criteria.length() - 2, criteria.length());
-            // append the result to the title
-            title.append(criteria);
-        }
-        return title.toString();
+            parametersMap.put("testcase.searchAllTestcasesTitle", reference.getLabel());
+        } 
+        
+        return parametersMap;
     }
     
     private String displayAddTestcaseForm(Model model, NewTestcaseCommand newTestcaseCommand) {
@@ -198,6 +182,7 @@ public class TestcaseController extends AMailerController {
             @RequestParam(value="result", required=false) Long idResult
             ) {
         Collection<TestcasePresentation> testcases;
+        String contextOfRequest = null;
         boolean joker;
         Reference reference;
         Theme theme;
@@ -205,8 +190,6 @@ public class TestcaseController extends AMailerController {
         Criterion criterion;
         Test test;
         Result result;
-        String testcaseListH1;
-        String testcaseListTitle;
         
         // fetch all testcases ?
         joker = (idAccount == null
@@ -223,9 +206,8 @@ public class TestcaseController extends AMailerController {
                     (Collection) testcaseDataService.findAll(),
                     true
                     );
-        testcaseListH1 = "Résultat de la recherche : tous les exemples";
-        testcaseListTitle = "Tous les exemples";
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Recherche d'exemples", "/example/search.html", testcaseListTitle);
+        contextOfRequest = "allTestcases";
+        handleBreadcrumbTrail(model);
         // fetch the testcases of a precise user
         } else if (idAccount != null) {
             String authorDisplayedName;
@@ -238,9 +220,9 @@ public class TestcaseController extends AMailerController {
                 true
                 );
             
-            testcaseListH1 = "Liste des exemples de " + authorDisplayedName;
-            testcaseListTitle = "Exemples de " + authorDisplayedName;
-            handleBreadcrumbTrail(model, "KBAccess", "/", authorDisplayedName, "/account/details/" + idAccount + "/profile.html", "Liste des exemples");
+            contextOfRequest = "userTestcases";
+            handleBreadcrumbTrail(model);
+            model.addAttribute("account", new AccountPresentation(account, accountDataService));
         // All other requests combinations
         } else {
             reference = (idReference == null ? null : referenceDataService.read(idReference));
@@ -253,14 +235,13 @@ public class TestcaseController extends AMailerController {
                     testcaseDataService.getAllFromUserSelection(reference, criterion, theme, test, level, result),
                     true
                     );
-            testcaseListH1 = "Résultat de la recherche : " + buildListTitleFromSearchCriteria(reference, criterion, theme, test, level, result);
-            testcaseListTitle = "Exemples " + buildListTitleFromSearchCriteria(reference, criterion, theme, test, level, result);
-            handleBreadcrumbTrail(model, "KBAccess", "/", "Recherche d'exemples", "/example/search.html", testcaseListTitle);
+            
+            handleBreadcrumbTrail(model);
+            model.addAttribute("parameterMap", buildMapFromSearchParameters(reference, criterion, theme, test, level, result));
         }
         // handle login and breadcrumb
         handleUserLoginForm(model); 
-        model.addAttribute("testcaseListH1", testcaseListH1);
-        model.addAttribute("testcaseListTitle", testcaseListTitle);
+        model.addAttribute("contextOfRequest", contextOfRequest);
         
         // result list
         model.addAttribute(ModelAttributeKeyStore.TESTCASE_LIST_KEY, testcases);

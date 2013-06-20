@@ -11,6 +11,10 @@
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
 
+        <c:set var="bcSearchExamples" scope="page"><fmt:message key="breadcrumb.searchExamples" /></c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcSearchExamples}" value=""/>
+        
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <h1 class="page-header"><fmt:message key="testcase.searchH1" /></h1>

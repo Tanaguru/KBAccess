@@ -31,7 +31,6 @@ import org.opens.kbaccess.entity.authorization.AccessLevelEnumType;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccessLevelDataService;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
-import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.utils.MailingServiceProperties;
 import org.opens.kbaccess.utils.TgolTokenHelper;

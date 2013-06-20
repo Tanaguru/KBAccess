@@ -16,6 +16,9 @@
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>    
+                <value>aw21-theme-I18N</value>
+                <value>aw21-criterion-I18N</value>
+                <value>aw21-rule-I18N</value>
                 <value>breadcrumb-I18N</value>
                 <value>results-I18N</value>
                 <value>footer-I18N</value>

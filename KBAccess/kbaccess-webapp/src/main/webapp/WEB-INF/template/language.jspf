@@ -3,7 +3,7 @@
             
 <c:set var="properQueryString" scope="page" value="${fn:replace(pageContext.request.queryString, '&', '&amp;')}"/>
 <c:choose>
-    <c:when test="${not empty pageContext.request.queryString} ">
+    <c:when test="${not empty pageContext.request.queryString}">
         <c:choose>
             <c:when test="${fn:contains(pageContext.request.queryString, 'lang=en')}">
                 <c:set var="enUrl" scope="request" value="?${properQueryString}"/>

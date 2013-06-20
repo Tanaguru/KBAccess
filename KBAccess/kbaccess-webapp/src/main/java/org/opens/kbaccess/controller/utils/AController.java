@@ -85,7 +85,7 @@ public abstract class AController {
 
             results = (Collection) resultDataService.findAll();
             // We dont wan't this result to be in the search form
-            results.remove(resultDataService.getByCode("Indéterminé"));
+            results.remove(resultDataService.getByCode("nmi"));
             
             references = (Collection) referenceDataService.findAll();
             for (Reference reference : references) {
@@ -119,40 +119,6 @@ public abstract class AController {
                     account
                     );
         }
-    }
-    
-    /**
-     * Build a data structure for the breadcrumb-trail.jspf.
-     * 
-     * The argument has to be of the form
-     * (label, url, label, url, label)
-     * For exemple :
-     * ("KBAccess", "/", "Testcase Search", "/testcase/search.html", "Results")
-     * 
-     * @param list
-     * @return 
-     */
-    public List<Map.Entry<String, String>> buildBreadcrumbTrail(String ... list) {
-       List<Map.Entry<String, String>> ret;
-       
-       ret = new ArrayList<Map.Entry<String, String>>(list.length / 2 + 1);
-       for (int i = 0; i < list.length; i += 2) {
-           Map.Entry<String, String> entry;
-           
-           entry = new AbstractMap.SimpleEntry<String, String>(
-                   list[i],
-                   (i + 1 < list.length ? list[i + 1] : null)
-                   );
-           ret.add(entry);
-       }
-       return ret;
-    }
-    
-    public void handleBreadcrumbTrail(Model model, String ... breadcrumb ) {
-        model.addAttribute(
-                ModelAttributeKeyStore.BREADCRUMB_TRAIL_KEY,
-                buildBreadcrumbTrail(breadcrumb)
-                );  
     }
     
     public void handleBreadcrumbTrail(Model model) {

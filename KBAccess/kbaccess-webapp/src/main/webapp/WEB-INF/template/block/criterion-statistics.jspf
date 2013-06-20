@@ -6,7 +6,7 @@
             <a href="<c:url value='/example/list.html?reference=${criterion.referenceId}&criterion=${criterion.id}'/>">
                 ${criterion.label} <abbr class="reference-abbr" title="<fmt:message key="${criterion.referenceCode}"/>">${criterion.referenceCode}</abbr>
             </a>
-            (${criterion.testcaseCount} exemple<c:if test="${criterion.testcaseCount > 1}">s</c:if>)
+                (${criterion.testcaseCount} <fmt:message key="accessibility.example"/><c:if test="${criterion.testcaseCount > 1}">s</c:if>)
         </li>
     </c:forEach>
 </ol>

@@ -1,19 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page pageEncoding="UTF-8" %>
     <c:choose>
         <c:when test="${resultId == 1}">
-            <img src="<c:url value='/assets/images/ico-passed-${pictoSize}.png'/>" alt="Validé"/>
+            <c:set var="alt" scope="page"><fmt:message key="results.passed" /></c:set>
+            <img src="<c:url value='/assets/images/ico-passed-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:when test="${resultId == 2}">
-            <img src="<c:url value='/assets/images/ico-failed-${pictoSize}.png'/>" alt="Invalidé"/>
+            <c:set var="alt" scope="page"><fmt:message key="results.failed" /></c:set>
+            <img src="<c:url value='/assets/images/ico-failed-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:when test="${resultId == 3}">
-            <img src="<c:url value='/assets/images/ico-na-${pictoSize}.png'/>" alt="NA"/>
+            <c:set var="alt" scope="page"><fmt:message key="results.naFull" /></c:set>
+            <img src="<c:url value='/assets/images/ico-na-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:when test="${resultId == 4}">
-            <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="Indéterminé"/>
+            <c:set var="alt" scope="page"><fmt:message key="results.nmiFull" /></c:set>
+            <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:otherwise>
-            <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="Indéterminé"/>
+            <c:set var="alt" scope="page"><fmt:message key="results.nmiFull" /></c:set>
+            <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="${alt}"/>
         </c:otherwise>
     </c:choose>

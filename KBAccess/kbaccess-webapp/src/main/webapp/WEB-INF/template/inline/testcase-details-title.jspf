@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
-        Exemple accessibilité ${testcase.testLabel} (${testcase.referenceLabel})
+        <fmt:message key="accessibility" /> <fmt:message key="accessibility.example" /> ${testcase.testLabel} (${testcase.referenceLabel})
         <c:set var='resultId' value='${testcase.resultId}'/>
         <c:set var='withAccents' value='true' />
         <%@include file='/WEB-INF/template/inline/result.jspf' %>
-        sur <c:url value='${testcase.webarchiveOriginalUrl}'/>
+        <fmt:message key="on" /> <c:url value='${testcase.webarchiveOriginalUrl}'/>

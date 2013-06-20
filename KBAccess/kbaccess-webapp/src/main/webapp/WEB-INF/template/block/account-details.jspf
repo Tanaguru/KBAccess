@@ -1,36 +1,41 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page pageEncoding="UTF-8" %>
 
 <div class="page-header">
-    <h1>Utilisateur ${account.displayedName}</h1>
+    <h1><fmt:message key="user"/> ${account.displayedName}</h1>
 </div>
 <div class="row-fluid">
-    <h2>Informations</h2>
+    <h2><fmt:message key="account.detailsInfos"/></h2>
     <ul class="unstyled">
         <li>
             <a href="<c:url value='/example/list.html?account=${account.id}'/>">
-                ${account.nbCreatedTestcases} exemple<c:if test="${account.nbCreatedTestcases > 1}">s</c:if>
+                ${account.nbCreatedTestcases} <fmt:message key="accessibility.example"/><c:if test="${account.nbCreatedTestcases > 1}">s</c:if>
             </a>    
         </li>
         <li>${account.nbCreatedWebarchives} webarchive<c:if test="${account.nbCreatedWebarchives > 1}">s</c:if></li>
-        <li>inscrit le <fmt:formatDate pattern="dd/MM/yyyy" value="${account.subscriptionDate}"/></li>
+        <li><fmt:message key="account.detailsSignedUpThe"/> <fmt:formatDate pattern="dd/MM/yyyy" value="${account.subscriptionDate}"/></li>
         <li><a href="${account.myUrl}">${account.myUrl}</a></li>
     </ul>
 </div>
 <div class="row-fluid">
-    <h2>Derniers exemples</h2>
+    <h2><fmt:message key="testcase.lastTestcases"/></h2>
     <c:choose>
         <c:when test="${testcaseList == null or empty testcaseList}">
-            <p class="alert alert-info">Aucun exemple.</p>
+            <p class="alert alert-info"><fmt:message key="testcase.noTestcase"/></p>
         </c:when>
         <c:otherwise>
-            <table class="table data-table table-strip" summary="Liste des exemples de ${account.displayedName}" id="tableTestcases">
+            <c:set var="referenceAlt" scope="page"><fmt:message key="testcase.referenceOfTest" /></c:set>
+            <c:set var="detailsAlt" scope="page"><fmt:message key="testcase.detailsOfTestcase" /></c:set>
+            <c:set var="tableSummary" scope="page"><fmt:message key="testcase.listOfTestcasesOf" /></c:set>
+            
+            <table class="table data-table table-strip" summary="${tableSummary} ${account.displayedName}" id="tableTestcases">
                 <tr>
-                    <th scope="col">Page d'origine</th>
-                    <th scope="col">Test d'accessibilité</th>
-                    <th scope="col">Résultat</th>
-                    <th scope="col">Date du testcase</th>
-                    <th scope="col">Détails</th>
+                    <th scope="col"><fmt:message key="testcase.originalPage"/></th>
+                    <th scope="col"><fmt:message key="testcase.accessibilityTest"/></th>
+                    <th scope="col"><fmt:message key="result"/></th>
+                    <th scope="col"><fmt:message key="testcase.date"/></th>
+                    <th scope="col"><fmt:message key="details"/></th>
                 </tr>
                 <c:forEach var="testcase" items="${testcaseList}">
                     <c:set var="testcaseUrl">
@@ -51,7 +56,7 @@
                                     <c:otherwise>
                                     </c:otherwise>
                                 </c:choose>
-                                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="référence du test ${testResult.testLabel}">${testResult.testLabel}</a>    
+                                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="${referenceAlt} ${testResult.testLabel}">${testResult.testLabel}</a>    
                                 (<abbr title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>)
                             </c:forEach>
                         </td>
@@ -61,13 +66,13 @@
                             <c:set var="pictoSize" value="m"/>
                             <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
                         </td>
-                        <td><fmt:formatDate pattern="dd/MM/yyyy hh'h'mm" value="${testcase.creationDate}"/></td>
+                        <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${testcase.creationDate}"/></td>
                         <td>
                             <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>"
-                                title="Détails de l'exemple ${testcase.id}"
+                                title="${detailsAlt} ${testcase.id}"
                                 class="tc-details" > 
                                 <img src="<c:url value='/assets/images/icon-crystalclear-details-button-16x16.png'/>"
-                                     alt="Détails de l'exemple ${testcase.id}" />
+                                     alt="${detailsAlt} ${testcase.id}" />
                               </a>
                         </td>
                     </tr>

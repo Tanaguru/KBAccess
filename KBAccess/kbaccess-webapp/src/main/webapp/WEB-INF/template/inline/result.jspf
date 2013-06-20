@@ -1,23 +1,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page pageEncoding="UTF-8" %>
-    <%-- No pictograms and no accents are used for urls --%>
     <c:choose>
         <c:when test="${withAccents == 'true'}">
             <c:choose>
-                <c:when test="${resultId == 1}">validé</c:when>
-                <c:when test="${resultId == 2}">invalidé</c:when>
-                <c:when test="${resultId == 3}">NA</c:when>
-                <c:when test="${resultId == 4}">indéterminé</c:when>
-                <c:otherwise>indetermine</c:otherwise>
+                <c:when test="${resultId == 1}"><fmt:message key="passed" /></c:when>
+                <c:when test="${resultId == 2}"><fmt:message key="failed" /></c:when>
+                <c:when test="${resultId == 3}"><fmt:message key="na" /></c:when>
+                <c:when test="${resultId == 4}"><fmt:message key="nmi" /></c:when>
+                <c:otherwise><fmt:message key="nmi" /></c:otherwise>
             </c:choose>
         </c:when>
+        <%-- Several languages use accents, and no accents are used for urls --%>
         <c:otherwise>
             <c:choose>
-                <c:when test="${resultId == 1}">valide</c:when>
-                <c:when test="${resultId == 2}">invalide</c:when>
-                <c:when test="${resultId == 3}">NA</c:when>
-                <c:when test="${resultId == 4}">indétermine</c:when>
-                <c:otherwise>indéterminé</c:otherwise>
+                <c:when test="${resultId == 1}"><fmt:message key="passedNoAccents" /></c:when>
+                <c:when test="${resultId == 2}"><fmt:message key="failedNoAccents" /></c:when>
+                <c:when test="${resultId == 3}"><fmt:message key="na" /></c:when>
+                <c:when test="${resultId == 4}"><fmt:message key="nmi" /></c:when>
+                <c:otherwise><fmt:message key="nmi" /></c:otherwise>
             </c:choose>
         </c:otherwise>
     </c:choose>

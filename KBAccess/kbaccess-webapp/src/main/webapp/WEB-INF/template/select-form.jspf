@@ -1,78 +1,83 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
   
 <form method="get" action="list.html" class="span2">
     <div class="control-group">
-        <label class="control-label" for="selectReferentiel">R&eacute;f&eacute;rentiel</label>
+        <label class="control-label" for="selectReferentiel"><fmt:message key="accessibility.reference" /></label>
         <select name="reference" id="selectReferentiel" size="1">
-                <option value="" selected="selected">Tous</option>
+                <option value="" selected="selected"><fmt:message key="all" /></option>
                 <c:forEach var="ref" items="${referenceList}">
-                    <option value="${ref.id}">${ref.label}</option>
+                    <option value="${ref.id}"><fmt:message key="${ref.code}"/></option>
                 </c:forEach>
         </select>              
     </div>
 
     <div class="control-group">
-        <label class="control-label" for="selectTheme">Th&eacute;matique</label>
+        <label class="control-label" for="selectTheme"><fmt:message key="accessibility.theme" /></label>
             <select name="theme" id="selectTheme" size="1">
-                <option value="" selected="selected">Tous</option>
+                <option value="" selected="selected"><fmt:message key="all" /></option>
                 <c:forEach var="entry" items="${themeByRef}">
                     <optgroup id="${entry.key.code}-theme" label="${entry.key.label}">
                         <c:forEach var="theme" items="${entry.value}">
-                            <option value="${theme.id}">${theme.rank}. ${theme.label}</option>
+                            <option value="${theme.id}">${theme.rank}. <fmt:message key="${theme.code}"/></option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
             </select>
     </div>
     <div class="control-group">
-        <label class="control-label" for="selectCritere">Crit&egrave;re</label>
+        <label class="control-label" for="selectCritere"><fmt:message key="accessibility.criterion" /></label>
             <select name="criterion"  id="selectCritere" size="1">
-                <option value="" selected="selected">Tous</option>
+                <option value="" selected="selected"><fmt:message key="all" /></option>
                 <c:forEach var="entry" items="${criterionByRef}">
                     <optgroup id="${entry.key.code}-criterion" label="${entry.key.label}">
                         <c:forEach var="criterion" items="${entry.value}">
-                            <option value="${criterion.id}">${criterion.label} - ${criterion.description}</option>
+                            <option value="${criterion.id}">${criterion.label} - <fmt:message key="${criterion.code}"/></option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
             </select>
     </div>
     <div class="control-group">
-        <label class="control-label" for="selectTest">Test</label>
+        <label class="control-label" for="selectTest"><fmt:message key="accessibility.test" /></label>
             <select name="test" id="selectTest" size="1">
-                <option value="" selected="selected">Tous</option>
+                <option value="" selected="selected"><fmt:message key="all" /></option>
                 <c:forEach var="entry" items="${testByRef}">
                     <optgroup id="${entry.key.code}-test" label="${entry.key.label}">
                         <c:forEach var="test" items="${entry.value}">
-                            <option value="${test.id}">${test.label} &#45; ${test.description}</option>
+                            <option value="${test.id}">${test.label} &#45; <fmt:message key="${test.code}"/></option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
             </select>
      </div>
-     <div class="control-group">
-        <label class="control-label" for="selectNiveau">Niveau</label>
+     <div class="control-group">    
+        <label class="control-label" for="selectNiveau"><fmt:message key="accessibility.level" /></label>
             <select name="level" id="selectNiveau" size="1">
-                <option value="" selected="selected">Tous</option>
+                <option value="" selected="selected"><fmt:message key="all" /></option>
                 <c:forEach var="entry" items="${levelByRef}">
                     <optgroup id="${entry.key.code}-level" label="${entry.key.label}">
                         <c:forEach var="level" items="${entry.value}">
-                            <option value="${level.id}">${level.label}</option>
+                            <option value="${level.id}"><fmt:message key="${level.code}"/></option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
             </select>
     </div>
     <div class="control-group">
-        <label class="control-label" for="selectResultat">Résultat</label>
+        <label class="control-label" for="selectResultat"><fmt:message key="result" /></label>
             <select name="result"  id="selectResultat" size="1">
-                <option value="" selected="selected">Tous</option>
+                <option value="" selected="selected"><fmt:message key="all" /></option>
                 <c:forEach var="result" items="${resultList}">
-                    <option value="${result.id}">${result.label}</option>
+                    <option value="${result.id}"><fmt:message key="${result.code}"/></option>
                 </c:forEach>
             </select>
     </div>
     <br />
-    <input type="submit" value="Rechercher" />
+    
+    <c:set var="searchButton"><fmt:message key="testcase.searchButton" /></c:set>
+    
+    <input type="submit" value="searchButton" />
 </form>

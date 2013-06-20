@@ -2,17 +2,24 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html lang="fr">
-    <c:set var="title" value="Edition de l'exemple ${testcase.id}" />
+<html>
+    <c:set var="title">
+        <fmt:message key="testcase.editDetailsTitle" /> ${testcase.id}
+    </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
         <%@include file="/WEB-INF/template/header.jspf" %>
-
+        
+        <c:set var="bcEditDetailsOfExample" scope="page"><fmt:message key="breadcrumb.editDetailsOfExample" /> ${editTestcaseCommand.id}</c:set>
+        <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
+        <c:set target="${breadcrumbTrail}" property="${bcEditDetailsOfExample}" value=""/>
+        
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
 
         <div class="page-header">
-            <h1>Modification de l'exemple <%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
+            <h1><fmt:message key="testcase.editDetailsH1" /><%@include file="/WEB-INF/template/block/testcase-h1.jspf" %></h1>
         </div>
 
         <c:choose>
@@ -37,7 +44,7 @@
                                 </div>
                             </div>.
                             <div class="control-group">
-                                <label class="control-label" for="testcase_result"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> Résultat&nbsp;:</label>
+                                <label class="control-label" for="testcase_result"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> <fmt:message key="result" />&nbsp;:</label>
                                 <div class="controls">
                                     <form:select path="idResult"  id="testcase_result" size="5">
                                         <%@include file="/WEB-INF/template/form/options/result-ids.jspf" %>
@@ -46,14 +53,14 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label for="testcase_description">Description :</label>
+                                <label for="testcase_description"><fmt:message key="description" /> :</label>
                                 <div class="controls">
                                     <form:textarea path="description" id="testcase_description" rows="4" cols="35" />      
                                     <form:errors path="description" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button class="btn btn-primary">Modifier</button>
+                                <button class="btn btn-primary"><fmt:message key="testcase.detailsEdit" /></button>
                             </div>
                         </form:form>
                     </div>

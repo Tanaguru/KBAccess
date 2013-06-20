@@ -1,24 +1,26 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page import="org.opens.kbaccess.entity.authorization.AccessLevelEnumType" %>
 <nav id="menu" class="span2">
     <ul id="menuList">
-        <li><a href="<c:url value='/example/search.html'/>">Rechercher par choix</a></li>
-        <li><a href="<c:url value='/example/search-by-url.html'/>">Rechercher par <abbr title="Uniform Resource Locator">URL</abbr></a></li>
+        <li><a href="<c:url value='/example/search.html'/>"><fmt:message key="menu.searchExamples" /></a></li>
+        <li><a href="<c:url value='/example/search-by-url.html'/>"><fmt:message key="menu.searchExamplesByUrl" /></a></li>
         <c:if test='${authenticatedUser != null and
                       (authenticatedUser.accessLevel.accessLevelEnumType.type == "contrib" or
                        authenticatedUser.accessLevel.accessLevelEnumType.type == "moder" or
                        authenticatedUser.accessLevel.accessLevelEnumType.type == "admin")}'>
 
-        <li class="menu-spacing"><a href="<c:url value='/example/add.html'/>">Ajouter un exemple</a></li>
-        <li><a href="<c:url value='/account/my-examples.html'/>">Mes exemples</a></li>
-        <li><a href="<c:url value='/example/list.html'/>">Voir tous les exemples</a></li>
-        <li class="menu-spacing"><a href="<c:url value='/webarchive/add.html'/>">Ajouter une webarchive</a></li>
-        <li><a href="<c:url value='/account/my-webarchives.html'/>">Mes webarchives</a></li>
-        <li><a href="<c:url value='/webarchive/list.html'/>">Voir toutes les webarchives</a></li>
+        <li class="menu-spacing"><a href="<c:url value='/example/add.html'/>"><fmt:message key="menu.addExample" /></a></li>
+        <li><a href="<c:url value='/account/my-examples.html'/>"><fmt:message key="menu.myExamples" /></a></li>
+        <li><a href="<c:url value='/example/list.html'/>"><fmt:message key="menu.seeAllExamples" /></a></li>
+        <li class="menu-spacing"><a href="<c:url value='/webarchive/add.html'/>"><fmt:message key="menu.addWebarchive" /></a></li>
+        <li><a href="<c:url value='/account/my-webarchives.html'/>"><fmt:message key="menu.myWebarchives" /></a></li>
+        <li><a href="<c:url value='/webarchive/list.html'/>"><fmt:message key="menu.seeAllWebarchives" /></a></li>
         </c:if>
         <c:if test='${authenticatedUser != null and
                       (authenticatedUser.accessLevel.accessLevelEnumType.type == "admin")}'>
-        <li class="menu-spacing"><a href="<c:url value='/admin/users.html'/>">Voir tous les utilisateurs</a></li>
+        <li class="menu-spacing"><a href="<c:url value='/admin/users.html'/>"><fmt:message key="menu.seeAllUsers" /></a></li>
         </c:if>
     </ul>
 </nav>

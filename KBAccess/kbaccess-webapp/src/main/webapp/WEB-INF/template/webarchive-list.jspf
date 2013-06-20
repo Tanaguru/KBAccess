@@ -3,17 +3,17 @@
 
 <c:choose>
     <c:when test="${empty webarchiveList}">
-        <p id="tableTestcases">Aucune webarchive</p>
+        <p id="tableTestcases"><fmt:message key="webarchive.noWebarchive" /></p>
     </c:when>
     <c:otherwise>
         <table summary="Liste de toutes les webarchives" class="table table-strip" id="tableWebarchives">
-            <caption class="data-table-caption">Liste de toutes les webarchives</caption>
+            <caption class="data-table-caption"><fmt:message key="webarchive.listOfAllWebarchives" /></caption>
             <tr>
                 <th scope="col">URL</th>
-                <th scope="col">Date</th>
-                <th scope="col">Portée</th>
-                <th scope="col">Description</th>
-                <th scope="col">Contributeur</th>
+                <th scope="col"><fmt:message key="date" /></th>
+                <th scope="col"><fmt:message key="scope" /></th>
+                <th scope="col"><fmt:message key="description" /></th>
+                <th scope="col"><fmt:message key="contributor" /></th>
             </tr>
             <c:forEach var="webarchive" items="${webarchiveList}">
                 <tr>
@@ -22,7 +22,7 @@
                         title="Lien vers la webarchive du site ${webarchive.url}"
                         >${webarchive.url}</a>
                     </td>
-                    <td><fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${webarchive.creationDate}"/></td>
+                    <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></td>
                     <td>${webarchive.scope}</td>
                     <td>${webarchive.description}</td>
                     <td>

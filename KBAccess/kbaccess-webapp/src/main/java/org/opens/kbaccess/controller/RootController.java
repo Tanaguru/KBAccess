@@ -179,14 +179,15 @@ public class RootController extends AController {
     @RequestMapping("contact")
     public String contactHandler(Model model) {
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Contact");
+        handleBreadcrumbTrail(model);
+        
         return "contact";
     }
 
     @RequestMapping("legal")
     public String legalHandler(Model model) {
         handleUserLoginForm(model);
-        handleBreadcrumbTrail(model, "KBAccess", "/", "Mentions légales");
+        handleBreadcrumbTrail(model);
         return "legal";
     }
     

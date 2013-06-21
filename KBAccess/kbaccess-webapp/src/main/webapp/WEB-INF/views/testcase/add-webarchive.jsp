@@ -27,14 +27,14 @@
                 <form:hidden path="idResult"/>
                 <form:errors path="createWebarchive" cssClass="alert alert-error" element="p"/>
                 <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
-                <div class="control-group">
+                <div id="existing-webarchive-group" class="control-group">
                     <form:radiobutton path="createWebarchive" value="false" id="testcase_existing_webarchive"/>
                     <label class="control-label" for="testcase_existing_webarchive"><fmt:message key="testcase.addWaExisting" /></label>
                     <div class="controls">
                         <div class="control-group">
                             <label class="control-label" for="testcase_idwebarchive"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Webarchive :</label>
                             <div class="controls">
-                                <form:select path="idWebarchive" id="testcase_idwebarchive">
+                                <form:select class="span5" path="idWebarchive" id="testcase_idwebarchive">
                                     <c:forEach var="webarchive" items="${webarchiveList}">
                                         <option value="${webarchive.id}">
                                             ${webarchive.url} : 
@@ -46,21 +46,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="control-group">
+                <div id="create-webarchive-group" class="control-group">
                     <form:radiobutton path="createWebarchive" value="true" id="testcase_create_webarchive"/>
                     <label class="control-label" for="testcase_create_webarchive"><fmt:message key="testcase.addWaCreate" /></label>
                     <div class="controls">
                         <div class="control-group">
                             <label class="control-label" for="webarchive_url"><span class="mandatory" title="Champ obligatoire">*</span>URL :</label>
                             <div class="controls">
-                                <form:input path="urlNewWebarchive" id="webarchive_url"/>
+                                <form:input class="span5" path="urlNewWebarchive" id="webarchive_url"/>
                                 <form:errors path="urlNewWebarchive" cssClass="alert alert-error" element="p"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="webarchive_description"><fmt:message key="description" /> :</label>
                             <div class="controls">
-                                <form:textarea path="descriptionNewWebarchive" id="webarchive_description" rows="4" cols="35"/>
+                                <form:textarea class="span5" path="descriptionNewWebarchive" id="webarchive_description" rows="4" cols="35"/>
                                 <form:errors path="descriptionNewWebarchive" cssClass="alert alert-error" element="p"/>
                             </div>
                         </div>

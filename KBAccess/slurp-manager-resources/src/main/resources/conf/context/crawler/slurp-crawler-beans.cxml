@@ -53,7 +53,6 @@ metadata.description=Basic crawl starting with useful defaults
             <props>
                 <prop key="seeds.textSource.value">
 
-# URLS HERE
 
                 </prop>
             </props>

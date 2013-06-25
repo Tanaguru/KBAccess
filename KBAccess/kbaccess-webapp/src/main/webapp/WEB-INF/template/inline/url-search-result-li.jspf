@@ -8,7 +8,7 @@
             <c:when test="${testcase.resultId == 1}">Passed</c:when>
             <c:when test="${testcase.resultId == 2}">Failed</c:when>
             <c:when test="${testcase.resultId == 3}">Not Applicable</c:when>
-            <c:when test="${testcase.resultId == 4}">Pre-qualified</c:when>
+            <c:when test="${testcase.resultId == 4}">NMI</c:when>
         </c:choose>
     </c:set>
     <a href="<c:url value='${testcase.webarchiveLocalUrl}'/>">${testcase.testCode}-${resultLabel}</a>

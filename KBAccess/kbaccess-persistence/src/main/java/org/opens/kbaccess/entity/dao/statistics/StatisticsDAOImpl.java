@@ -118,7 +118,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
         StringBuilder sb = new StringBuilder();
         Query query;
         List result;
-        List<AccountStatistics> retval = new ArrayList<AccountStatistics>(limit);
+        List<AccountStatistics> retval;
 
         sb.append(
                 "SELECT a.ID_ACCOUNT, COUNT(t.ID_TESTCASE) AS testcaseCount " +
@@ -131,7 +131,14 @@ public class StatisticsDAOImpl implements StatisticsDAO {
         } else {
             sb.append("DESC");
         }
-        sb.append(" LIMIT ").append(limit);
+        
+        if (limit != 0) {
+            sb.append(" LIMIT ").append(limit);
+            retval =  new ArrayList<AccountStatistics>(limit);
+        } else {
+            retval =  new ArrayList<AccountStatistics>();
+        }
+        
         query = entityManager.createNativeQuery(sb.toString());
         //query.setMaxResults(limit);
         result = query.getResultList();

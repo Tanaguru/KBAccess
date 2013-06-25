@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <c:set var="title">
         <fmt:message key="home.pageTitle"/>
     </c:set>
@@ -26,16 +26,25 @@
                 <h2><fmt:message key="statistics"/></h2>
                 <ul id="statistics-list" class="unstyled">
                     <li>
-                        <span id="stat-testcase-count">${statistics.testcaseCount}</span>  <fmt:message key="accessibility.example"/><c:if test="${statistics.testcaseCount > 1}">s</c:if>
+                        <a href="<c:url value='/example/list.html'/>">
+                            <span id="stat-testcase-count">${statistics.testcaseCount}</span>
+                            <fmt:message key="accessibility.example"/><c:if test="${statistics.testcaseCount > 1}">s</c:if>
+                        </a>
                     </li>
                     <li>
-                        <span id="stat-webarchive-count">${statistics.webarchiveCount}</span> Web Archive<c:if test="${statistics.webarchiveCount > 1}">s</c:if>
+                        <a href="<c:url value='/webarchive/list.html'/>">
+                            <span id="stat-webarchive-count">${statistics.webarchiveCount}</span>
+                            &nbsp;Web Archive<c:if test="${statistics.webarchiveCount > 1}">s</c:if>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<c:url value='/account/list.html'/>">
+                            <span id="stat-user-count">${statistics.userCount}</span>
+                            <fmt:message key="contributor"/><c:if test="${statistics.userCount > 1}">s</c:if>
+                        </a>
                     </li>
                     <li>
                         <span id="stat-reference-count">${statistics.frameOfReferenceCount}</span>  <fmt:message key="accessibility.reference"/><c:if test="${statistics.frameOfReferenceCount > 1}">s</c:if>
-                    </li>
-                    <li>
-                        <span id="stat-user-count">${statistics.userCount}</span>  <fmt:message key="contributor"/><c:if test="${statistics.userCount > 1}">s</c:if>
                     </li>
                 </ul>
             </div>

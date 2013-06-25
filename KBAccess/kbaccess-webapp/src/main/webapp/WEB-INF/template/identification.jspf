@@ -5,14 +5,14 @@
 <c:choose>      
     <c:when test="${authenticatedUser == null}">
         <ul class="nav pull-right">        
-            <li><a href="<c:url value='/guest/subscribe.html'/>"><fmt:message key="identification.signUp" /></a></li>
-            <li><a href="<c:url value='/guest/login.html'/>"><fmt:message key="identification.signIn" /></a></li>
+            <li><a class="header-link" href="<c:url value='/guest/subscribe.html'/>"><fmt:message key="identification.signUp" /></a></li>
+            <li><a class="header-link" href="<c:url value='/guest/login.html'/>"><fmt:message key="identification.signIn" /></a></li>
         </ul>
     </c:when>
     <c:otherwise>
         <ul class="nav pull-right">
             <li>
-                <a href="<c:url value='/account/my-account.html'/>" title="mon compte">
+                <a  class="header-link" href="<c:url value='/account/my-account.html'/>">
                    <fmt:message key="identification.myAccount" />
                 </a>
             </li>

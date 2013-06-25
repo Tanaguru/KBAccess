@@ -2,7 +2,7 @@
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <c:set var="title">
 	<fmt:message key="admin.usersTitle" />
     </c:set>

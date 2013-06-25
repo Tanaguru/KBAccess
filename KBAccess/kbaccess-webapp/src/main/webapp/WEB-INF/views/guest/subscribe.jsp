@@ -4,7 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <c:set var="title">
 	<fmt:message key="guest.subscribeTitle" />
     </c:set>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="subscription_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> <fmt:message key="password" />:</label>
+                            <label class="control-label" for="subscription_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> <fmt:message key="password" /> :</label>
                             <div class="controls">
                                 <form:password path="password" id="subscription_password" cssErrorClass="validation-error"/>
                                 <form:errors path="password" cssClass="alert alert-error" element="span"/>

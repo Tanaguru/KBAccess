@@ -347,7 +347,10 @@ public class TestcaseController extends AMailerController {
         if (webarchive == null) {
             // most of the time, if the webarchive is null, it means its creation
             // fails.
-            testcaseCommand.setGeneralErrorMessage("Unable to create the webarchive.");
+            model.addAttribute(
+                    FormKeyStore.GENERAL_ERROR_MESSAGE_KEY,
+                    MessageKeyStore.CANNOT_CREATE_WEBARCHIVE
+                    );
             // return to the second step
             return displayAttachWebarchiveForm(model, testcaseCommand);
         }

@@ -169,7 +169,7 @@ INSERT IGNORE INTO `criterion` (`ID_CRITERION`, `CD_CRITERION`, `DESCRIPTION`, `
 --
 -- Contenu de la table `level`
 --
-INSERT INTO IGNORE `level` (`ID_LEVEL`, `CD_LEVEL`, `DESCRIPTION`, `LABEL`, `PRIORITY`) VALUES
+INSERT IGNORE INTO `level` (`ID_LEVEL`, `CD_LEVEL`, `DESCRIPTION`, `LABEL`, `PRIORITY`) VALUES
 (1, 'AW21-Bronze', NULL, 'Bronze', 10),
 (2, 'AW21-Silver', NULL, 'Argent', 11),
 (3, 'AW21-Gold', NULL, 'Or', 12);
@@ -184,7 +184,7 @@ INSERT IGNORE INTO `reference` (`ID_REFERENCE`, `CD_REFERENCE`, `CD_CRITERION_LE
 --
 -- Contenu de la table `result`
 --
-INSERT INTO IGNORE `result` (`ID_RESULT`, `CD_RESULT`, `DESCRIPTION`, `LABEL`, `PRIORITY`) VALUES
+INSERT IGNORE INTO `result` (`ID_RESULT`, `CD_RESULT`, `DESCRIPTION`, `LABEL`, `PRIORITY`) VALUES
 (1, 'passed', NULL, 'Validé', 1),
 (2, 'failed', NULL, 'Invalidé', 2),
 (3, 'na', NULL, 'NA', 3),
@@ -193,7 +193,7 @@ INSERT INTO IGNORE `result` (`ID_RESULT`, `CD_RESULT`, `DESCRIPTION`, `LABEL`, `
 --
 -- Contenu de la table `test`
 --
-INSERT INTO `test` (`ID_TEST`, `CD_TEST`, `DESCRIPTION`, `LABEL`, `PRIORITY`, `URL`, `ID_CRITERION`) VALUES
+INSERT IGNORE INTO `test` (`ID_TEST`, `CD_TEST`, `DESCRIPTION`, `LABEL`, `PRIORITY`, `URL`, `ID_CRITERION`) VALUES
 (1, 'AW21-01011', 'Chaque image (balise img) a-t-elle un attribut alt ?', '1.1.1', 1, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-1-1-1', 1),
 (2, 'AW21-01012', 'Chaque zone (balise area) d''une image réactive a-t-elle un attribut alt ?', '1.1.2', 2, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-1-1-2', 1),
 (3, 'AW21-01013', 'Chaque bouton de formulaire (balise input avec l''attribut type="image") a-t-il un attribut alt ?', '1.1.3', 3, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-1-1-3', 1),
@@ -349,7 +349,7 @@ INSERT INTO `test` (`ID_TEST`, `CD_TEST`, `DESCRIPTION`, `LABEL`, `PRIORITY`, `U
 (153, 'AW21-07041', 'Chaque script qui génère ou contrôle un composant d''interface vérifie-t-il, si nécessaire, une de ces conditions ?\n* Le nom, le rôle, la valeur, le paramétrage et les changements d''états sont accessibles aux technologies d''assistance via une API d''accessi', '7.4.1', 153, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-7-4-1', 55),
 (154, 'AW21-07042', 'Chaque fonctionnalité d''insertion de contenu contrôlé par un script utilise-t-elle, si possible, des propriétés et méthodes conformes à la spécification DOM (Document Object Model) ?', '7.4.2', 154, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-7-4-2', 55),
 (155, 'AW21-07051', 'Chaque script qui initie un changement de contexte vérifie-t-il une de ces conditions ?\n* L''utilisateur est averti par un texte de l''action du script et du type de changement avant son déclenchement\n* Le changement de contexte est initié par un bouton (in', '7.5.1', 155, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-7-5-1', 56);
-INSERT INTO `test` (`ID_TEST`, `CD_TEST`, `DESCRIPTION`, `LABEL`, `PRIORITY`, `URL`, `ID_CRITERION`) VALUES
+INSERT IGNORE INTO `test` (`ID_TEST`, `CD_TEST`, `DESCRIPTION`, `LABEL`, `PRIORITY`, `URL`, `ID_CRITERION`) VALUES
 (156, 'AW21-07061', 'Chaque script qui provoque une alerte non sollicitée est-il contrôlable par l''utilisateur (hors cas particuliers) ?', '7.6.1', 156, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-7-6-1', 57),
 (157, 'AW21-08011', 'Pour chaque page Web, le type de document (balise doctype) est-il présent ?', '8.1.1', 157, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-8-1-1', 58),
 (158, 'AW21-08012', 'Pour chaque page Web, le type de document (balise doctype) est-il valide ?', '8.1.2', 158, 'http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-8-1-2', 58),
@@ -1440,6 +1440,8 @@ INSERT IGNORE INTO `theme` (`ID_THEME`, `CD_THEME`, `DESCRIPTION`, `LABEL`, `PRI
 (11, 'AW21-11', NULL, 'Formulaires', 11),
 (12, 'AW21-12', NULL, 'Navigation', 12),
 (13, 'AW21-13', NULL, 'Consultation', 13);
+
+
 SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

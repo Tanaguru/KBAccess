@@ -7,12 +7,12 @@
 <div class="container">
     <div class="row">
         <p style="text-align: center">
-            <a href="http://www.tanaguru.com"><fmt:message key="footer.testWithTanaguru" /></a>
-            &dash; <a href="<c:url value='/legal.html'/>"><fmt:message key="footer.legalNotice" /></a>
+            KBAccess 2.1  &dash; <a href="<c:url value='/legal.html'/>"><fmt:message key="footer.legalNotice" /></a>
             &dash; <a href="<c:url value='/contact.html'/>"><fmt:message key="footer.contactUs" /></a>
             <br/>
             <c:set var="company"><fmt:message key="footer.company" /></c:set>
-            KBAccess 2.1 &dash; &copy; <a href="http://www.Open-S.com" title="${company}">Open-S</a> 2013-2014
+            <a href="http://www.tanaguru.com"><fmt:message key="footer.testWithTanaguru" /></a>
+            &dash; &copy; <a href="http://www.Open-S.com" title="${company}">Open-S</a> 2013-2014
         </p>
     </div>
 </div>

@@ -21,6 +21,10 @@
  */
 package org.opens.kbaccess.controller;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.command.ChangePasswordCommand;
@@ -28,7 +32,9 @@ import org.opens.kbaccess.command.NewPasswordCommand;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
+import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
@@ -58,6 +64,10 @@ public class AccountController extends AController {
     
     @Autowired
     private WebarchiveDataService webarchiveDataService;
+    
+    
+    @Autowired
+    private StatisticsDataService statisticsDataService;
     
     /*
      * Private methods
@@ -347,6 +357,32 @@ public class AccountController extends AController {
         model.addAttribute("successMessage", MessageKeyStore.PASSWORD_CHANGED);
         
         return displayNewPasswordForm(model, newPasswordCommand);        
+    }
+    
+    @RequestMapping(value="list", method=RequestMethod.GET)
+    public String newPasswordHandler(
+            Model model
+            ) {    
+        Collection<AccountStatistics> contributorsStatistics;
+        List<AccountPresentation> contributors = new ArrayList<AccountPresentation>();
+        
+        handleUserLoginForm(model);
+        handleBreadcrumbTrail(model);
+        
+        // fetch contributors
+        contributorsStatistics = statisticsDataService.getAccountOrderByTestcaseCount(false, 0);
+        
+        // Generate a displayable name for most active contributors
+        for (Iterator it = contributorsStatistics.iterator(); it.hasNext();) {
+            AccountStatistics accountStatistics = (AccountStatistics) it.next();
+            Account account = accountDataService.read(accountStatistics.getId());
+            
+            contributors.add(new AccountPresentation(account, accountDataService));
+        }
+        
+        model.addAttribute("contributors", contributors);
+        
+        return "account/list";
     }
     
     /*

@@ -72,7 +72,10 @@
                 ${testcase.description}
             </display:column>--%>
             <display:column title="${contributorColumn}" headerClass="authorDisplayedNameCol" headerScope="col">
-                <a href="<c:url value='/account/details/${testcase.authorId}/profile.html'/>">${testcase.authorDisplayedName}</a>
+                <a href="<c:url value='/account/details/${testcase.authorId}/profile.html'/>"
+                   title="<fmt:message key="account.profileOfUser" /> ${testcase.authorDisplayedName}">
+                    ${testcase.authorDisplayedName}
+                </a>
             </display:column>
             <%--<c:set var="hasCRUDPermission"
                         value="${authenticatedUser.id == testcase.authorId

@@ -9,14 +9,14 @@
 
 <nav id="menu" class="span2">
     <ul id="menuList">
+        <li><a href="<c:url value='/example/list.html'/>"><fmt:message key="menu.seeAllExamples" /></a></li>
         <li><a href="<c:url value='/example/search.html'/>"><fmt:message key="menu.searchExamples" /></a></li>
-        <li><a href="<c:url value='/example/search-by-url.html'/>"><fmt:message key="menu.searchExamplesByUrl" /></a></li>
+        <%--<li><a href="<c:url value='/example/search-by-url.html'/>"><fmt:message key="menu.searchExamplesByUrl" /></a></li>--%>
         
         <c:choose>
             <c:when test='${notGuest}'>
                 <li class="menu-spacing"><a href="<c:url value='/example/add.html'/>"><fmt:message key="menu.addExample" /></a></li>
                 <li><a href="<c:url value='/account/my-examples.html'/>"><fmt:message key="menu.myExamples" /></a></li>
-                <li><a href="<c:url value='/example/list.html'/>"><fmt:message key="menu.seeAllExamples" /></a></li>
 
                 <li class="menu-spacing"><a href="<c:url value='/webarchive/add.html'/>"><fmt:message key="menu.addWebarchive" /></a></li>
                 <li><a href="<c:url value='/account/my-webarchives.html'/>"><fmt:message key="menu.myWebarchives" /></a></li>
@@ -28,7 +28,6 @@
                 </c:if>
             </c:when>
             <c:otherwise>
-                <li><a href="<c:url value='/example/list.html'/>"><fmt:message key="menu.seeAllExamples" /></a></li>
             </c:otherwise>
         </c:choose>
     </ul>

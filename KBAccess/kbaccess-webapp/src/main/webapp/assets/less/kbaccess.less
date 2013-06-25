@@ -21,6 +21,10 @@ body {
     color: red;
 }
 
+#hd .header-link:hover {
+    text-decoration : underline;
+}
+
 #subscribe-form .validation-error {
     box-shadow : 0px 0px 2px red;
 }
@@ -170,6 +174,7 @@ body {
     text-align : center;
 }
 
+
 /* Display tag */
 .page-links {
     margin-bottom : 20px;
@@ -183,6 +188,8 @@ body {
 .pagination-next {
     margin-left : 15px;
 }
+/* end Display tag */
+
 
 .bold {
     font-family : @fontFamilyBold;
@@ -196,6 +203,20 @@ body {
     list-style-type : none;
     padding : 0px;
     margin : 0px;
+}
+
+#existing-webarchive-group .control-label, #create-webarchive-group .control-label {
+    display : inline;
+    margin-bottom : 0px;
+    margin-left : 10px;
+}
+
+#existing-webarchive-group .controls, #create-webarchive-group .controls {
+    margin-top : 20px;
+}
+
+#existing-webarchive-group .controls .control-group, #create-webarchive-group .controls .control-group {
+    margin-left : 20px;
 }
 
 /* Override boostrap */ 

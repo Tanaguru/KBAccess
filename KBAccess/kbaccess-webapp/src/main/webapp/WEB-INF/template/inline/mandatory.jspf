@@ -1,2 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-<abbr title="Champ obligatoire" class="mandatory">*</abbr>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set var="mandatoryFieldAlt" scope="page"><fmt:message key="mandatoryField" /></c:set>
+<abbr title="${mandatoryFieldAlt}" class="mandatory">*</abbr>

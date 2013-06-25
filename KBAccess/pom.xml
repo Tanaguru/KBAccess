@@ -15,6 +15,7 @@
         <module>kbaccess-impl-authorization</module>
         <module>kbaccess-impl-subject</module>
         <module>kbaccess-impl-reference</module>
+        <module>kbaccess-webarchive-loader</module>
         <module>kbaccess-webapp</module>
         <module>kbaccess-i18n</module>
         <module>kbaccess-resources</module>

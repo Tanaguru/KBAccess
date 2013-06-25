@@ -8,13 +8,15 @@
 <c:set var='snapshotService' value='http://api.webthumbnail.org/?format=png&width=270&height=170&screen=1024&url='/>
 <c:choose>
     <c:when test="${testcaseList == null or empty testcaseList}">
-        <p class="alert alert-info">Aucun exemple.</p>
+        <p class="alert alert-info"><fmt:message key="testcase.noTestcase" /></p>
     </c:when>
     <c:otherwise>
         <c:set var="nbTestcases" value="${fn:length(testcaseList)}"/>
         
         <c:if test="${isHome == true}">
-            <c:set var="tableCaption" value="Les 5 derniers exemples d'accesibilité" />
+            <c:set var="tableCaption">
+                <fmt:message key="testcase.last5Testcases" />
+            </c:set>
         </c:if>
         <c:if test="${isHome == null || isHome == false}">
             <c:set var="tableCaption" value="${testcaseListTitle}" />
@@ -34,34 +36,46 @@
                 <display:setProperty name="paging.banner.placement" value="top" />
             </c:if>
             
-            <display:column title="Exemple" headerClass="webarchiveLocalUrlCol" class="screenshot" headerScope="col">
-                <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>" title="Détails de l'exemple ${testcase.id}">
+            <c:set var="exampleColumn"><fmt:message key="accessibility.example" /></c:set>
+            <c:set var="originalPageColumn"><fmt:message key="testcase.originalPage" /></c:set>
+            <c:set var="accessibilityTestColumn"><fmt:message key="testcase.accessibilityTest" /></c:set>
+            <c:set var="resultColumn"><fmt:message key="result" /></c:set>
+            <c:set var="dateColumn"><fmt:message key="testcase.date" /></c:set>
+            <c:set var="contributorColumn"><fmt:message key="contributor" /></c:set>
+            
+            <display:column title="${exampleColumn}" headerClass="webarchiveLocalUrlCol" class="screenshot" headerScope="col">
+                <c:set var="detailsAlt" scope="page"><fmt:message key="testcase.detailsOfTestcase" /></c:set>
+                <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>" title="${detailsAlt} ${testcase.id}">
                     <img src="${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
                 </a>
             </display:column>
-            <display:column title="Page d'origine" headerClass="webarchiveOriginalUrlCol" headerScope="col">
+            <display:column title="${originalPageColumn}" headerClass="webarchiveOriginalUrlCol" headerScope="col">
                 <a href="${testcase.webarchiveOriginalUrl}">
                     ${testcase.webarchiveOriginalUrl}
                 </a>
             </display:column>    
-            <display:column title="Test d'accessibilité" headerClass="testResultLabelCol" headerScope="col">
-                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="référence du test ${testcase.testResultLabel}">${testcase.testResultLabel}</a>    
+            <display:column title="${accessibilityTestColumn}" headerClass="testResultLabelCol" headerScope="col">
+                <c:set var="referenceAlt" scope="page"><fmt:message key="testcase.referenceOfTest" /></c:set>
+                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="${referenceAlt} ${testcase.testResultLabel}">${testcase.testResultLabel}</a>    
                 <abbr class="reference-abbr" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
             </display:column>
-            <display:column title="Résultat" headerClass="resultCodeCol" class="resultCodeRow" headerScope="col">
+            <display:column title="${resultColumn}" headerClass="resultCodeCol" class="resultCodeRow" headerScope="col">
                 <c:set var='resultId' value='${testcase.resultId}'/>
                 <c:set var='withAccents' value='true' />
                 <c:set var="pictoSize" value="m"/>
                 <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
             </display:column>
-            <display:column title="Date de l'exemple" headerClass="creationDateCol" headerScope="col">
+            <display:column title="${dateColumn}" headerClass="creationDateCol" headerScope="col">
                 <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${testcase.creationDate}"/>
             </display:column>
             <%--<display:column title="Description" headerClass="descriptionCol" headerScope="col">
                 ${testcase.description}
             </display:column>--%>
-            <display:column title="Contributeur" headerClass="authorDisplayedNameCol" headerScope="col">
-                <a href="<c:url value='/account/details/${testcase.authorId}/profile.html'/>">${testcase.authorDisplayedName}</a>
+            <display:column title="${contributorColumn}" headerClass="authorDisplayedNameCol" headerScope="col">
+                <a href="<c:url value='/account/details/${testcase.authorId}/profile.html'/>"
+                   title="<fmt:message key="account.profileOfUser" /> ${testcase.authorDisplayedName}">
+                    ${testcase.authorDisplayedName}
+                </a>
             </display:column>
             <%--<c:set var="hasCRUDPermission"
                         value="${authenticatedUser.id == testcase.authorId

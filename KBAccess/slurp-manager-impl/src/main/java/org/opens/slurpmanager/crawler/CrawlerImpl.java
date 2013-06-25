@@ -135,7 +135,7 @@ public class CrawlerImpl implements Crawler {
 
     public void setDeleteContext(boolean deleteContext) {
         this.deleteContext = deleteContext;
-    }
+    }   
     
     private Date currentDate;
     @Override

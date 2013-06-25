@@ -422,12 +422,12 @@ public class scenario1Test {
         selenium.click("xpath=//div[@class='span10']/div[2]/form/input");
         Thread.sleep(3000);
         selenium.click("link=Recherche d'exemples");
-        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[1]/select", "value=12");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[2]/select", "value=11");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[3]/select", "value=11");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[4]/select", "value=11");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[5]/select", "value=11");
-        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[6]/select", "value=13");
+        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[1]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[2]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[3]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[4]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[5]/select", "value=1");
+        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[6]/select", "value=3");
         selenium.click("xpath=//div[@class='span10']/div[2]/form/input");
         Thread.sleep(3000);
         selenium.click("id=brand-name");

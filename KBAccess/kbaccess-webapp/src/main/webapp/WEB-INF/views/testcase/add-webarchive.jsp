@@ -22,6 +22,11 @@
         <h1 class="page-header"><fmt:message key="testcase.addWaH1" /></h1>
         <div class="row-fluid">
             <form:form commandName="newTestcaseCommand" action="add-finalize.html" method="POST">
+                <c:if test="${generalErrorMessage != null}">
+                    <p class="alert alert-error">
+                        <fmt:message key="${generalErrorMessage}" />
+                    </p>
+                </c:if>
                 <form:hidden path="description"/>
                 <form:hidden path="idTest"/>
                 <form:hidden path="idResult"/>

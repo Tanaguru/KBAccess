@@ -9,12 +9,16 @@
     <h2><fmt:message key="account.detailsInfos"/></h2>
     <ul class="unstyled">
         <li>
-            <a href="<c:url value='/example/list.html?account=${account.id}'/>">
-                ${account.nbCreatedTestcases} <fmt:message key="accessibility.example"/><c:if test="${account.nbCreatedTestcases > 1}">s</c:if>
+            <c:set var="example" scope="page">
+                <fmt:message key="accessibility.example"/><c:if test="${account.nbCreatedTestcases > 1}">s</c:if>
+            </c:set>
+            <a href="<c:url value='/example/list.html?account=${account.id}'/>"
+               title="${account.nbCreatedTestcases} ${example} <fmt:message key="from"/> ${account.displayedName}">
+                ${account.nbCreatedTestcases} ${example}
             </a>    
         </li>
         <li>${account.nbCreatedWebarchives} webarchive<c:if test="${account.nbCreatedWebarchives > 1}">s</c:if></li>
-        <li><fmt:message key="account.detailsSignedUpThe"/> <fmt:formatDate pattern="dd/MM/yyyy" value="${account.subscriptionDate}"/></li>
+        <li><fmt:message key="account.detailsSignedUpThe"/> <fmt:formatDate dateStyle="short" value="${account.subscriptionDate}"/></li>
         <li><a href="${account.myUrl}">${account.myUrl}</a></li>
     </ul>
 </div>

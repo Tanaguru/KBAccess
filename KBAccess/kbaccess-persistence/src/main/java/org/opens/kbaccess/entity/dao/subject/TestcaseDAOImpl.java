@@ -67,7 +67,7 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         
         try {
             Query query = selectTestcases("WHERE tc.account = :account"
-                    + " ORDER BY tc.criterion asc, tc.result asc, tc.creationDate asc");
+                    + " ORDER BY tc.creationDate desc");
             query.setParameter("account", account);
           
             result = query.getResultList();

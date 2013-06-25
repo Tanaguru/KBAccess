@@ -5,7 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <c:set var="testcaseUrl">
         <%@include file="/WEB-INF/template/inline/testcase-url.jspf" %>
     </c:set>
@@ -66,7 +66,7 @@
                             <a href="${testcase.webarchiveLocalUrl}" rel="nofollow">
                                 <fmt:message key="testcase.detailsArchiveOf" /> ${testcase.webarchiveOriginalUrl}
                             </a>
-                            <fmt:message key="testcase.detailsDateOf" /> <fmt:formatDate pattern="dd/MM/yyyy k'h'mm" value="${testcase.webarchiveCreationDate}"/>
+                                <fmt:message key="testcase.detailsDateOf" /> <fmt:formatDate dateStyle="short" timeStyle="short" value="${testcase.webarchiveCreationDate}"/>
                            <%-- <a href="${testcase.webarchiveOriginalUrl}" title="${testcase.webarchiveOriginalUrl}">
                                 <img id="originalUrl-link-img" src="<c:url value='/assets/images/window-duplicate.png'/>" alt="${testcase.webarchiveOriginalUrl}"/>
                             </a>--%>
@@ -141,7 +141,7 @@
                         </li>
                         <li>
                             <a href="<c:url value='/example/list.html?criterion=${testcase.criterionId}'/>">
-                                <fmt:message key="testcase.detailsAllExamplesOn" /> Critère ${testcase.criterionLabel}
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="accessibility.criterion" /> ${testcase.criterionLabel}
                             </a>     
                         </li>
                         <c:forEach var="testResult" items="${testcase.testResults}">
@@ -154,7 +154,7 @@
                             </c:choose>
                             <li>
                                 <a href="<c:url value='/example/list.html?test=${testResult.testId}'/>">
-                                    <fmt:message key="testcase.detailsAllExamplesOn" /> Test ${testResult.testLabel}
+                                    <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="accessibility.test" /> ${testResult.testLabel}
                                 </a>
                             </li>
                         </c:forEach>

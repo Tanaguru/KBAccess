@@ -4,7 +4,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <c:set var="title">
 	<fmt:message key="account.detailsTitle" /> ${account.id}
     </c:set>

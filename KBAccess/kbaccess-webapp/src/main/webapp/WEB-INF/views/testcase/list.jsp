@@ -20,7 +20,7 @@
             <c:set var="bcSearchTestcases"><fmt:message key="breadcrumb.searchExamples"/></c:set>
             <c:set var="bcAllTestcases"><fmt:message key="testcase.searchAllTestcasesTitle"/></c:set>
             <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
-            <c:set target="${breadcrumbTrail}" property="${bcSearchTestcases}" value="/example/search.html"/>/>
+            <c:set target="${breadcrumbTrail}" property="${bcSearchTestcases}" value="/example/search.html"/>
             <c:set target="${breadcrumbTrail}" property="${bcAllTestcases}" value=""/>
         </c:when>
             
@@ -74,7 +74,7 @@
             <%-- breadcrumb --%>
             <c:set var="bcSearchTestcases"><fmt:message key="breadcrumb.searchExamples"/></c:set>
             <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
-            <c:set target="${breadcrumbTrail}" property="${bcSearchTestcases}" value="/example/search.html"/>/>
+            <c:set target="${breadcrumbTrail}" property="${bcSearchTestcases}" value="/example/search.html"/>
             <c:set target="${breadcrumbTrail}" property="${searchParametersList}" value=""/>
         </c:otherwise> 
     </c:choose>

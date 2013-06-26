@@ -1,5 +1,5 @@
 --------------------------
-KBAccess 2.0-RC1, 2013-05-23
+KBAccess 2.0, 2013-05-23
 --------------------------
 
 - Project refactoring
@@ -11,3 +11,13 @@ KBAccess 2.0-RC1, 2013-05-23
 - Clean URLs for SEO purposes
 
 https://github.com/Tanaguru/KBAccess/issues?milestone=1&state=closed
+
+--------------------------
+KBAccess 2.1, 2013-06-26
+--------------------------
+
+- Internationalization (english, french)
+- Addition of a contributors page with number of examples created
+- Mail management are now case insensitive
+
+https://github.com/Tanaguru/KBAccess/issues?milestone=3&page=1&state=closed

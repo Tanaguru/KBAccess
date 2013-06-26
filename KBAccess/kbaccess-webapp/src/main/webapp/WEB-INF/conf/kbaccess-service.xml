@@ -15,7 +15,11 @@
        http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd">
     
     <bean id="exposedPropertiesConfigurer" class="org.opens.tgol.util.webapp.ExposablePropertyPlaceholderConfigurer">
-        <property name="location" value="file:///etc/kbaccess/kbaccess.conf"/>
+            <property name="location" value="file:///etc/kbaccess/kbaccess.conf"/>
+    </bean>
+    
+    <bean id="googleAnayticsPropertiesConfigurer" class="org.opens.tgol.util.webapp.ExposablePropertyPlaceholderConfigurer">
+            <property name="location" value="file:///etc/kbaccess/google-analytics.properties"/>
     </bean>
 
     <import resource="beans-persistence.xml"/>

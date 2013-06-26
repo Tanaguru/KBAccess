@@ -16,7 +16,7 @@ https://github.com/Tanaguru/KBAccess/issues?milestone=1&state=closed
 KBAccess 2.1, 2013-06-26
 --------------------------
 
-- Internationalization (en,fr)
+- Internationalization (english, french)
 - Addition of a contributors page with number of examples created
 - Mail management are now case insensitive
 

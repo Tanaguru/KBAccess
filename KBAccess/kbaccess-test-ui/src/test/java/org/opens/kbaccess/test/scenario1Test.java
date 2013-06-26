@@ -2,12 +2,14 @@ package org.opens.kbaccess.test;
 
 import org.opens.kbaccess.test.utils.SHA1Hasher;
 import com.thoughtworks.selenium.DefaultSelenium;
+import com.thoughtworks.selenium.SeleniumException;
 import java.io.File;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -117,7 +119,6 @@ public class scenario1Test {
             ffBinary.setEnvironmentProperty("DISPLAY", xvfbDisplay);
         }
         driver = new FirefoxDriver(ffBinary, new FirefoxProfile());
-       
         selenium = new WebDriverBackedSelenium(driver, hostLocation);
     }
     
@@ -141,6 +142,7 @@ public class scenario1Test {
     public void testScenario1() throws Exception {
         selenium.open(hostBaseUrl);
         selenium.waitForPageToLoad("60000");
+        
         selenium.click("link=S'inscrire");
         selenium.type("id=subscription_email", kbaUser);
         selenium.type("id=subscription_password", kbaPassword);
@@ -288,7 +290,7 @@ public class scenario1Test {
             Logger.getLogger(scenario1Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        selenium.goBack();
+        selenium.open(hostBaseUrl);
         selenium.waitForPageToLoad("60000");
         selenium.click("link=Mes webarchives");
         try {

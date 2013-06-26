@@ -12,13 +12,13 @@
                 
                 
                 
-                <hostLocation>http://localhost:8080/</hostLocation>
+                <hostLocation>http://localhost:8080</hostLocation>
                 
                 
                 
                 
                 
-                <hostBaseUrl>/kbaccess-webapp-2.0-RC1/</hostBaseUrl>
+                <hostBaseUrl>/kbaccess-webapp-2.1-SNAPSHOT/</hostBaseUrl>
                 <dbUrl>jdbc:mysql://localhost:3306/migrate_20</dbUrl>
                 <dbUser>kbaccess</dbUser>
                 <dbPassword>kb4cc3ss</dbPassword>

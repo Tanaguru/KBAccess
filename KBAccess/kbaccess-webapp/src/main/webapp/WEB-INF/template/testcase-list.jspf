@@ -44,9 +44,20 @@
             <c:set var="contributorColumn"><fmt:message key="contributor" /></c:set>
             
             <display:column title="${exampleColumn}" headerClass="webarchiveLocalUrlCol" class="screenshot" headerScope="col">
+                <c:set var="snapshotUrl">
+                    <c:choose>
+                        <c:when test="${configProperties['snapshotServiceUrl'] == null}">
+                            <c:url value='/assets/images/snapshot-not-available.png'/>
+                        </c:when>
+                        <c:otherwise>
+                            ${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}
+                        </c:otherwise>
+                    </c:choose>
+                </c:set>
+                
                 <c:set var="detailsAlt" scope="page"><fmt:message key="testcase.detailsOfTestcase" /></c:set>
                 <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>" title="${detailsAlt} ${testcase.id}">
-                    <img src="${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
+                    <img src="${snapshotUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
                 </a>
             </display:column>
             <display:column title="${originalPageColumn}" headerClass="webarchiveOriginalUrlCol" headerScope="col">

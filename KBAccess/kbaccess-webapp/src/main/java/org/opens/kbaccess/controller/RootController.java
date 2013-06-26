@@ -102,11 +102,11 @@ public class RootController extends AController {
                 model.addAttribute("codeResult", codeResult);
 
                 if (codeResult.equals("Passed")) {
-                    codeResult = "Validé";
+                    codeResult = "passed";
                 }
 
                 if (codeResult.equals("Failed")) {
-                    codeResult = "Invalidé";
+                    codeResult = "failed";
                 }
 
                 result = resultDataService.getByCode(codeResult);

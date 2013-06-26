@@ -2,12 +2,14 @@ package org.opens.kbaccess.test;
 
 import org.opens.kbaccess.test.utils.SHA1Hasher;
 import com.thoughtworks.selenium.DefaultSelenium;
+import com.thoughtworks.selenium.SeleniumException;
 import java.io.File;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp.BasicDataSource;
@@ -117,7 +119,6 @@ public class scenario1Test {
             ffBinary.setEnvironmentProperty("DISPLAY", xvfbDisplay);
         }
         driver = new FirefoxDriver(ffBinary, new FirefoxProfile());
-       
         selenium = new WebDriverBackedSelenium(driver, hostLocation);
     }
     
@@ -141,6 +142,7 @@ public class scenario1Test {
     public void testScenario1() throws Exception {
         selenium.open(hostBaseUrl);
         selenium.waitForPageToLoad("60000");
+        
         selenium.click("link=S'inscrire");
         selenium.type("id=subscription_email", kbaUser);
         selenium.type("id=subscription_password", kbaPassword);
@@ -261,7 +263,7 @@ public class scenario1Test {
         }
         
         selenium.click("link=Supprimer");
-        selenium.click("xpath=//form[@id='deleteTestcaseCommand']//button[.='Confirmer']");
+        selenium.click("xpath=//form[@id='deleteTestcaseCommand']//button[.='Supprimer']");
         try {
             Thread.sleep(3000);
         } catch (InterruptedException ex) {
@@ -288,7 +290,7 @@ public class scenario1Test {
             Logger.getLogger(scenario1Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        selenium.goBack();
+        selenium.open(hostBaseUrl);
         selenium.waitForPageToLoad("60000");
         selenium.click("link=Mes webarchives");
         try {
@@ -297,7 +299,7 @@ public class scenario1Test {
             Logger.getLogger(scenario1Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[2]/li[2]/a/img");
+        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[3]/li[2]/a/img");
     }
     
     @Test
@@ -326,11 +328,11 @@ public class scenario1Test {
         selenium.type("id=account_password_confirmation", kbaNewPassword);
         selenium.click("xpath=//div[@class='form-actions']//button[.='Changer le mot de passe']");
         Thread.sleep(3000);
-        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[2]/li[2]/a/img");
+        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[3]/li[2]/a/img");
         selenium.type("id=login_email", kbaUser);
         selenium.type("id=login_password", kbaNewPassword);
         selenium.click("xpath=//div[@class='form-actions']//button[.='Connexion']");
-//        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[2]/li[2]/a/img");
+//        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[3]/li[2]/a/img");
 //        selenium.click("link=Mot de passe oublié ?");
 //        selenium.type("id=password_lost_email", "test@test.Fr");
 //        selenium.click("xpath=//div[@class='form-actions']//button[.='Envoyer']");
@@ -349,7 +351,7 @@ public class scenario1Test {
 //        selenium.type("id=login_email", kbaUser);
 //        selenium.type("id=login_password", kbaPassword);
 //        selenium.click("xpath=//div[@class='form-actions']//button[.='Connexion']");
-        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[2]/li[2]/a/img");
+        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[3]/li[2]/a/img");
     }
     
     @Test
@@ -380,9 +382,9 @@ public class scenario1Test {
         selenium.click("xpath=//div[@class='form-actions']//button[.='Modifier']");
         Thread.sleep(3000);
         selenium.click("link=Supprimer");
-        selenium.click("xpath=//form[@id='deleteTestcaseCommand']//button[.='Confirmer']");
+        selenium.click("xpath=//form[@id='deleteTestcaseCommand']//button[.='Supprimer']");
         Thread.sleep(2000);
-        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[2]/li[2]/a/img");
+        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[3]/li[2]/a/img");
         selenium.type("id=login_email", "moder@kbaccess.org");
         selenium.type("id=login_password", "moder");
         selenium.click("xpath=//div[@class='form-actions']//button[.='Connexion']");
@@ -395,7 +397,7 @@ public class scenario1Test {
         selenium.click("xpath=//div[@class='form-actions']//button[.='Modifier']");
         Thread.sleep(3000);
         selenium.click("link=Supprimer");
-        selenium.click("xpath=//form[@id='deleteTestcaseCommand']//button[.='Confirmer']");
+        selenium.click("xpath=//form[@id='deleteTestcaseCommand']//button[.='Supprimer']");
         Thread.sleep(2000);
         selenium.open(hostBaseUrl + "kba/AW21/1.1.1/");
         selenium.waitForPageToLoad("60000");
@@ -408,7 +410,7 @@ public class scenario1Test {
         Thread.sleep(3000);
         selenium.open(hostBaseUrl);
         selenium.waitForPageToLoad("60000");
-        selenium.click("link=Rechercher par choix");
+        selenium.click("link=Rechercher");
         selenium.click("xpath=//div[@class='span10']/div[2]/form/input");
         Thread.sleep(5000);
         selenium.click("link=Recherche d'exemples");
@@ -422,12 +424,12 @@ public class scenario1Test {
         selenium.click("xpath=//div[@class='span10']/div[2]/form/input");
         Thread.sleep(3000);
         selenium.click("link=Recherche d'exemples");
-        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[1]/select", "value=12");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[2]/select", "value=11");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[3]/select", "value=11");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[4]/select", "value=11");
-        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[5]/select", "value=11");
-        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[6]/select", "value=13");
+        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[1]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[2]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[3]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[4]/select", "value=1");
+        selenium.select("xpath=/html/body/div[2]/div/div/div[2]/form/div[5]/select", "value=1");
+        selenium.select("xpath=//div[@class='span10']/div[2]/form/div[6]/select", "value=3");
         selenium.click("xpath=//div[@class='span10']/div[2]/form/input");
         Thread.sleep(3000);
         selenium.click("id=brand-name");
@@ -440,6 +442,6 @@ public class scenario1Test {
         selenium.goBack();
         selenium.click("xpath=/html/body/div[2]/div/div/div[3]/div[4]/div/ul/li[3]/a");
         Thread.sleep(5000);
-        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[2]/li[2]/a/img");
+        selenium.click("xpath=//div[@class='navbar-inner']/nav/ul[3]/li[2]/a/img");
     }
 }

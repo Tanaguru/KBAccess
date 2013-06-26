@@ -76,8 +76,6 @@
             </select>
     </div>
     <br />
-    
-    <c:set var="searchButton"><fmt:message key="testcase.searchButton" /></c:set>
-    
-    <input type="submit" value="searchButton" />
+       
+    <input type="submit" value="<fmt:message key="testcase.searchButton" />" />
 </form>

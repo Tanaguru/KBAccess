@@ -20,7 +20,6 @@
         <module>kbaccess-i18n</module>
         <module>kbaccess-resources</module>
         <module>kbaccess-impl-statistics</module>
-        <module>kbaccess-test-ui</module>
         <module>slurp-manager-api</module>
         <module>slurp-manager-impl</module>
         <module>slurp-manager-resources</module>

@@ -88,11 +88,10 @@ public final class TgolTokenHelper {
             cryptoToken = new CryptoToken();
             cryptoToken.setUserAccountName(account.getEmail());
             
-            // Reset password token has expiration
-            // But activation token doesn't
-            if (hasExpiration) {
-                cryptoToken.setExpiration(tokenDurationValidity);
-            }
+            // TODO :
+            // Manage resetPassword/accountActivation token expiration
+            cryptoToken.setExpiration(tokenDurationValidity);
+            
             String token = cryptoToken.getToken();
             
             return token;

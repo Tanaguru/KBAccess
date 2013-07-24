@@ -21,9 +21,6 @@
  */
 package org.opens.kbaccess.entity.dao.reference;
 
-import java.util.Arrays;
-import java.util.Collection;
-import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceImpl;
 import org.opens.kbaccess.utils.AbstractDaoTestCase;
 
@@ -60,22 +57,5 @@ public class ReferenceDAOImplTest extends AbstractDaoTestCase {
         Class expResult = ReferenceImpl.class;
         Class result = instance.getEntityClass();
         assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of findByCode method, of class ReferenceDAOImpl.
-     */
-    public void testFindByCode() {
-        System.out.println("findByCode : [nuc]");
-        /* */
-        String code = "AW2.1";
-        /* */
-        ReferenceDAO instance = getBean();
-        /* */
-        Reference result = instance.findByCode(code);
-        /* */
-        assertNotNull(result);
-        assertEquals(Long.valueOf(1L), result.getId());
-        // TODO error case
     }
 }

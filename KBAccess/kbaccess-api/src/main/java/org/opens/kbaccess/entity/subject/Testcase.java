@@ -1,31 +1,18 @@
 package org.opens.kbaccess.entity.subject;
 
-import java.util.Collection;
 import java.util.Date;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.reference.Criterion;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
 import org.opens.kbaccess.entity.reference.Result;
 import org.opens.tanaguru.sdk.entity.Entity;
 import org.opens.tanaguru.sdk.entity.Reorderable;
 
 /**
  * 
- * @author jkowalczyk
+ * @author blebail
  * @version 1.0.0
  */
 public interface Testcase extends Entity, Reorderable {
-    /**
-     *
-     * @return the testcase title
-     */
-    String getTitle();
-    
-    /**
-     * 
-     * @param title
-     */
-    void setTitle(String title);
-    
     /**
      *
      * @return the testcase description
@@ -87,32 +74,15 @@ public interface Testcase extends Entity, Reorderable {
     void setWebarchive(Webarchive webarchive);
 
     /**
-     *
-     * @return the associated test
+     * 
+     * @return the associated referenceTest
      */
-    Criterion getCriterion();
-
-    /**
-     *
-     * @param test
-     */
-    void setCriterion(Criterion criterion);
+    ReferenceTest getReferenceTest();
     
     /**
-     * 
-     * @return The result of the tests for this criterion
+     *
+     * @param referenceTest
      */
-    Collection<TestResult> getTestResults();
+    void setReferenceTest(ReferenceTest referenceTest);
 
-    /**
-     * 
-     * @param testResults The list of the results of the tests for this criterion
-     */
-    void setTestResults(Collection<TestResult> testResults);
-    
-    /**
-     * 
-     * @param testResult A result of a test for this criterion
-     */
-    void addTestResult(TestResult testResult);
 }

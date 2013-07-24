@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title">
-        <fmt:message key="testcase.deleteTitle" /> ${testcase.id}
+        <fmt:message key="testcase.deleteTitle" /> ${testcase.testcaseId}
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
@@ -33,7 +33,7 @@
             <%-- Ask confirmation for deleting the testcase --%>
             <c:otherwise>
                 <c:set var="hasCRUDPermission"
-                        value="${authenticatedUser.id == testcase.authorId
+                        value="${authenticatedUser.id == testcase.accountId
                                  or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
                                  or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
                     <c:choose>

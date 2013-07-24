@@ -30,52 +30,22 @@ import org.opens.kbaccess.command.utils.ACommand;
 public class TestcaseSearchCommand extends ACommand {
     
     private String reference;
-    private String theme;
-    private String criterion;
-    private String test;
-    private String grade;
+    private String referenceInfo;
+    private String referenceTest;
+    private String level;
     private String result;
 
     public TestcaseSearchCommand() {
     }
 
-    public TestcaseSearchCommand(String reference, String theme, String criterion, String test, String grade, String result) {
+    public TestcaseSearchCommand(String reference, String referenceInfo, String referenceTest, String level, String result) {
         this.reference = reference;
-        this.theme = theme;
-        this.criterion = criterion;
-        this.test = test;
-        this.grade = grade;
+        this.referenceInfo = referenceInfo;
+        this.referenceTest = referenceTest;
+        this.level = level;
         this.result = result;
     }
 
-    /**
-     * 
-     * @return The code of the criterion to look for
-     */
-    public String getCriterion() {
-        return criterion;
-    }
-
-    public void setCriterion(String criterion) {
-        this.criterion = criterion;
-    }
-
-    /**
-     * 
-     * @return The code of the level to look for
-     */
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    /**
-     * 
-     * @return The code of the reference to search in
-     */
     public String getReference() {
         return reference;
     }
@@ -84,10 +54,30 @@ public class TestcaseSearchCommand extends ACommand {
         this.reference = reference;
     }
 
-    /**
-     * 
-     * @return The code of the exptected result
-     */
+    public String getReferenceInfo() {
+        return referenceInfo;
+    }
+
+    public void setReferenceInfo(String referenceInfo) {
+        this.referenceInfo = referenceInfo;
+    }
+
+    public String getReferenceTest() {
+        return referenceTest;
+    }
+
+    public void setReferenceTest(String referenceTest) {
+        this.referenceTest = referenceTest;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
     public String getResult() {
         return result;
     }
@@ -95,29 +85,4 @@ public class TestcaseSearchCommand extends ACommand {
     public void setResult(String result) {
         this.result = result;
     }
-
-    /**
-     * 
-     * @return The code of the test to look for
-     */
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
-
-    /**
-     * 
-     * @return The code of the theme to look for
-     */
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-    
 }

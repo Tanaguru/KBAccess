@@ -16,7 +16,7 @@
         <c:set target="${breadcrumbTrail}" property="${bcSearchExamples}" value=""/>
         
         <%@include file="/WEB-INF/template/breadcrumb-trail.jspf" %>
-
+        
         <h1 class="page-header"><fmt:message key="testcase.searchH1" /></h1>
         <div class="row-fluid">
             <%@include file='/WEB-INF/template/select-form.jspf'%>

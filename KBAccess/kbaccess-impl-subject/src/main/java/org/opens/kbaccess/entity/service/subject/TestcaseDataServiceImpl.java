@@ -1,6 +1,7 @@
 package org.opens.kbaccess.entity.service.subject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.dao.subject.TestcaseDAO;
@@ -18,51 +19,17 @@ import org.opens.tanaguru.sdk.entity.service.AbstractGenericDataService;
 public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase, Long>
         implements TestcaseDataService {
 
-    private TestResultDataService testResultDataService;
     private ResultDataService resultDataService;
 
-    /*
-     * Utilities
-     */
-    private Result computeResultFromTestResult(Result result) {
-        if ("failed".equals(result.getCode())) {
-            return result;
-        } else {
-            return resultDataService.getByCode("undetermined");
-        }
-    }
-    
-    public static String computeTitleFromCriterionAndUrl(Criterion criterion, Webarchive webarchive, Result result) {
-        return (criterion.getCode() + " " + result.getLabel() + " sur le site " + webarchive.getUrl());
-    }
-      
-    /*
-     * Implementation
-     */
     public TestcaseDataServiceImpl(){
         super();
     }
     
     @Override
-    public Testcase createFromTest(Account account, Webarchive webarchive, Result result, Test test, String description) {
+    public Testcase createFromTest(Account account, Webarchive webarchive, Result result, ReferenceTest test, String description) {
         int rank = ((TestcaseDAO) entityDao).findMaxPriorityValueFromTable(); 
-        Testcase tc = ((TestcaseFactory) entityFactory).createFromCriterion(account, webarchive, result, test.getCriterion(), description, rank);
-
-        tc.addTestResult(testResultDataService.getByTestResult(test, result));
+        Testcase tc = ((TestcaseFactory) entityFactory).createFromTest(account, webarchive, result, test, description, rank);
         return tc;
-    }
-     
-    @Override
-    public Testcase createFromCriterion(Account account, Webarchive webarchive, Result result, Criterion criterion, String description) {
-        int rank = ((TestcaseDAO) entityDao).findMaxPriorityValueFromTable();
-        
-        result = computeResultFromTestResult(result);
-        return ((TestcaseFactory) entityFactory).createFromCriterion(account, webarchive, result, criterion, description, rank);
-    }
-
-    @Override
-    public Testcase read(Long id, boolean fetch) {
-        return ((TestcaseDAO) entityDao).read(id, fetch);
     }
     
     @Override
@@ -104,38 +71,16 @@ public class TestcaseDataServiceImpl extends AbstractGenericDataService<Testcase
 
     @Override
     public List<Testcase> getAllFromUserSelection (
-            Reference reference,
-            Criterion criterion,
-            Theme theme,
-            Test test,
-            Level level,
+            Collection<ReferenceTest> referenceTestCollection,
             Result result) {
-        List<Testcase> tcList =
-                ((TestcaseDAO) entityDao).findAllFromUserSelection(
-                    reference,
-                    criterion,
-                    theme,
-                    test,
-                    level,
+        return ((TestcaseDAO) entityDao).findAllFromUserSelection(
+                    referenceTestCollection,
                     result);
-        if (tcList != null) {
-            return tcList;
-        } else {
-            return new ArrayList<Testcase>();
-        }
     }
 
     @Override
     public Long getCount() {
         return ((TestcaseDAO) entityDao).count();
-    }
-
-    public TestResultDataService getTestResultDataService() {
-        return testResultDataService;
-    }
-
-    public void setTestResultDataService(TestResultDataService testResultDataService) {
-        this.testResultDataService = testResultDataService;
     }
     
     public ResultDataService getResultDataService() {

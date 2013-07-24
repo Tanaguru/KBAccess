@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title">
-        <fmt:message key="testcase.editDetailsTitle" /> ${testcase.id}
+        <fmt:message key="testcase.editDetailsTitle" /> ${testcase.testcaseId}
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
@@ -37,10 +37,10 @@
                             <div class="control-group">
                                 <label class="control-label" for="testcase_test"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> Test&nbsp;:</label>
                                 <div class="controls">
-                                    <form:select path="idTest" size="5" id="testcase_test">
+                                    <form:select path="idReferenceTest" size="5" id="testcase_test">
                                         <%@include file="/WEB-INF/template/form/options/test-ids.jspf" %>
                                     </form:select>           
-                                    <form:errors path="idTest" cssClass="alert alert-error" element="p"/>
+                                    <form:errors path="idReferenceTest" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>.
                             <div class="control-group">

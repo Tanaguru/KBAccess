@@ -28,7 +28,7 @@
                     </p>
                 </c:if>
                 <form:hidden path="description"/>
-                <form:hidden path="idTest"/>
+                <form:hidden path="idReferenceTest"/>
                 <form:hidden path="idResult"/>
                 <form:errors path="createWebarchive" cssClass="alert alert-error" element="p"/>
                 <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>

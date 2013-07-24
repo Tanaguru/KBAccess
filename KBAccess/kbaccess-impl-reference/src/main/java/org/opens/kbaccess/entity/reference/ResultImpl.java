@@ -27,7 +27,7 @@ public class ResultImpl implements Result{
     protected String label = null;
     @Column(name = "DESCRIPTION", nullable=true)
     protected String description = null;
-    @Column(name = "PRIORITY", nullable = false)
+    @Column(name = "RANK", nullable = false)
     protected int rank;
 
     public ResultImpl() {
@@ -106,6 +106,11 @@ public class ResultImpl implements Result{
         }
         final ResultImpl other = (ResultImpl) obj;
         
-        return this.getId().equals(other.getId());
+        return this.getCode().equals(other.getCode());
+    }
+    
+    @Override
+    public String toString() {
+        return code;
     }
 }

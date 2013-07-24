@@ -25,9 +25,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.NewTestcaseCommand;
-import org.opens.kbaccess.entity.service.reference.CriterionDataService;
+import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
-import org.opens.kbaccess.entity.service.reference.TestDataService;
+import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
@@ -47,22 +47,22 @@ public class NewTestcaseValidator implements Validator {
     }
     
 
-    private CriterionDataService criterionDataService;
-    private TestDataService testDataService;
+    private ReferenceTestDataService referenceTestDataService;
+    private TestcaseDataService testcaseDataService;
     private ResultDataService resultDataService;
     private WebarchiveDataService webarchiveDataService;
     private Step step;
     private static final int HTTP_STATUS_OK= 200;
 
     public NewTestcaseValidator(
-            CriterionDataService criterionDataService,
-            TestDataService testcaseDataService,
+            ReferenceTestDataService referenceTestDataService,
+            TestcaseDataService testcaseDataService,
             ResultDataService resultDataService,
             WebarchiveDataService webarchiveDataService,
             Step step
             ) {
-        this.criterionDataService = criterionDataService;
-        this.testDataService = testcaseDataService;
+        this.referenceTestDataService = referenceTestDataService;
+        this.testcaseDataService = testcaseDataService;
         this.resultDataService = resultDataService;
         this.webarchiveDataService = webarchiveDataService;
         this.step = step;
@@ -86,53 +86,12 @@ public class NewTestcaseValidator implements Validator {
         return (responseCode == HTTP_STATUS_OK);      
     }
     
-//    private boolean validateIdCriterion(NewTestcaseCommand newTestcaseCommand, Errors errors) {
-//        if (newTestcaseCommand.getIdCriterion() == null) {
-//            if (newTestcaseCommand.getIdTest() == null) {
-//                errors.rejectValue(FormKeyStore.ID_CRITERION_KEY, MessageKeyStore.MISSING_CRITERION_KEY);
-//                return false;
-//            }
-//        } else if (criterionDataService.read(newTestcaseCommand.getIdCriterion()) == null) {
-//            errors.rejectValue(FormKeyStore.ID_CRITERION_KEY, MessageKeyStore.INVALID_CRITERION_KEY);
-//            return false;
-//        }
-//        /*
-//         * NOTE: validateIdTest will check if the test is part of the
-//         * selected criterion, if any.
-//         */
-//        return true;
-//    }
-    
-    private boolean validateIdTest(NewTestcaseCommand newTestcaseCommand, Errors errors) {
-//        if (newTestcaseCommand.getIdTest() == null) {
-//            // if the criterion is specified, stops tests here and return true.
-//            if (newTestcaseCommand.getIdCriterion() == null) {
-//                // else, display an error message (both criterion and test
-//                // will have an error message).
-//                errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
-//                return false;
-//            }
-//        } else {
-//            Test test = testDataService.read(newTestcaseCommand.getIdTest());
-//            if (test == null) {
-//                errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
-//                return false;
-//            } else if (newTestcaseCommand.getIdCriterion() != null) {
-//                // check that the selected criterion contains the selected test
-//                if (test.getCriterion().getId() != newTestcaseCommand.getIdCriterion()) {
-//                    errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_FOR_GIVEN_CRITERION_KEY);
-//                    return false;                    
-//                }
-//            }
-//        }
-//        return true;
-        
-        
-        if (newTestcaseCommand.getIdTest() == null) {
+    private boolean validateIdReferenceTest(NewTestcaseCommand newTestcaseCommand, Errors errors) {
+        if (newTestcaseCommand.getIdReferenceTest() == null) {
             errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
             return false;
-        } else if (testDataService.read(newTestcaseCommand.getIdTest()) == null) {
-            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
+        } else if (referenceTestDataService.read(newTestcaseCommand.getIdReferenceTest()) == null) {
+            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
             return false;
         }
         
@@ -216,8 +175,7 @@ public class NewTestcaseValidator implements Validator {
         NewTestcaseCommand newTestcaseCommand = (NewTestcaseCommand)o;
         
         /* validate testcase */
-        //if (!validateIdCriterion(newTestcaseCommand, errors)
-        if (!validateIdTest(newTestcaseCommand, errors)
+        if (!validateIdReferenceTest(newTestcaseCommand, errors)
             || !validateIdResult(newTestcaseCommand, errors)
             || !validateDescription(newTestcaseCommand, errors)) {
             hasError = true;

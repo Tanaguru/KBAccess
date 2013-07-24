@@ -21,6 +21,7 @@
  */
 package org.opens.kbaccess.entity.dao.authorization;
 
+import static junit.framework.Assert.assertEquals;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.authorization.AccountImpl;
 import org.opens.kbaccess.utils.AbstractDaoTestCase;
@@ -103,4 +104,25 @@ public class AccountDAOImplTest extends AbstractDaoTestCase {
         assertEquals(expectedResult, result);
     }
     
+    /**
+     * Test of countTestcases method, of class AccountDAOImpl
+     */
+    public void testCountTestcases() {
+        System.out.println("countTestcases");
+        
+        AccountDAO instance = getBean();
+        
+        assertEquals(3L, instance.countTestcases(1L).longValue());
+    }
+    
+    /**
+     * Test of countWebarchives method, of class AccountDAOImpl
+     */
+    public void testCountWebarchives() {
+        System.out.println("countWebarchives");
+        
+        AccountDAO instance = getBean();
+        
+        assertEquals(1L, instance.countWebarchives(1L).longValue());
+    }
 }

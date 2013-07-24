@@ -20,6 +20,5 @@
 
     <import resource="beans-persistence.xml"/>
     <import resource="beans-kbaccess.xml"/>
-<!--    <import resource="mvc/kbaccess-beans-i18n.xml"/>-->
     
 </beans>

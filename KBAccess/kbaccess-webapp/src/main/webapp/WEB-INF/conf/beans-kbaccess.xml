@@ -10,20 +10,19 @@
     <bean id="accessLevelDAO" class="org.opens.kbaccess.entity.dao.authorization.AccessLevelDAOImpl"/>
     <bean id="accountDAO" class="org.opens.kbaccess.entity.dao.authorization.AccountDAOImpl"/>
 
-    <bean id="criterionDAO" class="org.opens.kbaccess.entity.dao.reference.CriterionDAOImpl"/>
-    <bean id="levelDAO" class="org.opens.kbaccess.entity.dao.reference.LevelDAOImpl"/>
-    <bean id="nomenclatureDAO" class="org.opens.kbaccess.entity.dao.reference.NomenclatureDAOImpl"/>
-    <bean id="nomenclatureElementDAO" class="org.opens.kbaccess.entity.dao.reference.NomenclatureElementDAOImpl"/>
+    <bean id="referenceLevelDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceLevelDAOImpl"/>
     <bean id="referenceDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceDAOImpl"/>
+    <bean id="referenceDepthDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceDepthDAOImpl"/>
+    <bean id="referenceInfoDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceInfoDAOImpl"/>
+    <bean id="referenceTestDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceTestDAOImpl"/>
+    
     <bean id="resultDAO" class="org.opens.kbaccess.entity.dao.reference.ResultDAOImpl"/>
-    <bean id="testDAO" class="org.opens.kbaccess.entity.dao.reference.TestDAOImpl"/>
-    <bean id="themeDAO" class="org.opens.kbaccess.entity.dao.reference.ThemeDAOImpl"/>
 
-    <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
-    <bean id="testresultDAO" class="org.opens.kbaccess.entity.dao.subject.TestResultDAOImpl"/>
     <bean id="testcaseDAO" class="org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl"/>
     <bean id="webarchiveDAO" class="org.opens.kbaccess.entity.dao.subject.WebarchiveDAOImpl"/>
 
+    <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
+    
     <!-- Data services -->
 
     <bean id="accessLevelDataService" class="org.opens.kbaccess.entity.service.authorization.AccessLevelDataServiceImpl">
@@ -34,49 +33,43 @@
         <property name="entityFactory"><ref bean="accountFactory"/></property>
     </bean>
 
-    <bean id="criterionDataService" class="org.opens.kbaccess.entity.service.reference.CriterionDataServiceImpl">
-        <property name="entityDao"><ref bean="criterionDAO"/></property>
-    </bean>
-    <bean id="levelDataService" class="org.opens.kbaccess.entity.service.reference.LevelDataServiceImpl">
-        <property name="entityDao"><ref bean="levelDAO"/></property>
-    </bean>
-    <bean id="nomenclatureDataService" class="org.opens.kbaccess.entity.service.reference.NomenclatureDataServiceImpl">
-        <property name="entityDao"><ref bean="nomenclatureDAO"/></property>
-    </bean>
-    <bean id="nomenclatureElementDataService" class="org.opens.kbaccess.entity.service.reference.NomenclatureElementDataServiceImpl">
-        <property name="entityDao"><ref bean="nomenclatureElementDAO"/></property>
-    </bean>
     <bean id="referenceDataService" class="org.opens.kbaccess.entity.service.reference.ReferenceDataServiceImpl">
         <property name="entityDao"><ref bean="referenceDAO"/></property>
     </bean>
+    <bean id="referenceLevelDataService" class="org.opens.kbaccess.entity.service.reference.ReferenceLevelDataServiceImpl">
+        <property name="referenceDataService"><ref bean="referenceDataService"/></property>
+        <property name="entityDao"><ref bean="referenceLevelDAO"/></property>
+    </bean>
+    <bean id="referenceDepthDataService" class="org.opens.kbaccess.entity.service.reference.ReferenceDepthDataServiceImpl">
+        <property name="referenceDataService"><ref bean="referenceDataService"/></property>
+        <property name="entityDao"><ref bean="referenceDepthDAO"/></property>
+    </bean>
+    <bean id="referenceInfoDataService" class="org.opens.kbaccess.entity.service.reference.ReferenceInfoDataServiceImpl">
+        <property name="referenceDataService"><ref bean="referenceDataService"/></property>
+        <property name="entityDao"><ref bean="referenceInfoDAO"/></property>
+        <property name="referenceTestDataService"><ref bean="referenceTestDataService"/></property>
+    </bean>
+    <bean id="referenceTestDataService" class="org.opens.kbaccess.entity.service.reference.ReferenceTestDataServiceImpl">
+        <property name="referenceDataService"><ref bean="referenceDataService"/></property>
+        <property name="entityDao"><ref bean="referenceTestDAO"/></property>
+    </bean>
     <bean id="resultDataService" class="org.opens.kbaccess.entity.service.reference.ResultDataServiceImpl">
         <property name="entityDao"><ref bean="resultDAO"/></property>
-    </bean>
-    <bean id="testDataService" class="org.opens.kbaccess.entity.service.reference.TestDataServiceImpl">
-        <property name="entityDao"><ref bean="testDAO"/></property>
-    </bean>
-    <bean id="themeDataService" class="org.opens.kbaccess.entity.service.reference.ThemeDataServiceImpl">
-        <property name="entityDao"><ref bean="themeDAO"/></property>
-    </bean>
-
-    <bean id="statisticsDataService" class="org.opens.kbaccess.entity.service.statistics.StatisticsDataServiceImpl">
-        <property name="statisticsDAO"><ref bean="statisticsDAO"/></property>
-    </bean>
-    
-    <bean id="testresultDataService" class="org.opens.kbaccess.entity.service.subject.TestResultDataServiceImpl">
-        <property name="entityDao"><ref bean="testresultDAO"/></property>
     </bean>
     
     <bean id="testcaseDataService" class="org.opens.kbaccess.entity.service.subject.TestcaseDataServiceImpl">
         <property name="entityDao"><ref bean="testcaseDAO"/></property>
         <property name="entityFactory"><ref bean="testcaseFactory"/></property>
-        <property name="testResultDataService"><ref bean="testresultDataService"/></property>
         <property name="resultDataService"><ref bean="resultDataService"/></property>
-       
     </bean>
     <bean id="webarchiveDataService" class="org.opens.kbaccess.entity.service.subject.WebarchiveDataServiceImpl">
         <property name="entityDao"><ref bean="webarchiveDAO"/></property>
         <property name="entityFactory"><ref bean="webarchiveFactory"/></property>
+    </bean>
+    
+    <bean id="statisticsDataService" class="org.opens.kbaccess.entity.service.statistics.StatisticsDataServiceImpl">
+        <property name="statisticsDAO"><ref bean="statisticsDAO"/></property>
+        <property name="referenceTestDataService"><ref bean="referenceTestDataService"/></property>
     </bean>
     
     <!-- factory -->
@@ -84,6 +77,9 @@
     <bean id="accountFactory" class="org.opens.kbaccess.entity.factory.authorization.AccountFactoryImpl"/>
     <bean id="testcaseFactory" class="org.opens.kbaccess.entity.factory.subject.TestcaseFactoryImpl" />
     <bean id="webarchiveFactory" class="org.opens.kbaccess.entity.factory.subject.WebarchiveFactoryImpl"/>
+    <bean id="accountPresentationFactory" class="org.opens.kbaccess.presentation.factory.AccountPresentationFactory"/>
+    <bean id="statisticsPresentationFactory" class="org.opens.kbaccess.presentation.factory.StatisticsPresentationFactory"/>
+    <bean id="testcasePresentationFactory" class="org.opens.kbaccess.presentation.factory.TestcasePresentationFactory"/>
     
     <!-- singleton -->
     
@@ -145,12 +141,11 @@
         <property name="testcaseCreationNotificationMailingList" value="blebail@tanaguru.com"/>
         <property name="webarchiveCreationNotificationMailingList" value="blebail@tanaguru.com"/>
    
-<!--        <property name="subscriptionNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>
+        <!-- <property name="subscriptionNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>
         <property name="testcaseCreationNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>
         <property name="webarchiveCreationNotificationMailingList" value="blebail@tanaguru.com, sysadmin@open-s.com"/>-->
     </bean>
-    
+
     <!-- slurp -->
-    <bean id="slurpManager" class="org.opens.slurpmanager.SlurpManagerImpl"/>    
-    
+    <bean id="slurpManager" class="org.opens.slurpmanager.SlurpManagerImpl"/> 
 </beans>

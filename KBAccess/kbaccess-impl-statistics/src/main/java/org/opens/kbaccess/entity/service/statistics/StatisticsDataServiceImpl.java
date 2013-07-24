@@ -1,63 +1,210 @@
 /*
- * KBAccess - Collaborative database of accessibility examples
- * Copyright (C) 2012-2016  Open-S Company
- *
- * This file is part of KBAccess.
- *
- * KBAccess is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Contact us by mail: open-s AT open-s DOT com
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package org.opens.kbaccess.entity.service.statistics;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import org.opens.kbaccess.entity.dao.statistics.StatisticsDAO;
+import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
+import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
-import org.opens.kbaccess.entity.statistics.CriterionStatistics;
+import org.opens.kbaccess.entity.statistics.ReferenceTestStatistics;
+import org.opens.kbaccess.entity.statistics.ReferenceTestStatisticsImpl;
 
 /**
  *
- * @author bcareil
+ * @author blebail
  */
 public class StatisticsDataServiceImpl implements StatisticsDataService {
-
-    private StatisticsDAO statisticsDAO;
     
-    @Override
-    public Collection<CriterionStatistics> getCriterionOrderByTestcaseCount(
-            boolean asc,
-            int limit
-            ) {
-        return statisticsDAO.findCriterionOrderByTestcaseCount(asc, limit);
+    private StatisticsDAO statisticsDAO;
+    private ReferenceTestDataService referenceTestDataService;
+
+    /*
+     * Utilities
+     */
+    
+    /** 
+     * Compute statistics per highest depth reference depth, thus only at -1 depth
+     * The testcase count of a reference test of -1 depth is the sum of its children testcase count 
+     * 
+     * @param originalMap the input map
+     * @return the computed map
+     */
+    private Map<String, Long> computeStatisticsPerHighestTestDepth(Map<String, Long> originalMap) {
+        Map<String, Long> referenceTestWithTestcaseCountMap = new LinkedHashMap<String, Long>();
+                
+        for (Map.Entry<String, Long> entry : originalMap.entrySet()) {
+            String referenceTestCode = entry.getKey();
+            ReferenceTest referenceTest = referenceTestDataService.getByCode(referenceTestCode);
+            Collection<ReferenceTest> referenceTestParents = (Collection<ReferenceTest>)referenceTest.getParents();
+            long testcaseCount = entry.getValue();
+            
+            // No parents, it's a -1 depth reference test
+            //      OR an orphan test (no link whatsoever inside the reference)
+            //      Only 7 cases at the moment : WCAG20 techniques G136, G190, C29, SVR2, SVR3, SVR4, F19
+            if (referenceTestParents == null || referenceTestParents.isEmpty()) {
+                Long count = referenceTestWithTestcaseCountMap.get(referenceTestCode);
+                
+                // Not in the map yet
+                if (count == null) {
+                    count = 0L;
+                } 
+                
+                referenceTestWithTestcaseCountMap.put(
+                    referenceTestCode,
+                    count + testcaseCount
+                    );
+                
+            } else {
+                // add testcase count to each parent
+                for (ReferenceTest refTest : referenceTestParents) {
+                    Long count = referenceTestWithTestcaseCountMap.get(refTest.getCode());
+                
+                    // Not in the map yet
+                    if (count == null) {
+                        count = 0L;
+                    } 
+
+                    referenceTestWithTestcaseCountMap.put(
+                        refTest.getCode(),
+                        count + testcaseCount
+                        );
+                    }
+            }
+        }
+        
+        return referenceTestWithTestcaseCountMap;
     }
     
+    /**
+     * Sort the referenceTestWithTestcaseCountMap on the values (testcaseCount) with the corresponding order
+     * 
+     * @param referenceTestWithTestcaseCountMap input map to be sorted on values (testcaseCount)
+     * @param asc order 
+     * @return the sorted entries list
+     */
+    private List<Map.Entry<String, Long>> sortByOrder(
+            Map<String, Long> referenceTestWithTestcaseCountMap,
+            final boolean asc) {
+        
+        List<Map.Entry<String, Long>> sortedEntriesList = new ArrayList<Map.Entry<String, Long>>(referenceTestWithTestcaseCountMap.entrySet());
+        
+        Collections.sort(sortedEntriesList,
+                 new Comparator() {
+                     @Override
+                     public int compare(Object o1, Object o2) {
+                         Map.Entry e1 = (Map.Entry) o1;
+                         Map.Entry e2 = (Map.Entry) o2;
+                         if (asc) {
+                            return ((Comparable) e1.getValue()).compareTo(e2.getValue());
+                         } else {
+                            return -((Comparable) e1.getValue()).compareTo(e2.getValue());
+                         }
+                     }
+                 });
+        
+        return sortedEntriesList;
+    }
+    
+    /**
+     * Build ReferenceTestStatistics list from the sorted list of <ReferenceTest.code, testcaseCount>
+     * 
+     * @param sortedEntriesList input list
+     * @param limit the limit number of the statistics list
+     * @retuyrn the statistics list
+     */
+    private List<ReferenceTestStatistics> buildRefenceTestStatisticsList(
+            List<Map.Entry<String, Long>> sortedEntriesList, 
+            int limit) {
+        
+        List<ReferenceTestStatistics> referenceTestStatisticsList = new ArrayList<ReferenceTestStatistics>();
+                
+        int i = 0;
+        for (Map.Entry<String, Long> entry : sortedEntriesList) {
+            
+            long testcaseCount = entry.getValue();
+            ReferenceTest referenceTest = referenceTestDataService.getByCode(entry.getKey());
+            Reference reference = referenceTestDataService.getReferenceOf(referenceTest);
+            
+            referenceTestStatisticsList.add(new ReferenceTestStatisticsImpl(
+                    referenceTest.getId(), 
+                    referenceTest.getCode(), 
+                    referenceTest.getLabel(), 
+                    reference.getCode(), 
+                    reference.getId(), 
+                    reference.getLabel(), 
+                    testcaseCount
+                    )
+                );
+            
+            if (++i == limit) {
+                break;
+            }
+        }
+        
+        return referenceTestStatisticsList;
+    }
+    
+    /*
+     * Implementation
+     */
+    @Override
+    public Collection<ReferenceTestStatistics> getReferenceTestOrderByTestcaseCount(
+        final boolean asc,
+        int limit
+        ) {
+        
+        Map<String, Long> resultMap = statisticsDAO.findAllReferenceTestOrderByTestcaseCount(asc);
+        Map<String, Long> referenceTestWithTestcaseCountMap;
+        List<Map.Entry<String, Long>> sortedEntriesList;
+        List<ReferenceTestStatistics> referenceTestStatisticsList;
+        
+        // Heavy implementation
+        // Don't bother updating it, just rewrite it
+        // Relying only on the DAO by doing it fully SQL would be WAY BETTER
+        referenceTestWithTestcaseCountMap = computeStatisticsPerHighestTestDepth(resultMap);
+        sortedEntriesList = sortByOrder(referenceTestWithTestcaseCountMap, asc);
+        referenceTestStatisticsList = buildRefenceTestStatisticsList(sortedEntriesList, limit);
+        
+        return referenceTestStatisticsList;
+    }
+
     @Override
     public Collection<AccountStatistics> getAccountOrderByTestcaseCount(
-            boolean asc,
-            int limit
-            ) {
+        boolean asc,
+        int limit
+        ) {
+        
         return statisticsDAO.findAccountOrderByTestcaseCount(asc, limit);
     }
 
-    @Override
+    /*
+     * Accessors
+     */
     public StatisticsDAO getStatisticsDAO() {
         return statisticsDAO;
     }
 
-    @Override
     public void setStatisticsDAO(StatisticsDAO statisticsDAO) {
         this.statisticsDAO = statisticsDAO;
+    }
+    
+    public ReferenceTestDataService getReferenceTestDataService() {
+        return referenceTestDataService;
+    }
+
+    public void setReferenceTestDataService(ReferenceTestDataService referenceTestDataService) {
+        this.referenceTestDataService = referenceTestDataService;
     }
     
 }

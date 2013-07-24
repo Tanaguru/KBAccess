@@ -23,6 +23,7 @@ package org.opens.kbaccess.controller;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.DeleteTestcaseCommand;
@@ -39,6 +40,7 @@ import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
+import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.EditTestcaseValidator;
 import org.opens.kbaccess.validator.NewTestcaseValidator;
@@ -60,44 +62,39 @@ public class TestcaseController extends AMailerController {
     private WebarchiveDataService webarchiveDataService;
     @Autowired
     private WebarchiveController webarchiveController;
+    @Autowired
+    private TestcasePresentationFactory testcasePresentationFactory;
 
     /*
      * Private methods
      */      
     private Map<String, String> buildMapFromSearchParameters(
             Reference reference,
-            Criterion criterion,
-            Theme theme,
-            Test test,
-            Level level,
+            ReferenceInfo referenceInfo,
+            ReferenceTest referenceTest,
+            ReferenceLevel referenceLevel,
             Result result
             ) {
         Map<String, String> parametersMap = new LinkedHashMap<String, String>();
         
-        // building criteria list
+        // building parameters list
         if (reference != null) {
             parametersMap.put("accessibility.reference", reference.getLabel());
         }
-         if (theme != null) {
-            parametersMap.put("accessibility.theme", theme.getLabel());
+        
+        if (referenceTest != null) {
+            parametersMap.put("accessibility.test", referenceTest.getLabel());
         }
-        if (criterion != null) {
-            parametersMap.put("accessibility.criterion", criterion.getLabel());
-        }
-         if (test != null) {
-            parametersMap.put("accessibility.test", test.getLabel());
-        }
-        if (level != null) {
-            parametersMap.put("accessibility.level", level.getCode());
+        if (referenceLevel != null) {
+            parametersMap.put("accessibility.level", referenceLevel.getCode());
         }
         if (result != null) {
             parametersMap.put("result", result.getCode());
         }
         
-        // post process criteria list
+        // no parameters
         if (parametersMap.isEmpty()) {
-            // no criteria
-            parametersMap.put("testcase.searchAllTestcasesTitle", reference.getLabel());
+            parametersMap.put("testcase.searchAllTestcasesTitle", "allExamples");
         } 
         
         return parametersMap;
@@ -108,8 +105,9 @@ public class TestcaseController extends AMailerController {
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
         // create the form command
-        model.addAttribute("testByRef", getTestByRef());
-        model.addAttribute("resultList", getResults());
+        Reference reference = referenceDataService.getByCode("WCAG20");
+        model.addAttribute("referenceTestList", referenceTestDataService.getAllByReference(reference));
+        model.addAttribute("resultList", getResultCollection());
         model.addAttribute("newTestcaseCommand", newTestcaseCommand);
         return "testcase/add";
     }
@@ -124,21 +122,39 @@ public class TestcaseController extends AMailerController {
         return "testcase/add-webarchive";        
     }
     
-    private String displayEditTestcaseForm(Model model, EditTestcaseCommand editTestcaseCommand) {
+    private Collection<ReferenceTest> getReferenceTestListOfTestcaseTestScope(ReferenceTest testcaseTest) {
+        return referenceTestDataService.getAllByReferenceAndReferenceDepth(
+                referenceTestDataService.getReferenceOf(testcaseTest), 
+                testcaseTest.getReferenceDepth()
+                );
+    }
+    
+    private String displayEditTestcaseForm(
+            Model model, 
+            EditTestcaseCommand editTestcaseCommand, 
+            ReferenceTest testcaseTest) {
+        
         // handle login form and breadcrumb
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
         
         // create form
-        model.addAttribute("testByRef", getTestByRef());
-        model.addAttribute("resultList", getResults());
         model.addAttribute("editTestcaseCommand", editTestcaseCommand);
+        /*
+         * On a testcase we can edit :
+         * - the referenceTest but only on the same reference and referenceDepth
+         *   Indeed changing the reference or the referenceDepth of the referenceTest is not considered as an edition
+         *   We consider that the user would delete the testcase and create a new one
+         * - the result
+         */
+        model.addAttribute("referenceTestList", getReferenceTestListOfTestcaseTestScope(testcaseTest));
+        model.addAttribute("resultList", getResultCollection());
         
         return "testcase/edit-details";
     }
     
     private String displayTestcaseDetails(Model model, Testcase testcase) {
-       TestcasePresentation testcasePresentation = new TestcasePresentation(testcase, true);
+       TestcasePresentation testcasePresentation = testcasePresentationFactory.create(testcase);
        
         // handle form login
         handleUserLoginForm(model);
@@ -184,36 +200,32 @@ public class TestcaseController extends AMailerController {
             Model model,
             @RequestParam(value="account", required=false) Long idAccount,
             @RequestParam(value="reference", required=false) Long idReference,
-            @RequestParam(value="theme", required=false) Long idTheme,
-            @RequestParam(value="level", required=false) Long idLevel,
-            @RequestParam(value="criterion", required=false) Long idCriterion,
-            @RequestParam(value="test", required=false) Long idTest,
+            @RequestParam(value="referenceLevel", required=false) Long idReferenceLevel,
+            @RequestParam(value="referenceTest", required=false) Long idReferenceTest,
+            @RequestParam(value="referenceInfo", required=false) Long idReferenceInfo,
             @RequestParam(value="result", required=false) Long idResult
             ) {
         Collection<TestcasePresentation> testcases;
         String contextOfRequest = null;
         boolean joker;
         Reference reference;
-        Theme theme;
-        Level level;
-        Criterion criterion;
-        Test test;
+        ReferenceLevel referenceLevel;
+        ReferenceInfo referenceInfo;
+        ReferenceTest referenceTest;
         Result result;
         
         // fetch all testcases ?
         joker = (idAccount == null
                 && idReference == null
-                && idTheme == null
-                && idLevel == null
-                && idCriterion == null
-                && idTest == null
+                && idReferenceLevel == null
+                && idReferenceInfo == null
+                && idReferenceTest == null
                 && idResult == null
                 );
         // fetch entities and set title and H1
         if (joker) {
-            testcases = TestcasePresentation.fromCollection(
-                    (Collection) testcaseDataService.findAll(),
-                    true
+            testcases = testcasePresentationFactory.createFromCollection(
+                    (Collection) testcaseDataService.findAll()
                     );
         contextOfRequest = "allTestcases";
         handleBreadcrumbTrail(model);
@@ -224,9 +236,8 @@ public class TestcaseController extends AMailerController {
             Account account = accountDataService.read(idAccount);
             authorDisplayedName = AccountPresentation.generateDisplayedName(account);
             
-            testcases = TestcasePresentation.fromCollection(
-                testcaseDataService.getAllFromAccount(account),
-                true
+            testcases = testcasePresentationFactory.createFromCollection(
+                testcaseDataService.getAllFromAccount(account)
                 );
             
             contextOfRequest = "userTestcases";
@@ -235,18 +246,21 @@ public class TestcaseController extends AMailerController {
         // All other requests combinations
         } else {
             reference = (idReference == null ? null : referenceDataService.read(idReference));
-            theme = (idTheme == null ? null : themeDataService.read(idTheme));
-            level = (idLevel == null ? null : levelDataService.read(idLevel));
-            criterion = (idCriterion == null ? null : criterionDataService.read(idCriterion));
-            test = (idTest == null ? null : testDataService.read(idTest));
+            referenceLevel = (idReferenceLevel == null ? null : referenceLevelDataService.read(idReferenceLevel));
+            referenceInfo = (idReferenceInfo == null ? null : referenceInfoDataService.read(idReferenceInfo));
+            referenceTest = (idReferenceTest == null ? null : referenceTestDataService.read(idReferenceTest));
             result = (idResult == null ? null : resultDataService.read(idResult));
-            testcases = TestcasePresentation.fromCollection(
-                    testcaseDataService.getAllFromUserSelection(reference, criterion, theme, test, level, result),
-                    true
+            
+            List<ReferenceTest> referenceTestCollection = null;
+            
+            
+            
+            testcases = testcasePresentationFactory.createFromCollection(
+                    testcaseDataService.getAllFromUserSelection(referenceTestCollection, result)
                     );
             
             handleBreadcrumbTrail(model);
-            model.addAttribute("parameterMap", buildMapFromSearchParameters(reference, criterion, theme, test, level, result));
+            model.addAttribute("parameterMap", buildMapFromSearchParameters(reference, referenceInfo, referenceTest, referenceLevel, result));
         }
         // handle login and breadcrumb
         handleUserLoginForm(model); 
@@ -274,8 +288,8 @@ public class TestcaseController extends AMailerController {
             Model model
             ) {
         NewTestcaseValidator newTestcaseValidator = new NewTestcaseValidator(
-                criterionDataService,
-                testDataService,
+                referenceTestDataService,
+                testcaseDataService,
                 resultDataService,
                 webarchiveDataService,
                 NewTestcaseValidator.Step.STEP_TESTCASE
@@ -302,8 +316,8 @@ public class TestcaseController extends AMailerController {
         Testcase newTestcase;
         TestcasePresentation testcasePresentation;
         NewTestcaseValidator newTestcaseValidator = new NewTestcaseValidator(
-                criterionDataService,
-                testDataService,
+                referenceTestDataService,
+                testcaseDataService,
                 resultDataService,
                 webarchiveDataService,
                 NewTestcaseValidator.Step.STEP_WEBARCHIVE
@@ -355,31 +369,22 @@ public class TestcaseController extends AMailerController {
             return displayAttachWebarchiveForm(model, testcaseCommand);
         }
         // create testcase
-        if (testcaseCommand.getIdTest() != null) {
-            newTestcase = testcaseDataService.createFromTest(
-                    currentUser,
-                    webarchive,
-                    resultDataService.read(testcaseCommand.getIdResult()),
-                    testDataService.read(testcaseCommand.getIdTest()),
-                    testcaseCommand.getDescription()
-                    );
-        } else {
-            newTestcase = testcaseDataService.createFromCriterion(
-                    currentUser,
-                    webarchive,
-                    resultDataService.read(testcaseCommand.getIdResult()),
-                    criterionDataService.read(testcaseCommand.getIdCriterion()),
-                    testcaseCommand.getDescription()
-                    );            
-        }
+        newTestcase = testcaseDataService.createFromTest(
+                currentUser,
+                webarchive,
+                resultDataService.read(testcaseCommand.getIdResult()),
+                referenceTestDataService.read(testcaseCommand.getIdReferenceTest()),
+                testcaseCommand.getDescription()
+                );
+         
+        
         // persist testcase
-        newTestcase.setTitle("title"); // FIXME: title is not used anymore
         testcaseDataService.saveOrUpdate(newTestcase);
         // email notification
         sendTestcaseCreationNotification(newTestcase);
-        // display testcase
         
-        testcasePresentation = new TestcasePresentation(newTestcase, true);
+        // display testcase
+        testcasePresentation = testcasePresentationFactory.create(newTestcase);
         model.addAttribute("testcase", testcasePresentation);
         return "testcase/add-summary";
     }
@@ -399,7 +404,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch test case
         try {
-            testcase = testcaseDataService.read(id, true);
+            testcase = testcaseDataService.read(id);
         } catch (NullPointerException e) {
             LogFactory.getLog(TestcaseController.class.getName()).debug("testcase doesn't exist");
         }
@@ -417,12 +422,12 @@ public class TestcaseController extends AMailerController {
             return displayTestcaseError(model, MessageKeyStore.NOT_AUTHORIZED_TO_EDIT_TESTCASE);
         }
         
-        testcasePresentation = new TestcasePresentation(testcase, true);
+        testcasePresentation = testcasePresentationFactory.create(testcase);
         model.addAttribute("testcase", testcasePresentation);
         // create form
         editTestcaseCommand = new EditTestcaseCommand(testcase);
 
-        return displayEditTestcaseForm(model, editTestcaseCommand);
+        return displayEditTestcaseForm(model, editTestcaseCommand, testcase.getReferenceTest());
     }
     
     @RequestMapping(value="edit-details/{id}/*", method=RequestMethod.POST)
@@ -436,7 +441,7 @@ public class TestcaseController extends AMailerController {
         EditTestcaseValidator testcaseValidator = new EditTestcaseValidator(
                 testcaseDataService,
                 resultDataService,
-                testDataService
+                referenceTestDataService
                 );
         
         // fetch account
@@ -447,7 +452,7 @@ public class TestcaseController extends AMailerController {
         }
         
         // fetch testcase
-        testcase = testcaseDataService.read(editTestcaseCommand.getId(), true);
+        testcase = testcaseDataService.read(editTestcaseCommand.getId());
         
         if (testcase == null) {
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
@@ -462,11 +467,11 @@ public class TestcaseController extends AMailerController {
         testcaseValidator.validate(editTestcaseCommand, result);
         
         if (result.hasErrors()) {    
-            return displayEditTestcaseForm(model, editTestcaseCommand);
+            return displayEditTestcaseForm(model, editTestcaseCommand, testcase.getReferenceTest());
         }
         
         // update testcase
-        editTestcaseCommand.update(testcase, criterionDataService, testDataService, testresultDataservice, resultDataService);
+        editTestcaseCommand.update(testcase, referenceTestDataService, resultDataService);
         testcaseDataService.saveOrUpdate(testcase);
         
         // confirmation message
@@ -483,7 +488,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch testcase
         try {
-            testcase = testcaseDataService.read(id, true);
+            testcase = testcaseDataService.read(id);
         } catch (NullPointerException e) { 
             LogFactory.getLog(TestcaseController.class.getName()).debug("testcase doesn't exist");
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
@@ -511,7 +516,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch test case
         try {
-            testcase = testcaseDataService.read(id, true);
+            testcase = testcaseDataService.read(id);
         } catch (NullPointerException e) {
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
@@ -526,7 +531,7 @@ public class TestcaseController extends AMailerController {
         }
         
         deleteTestcaseCommand = new DeleteTestcaseCommand(testcase);
-        testcasePresentation = new TestcasePresentation(testcase, true);
+        testcasePresentation = testcasePresentationFactory.create(testcase);
         model.addAttribute("deleteTestcaseCommand", deleteTestcaseCommand);
         model.addAttribute("testcase", testcasePresentation);
         
@@ -549,7 +554,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch test case
         try {
-            testcase = testcaseDataService.read(deleteTestcaseCommand.getId(), true);
+            testcase = testcaseDataService.read(deleteTestcaseCommand.getId());
         } catch (NullPointerException e) {
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
@@ -569,7 +574,7 @@ public class TestcaseController extends AMailerController {
         // delete the testcase
         testcaseDataService.delete(testcase.getId());
         
-        testcasePresentation = new TestcasePresentation(testcase, true);
+        testcasePresentation = testcasePresentationFactory.create(testcase);
         model.addAttribute("testcase", testcasePresentation);
         // confirmation message
         model.addAttribute("successMessage", MessageKeyStore.TESTCASE_DELETED);
@@ -580,7 +585,6 @@ public class TestcaseController extends AMailerController {
     /*
      * Accessors
      */
-
     public WebarchiveDataService getWebarchiveDataService() {
         return webarchiveDataService;
     }
@@ -589,4 +593,19 @@ public class TestcaseController extends AMailerController {
         this.webarchiveDataService = webarchiveDataService;
     }
 
+    public WebarchiveController getWebarchiveController() {
+        return webarchiveController;
+    }
+
+    public void setWebarchiveController(WebarchiveController webarchiveController) {
+        this.webarchiveController = webarchiveController;
+    }
+
+    public TestcasePresentationFactory getTestcasePresentationFactory() {
+        return testcasePresentationFactory;
+    }
+
+    public void setTestcasePresentationFactory(TestcasePresentationFactory testcasePresentationFactory) {
+        this.testcasePresentationFactory = testcasePresentationFactory;
+    }
 }

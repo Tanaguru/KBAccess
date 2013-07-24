@@ -52,17 +52,9 @@
                             </a>
                         </td>
                         <td>
-                            <c:forEach var="testResult" items="${testcase.testResults}">
-                                <c:choose>
-                                    <c:when test="${isFirst}">
-                                        <c:set var="isFirst" value="false"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                    </c:otherwise>
-                                </c:choose>
-                                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="${referenceAlt} ${testResult.testLabel}">${testResult.testLabel}</a>    
-                                (<abbr title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>)
-                            </c:forEach>
+                            <c:set var="testWebReference"><fmt:message key="${testcase.testWebRefCode}" /></c:set>
+                            <a href="${testWebReference}" title="${referenceAlt} ${testcase.testLabel}">${testcase.testLabel}</a>    
+                            (<abbr title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>)
                         </td>
                         <td>
                             <c:set var='resultId' value='${testcase.resultId}'/>
@@ -72,11 +64,11 @@
                         </td>
                         <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${testcase.creationDate}"/></td>
                         <td>
-                            <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>"
-                                title="${detailsAlt} ${testcase.id}"
+                            <a href="<c:url value='/example/details/${testcase.testcaseId}/${testcaseUrl}'/>"
+                                title="${detailsAlt} ${testcase.testcaseId}"
                                 class="tc-details" > 
                                 <img src="<c:url value='/assets/images/icon-crystalclear-details-button-16x16.png'/>"
-                                     alt="${detailsAlt} ${testcase.id}" />
+                                     alt="${detailsAlt} ${testcase.testcaseId}" />
                               </a>
                         </td>
                     </tr>

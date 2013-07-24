@@ -22,20 +22,58 @@
 package org.opens.kbaccess.entity.service.reference;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 import junit.framework.TestCase;
 import static org.easymock.EasyMock.*;
 import org.opens.kbaccess.entity.dao.reference.ReferenceDAO;
-import org.opens.kbaccess.entity.reference.Criterion;
 import org.opens.kbaccess.entity.reference.Reference;
 
 /**
  *
- * @author bcareil
+ * @author blebail
  */
 public class ReferenceDataServiceImplTest extends TestCase {
     
     private ReferenceDAO mockedReferenceDAO;
+    private Map<String,Reference> mockedReferences = new TreeMap<String, Reference>();
+    
+    /**
+     * Init the mocks for testFindAll()
+     */
+    private void initMockDaoFindAll() {
+        mockedReferenceDAO = createMock(ReferenceDAO.class); 
+        Collection<Reference> references = new ArrayList<Reference>();
+        for (int i=0 ; i<2 ; i++) {
+            Reference ref = createMock(Reference.class);
+            expect(ref.getCode()).andReturn("AW"+i).once();
+            
+            references.add(ref);
+            mockedReferences.put("AW"+i, ref);
+            replay(ref);
+        }
+        
+        expect(mockedReferenceDAO.findAll()).andReturn(references).once();
+        replay(mockedReferenceDAO);
+    }
+    
+    /**
+     * Init the mocks for testRead()
+     */
+    private void initMockDaoRead() {
+        mockedReferenceDAO = createMock(ReferenceDAO.class); 
+        Reference ref = createMock(Reference.class);
+        expect(ref.getCode()).andReturn("MyCode").once();
+        mockedReferences.put("MyCode", ref);
+        replay(ref);
+        expect(mockedReferenceDAO.read(Long.valueOf(1))).andReturn(ref).once();
+        expect(mockedReferenceDAO.findAll()).andReturn(new ArrayList<Reference>()).once();
+        replay(mockedReferenceDAO);
+    }
     
     public ReferenceDataServiceImplTest(String testName) {
         super(testName);
@@ -44,13 +82,15 @@ public class ReferenceDataServiceImplTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
-        mockedReferenceDAO = createMock(ReferenceDAO.class);
     }
     
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        verify(mockedReferenceDAO);
+        for (Reference ref : mockedReferences.values()) {
+            verify(ref);
+        }
     }
 
     /**
@@ -59,24 +99,11 @@ public class ReferenceDataServiceImplTest extends TestCase {
     public void testRead() {
         System.out.println("read");
         /* */
-        Long key = 1L;
-        Reference expResult = createMock(Reference.class);
-        List<Criterion> collection = new ArrayList<Criterion>();
-        /* set-up instance */
         ReferenceDataServiceImpl instance = new ReferenceDataServiceImpl();
+        initMockDaoRead();
         instance.setEntityDao(mockedReferenceDAO);
-        /* set-up mock */
-        expect(mockedReferenceDAO.read(key)).andReturn(expResult);
-        expect(expResult.getCriterionList()).andReturn(collection);
-        /* replay mock */
-        replay(mockedReferenceDAO);
-        replay(expResult);
-        /* run test */
-        Reference result = instance.read(key);
-        /* check result */
-        assertEquals(expResult, result);
-        verify(mockedReferenceDAO);
-        verify(expResult);
+        Reference result = instance.read(Long.valueOf(1));
+        assertEquals("MyCode", result.getCode());
     }
 
     /**
@@ -85,21 +112,78 @@ public class ReferenceDataServiceImplTest extends TestCase {
     public void testGetByCode() {
         System.out.println("getByCode");
         /* */
-        String code = "code";
-        Reference expResult = createMock(Reference.class);
-        /* set-up instance */
+        String code = "AW1";
         ReferenceDataServiceImpl instance = new ReferenceDataServiceImpl();
+        initMockDaoFindAll();
         instance.setEntityDao(mockedReferenceDAO);
-        /* set-up mock */
-        expect(mockedReferenceDAO.findByCode(code)).andReturn(expResult);
-        /* replay mock */
-        replay(mockedReferenceDAO);
-        replay(expResult);
-        /* run test */
+        /* */
+         
         Reference result = instance.getByCode(code);
+        assertEquals(mockedReferences.get(code), result);
+        
+        System.out.println("getByCode : error case");
+        /* */
+        code = "AW4";
+        /* */
+        result = instance.getByCode(code);
         /* check result */
+        assertNull(result);
+    }
+    
+    /**
+     * Test of getCount method, of class ReferenceDataServiceImpl.
+     */
+    public void testGetCount() {
+        System.out.println("getCount");
+        
+        ReferenceDataServiceImpl instance = new ReferenceDataServiceImpl();
+        initMockDaoFindAll();
+        instance.setEntityDao(mockedReferenceDAO);
+        
+        Long expResult = Long.valueOf(mockedReferences.size());
+        Long result = instance.getCount();
+        
         assertEquals(expResult, result);
-        verify(mockedReferenceDAO);
-        verify(expResult);
+    }
+    
+    /**
+     * Test of getInternMap accessor, of class ReferenceDataServiceImpl.
+     */
+    public void testGetInternMap() {
+        System.out.println("getInternMap");
+        
+        ReferenceDataServiceImpl instance = new ReferenceDataServiceImpl();
+        initMockDaoFindAll();
+        instance.setEntityDao(mockedReferenceDAO);
+        
+        Map<String, Reference> result = instance.getInternMap();
+        
+        assertEquals(mockedReferences, result);        
+    }
+    
+    /**
+     * Test of findAll method, of class ReferenceDataServiceImpl
+     */
+    public void testFindAll() {
+        System.out.println("findAll()");
+        /* */        
+        /* */
+        ReferenceDataServiceImpl instance = new ReferenceDataServiceImpl();
+        initMockDaoFindAll();
+        instance.setEntityDao(mockedReferenceDAO);
+        
+        
+        /* */
+        List<Reference> expResult = new ArrayList<Reference>(mockedReferences.values());
+        List<Reference> result = new ArrayList<Reference>(instance.findAll());
+        
+        assertEquals(expResult, result);
+        
+        /* */
+        System.out.println("findAll() : reset of DAO");
+        instance.setEntityDao(mockedReferenceDAO);
+        result = new ArrayList<Reference>(instance.findAll());
+        
+        assertEquals(expResult, result);
     }
 }

@@ -36,8 +36,7 @@ public class NewTestcaseCommand extends ACommand {
     private String descriptionNewWebarchive;
     
     // step testcase
-    private Long idTest;
-    private Long idCriterion;
+    private Long idReferenceTest;
     private Long idResult;
     private String description;
 
@@ -68,14 +67,6 @@ public class NewTestcaseCommand extends ACommand {
         this.descriptionNewWebarchive = descriptionNewWebarchive;
     }
 
-    public Long getIdCriterion() {
-        return idCriterion;
-    }
-
-    public void setIdCriterion(Long idCriterion) {
-        this.idCriterion = idCriterion;
-    }
-    
     public Long getIdResult() {
         return idResult;
     }
@@ -84,12 +75,12 @@ public class NewTestcaseCommand extends ACommand {
         this.idResult = idResult;
     }
 
-    public Long getIdTest() {
-        return idTest;
+    public Long getIdReferenceTest() {
+        return idReferenceTest;
     }
 
-    public void setIdTest(Long idTest) {
-        this.idTest = idTest;
+    public void setIdReferenceTest(Long idReferenceTest) {
+        this.idReferenceTest = idReferenceTest;
     }
 
     public Long getIdWebarchive() {

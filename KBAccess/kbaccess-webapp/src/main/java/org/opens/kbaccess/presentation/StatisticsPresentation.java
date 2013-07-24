@@ -28,7 +28,7 @@ import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
-import org.opens.kbaccess.entity.statistics.CriterionStatistics;
+import org.opens.kbaccess.entity.statistics.ReferenceTestStatistics;
 
 /**
  *
@@ -44,13 +44,10 @@ public class StatisticsPresentation {
     private Long frameOfReferenceCount;
     private Long userCount;
     
-    Collection<CriterionStatistics> mostReferencedCriterion;
-    Collection<CriterionStatistics> leastReferencedCriterion;
+    Collection<ReferenceTestStatistics> mostFurnishedReferenceTest;
+    Collection<ReferenceTestStatistics> leastFurnishedReferenceTest;
     
     Collection<AccountStatistics> bestContributors;
-
-    public StatisticsPresentation() {
-    }
 
     public StatisticsPresentation(
             TestcaseDataService testcaseDataService,
@@ -59,13 +56,14 @@ public class StatisticsPresentation {
             AccountDataService accountDataService,
             StatisticsDataService statisticsDataService
             ) {
+        
         testcaseCount = testcaseDataService.getCount();
         webarchiveCount = webarchiveDataService.getCount();
         frameOfReferenceCount = referenceDataService.getCount();
         userCount = accountDataService.getCount();
         
-        mostReferencedCriterion = statisticsDataService.getCriterionOrderByTestcaseCount(false, NB_CRITERION_STATISTICS);
-        leastReferencedCriterion = statisticsDataService.getCriterionOrderByTestcaseCount(true, NB_CRITERION_STATISTICS);
+        mostFurnishedReferenceTest = statisticsDataService.getReferenceTestOrderByTestcaseCount(false, NB_CRITERION_STATISTICS);
+        leastFurnishedReferenceTest = statisticsDataService.getReferenceTestOrderByTestcaseCount(true, NB_CRITERION_STATISTICS);
         bestContributors = statisticsDataService.getAccountOrderByTestcaseCount(false, NB_ACCOUNT_STATISTICS);
     }
 
@@ -77,20 +75,20 @@ public class StatisticsPresentation {
         this.frameOfReferenceCount = frameOfReferenceCount;
     }
 
-    public Collection<CriterionStatistics> getLeastReferencedCriterion() {
-        return leastReferencedCriterion;
+    public Collection<ReferenceTestStatistics> getLeastFurnishedReferenceTest() {
+        return leastFurnishedReferenceTest;
     }
 
-    public void setLeastReferencedCriterion(Collection<CriterionStatistics> leastReferencedCriterion) {
-        this.leastReferencedCriterion = leastReferencedCriterion;
+    public void setLeastReferencedCriterion(Collection<ReferenceTestStatistics> leastFurnishedReferenceTest) {
+        this.leastFurnishedReferenceTest = leastFurnishedReferenceTest;
     }
 
-    public Collection<CriterionStatistics> getMostReferencedCriterion() {
-        return mostReferencedCriterion;
+    public Collection<ReferenceTestStatistics> getMostFurnishedReferenceTest() {
+        return mostFurnishedReferenceTest;
     }
 
-    public void setMostReferencedCriterion(Collection<CriterionStatistics> mostReferencedCriterion) {
-        this.mostReferencedCriterion = mostReferencedCriterion;
+    public void setMostFurnishedReferenceTest(Collection<ReferenceTestStatistics> mostFurnishedReferenceTest) {
+        this.mostFurnishedReferenceTest = mostFurnishedReferenceTest;
     }
 
     public Collection<AccountStatistics> getBestContributors() {

@@ -36,10 +36,10 @@
                                 <label class="control-label" for="testcase_idtest"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Test :</label>
                             </td>
                             <td>
-                                <form:select path="idTest" id="testcase_idtest" size="5">
+                                <form:select path="idReferenceTest" id="testcase_idtest" size="5">
                                     <%@include file="/WEB-INF/template/form/options/test-ids.jspf" %>
                                 </form:select>
-                                <form:errors path="idTest" cssClass="alert alert-error" element="p"/>
+                                <form:errors path="idReferenceTest" cssClass="alert alert-error" element="p"/>
                             </td>
                         </tr>
                         <tr>

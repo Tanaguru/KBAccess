@@ -28,7 +28,6 @@ import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.*;
 import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.reference.*;
-import org.opens.kbaccess.entity.service.subject.TestResultDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.utils.AccountUtils;
@@ -41,12 +40,7 @@ import org.springframework.ui.Model;
  */
 public abstract class AController {
 
-    private static Collection<Reference> references;
-    private static Set<Map.Entry<Reference, Collection<Criterion>>> criterionByRef;
-    private static Set<Map.Entry<Reference, Collection<Level>>> levelByRef;
-    private static Set<Map.Entry<Reference, Collection<Test>>> testByRef;
-    private static Set<Map.Entry<Reference, Collection<Theme>>> themeByRef;
-    private static Collection<Result> results;
+    private Collection<Result> resultCollection = null; 
     
     @Autowired
     protected AccountDataService accountDataService;
@@ -55,53 +49,14 @@ public abstract class AController {
     @Autowired
     protected ReferenceDataService referenceDataService;
     @Autowired
-    protected CriterionDataService criterionDataService;
+    protected ReferenceTestDataService referenceTestDataService;
     @Autowired
-    protected ThemeDataService themeDataService;
+    protected ReferenceInfoDataService referenceInfoDataService;
     @Autowired
-    protected TestDataService testDataService;
-    @Autowired
-    protected LevelDataService levelDataService;
+    protected ReferenceLevelDataService referenceLevelDataService;
     @Autowired
     protected ResultDataService resultDataService;
-    @Autowired
-    protected TestResultDataService testresultDataservice;
         
-    /*
-     * private methods
-     */
-    
-    private synchronized void initTestcaseSearchFormFields() {
-        if (references == null &&
-                criterionByRef == null &&
-                levelByRef == null &&
-                testByRef == null &&
-                themeByRef == null &&
-                results == null) {
-            Map<Reference, Collection<Theme>> themeByRefMap = new HashMap<Reference, Collection<Theme>>();
-            Map<Reference, Collection<Criterion>> criterionByRefMap = new HashMap<Reference, Collection<Criterion>>();
-            Map<Reference, Collection<Test>> testByRefMap = new HashMap<Reference, Collection<Test>>();
-            Map<Reference, Collection<Level>> levelByRefMap = new HashMap<Reference, Collection<Level>>();
-
-            results = (Collection) resultDataService.findAll();
-            // We dont wan't this result to be in the search form
-            results.remove(resultDataService.getByCode("nmi"));
-            
-            references = (Collection) referenceDataService.findAll();
-            for (Reference reference : references) {
-                themeByRefMap.put(reference, themeDataService.getThemeListFromReference(reference));
-                criterionByRefMap.put(reference, criterionDataService.getCriterionListFromReference(reference));
-                testByRefMap.put(reference, testDataService.getTestListFromReference(reference));
-                // FIXME
-                levelByRefMap.put(reference, (Collection) levelDataService.findAll());
-            }
-            criterionByRef = criterionByRefMap.entrySet();
-            levelByRef = levelByRefMap.entrySet();
-            testByRef = testByRefMap.entrySet();
-            themeByRef = themeByRefMap.entrySet();
-        }
-    }
-    
     /*
      * utility methods
      */
@@ -135,75 +90,51 @@ public abstract class AController {
     }
     
     public void handleTestcaseSearchForm(Model model, TestcaseSearchCommand testcaseSearchCommand) {
-        initTestcaseSearchFormFields();
+        Collection<ReferenceTest> referenceTestList = new ArrayList<ReferenceTest>();
+        referenceTestList.addAll((Collection<ReferenceTest>)referenceTestDataService.getAllByReference(referenceDataService.getByCode("WCAG20")));
+        referenceTestList.addAll((Collection<ReferenceTest>)referenceTestDataService.getAllByReference(referenceDataService.getByCode("Rgaa22")));
+        referenceTestList.addAll((Collection<ReferenceTest>)referenceTestDataService.getAllByReference(referenceDataService.getByCode("AW21")));
+        
+        Collection<ReferenceInfo> referenceInfoList = new ArrayList<ReferenceInfo>();
+        referenceInfoList.addAll((Collection<ReferenceInfo>)referenceInfoDataService.getAllByReference(referenceDataService.getByCode("WCAG20")));
+        referenceInfoList.addAll((Collection<ReferenceInfo>)referenceInfoDataService.getAllByReference(referenceDataService.getByCode("Rgaa22")));
+        referenceInfoList.addAll((Collection<ReferenceInfo>)referenceInfoDataService.getAllByReference(referenceDataService.getByCode("AW21")));
+        
+        Collection<ReferenceLevel> referenceLevelList = new ArrayList<ReferenceLevel>();
+        referenceLevelList.addAll((Collection<ReferenceLevel>)referenceLevelDataService.getAllByReference(referenceDataService.getByCode("WCAG20")));
+        referenceLevelList.addAll((Collection<ReferenceLevel>)referenceLevelDataService.getAllByReference(referenceDataService.getByCode("Rgaa22")));
+        referenceLevelList.addAll((Collection<ReferenceLevel>)referenceLevelDataService.getAllByReference(referenceDataService.getByCode("AW21")));
         
         model.addAttribute("testcaseSearchCommand", testcaseSearchCommand);
-        model.addAttribute("referenceList", references);
-        model.addAttribute("themeByRef", themeByRef);
-        model.addAttribute("criterionByRef", criterionByRef);
-        model.addAttribute("testByRef", testByRef);
-        model.addAttribute("levelByRef", levelByRef);
-        model.addAttribute("resultList", results);     
+        model.addAttribute("referenceList", referenceDataService.findAll());
+        model.addAttribute("referenceLevelList", referenceLevelList);
+        model.addAttribute("resultList", resultDataService.findAll());
+        model.addAttribute("referenceTestList", referenceTestList);
+        model.addAttribute("referenceInfoList", referenceInfoList);
     }
     
     /*
-     * properties
+     * Accessors
      */
     
-    public Set<Map.Entry<Reference, Collection<Test>>> getTestByRef() {
-        initTestcaseSearchFormFields();
+    public Map<Reference, Map<ReferenceDepth, Set<ReferenceTest>>> getMapReferenceTestByReference() {
+        return referenceTestDataService.getInternMapByDepth();
+    }
+    
+    public Collection<Result> getResultCollection() {
+        if (resultCollection == null || resultCollection.isEmpty()) {
+            resultCollection = (Collection)resultDataService.findAll();
+        }
         
-        return testByRef;
-    }
-    
-    public Collection<Result> getResults() {
-        initTestcaseSearchFormFields();
-
-        return results;
-    }
-    
-    /*
-     * data service accessors
-     */
-
-    public CriterionDataService getCriterionDataService() {
-        return criterionDataService;
+        return resultCollection;
     }
 
-    public void setCriterionDataService(CriterionDataService criterionDataService) {
-        this.criterionDataService = criterionDataService;
+    public AccountDataService getAccountDataService() {
+        return accountDataService;
     }
 
-    public LevelDataService getLevelDataService() {
-        return levelDataService;
-    }
-
-    public void setLevelDataService(LevelDataService levelDataService) {
-        this.levelDataService = levelDataService;
-    }
-
-    public ReferenceDataService getReferenceDataService() {
-        return referenceDataService;
-    }
-
-    public void setReferenceDataService(ReferenceDataService referenceDataService) {
-        this.referenceDataService = referenceDataService;
-    }
-
-    public ResultDataService getResultDataService() {
-        return resultDataService;
-    }
-
-    public void setResultDataService(ResultDataService resultDataService) {
-        this.resultDataService = resultDataService;
-    }
-
-    public TestDataService getTestDataService() {
-        return testDataService;
-    }
-
-    public void setTestDataService(TestDataService testDataService) {
-        this.testDataService = testDataService;
+    public void setAccountDataService(AccountDataService accountDataService) {
+        this.accountDataService = accountDataService;
     }
 
     public TestcaseDataService getTestcaseDataService() {
@@ -214,12 +145,43 @@ public abstract class AController {
         this.testcaseDataService = testcaseDataService;
     }
 
-    public ThemeDataService getThemeDataService() {
-        return themeDataService;
+    public ReferenceDataService getReferenceDataService() {
+        return referenceDataService;
     }
 
-    public void setThemeDataService(ThemeDataService themeDataService) {
-        this.themeDataService = themeDataService;
+    public void setReferenceDataService(ReferenceDataService referenceDataService) {
+        this.referenceDataService = referenceDataService;
     }
- 
+
+    public ReferenceTestDataService getReferenceTestDataService() {
+        return referenceTestDataService;
+    }
+
+    public void setReferenceTestDataService(ReferenceTestDataService referenceTestDataService) {
+        this.referenceTestDataService = referenceTestDataService;
+    }
+
+    public ReferenceInfoDataService getReferenceInfoDataService() {
+        return referenceInfoDataService;
+    }
+
+    public void setReferenceInfoDataService(ReferenceInfoDataService referenceInfoDataService) {
+        this.referenceInfoDataService = referenceInfoDataService;
+    }
+
+    public ReferenceLevelDataService getReferenceLevelDataService() {
+        return referenceLevelDataService;
+    }
+
+    public void setReferenceLevelDataService(ReferenceLevelDataService referenceLevelDataService) {
+        this.referenceLevelDataService = referenceLevelDataService;
+    }
+
+    public ResultDataService getResultDataService() {
+        return resultDataService;
+    }
+
+    public void setResultDataService(ResultDataService resultDataService) {
+        this.resultDataService = resultDataService;
+    }
 }

@@ -27,18 +27,19 @@
         <div class="row well">
             <p><fmt:message key="testcase.addSummarySummary" /></p>
             <ul>
-                <c:forEach var="testResult" items="${testcase.testResults}">  
-                    <li>Test :        
-                        <a href="<c:url value='http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}'/>">${testResult.testLabel}</a>
-                        <a href="<c:url value='http://www.braillenet.org/accessibilite/referentiel-aw21/'/>">(${testcase.referenceLabel})</a>
-                    </li>
-                    <li><fmt:message key="result" /> :
-                        <c:set var="resultId" value="${testResult.resultId}"/>
-                        <c:set var="pictoSize" value="s"/>
-                        <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
-                        <%@include file="/WEB-INF/template/inline/result.jspf" %>
-                    </li>
-                    </c:forEach>
+                <li>Test :        
+                    <c:set var="testWebRefCode" scope="page">
+                        <fmt:message key="${testcase.testWebRefCode}" />
+                    </c:set>
+                    <a href="<c:url value='${testWebRefCode}'/>">${testcase.testLabel}</a>
+                    <a href="<c:url value='http://www.braillenet.org/accessibilite/referentiel-aw21/'/>">(${testcase.referenceLabel})</a>
+                </li>
+                <li><fmt:message key="result" /> :
+                    <c:set var="resultId" value="${testcase.resultId}"/>
+                    <c:set var="pictoSize" value="s"/>
+                    <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
+                    <%@include file="/WEB-INF/template/inline/result.jspf" %>
+                </li>
             </ul>
             <ul>
                 <li>URL :
@@ -53,7 +54,7 @@
                 </c:if>
             </ul>
             <p>
-                <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>"><fmt:message key="testcase.addSummaryVisualize" /></a>
+                <a href="<c:url value='/example/details/${testcase.testcaseId}/${testcaseUrl}'/>"><fmt:message key="testcase.addSummaryVisualize" /></a>
                 <fmt:message key="testcase.addSummaryOrGoBack" />
             </p>
         </div>

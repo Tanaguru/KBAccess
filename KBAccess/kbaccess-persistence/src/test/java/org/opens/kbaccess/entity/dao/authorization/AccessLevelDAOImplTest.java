@@ -74,7 +74,10 @@ public class AccessLevelDAOImplTest extends AbstractDaoTestCase {
         AccessLevel result = instance.findByCode(code);
         /* check result */
         assertEquals(Long.valueOf(1L), result.getId());
-        // TODO error case
+        
+        code = "nonexistentcode";
+        AccessLevel result2 = instance.findByCode(code);
+        assertNull(result2);
     }
 
 }

@@ -13,9 +13,9 @@
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
         
-        <c:set var="bcAddExampleStep2" scope="page"><fmt:message key="breadcrumb.addExampleStep2" /></c:set>
+        <c:set var="bcAddExampleStep3" scope="page"><fmt:message key="breadcrumb.addExampleStep3" /></c:set>
         <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
-        <c:set target="${breadcrumbTrail}" property="${bcAddExampleStep2}" value=""/>
+        <c:set target="${breadcrumbTrail}" property="${bcAddExampleStep3}" value=""/>
         
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
@@ -27,7 +27,9 @@
                         <fmt:message key="${generalErrorMessage}" />
                     </p>
                 </c:if>
+                <form:hidden path="idReference"/>
                 <form:hidden path="description"/>
+                <form:hidden path="idReferenceDepth"/>
                 <form:hidden path="idReferenceTest"/>
                 <form:hidden path="idResult"/>
                 <form:errors path="createWebarchive" cssClass="alert alert-error" element="p"/>

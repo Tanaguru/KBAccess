@@ -39,6 +39,7 @@ public final class FormKeyStore {
     public static final String ID_CRITERION_KEY = "idCriterion";
     public static final String ID_RESULT_KEY = "idResult";
     public static final String ID_TEST_KEY = "idReferenceTest";
+    public static final String ID_REFERENCE_KEY = "idReference";
     public static final String ID_WEBARCHIVE_KEY = "idWebarchive";
     public static final String NEW_PASSWORD_KEY = "newPassword";
     public static final String CURRENT_PASSWORD_KEY = "currentPassword";

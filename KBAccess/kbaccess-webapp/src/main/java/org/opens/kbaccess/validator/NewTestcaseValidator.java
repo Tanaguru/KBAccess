@@ -25,6 +25,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.NewTestcaseCommand;
+import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
+import org.opens.kbaccess.entity.service.reference.ReferenceDataService;
 import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
@@ -46,7 +49,7 @@ public class NewTestcaseValidator implements Validator {
         STEP_WEBARCHIVE
     }
     
-
+    private ReferenceDataService referenceDataService;
     private ReferenceTestDataService referenceTestDataService;
     private TestcaseDataService testcaseDataService;
     private ResultDataService resultDataService;
@@ -56,11 +59,13 @@ public class NewTestcaseValidator implements Validator {
 
     public NewTestcaseValidator(
             ReferenceTestDataService referenceTestDataService,
+            ReferenceDataService referenceDataService,
             TestcaseDataService testcaseDataService,
             ResultDataService resultDataService,
             WebarchiveDataService webarchiveDataService,
             Step step
             ) {
+        this.referenceDataService = referenceDataService;
         this.referenceTestDataService = referenceTestDataService;
         this.testcaseDataService = testcaseDataService;
         this.resultDataService = resultDataService;
@@ -93,7 +98,16 @@ public class NewTestcaseValidator implements Validator {
         } else if (referenceTestDataService.read(newTestcaseCommand.getIdReferenceTest()) == null) {
             errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
             return false;
-        }
+        } else {
+            ReferenceTest test = referenceTestDataService.read(newTestcaseCommand.getIdReferenceTest());
+            Reference referenceSelected = referenceDataService.read(newTestcaseCommand.getIdReference());
+            Reference referenceOfTest = referenceTestDataService.getReferenceOf(test);
+            
+            if (!referenceOfTest.equals(referenceSelected)) {
+                errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
+                return false;
+            }
+        } 
         
         return true;
     }

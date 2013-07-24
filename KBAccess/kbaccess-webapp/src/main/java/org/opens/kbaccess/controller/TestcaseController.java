@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.DeleteTestcaseCommand;
 import org.opens.kbaccess.command.EditTestcaseCommand;
 import org.opens.kbaccess.command.NewTestcaseCommand;
+import org.opens.kbaccess.command.SelectReferenceCommand;
 import org.opens.kbaccess.controller.utils.AMailerController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.*;
@@ -44,6 +45,7 @@ import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.EditTestcaseValidator;
 import org.opens.kbaccess.validator.NewTestcaseValidator;
+import org.opens.kbaccess.validator.SelectReferenceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,7 +66,7 @@ public class TestcaseController extends AMailerController {
     private WebarchiveController webarchiveController;
     @Autowired
     private TestcasePresentationFactory testcasePresentationFactory;
-
+    
     /*
      * Private methods
      */      
@@ -100,16 +102,36 @@ public class TestcaseController extends AMailerController {
         return parametersMap;
     }
     
+    private String displaySelectReferenceForm(Model model, SelectReferenceCommand selectReferenceCommand) {
+        // handle login and breadcrumb
+        handleUserLoginForm(model);
+        handleBreadcrumbTrail(model);
+        
+        // create the form command
+        model.addAttribute("referenceList", referenceDataService.findAll());
+        model.addAttribute("selectReferenceCommand", selectReferenceCommand);
+        return "testcase/add";
+    }
+    
     private String displayAddTestcaseForm(Model model, NewTestcaseCommand newTestcaseCommand) {
         // handle login and breadcrumb
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
-        // create the form command
-        Reference reference = referenceDataService.getByCode("WCAG20");
+        
+        // Fetch the selected reference
+        Reference reference = referenceDataService.read(newTestcaseCommand.getIdReference());
+        
+        // set the default test depth selected to the lowest
+        // AW21 : test, Rgaa22 : test, WCAG20 : technique
+        ReferenceDepth referenceDepth = referenceDepthDataService.getByReferenceAndDepth(reference, reference.getTestMaxDepth());
+        newTestcaseCommand.setIdReferenceDepth(referenceDepth.getId());
+        
+        model.addAttribute("referenceDepthList", referenceTestDataService.getReferenceDepthsByReference(reference));
+        model.addAttribute("referenceTestMap", referenceTestDataService.getInternMapByDepth().get(reference));
         model.addAttribute("referenceTestList", referenceTestDataService.getAllByReference(reference));
         model.addAttribute("resultList", getResultCollection());
         model.addAttribute("newTestcaseCommand", newTestcaseCommand);
-        return "testcase/add";
+        return "testcase/add-details";
     }
     
     private String displayAttachWebarchiveForm(Model model, NewTestcaseCommand newTestcaseCommand) {
@@ -275,13 +297,38 @@ public class TestcaseController extends AMailerController {
     /*
      * Handlers to add a testcase
      */
-    
-    @RequestMapping(value={"add", "add-finalize"}, method=RequestMethod.GET)
-    public String addHandler(Model model) {
-        return displayAddTestcaseForm(model, new NewTestcaseCommand());
+    @RequestMapping(value={"add"}, method=RequestMethod.GET)
+    public String selectReferenceHandler(Model model) {
+        return displaySelectReferenceForm(model, new SelectReferenceCommand());
     }
     
-    @RequestMapping(value="add", method=RequestMethod.POST)
+    @RequestMapping(value={"add"}, method=RequestMethod.POST)
+    public String selectReferenceHandler(
+            @ModelAttribute("selectReferenceCommand") SelectReferenceCommand selectReferenceCommand,
+            BindingResult result,
+            Model model) {
+        SelectReferenceValidator selectReferenceValidator = new SelectReferenceValidator(referenceDataService);
+        
+        // validate command
+        selectReferenceValidator.validate(selectReferenceCommand, result);
+        if (result.hasErrors()) {
+            // return to the first step
+            return displaySelectReferenceForm(model, selectReferenceCommand);
+        }
+        
+        // display the second step
+        NewTestcaseCommand newTestcaseCommand = new NewTestcaseCommand();
+        newTestcaseCommand.setIdReference(selectReferenceCommand.getIdReference());
+        
+        return displayAddTestcaseForm(model, newTestcaseCommand);
+    }
+    
+    @RequestMapping(value={"add-details", "add-finalize"}, method=RequestMethod.GET)
+    public String addHandler(Model model) {
+        return selectReferenceHandler(model);
+    }
+    
+    @RequestMapping(value="add-details", method=RequestMethod.POST)
     public String addHandler(
             @ModelAttribute("newTestcaseCommand") NewTestcaseCommand testcaseCommand,
             BindingResult result,
@@ -289,6 +336,7 @@ public class TestcaseController extends AMailerController {
             ) {
         NewTestcaseValidator newTestcaseValidator = new NewTestcaseValidator(
                 referenceTestDataService,
+                referenceDataService,
                 testcaseDataService,
                 resultDataService,
                 webarchiveDataService,
@@ -298,10 +346,10 @@ public class TestcaseController extends AMailerController {
         // validate command
         newTestcaseValidator.validate(testcaseCommand, result);
         if (result.hasErrors()) {
-            // return to the first step
+            // return to the second step
             return displayAddTestcaseForm(model, testcaseCommand);
         }
-        // display the second step
+        // display the third step
         return displayAttachWebarchiveForm(model, testcaseCommand);
     }
     
@@ -317,6 +365,7 @@ public class TestcaseController extends AMailerController {
         TestcasePresentation testcasePresentation;
         NewTestcaseValidator newTestcaseValidator = new NewTestcaseValidator(
                 referenceTestDataService,
+                referenceDataService,
                 testcaseDataService,
                 resultDataService,
                 webarchiveDataService,
@@ -601,10 +650,12 @@ public class TestcaseController extends AMailerController {
         this.webarchiveController = webarchiveController;
     }
 
+    @Override
     public TestcasePresentationFactory getTestcasePresentationFactory() {
         return testcasePresentationFactory;
     }
 
+    @Override
     public void setTestcasePresentationFactory(TestcasePresentationFactory testcasePresentationFactory) {
         this.testcasePresentationFactory = testcasePresentationFactory;
     }

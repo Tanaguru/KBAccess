@@ -56,6 +56,8 @@ public abstract class AController {
     protected ReferenceLevelDataService referenceLevelDataService;
     @Autowired
     protected ResultDataService resultDataService;
+    @Autowired
+    protected ReferenceDepthDataService referenceDepthDataService;
         
     /*
      * utility methods
@@ -183,5 +185,13 @@ public abstract class AController {
 
     public void setResultDataService(ResultDataService resultDataService) {
         this.resultDataService = resultDataService;
+    }
+
+    public ReferenceDepthDataService getReferenceDepthDataService() {
+        return referenceDepthDataService;
+    }
+
+    public void setReferenceDepthDataService(ReferenceDepthDataService referenceDepthDataService) {
+        this.referenceDepthDataService = referenceDepthDataService;
     }
 }

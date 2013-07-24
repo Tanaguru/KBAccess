@@ -36,6 +36,8 @@ public class NewTestcaseCommand extends ACommand {
     private String descriptionNewWebarchive;
     
     // step testcase
+    private Long idReference;
+    private Long idReferenceDepth; 
     private Long idReferenceTest;
     private Long idResult;
     private String description;
@@ -75,6 +77,22 @@ public class NewTestcaseCommand extends ACommand {
         this.idResult = idResult;
     }
 
+    public Long getIdReference() {
+        return idReference;
+    }
+
+    public void setIdReference(Long idReference) {
+        this.idReference = idReference;
+    }
+
+    public Long getIdReferenceDepth() {
+        return idReferenceDepth;
+    }
+
+    public void setIdReferenceDepth(Long idReferenceDepth) {
+        this.idReferenceDepth = idReferenceDepth;
+    }
+    
     public Long getIdReferenceTest() {
         return idReferenceTest;
     }

@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title">
-        <fmt:message key="testcase.addTitle" />
+        <fmt:message key="testcase.selectReferenceTitle" />
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 
@@ -19,57 +19,25 @@
         
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <h1 class="page-header"><fmt:message key="testcase.addH1" /></h1>
+        <h1 class="page-header"><fmt:message key="testcase.selectReferenceH1" /></h1>
         <div class="row-fluid">
-            <c:url var='addUrl' value='/example/add.html'/>
+            <c:url var='selectReferenceUrl' value='/example/add.html'/>
             
-            <form:form commandName="newTestcaseCommand" action="${addUrl}" method="POST">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td colspan="2">
-                                <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">
-                                <label class="control-label" for="testcase_idtest"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Test :</label>
-                            </td>
-                            <td>
-                                <form:select path="idReferenceTest" id="testcase_idtest" size="5">
-                                    <%@include file="/WEB-INF/template/form/options/test-ids.jspf" %>
-                                </form:select>
-                                <form:errors path="idReferenceTest" cssClass="alert alert-error" element="p"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">
-                                <label class="control-label" for="testcase_idresult"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%><fmt:message key="result" /> :</label>
-                            </td>
-                            <td>
-                                <form:select path="idResult" id="testcase_idresult" size="4">
-                                    <%@include file="/WEB-INF/template/form/options/result-ids.jspf" %>
-                                </form:select>
-                                <form:errors path="idResult" cssClass="alert alert-error" element="p"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">
-                                <label for="testcase_description"><fmt:message key="description" /> :</label>
-                            </td>
-                            <td>
-                                <form:textarea path="description" id="testcase_description" rows="4" cols="35"/>
-                                <form:errors path="description" cssClass="alert alert-error" element="p"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col1">
-                            <td>
-                                <input type="submit" value="<fmt:message key="testcase.addButton" />"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <form:form commandName="selectReferenceCommand" action="${selectReferenceUrl}" method="POST">
+                <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
+                
+                <label class="control-label" for="id_reference">
+                    <%@include file="/WEB-INF/template/inline/mandatory.jspf"%>&nbsp;<fmt:message key="accessibility.reference"/> :
+                </label>
+                
+                <form:select path="idReference" id="id_reference" size="4">
+                    <c:forEach var="reference" items="${referenceList}">
+                        <option value="${reference.id}"><fmt:message key="${reference.code}"/></option>
+                    </c:forEach>
+                </form:select>
+                <form:errors path="idReference" cssClass="alert alert-error" element="p"/>
+                <br />
+                <button class="btn btn-info"><fmt:message key="testcase.confirmButton" /></button>
             </form:form>
         </div>
 

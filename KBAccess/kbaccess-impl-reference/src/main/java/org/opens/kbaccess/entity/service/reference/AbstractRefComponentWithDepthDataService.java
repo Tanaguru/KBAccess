@@ -65,6 +65,17 @@ public abstract class AbstractRefComponentWithDepthDataService<E extends RefComp
         
         return internMapByDepth.get(reference).get(referenceDepth);
     }
+
+    @Override
+    public Collection<ReferenceDepth> getReferenceDepthsByReference(Reference reference) {
+        List<ReferenceDepth> referenceDepths = new ArrayList<ReferenceDepth>();
+        
+        if (reference != null) {
+            referenceDepths.addAll(internMapByDepth.get(reference).keySet());
+        }
+        
+        return referenceDepths;
+    }
     
     @Override
     public Collection<? extends E> findAll() {

@@ -30,4 +30,12 @@ public interface RefComponentWithDepthDataService<E extends RefComponentWithDept
       * @return 
       */
      public Map<Reference, Map<ReferenceDepth, Set<E>>> getInternMapByDepth();
+     
+     /**
+      * Return all ReferenceDepths of a reference
+      * 
+      * @param reference the reference
+      * @return 
+      */
+     public Collection<ReferenceDepth> getReferenceDepthsByReference(Reference reference);
 }

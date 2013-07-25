@@ -138,6 +138,6 @@ public class ReferenceDepthImpl extends AbstractRefComponent implements Referenc
     
     @Override
     public int compareTo(ReferenceDepth referenceDepth) {
-        return this.getDepth().compareTo(referenceDepth.getDepth());
+        return (this.getDepth().compareTo(referenceDepth.getDepth()) * -1);
     }
 }

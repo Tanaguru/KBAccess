@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 import junit.framework.TestCase;
 import org.easymock.EasyMock;
 import org.opens.kbaccess.entity.dao.reference.ReferenceDepthDAO;
@@ -65,13 +66,23 @@ public class ReferenceDepthDataServiceImplTest extends TestCase {
             mockedReferenceDepths.put(reference, new TreeMap<String, ReferenceDepth>());
             
             EasyMock.expect(mockedReferenceDataService.getByCode("ref" + i)).andReturn(reference).anyTimes();
-            for (int j = 0 ; j < 3 ; j++) {
-                ReferenceDepth referenceDepth = EasyMock.createMock(ReferenceDepth.class);
-                referenceDepths.add(referenceDepth);
-                        
-                EasyMock.expect(referenceDepth.getCode()).andReturn("ref" + i + "-level" + j).anyTimes();
-                mockedReferenceDepths.get(reference).put("ref" + i + "-level" + j, referenceDepth);
-                EasyMock.replay(referenceDepth);
+            for (int j = -2 ; j < 2 ; j++) {
+                if (j != 0) {
+                    ReferenceDepth referenceDepth = EasyMock.createMock(ReferenceDepth.class);
+                    referenceDepths.add(referenceDepth);
+                    
+                    String code = "";
+                    
+                    if (j < 0) {
+                        code = "ref" + i + "-depth" + j;
+                    } else if (j > 0){
+                        code = "ref" + i + "-depth+" + j;
+                    }
+                    
+                    EasyMock.expect(referenceDepth.getCode()).andReturn(code).anyTimes();
+                    mockedReferenceDepths.get(reference).put(code, referenceDepth);
+                    EasyMock.replay(referenceDepth);
+                }
             }
         }
         
@@ -124,5 +135,46 @@ public class ReferenceDepthDataServiceImplTest extends TestCase {
         result = new ArrayList<ReferenceDepth>(instance.findAll());
         
         assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of method getByReferenceAndDepth, of class ReferenceDepthDataServiceImpl
+     */
+    public void testGetByReferenceAndDepth() {
+        /* */
+        EasyMock.replay(mockedReferenceDataService);
+        
+        /* */
+        ReferenceDepthDataServiceImpl instance = new ReferenceDepthDataServiceImpl();
+        instance.setReferenceDataService(mockedReferenceDataService);
+        instance.setEntityDao(mockedReferenceDepthDAO);
+        
+        /* */
+        System.out.println("getByReferenceAndDepth : depth -1");
+        
+        Reference mockedReference = new ReferenceImpl();
+        mockedReference.setCode("ref1");
+        
+        ReferenceDepth expResult = mockedReferenceDepths.get(mockedReference).get("ref1-depth-1");
+        ReferenceDepth result = instance.getByReferenceAndDepth(mockedReference, -1);
+        
+        assertEquals(expResult, result);
+        
+        /* */
+        System.out.println("getByReferenceAndDepth : depth +1");
+        expResult = mockedReferenceDepths.get(mockedReference).get("ref1-depth+1");
+        result = instance.getByReferenceAndDepth(mockedReference, 1);
+        
+        assertEquals(expResult, result);
+        
+        /* */
+        System.out.println("getByReferenceAndDepth : reference null");
+        result = instance.getByReferenceAndDepth(null, 2);
+        assertNull(result);
+        
+        /* */
+        System.out.println("getByReferenceAndDepth : depth 0");
+        result = instance.getByReferenceAndDepth(mockedReference, 0);
+        assertNull(result);
     }
 }

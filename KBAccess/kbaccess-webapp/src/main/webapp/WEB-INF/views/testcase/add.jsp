@@ -23,21 +23,24 @@
         <div class="row-fluid">
             <c:url var='selectReferenceUrl' value='/example/add.html'/>
             
-            <form:form commandName="selectReferenceCommand" action="${selectReferenceUrl}" method="POST">
+            <form:form id="new-tc-form" commandName="selectReferenceCommand" action="${selectReferenceUrl}" method="POST">
                 <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                 
-                <label class="control-label" for="id_reference">
+                <label class="new-tc-label" for="id_reference">
                     <%@include file="/WEB-INF/template/inline/mandatory.jspf"%>&nbsp;<fmt:message key="accessibility.reference"/> :
                 </label>
                 
-                <form:select path="idReference" id="id_reference" size="4">
-                    <c:forEach var="reference" items="${referenceList}">
-                        <option value="${reference.id}"><fmt:message key="${reference.code}"/></option>
-                    </c:forEach>
-                </form:select>
-                <form:errors path="idReference" cssClass="alert alert-error" element="p"/>
-                <br />
-                <button class="btn btn-info"><fmt:message key="testcase.confirmButton" /></button>
+                <div class="new-tc-block">
+                    <form:select path="idReference" id="id_reference" size="4">
+                        <c:forEach var="reference" items="${referenceList}">
+                            <option value="${reference.id}"><fmt:message key="${reference.code}"/></option>
+                        </c:forEach>
+                    </form:select>
+                    <form:errors path="idReference" cssClass="alert alert-error" element="p"/>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-info"><fmt:message key="testcase.confirmButton" /></button>
+                </div>
             </form:form>
         </div>
 

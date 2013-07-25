@@ -345,4 +345,35 @@ public class ReferenceInfoDataServiceImplTest extends TestCase {
         
         assertNotNull(result);      
     }
+    
+    /**
+     * Test of getReferenceDepthsByReference method, of ReferenceInfoDataServiceImpl
+     */
+    public void testGetReferenceDepthsByReference() {
+        EasyMock.replay(mockedReferenceDataService);
+        EasyMock.replay(mockedReferenceTestDataService);
+            
+        ReferenceInfoDataServiceImpl instance = new ReferenceInfoDataServiceImpl();
+        instance.setReferenceDataService(mockedReferenceDataService);
+        instance.setReferenceTestDataService(mockedReferenceTestDataService);
+        instance.setEntityDao(mockedReferenceInfoDAO);
+        
+        /* */
+        System.out.println("getReferenceDepthsByReference : reference null");
+        List<ReferenceDepth> result = new ArrayList<ReferenceDepth>();
+        
+        for (Reference reference : references) {
+            result.addAll(instance.getReferenceDepthsByReference(reference));
+        }
+        
+        assertEquals(referenceDepths.size(), result.size());
+        assertTrue(referenceDepths.containsAll(result));
+        
+        /* */
+        System.out.println("getReferenceDepthsByReference : reference null");
+        result = (List)instance.getReferenceDepthsByReference(null);
+        
+        assertNotNull(result);      
+        assertTrue(result.isEmpty());      
+    }
 }

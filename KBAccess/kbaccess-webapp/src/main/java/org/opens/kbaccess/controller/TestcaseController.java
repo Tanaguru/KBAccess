@@ -126,7 +126,6 @@ public class TestcaseController extends AMailerController {
         ReferenceDepth referenceDepth = referenceDepthDataService.getByReferenceAndDepth(reference, reference.getTestMaxDepth());
         newTestcaseCommand.setIdReferenceDepth(referenceDepth.getId());
         
-        model.addAttribute("referenceDepthList", referenceTestDataService.getReferenceDepthsByReference(reference));
         model.addAttribute("referenceTestMap", referenceTestDataService.getInternMapByDepth().get(reference));
         model.addAttribute("referenceTestList", referenceTestDataService.getAllByReference(reference));
         model.addAttribute("resultList", getResultCollection());

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import org.apache.log4j.Logger;
 import org.opens.kbaccess.entity.reference.RefComponentWithDepth;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceDepth;

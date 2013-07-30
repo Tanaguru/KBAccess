@@ -88,31 +88,17 @@ public abstract class AController {
     }
     
     public void handleTestcaseSearchForm(Model model) {
-        handleTestcaseSearchForm(model, new TestcaseSearchCommand());
+        handleTestcaseSearchForm(model, new TestcaseSearchCommand(referenceDataService));
     }
     
     public void handleTestcaseSearchForm(Model model, TestcaseSearchCommand testcaseSearchCommand) {
-        Collection<ReferenceTest> referenceTestList = new ArrayList<ReferenceTest>();
-        referenceTestList.addAll((Collection<ReferenceTest>)referenceTestDataService.getAllByReference(referenceDataService.getByCode("WCAG20")));
-        referenceTestList.addAll((Collection<ReferenceTest>)referenceTestDataService.getAllByReference(referenceDataService.getByCode("Rgaa22")));
-        referenceTestList.addAll((Collection<ReferenceTest>)referenceTestDataService.getAllByReference(referenceDataService.getByCode("AW21")));
-        
-        Collection<ReferenceInfo> referenceInfoList = new ArrayList<ReferenceInfo>();
-        referenceInfoList.addAll((Collection<ReferenceInfo>)referenceInfoDataService.getAllByReference(referenceDataService.getByCode("WCAG20")));
-        referenceInfoList.addAll((Collection<ReferenceInfo>)referenceInfoDataService.getAllByReference(referenceDataService.getByCode("Rgaa22")));
-        referenceInfoList.addAll((Collection<ReferenceInfo>)referenceInfoDataService.getAllByReference(referenceDataService.getByCode("AW21")));
-        
-        Collection<ReferenceLevel> referenceLevelList = new ArrayList<ReferenceLevel>();
-        referenceLevelList.addAll((Collection<ReferenceLevel>)referenceLevelDataService.getAllByReference(referenceDataService.getByCode("WCAG20")));
-        referenceLevelList.addAll((Collection<ReferenceLevel>)referenceLevelDataService.getAllByReference(referenceDataService.getByCode("Rgaa22")));
-        referenceLevelList.addAll((Collection<ReferenceLevel>)referenceLevelDataService.getAllByReference(referenceDataService.getByCode("AW21")));
-        
         model.addAttribute("testcaseSearchCommand", testcaseSearchCommand);
         model.addAttribute("referenceList", referenceDataService.findAll());
-        model.addAttribute("referenceLevelList", referenceLevelList);
         model.addAttribute("resultList", resultDataService.findAll());
-        model.addAttribute("referenceTestList", referenceTestList);
-        model.addAttribute("referenceInfoList", referenceInfoList);
+        
+        model.addAttribute("referenceTestMap", referenceTestDataService.getInternMapByDepth());
+        model.addAttribute("referenceInfoMap", referenceInfoDataService.getInternMapByDepth());
+        model.addAttribute("referenceLevelMap", referenceLevelDataService.getInternMap());
     }
     
     /*

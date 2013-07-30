@@ -28,7 +28,11 @@ public class ReferenceInfoDataServiceImpl extends AbstractRefComponentWithDepthD
         List<ReferenceTest> referenceTestList = new ArrayList<ReferenceTest>();
         
         for (ReferenceTest referenceTest : referenceInfo.getReferenceTestSet()) {
-            referenceTestList.addAll(referenceTestDataService.getReferenceTestWithAllChildren(referenceTest, referenceLevel, result));
+            referenceTestList.addAll(referenceTestDataService.getReferenceTestWithAllChildren(
+                        referenceTest, 
+                        referenceLevel, 
+                        result)
+                    );
         }
         
         return referenceTestList;

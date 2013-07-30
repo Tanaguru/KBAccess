@@ -84,6 +84,10 @@ public abstract class AbstractRefComponentDataService<E extends RefComponent, K 
     
     @Override
     public Collection<E> getAllByReference(Reference reference) {
+        if (reference == null) {
+            return null;
+        }
+        
         return internMap.get(reference).values();
     }
 

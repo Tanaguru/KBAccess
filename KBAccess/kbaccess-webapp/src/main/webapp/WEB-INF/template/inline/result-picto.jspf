@@ -3,23 +3,23 @@
 <%@ page pageEncoding="UTF-8" %>
     <c:choose>
         <c:when test="${resultId == 1}">
-            <c:set var="alt" scope="page"><fmt:message key="results.passed" /></c:set>
+            <c:set var="alt" scope="page"><fmt:message key="passed" /></c:set>
             <img src="<c:url value='/assets/images/ico-passed-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:when test="${resultId == 2}">
-            <c:set var="alt" scope="page"><fmt:message key="results.failed" /></c:set>
+            <c:set var="alt" scope="page"><fmt:message key="failed" /></c:set>
             <img src="<c:url value='/assets/images/ico-failed-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:when test="${resultId == 3}">
-            <c:set var="alt" scope="page"><fmt:message key="results.naFull" /></c:set>
+            <c:set var="alt" scope="page"><fmt:message key="naFull" /></c:set>
             <img src="<c:url value='/assets/images/ico-na-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:when test="${resultId == 4}">
-            <c:set var="alt" scope="page"><fmt:message key="results.nmiFull" /></c:set>
+            <c:set var="alt" scope="page"><fmt:message key="nmiFull" /></c:set>
             <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:otherwise>
-            <c:set var="alt" scope="page"><fmt:message key="results.nmiFull" /></c:set>
+            <c:set var="alt" scope="page"><fmt:message key="nmiFull" /></c:set>
             <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="${alt}"/>
         </c:otherwise>
     </c:choose>

@@ -3,54 +3,85 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
   
-<form method="get" action="list.html">
-    <div class="control-group">
-        <label class="control-label" for="selectReferentiel"><fmt:message key="accessibility.reference" /></label>
-        <select name="reference" id="selectReferentiel" class="span5" size="1">
-                <option value="" selected="selected"><fmt:message key="all" /></option>
-                <c:forEach var="reference" items="${referenceList}">
-                    <option value="${reference.id}"><fmt:message key="${reference.code}"/></option>
-                </c:forEach>
-        </select>              
-    </div>
+<form:form id="tc-search-form" commandName="testcaseSearchCommand" method="GET" action="list.html">
+    <div class="span2" style="float:left">
+        <fieldset>
+            <legend><fmt:message key="testcase.parameters"/></legend>
+            <div id="select-ref-div" class="control-group">
+                <label class="control-label" for="selectReferentiel"><fmt:message key="accessibility.reference" /></label>
+                <form:select path="codeReference" id="selectReferentiel" size="1">
+                        <option value="" selected="selected"><fmt:message key="all" /></option>
+                        <c:forEach var="reference" items="${referenceList}">
+                            <option value="${reference.code}"><fmt:message key="${reference.code}"/></option>
+                        </c:forEach>
+                </form:select>              
+            </div>
 
-    <div class="control-group">
-        <label class="control-label" for="selectTheme"><fmt:message key="accessibility.theme" /></label>
-            <select name="referenceInfo" id="selectTheme" class="span5" size="1">
-                <option value="" selected="selected"><fmt:message key="all" /></option>
-                <c:forEach var="referenceInfo" items="${referenceInfoList}" varStatus="status">
-                    <option value="${referenceInfo.id}">${status.count}. <fmt:message key="${referenceInfo.code}"/></option>
-                </c:forEach>
-            </select>
+            <div class="control-group">
+                <label class="control-label" for="selectResultat"><fmt:message key="result" /></label>
+                    <form:select path="idResult"  id="selectResultat" size="1">
+                        <option value="" selected="selected"><fmt:message key="all" /></option>
+                        <c:forEach var="result" items="${resultList}">
+                            <option value="${result.id}"><fmt:message key="${result.code}"/></option>
+                        </c:forEach>
+                    </form:select>
+            </div>
+        </fieldset>
     </div>
-    <div class="control-group">
-        <label class="control-label" for="selectTest"><fmt:message key="accessibility.test" /></label>
-            <select name="referenceTest" id="selectTest" class="span5" size="1">
-                <option value="" selected="selected"><fmt:message key="all" /></option>
-                    <c:forEach var="referenceTest" items="${referenceTestList}">
-                        <option value="${referenceTest.id}">${referenceTest.label} &#45; <fmt:message key="${referenceTest.code}"/></option>
+                
+    <div id="ref-block" class="span7 offset1">
+        <fieldset>
+            <legend id="ref-fiedlset-legend"></legend>
+                
+            <c:forEach var="entry" items="${referenceInfoMap}">
+                <div id="${entry.key.code}-info-block" class="toggle-block">
+                    <c:forEach var="depthAndInfo" items="${entry.value}" varStatus="status">
+                        <div class="control-group">
+                            <label class="control-label" for="${depthAndInfo.key.code}-select"><fmt:message key="${depthAndInfo.key.code}" /></label>
+                                <form:select multiple="false" path="idReferenceInfoList[${status.index}]" id="${depthAndInfo.key.code}-select" size="1" class="span12">
+                                    <option value="" selected="selected"><fmt:message key="all" /></option>
+                                    <c:forEach var="referenceInfo" items="${depthAndInfo.value}" varStatus="rank">
+                                        <option value="${referenceInfo.id}">${referenceInfo.label}. <fmt:message key="${referenceInfo.code}"/></option>
+                                    </c:forEach>
+                                </form:select>
+                        </div>
                     </c:forEach>
-            </select>
-     </div>
-     <div class="control-group">    
-        <label class="control-label" for="selectNiveau"><fmt:message key="accessibility.level" /></label>
-            <select name="referenceLevel" id="selectNiveau" size="1" class="span5">
-                <option value="" selected="selected"><fmt:message key="all" /></option>
-                    <c:forEach var="referenceLevel" items="${referenceLevelList}">
-                        <option value="${referenceLevel.id}"><fmt:message key="${referenceLevel.code}"/></option>
+                </div>
+            </c:forEach>       
+
+            <c:forEach var="entry" items="${referenceTestMap}">
+                <div id="${entry.key.code}-test-block" class="toggle-block">
+                    <c:forEach var="depthAndTest" items="${entry.value}" varStatus="status">
+                        <div class="control-group">
+                            <label class="control-label" for="${depthAndTest.key.code}-select"><fmt:message key="${depthAndTest.key.code}" /></label>
+                                <form:select multiple="false" path="idReferenceTestList[${status.index}]" id="${depthAndTest.key.code}-select" size="1" class="span12">
+                                    <option value="" selected="selected"><fmt:message key="all" /></option>
+                                    <c:forEach var="referenceTest" items="${depthAndTest.value}">
+                                        <option value="${referenceTest.id}">${referenceTest.label} - <fmt:message key="${referenceTest.code}"/></option>
+                                    </c:forEach>
+                                </form:select>
+                        </div>
                     </c:forEach>
-            </select>
+                </div>
+            </c:forEach>
+
+            <c:forEach var="entry" items="${referenceLevelMap}" varStatus="status">
+                <div id="${entry.key.code}-level-block" class="toggle-block">
+                    <div class="control-group">
+                        <label class="control-label" for="${entry.key.code}-level-select"><fmt:message key="accessibility.level" /></label>
+                        <form:select path="idReferenceLevel" id="${entry.key.code}-level-select" size="1" class="span12">
+                        <option value="" selected="selected"><fmt:message key="all" /></option>
+                        <c:forEach var="level" items="${entry.value}">
+                                <option value="${level.value.id}"><fmt:message key="${level.value.code}"/></option>
+                         </c:forEach>    
+                        </form:select>
+                    </div>
+                </div>
+            </c:forEach>
+        </fieldset>
     </div>
-    <div class="control-group">
-        <label class="control-label" for="selectResultat"><fmt:message key="result" /></label>
-            <select name="result"  id="selectResultat" size="1" class="span5">
-                <option value="" selected="selected"><fmt:message key="all" /></option>
-                <c:forEach var="result" items="${resultList}">
-                    <option value="${result.id}"><fmt:message key="${result.code}"/></option>
-                </c:forEach>
-            </select>
+                
+    <div class="form-actions" style="clear:left">
+        <button class="btn btn-info"><fmt:message key="testcase.searchButton" /></button>
     </div>
-    <br />
-       
-    <input type="submit" value="<fmt:message key="testcase.searchButton" />" />
-</form>
+</form:form>

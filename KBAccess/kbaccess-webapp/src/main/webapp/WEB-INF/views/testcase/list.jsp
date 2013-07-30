@@ -47,20 +47,24 @@
             <c:set var="separator" scope="page" value="," />
             <c:set var="searchParametersList" scope="page">
                 <c:forEach var="parameter" items="${parameterMap}" varStatus="status">
-                    
                     <c:choose>
-                        <c:when test="${parameter.key == 'accessibility.level' or parameter.key == 'result'}">
-                            <fmt:message key="${parameter.key}"/> <fmt:message key="${parameter.value}"/>
+                        <c:when test="${parameter.key == 'accessibility.testDepth'}">
+                            <fmt:message key="${parameter.value}"/>
+                        </c:when>
+                        <c:when test="${parameter.key == 'accessibility.testLabel'}">
+                            ${parameter.value}
+                            <c:if test="${!status.last}">
+                                <c:out value="${separator}" />		
+                            </c:if>
                         </c:when>
                         <c:otherwise>
-                            <fmt:message key="${parameter.key}"/> ${parameter.value}
+                            <fmt:message key="${parameter.key}"/> <fmt:message key="${parameter.value}"/>
+                            <c:if test="${!status.last}">
+                                <c:out value="${separator}" />		
+                            </c:if>
                         </c:otherwise>
                     </c:choose>
-                    
-                    <c:if test="${!status.last}">
-                        <c:out value="${separator}" />		
-                    </c:if>
-                    </c:forEach>
+                </c:forEach>
             </c:set>
             
             <c:set var="title" scope="page">

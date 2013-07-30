@@ -23,6 +23,7 @@ package org.opens.kbaccess.presentation;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.TreeSet;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceTest;
@@ -40,18 +41,17 @@ public class TestcasePresentation {
     private Long testcaseId;
     private Long accountId;
     private Long testId;
-    private Long testParentId;
     private Long referenceId;
     private Long resultId;
 
+    private Set<ReferenceTest> testParents;
+    
     private String testCode;
-    private String testParentCode;
     private String testWebRefCode;
     private String referenceCode;
     private String resultCode;
     
     private String testLabel;
-    private String testParentLabel;
     private String referenceLabel;
     private String referenceLabelForUrl;
     
@@ -75,27 +75,7 @@ public class TestcasePresentation {
         this.accountId = account.getId();
         this.testId = referenceTest.getId();
         
-        if (referenceTestParentSet != null 
-                && !referenceTestParentSet.isEmpty() 
-                && referenceTestParentSet.size() == 1) {
-            
-            ReferenceTest referenceTestParent = null;
-            
-            // Only 1 element in the set but we need to iterate anyway
-            // (sets don't have access method)
-            for (ReferenceTest refTest : referenceTestParentSet) {
-                referenceTestParent = refTest;
-            }
-            
-            this.testParentId = referenceTestParent.getId();
-            this.testParentLabel = referenceTestParent.getLabel();
-            this.testParentCode = referenceTestParent.getCode();
-        } else {
-            this.testParentId = null;
-            this.testParentLabel=null;
-            this.testParentCode=null;
-        }
-            
+        this.testParents = new TreeSet<ReferenceTest>(referenceTest.getParents());
         
         this.referenceId = reference.getId();
         this.resultId = testcase.getResult().getId();
@@ -145,14 +125,6 @@ public class TestcasePresentation {
         this.testId = testId;
     }
 
-    public Long getTestParentId() {
-        return testParentId;
-    }
-
-    public void setTestParentId(Long testParentId) {
-        this.testParentId = testParentId;
-    }
-
     public Long getReferenceId() {
         return referenceId;
     }
@@ -176,13 +148,13 @@ public class TestcasePresentation {
     public void setTestCode(String testCode) {
         this.testCode = testCode;
     }
-    
-    public String getTestParentCode() {
-        return testParentCode;
+
+    public Set<ReferenceTest> getTestParents() {
+        return testParents;
     }
 
-    public void setTestParentCode(String testParentCode) {
-        this.testParentCode = testParentCode;
+    public void setTestParents(Set<ReferenceTest> testParents) {
+        this.testParents = testParents;
     }
     
     public String getTestWebRefCode() {
@@ -215,14 +187,6 @@ public class TestcasePresentation {
 
     public void setTestLabel(String testLabel) {
         this.testLabel = testLabel;
-    }
-    
-    public String getTestParentLabel() {
-        return testParentLabel;
-    }
-
-    public void setTestParentLabel(String testParentLabel) {
-        this.testParentLabel = testParentLabel;
     }
 
     public String getReferenceLabel() {

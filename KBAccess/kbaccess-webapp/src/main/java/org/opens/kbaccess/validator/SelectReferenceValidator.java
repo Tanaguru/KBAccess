@@ -54,10 +54,10 @@ public class SelectReferenceValidator implements Validator {
         
         return true;
     }
+    
     /*
      * Validator implementation
      */
-
     @Override
     public boolean supports(Class type) {
         return SelectReferenceCommand.class.isAssignableFrom(type);

@@ -32,19 +32,19 @@ INSERT IGNORE INTO `reference_depth`(`ID_REFERENCE_DEPTH`, `CD_REFERENCE_DEPTH`,
 --
 -- Content of table reference_info
 --
-INSERT IGNORE INTO `reference_info` (`ID_REFERENCE_INFO`, `CD_REFERENCE_INFO`, `RANK`, `ID_REFERENCE_DEPTH`) VALUES
-(14, 'Rgaa22-01', 14, 4),
-(15, 'Rgaa22-02', 15, 4),
-(16, 'Rgaa22-03', 16, 4),
-(17, 'Rgaa22-04', 17, 4),
-(18, 'Rgaa22-05', 18, 4),
-(19, 'Rgaa22-06', 19, 4),
-(20, 'Rgaa22-07', 20, 4),
-(21, 'Rgaa22-08', 21, 4),
-(22, 'Rgaa22-09', 22, 4),
-(23, 'Rgaa22-10', 23, 4),
-(24, 'Rgaa22-11', 24, 4),
-(25, 'Rgaa22-12', 25, 4);
+INSERT IGNORE INTO `reference_info` (`ID_REFERENCE_INFO`, `CD_REFERENCE_INFO`, `LABEL`, `RANK`, `ID_REFERENCE_DEPTH`) VALUES
+(14, 'Rgaa22-01', '1', 14, 4),
+(15, 'Rgaa22-02', '2', 15, 4),
+(16, 'Rgaa22-03', '3', 16, 4),
+(17, 'Rgaa22-04', '4', 17, 4),
+(18, 'Rgaa22-05', '5', 18, 4),
+(19, 'Rgaa22-06', '6', 19, 4),
+(20, 'Rgaa22-07', '7', 20, 4),
+(21, 'Rgaa22-08', '8', 21, 4),
+(22, 'Rgaa22-09', '9', 22, 4),
+(23, 'Rgaa22-10', '10', 23, 4),
+(24, 'Rgaa22-11', '11', 24, 4),
+(25, 'Rgaa22-12', '12', 25, 4);
 
 --
 -- Content of table reference_test

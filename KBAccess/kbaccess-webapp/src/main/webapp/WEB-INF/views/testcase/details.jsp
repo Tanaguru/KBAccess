@@ -37,7 +37,7 @@
             <div class="span3">
                 <img alt="Aperçu de la page ${testcase.webarchiveLocalUrl}" src="${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}" />
             </div>     
-            <div class="span6">
+            <div class="span5">
                 <h2><fmt:message key="testcase.detailsSpecs" /></h2>
                 <table class="data-table table table-condensed table-vertical" summary="<fmt:message key="testcase.detailsSpecsOfExample" /> ${testcase.testcaseId}">
                     <caption class="data-table-caption"><fmt:message key="testcase.detailsSpecsOfExample" /> ${testcase.testcaseId}</caption>
@@ -98,7 +98,7 @@
                             or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
                             or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
                 <c:if test="${hasCRUDPermission}">
-                <div class="span3">
+                <div class="span4">
                     <h3><fmt:message key="testcase.detailsActions" /></h3>
                         <div class="alert alert-info">
                             <ul class="tc-details-ul">
@@ -123,24 +123,26 @@
                         </div>
                 </div>
                 </c:if>
-            <div class="span3">
+            <div class="span4">
                 <h3><fmt:message key="testcase.detailsSeeAlso" /></h3>
                 <%--<c:set var="isTestcaseCreator"
                        value="${authenticatedUser.id == testcase.accountId}"/>--%>
                 <div class="alert alert-info">
                     <ul class="tc-details-ul">             
                         <li>
-                            <a href="<c:url value='/example/list.html?reference=${testcase.referenceId}'/>">
+                            <a href="<c:url value='/example/result.html?reference=${testcase.referenceId}'/>">
                                 <fmt:message key="testcase.detailsAllExamplesOn" /> ${testcase.referenceLabel}
                             </a>
                         </li>
+                        <c:forEach var="testParent" items="${testcase.testParents}">
                         <li>
-                            <a href="<c:url value='/example/list.html?criterion=${testcase.testParentId}'/>">
-                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="accessibility.criterion" /> ${testcase.testParentLabel}
+                            <a href="<c:url value='/example/result.html?test=${testParent.id}'/>">
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="${testParent.referenceDepth.code}" /> ${testParent.label}
                             </a>     
                         </li>
+                        </c:forEach>
                         <li>
-                            <a href="<c:url value='/example/list.html?test=${testcase.testId}'/>">
+                            <a href="<c:url value='/example/result.html?test=${testcase.testId}'/>">
                                 <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="accessibility.test" /> ${testcase.testLabel}
                             </a>
                         </li>

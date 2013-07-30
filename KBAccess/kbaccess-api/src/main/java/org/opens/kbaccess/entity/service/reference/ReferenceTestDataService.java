@@ -18,6 +18,18 @@ public interface ReferenceTestDataService extends RefComponentWithDepthDataServi
       * @param result
       * @return 
       */
+     public Collection<ReferenceTest> getReferenceTestWithChildren(
+             ReferenceTest referenceTest, 
+             ReferenceLevel level, 
+             Result result);
+     
+     /**
+      * 
+      * @param referenceTest
+      * @param level
+      * @param result
+      * @return 
+      */
      public Collection<ReferenceTest> getReferenceTestWithAllChildren(
              ReferenceTest referenceTest, 
              ReferenceLevel level, 

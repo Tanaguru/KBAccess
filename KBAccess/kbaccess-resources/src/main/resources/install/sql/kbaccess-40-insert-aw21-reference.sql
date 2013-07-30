@@ -32,20 +32,20 @@ INSERT IGNORE INTO `reference_depth`(`ID_REFERENCE_DEPTH`, `CD_REFERENCE_DEPTH`,
 --
 -- Content of table reference_info
 --
-INSERT IGNORE INTO `reference_info` (`ID_REFERENCE_INFO`, `CD_REFERENCE_INFO`, `RANK`, `ID_REFERENCE_DEPTH`) VALUES
-(1, 'AW21-01', 1, 1),
-(2, 'AW21-02', 2, 1),
-(3, 'AW21-03', 3, 1),
-(4, 'AW21-04', 4, 1),
-(5, 'AW21-05', 5, 1),
-(6, 'AW21-06', 6, 1),
-(7, 'AW21-07', 7, 1),
-(8, 'AW21-08', 8, 1),
-(9, 'AW21-09', 9, 1),
-(10, 'AW21-10', 10, 1),
-(11, 'AW21-11', 11, 1),
-(12, 'AW21-12', 12, 1),
-(13, 'AW21-13', 13, 1);
+INSERT IGNORE INTO `reference_info` (`ID_REFERENCE_INFO`, `CD_REFERENCE_INFO`, `LABEL`, `RANK`, `ID_REFERENCE_DEPTH`) VALUES
+(1, 'AW21-01', '1', 1, 1),
+(2, 'AW21-02', '2', 2, 1),
+(3, 'AW21-03', '3', 3, 1),
+(4, 'AW21-04', '4', 4, 1),
+(5, 'AW21-05', '5', 5, 1),
+(6, 'AW21-06', '6', 6, 1),
+(7, 'AW21-07', '7', 7, 1),
+(8, 'AW21-08', '8', 8, 1),
+(9, 'AW21-09', '9', 9, 1),
+(10, 'AW21-10', '10', 10, 1),
+(11, 'AW21-11', '11', 11, 1),
+(12, 'AW21-12', '12', 12, 1),
+(13, 'AW21-13', '13', 13, 1);
 
 --
 -- Content of table reference_test

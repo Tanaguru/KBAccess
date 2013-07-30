@@ -78,6 +78,15 @@ public class ReferenceDepthImpl extends AbstractRefComponent implements Referenc
     }
 
     @Override
+    public String getLabel() {
+        return this.code;
+    }
+
+    @Override
+    public void setLabel(String label) {
+    }
+    
+    @Override
     public Integer getDepth() {
         return depth;
     }

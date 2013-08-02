@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
-        ${testcase.id} : ${testcase.testLabel} <abbr class="abbr-reference-h1" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
+        ${testcase.testcaseId} : ${testcase.testLabel} <abbr class="abbr-reference-h1" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
         <c:set var='resultId' value='${testcase.resultId}'/>
         <c:set var='withAccents' value='true' />
         <%@include file='/WEB-INF/template/inline/result.jspf' %>

@@ -21,189 +21,162 @@
  */
 package org.opens.kbaccess.presentation;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import org.opens.kbaccess.entity.subject.TestResult;
+import java.util.Set;
+import java.util.TreeSet;
+import org.opens.kbaccess.entity.authorization.Account;
+import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
+import org.opens.kbaccess.entity.reference.Result;
+import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
 import org.opens.kbaccess.entity.subject.Testcase;
+import org.opens.kbaccess.entity.subject.Webarchive;
 
 /**
  *
- * @author bcareil
+ * @author blebail
  */
 public class TestcasePresentation {
-    private Long authorId;
-    private Long criterionId;
-    private Long id;
+        
+    private Long testcaseId;
+    private Long accountId;
+    private Long testId;
     private Long referenceId;
-    private String referenceCode;
     private Long resultId;
-    private String resultCode;
-    private Long webarchiveId;
 
-    private String authorDisplayedName;
-    private String description;
-    private String detailsUrl;
+    private Set<ReferenceTest> testParents;
+    
+    private String testCode;
+    private String testDepthCode;
+    private String testWebRefCode;
+    private String referenceCode;
+    private String referenceWebRefCode;
+    private String resultCode;
+    
+    private String testLabel;
     private String referenceLabel;
     private String referenceLabelForUrl;
+    
+    private String accountDisplayedName;
+    private String description;
     private String webarchiveLocalUrl;
     private String webarchiveOriginalUrl;
-    private String criterionLabel;
-    private String themeLabel;
 
-    private Date webarchiveCreationDate;
     private Date creationDate;
-    
-    private Collection<TestResultPresentation> testResults;
-    private String testLabel;
-    private String testCode; 
-    
-    // Description of the test and criterion on the original website of the accessibility reference
-    private String webRefTestLabel;
-    private String webRefCriterionLabel;
-
-    public static String createDetailsSubUrl(Testcase testcase) {
-        StringBuilder sb = new StringBuilder();
+    private Date webarchiveCreationDate;
         
-        sb.append(testcase.getId().toString());
-        sb.append("-");
-//        sb.append(
-//                Normalizer.normalize(
-//                    testcase.getTitle(),
-//                    Normalizer.Form.NFD
-//                ).replaceAll(
-//                    "[^\\p{ASCII}]", ""
-//                ).toLowerCase(
-//                ).replace(
-//                    ' ',
-//                    '-'
-//                ));
-        sb.append(".html");
-        return sb.toString();
-    }
-    
-    public static List<TestcasePresentation>fromCollection(
-            Collection<Testcase> testcases,
-            boolean withTestResults
-            ) {
-        List<TestcasePresentation> presentations;
+    public TestcasePresentation(
+            Testcase testcase, 
+            ReferenceTestDataService referenceTestDataService) {
         
-        presentations = new ArrayList<TestcasePresentation>(testcases.size());
-        for (Testcase testcase : testcases) {
-            presentations.add(new TestcasePresentation(testcase, withTestResults));
-        }
-        return presentations;
-    }
-
-    public TestcasePresentation() {
-    }
-
-    public TestcasePresentation(Testcase testcase, boolean withTestResults) {
-        this.authorId = testcase.getAccount().getId();
-        this.criterionId = testcase.getCriterion().getId();
-        this.id = testcase.getId();
-        this.referenceId = testcase.getCriterion().getReference().getId();
-        this.referenceCode = testcase.getCriterion().getReference().getCode();
+        Account account = testcase.getAccount();
+        Webarchive webarchive = testcase.getWebarchive();
+        Result result = testcase.getResult();
+        ReferenceTest referenceTest = referenceTestDataService.getByCode(testcase.getReferenceTest().getCode());
+        Reference reference = referenceTestDataService.getReferenceOf(referenceTest);
+        
+        this.testcaseId = testcase.getId();
+        this.accountId = account.getId();
+        this.testId = referenceTest.getId();
+        
+        this.testParents = new TreeSet<ReferenceTest>(referenceTest.getParents());
+        
+        this.referenceId = reference.getId();
         this.resultId = testcase.getResult().getId();
-        this.resultCode = testcase.getResult().getCode();
-        this.webarchiveId = testcase.getWebarchive().getId();
-        this.themeLabel = testcase.getCriterion().getTheme().getLabel();
-        this.authorDisplayedName = AccountPresentation.generateDisplayedName(testcase.getAccount());
-        this.criterionLabel = testcase.getCriterion().getLabel();
-        this.description = testcase.getDescription();
-        this.detailsUrl = createDetailsSubUrl(testcase);
-        this.referenceLabel = testcase.getCriterion().getReference().getLabel();
+
+        this.testCode = referenceTest.getCode();
+        this.testDepthCode = referenceTest.getReferenceDepth().getCode();
+        this.testWebRefCode = referenceTest.getCode() + "-url";
+        this.referenceCode = reference.getCode();
+        this.referenceWebRefCode = reference.getCode() + "-url";
+        this.resultCode = result.getCode();
+
+        this.testLabel = referenceTest.getLabel();
+        this.referenceLabel = reference.getLabel();
         this.referenceLabelForUrl = this.referenceLabel.replaceAll("\\s", "");
-        this.webarchiveLocalUrl = testcase.getWebarchive().getLocalUrl().replaceAll("/http:/", "");
-        this.webarchiveOriginalUrl = testcase.getWebarchive().getUrl();
-        this.criterionLabel = testcase.getCriterion().getLabel();
-        this.webRefCriterionLabel = this.criterionLabel.replace(".", "-");
-        this.webarchiveCreationDate = testcase.getWebarchive().getCreationDate();
+
+        this.accountDisplayedName = AccountPresentation.generateDisplayedName(testcase.getAccount());
+        this.description = testcase.getDescription();
+        this.webarchiveLocalUrl = webarchive.getLocalUrl().replaceAll("/http:/", "");
+        this.webarchiveOriginalUrl = webarchive.getUrl();
+
         this.creationDate = testcase.getCreationDate();
-        if (withTestResults) {
-            this.testResults = testResultCollectionToPresentation(testcase.getTestResults());  
-            
-            TestResultPresentation testResult = this.testResults.iterator().next();
-            this.testLabel = testResult.getTestLabel();
-            this.testCode = testResult.getTestCode();
-            this.webRefTestLabel = this.testLabel.replace(".", "-");
-        } else {
-            this.testResults = null;
-        }
+        this.webarchiveCreationDate = webarchive.getCreationDate();
+    }
+
+    /*
+     * Accessors
+     */
+    public Long getTestcaseId() {
+        return testcaseId;
+    }
+
+    public void setTestcaseId(Long testcaseId) {
+        this.testcaseId = testcaseId;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public Long getTestId() {
+        return testId;
+    }
+
+    public void setTestId(Long testId) {
+        this.testId = testId;
+    }
+
+    public Long getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(Long referenceId) {
+        this.referenceId = referenceId;
+    }
+
+    public Long getResultId() {
+        return resultId;
+    }
+
+    public void setResultId(Long resultId) {
+        this.resultId = resultId;
+    }
+
+    public String getTestCode() {
+        return testCode;
+    }
+
+    public void setTestCode(String testCode) {
+        this.testCode = testCode;
+    }
+
+    public String getTestDepthCode() {
+        return testDepthCode;
+    }
+
+    public void setTestDepthCode(String testDepthCode) {
+        this.testDepthCode = testDepthCode;
+    }
+
+    public Set<ReferenceTest> getTestParents() {
+        return testParents;
+    }
+
+    public void setTestParents(Set<ReferenceTest> testParents) {
+        this.testParents = testParents;
     }
     
-    private Collection<TestResultPresentation> testResultCollectionToPresentation(Collection<TestResult> testResults) {
-        Collection<TestResultPresentation> ret = new ArrayList<TestResultPresentation>(testResults.size());
-        
-        for (TestResult testResult : testResults) {
-            ret.add(new TestResultPresentation(testResult));
-        }
-        return ret;
+    public String getTestWebRefCode() {
+        return testWebRefCode;
     }
 
-    public String getAuthorDisplayedName() {
-        return authorDisplayedName;
-    }
-
-    public void setAuthorDisplayedName(String authorDisplayedName) {
-        this.authorDisplayedName = authorDisplayedName;
-    }
-
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-    
-    public Long getCriterionId() {
-        return criterionId;
-    }
-
-    public void setCriterionId(Long criterionId) {
-        this.criterionId = criterionId;
-    }
-
-    public String getCriterionLabel() {
-        return criterionLabel;
-    }
-
-    public void setCriterionLabel(String criterionLabel) {
-        this.criterionLabel = criterionLabel;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDetailsUrl() {
-        return detailsUrl;
-    }
-
-    public void setDetailsUrl(String detailsUrl) {
-        this.detailsUrl = detailsUrl;
-    }
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setTestWebRefCode(String testWebRefCode) {
+        this.testWebRefCode = testWebRefCode;
     }
 
     public String getReferenceCode() {
@@ -214,6 +187,30 @@ public class TestcasePresentation {
         this.referenceCode = referenceCode;
     }
 
+    public String getReferenceWebRefCode() {
+        return referenceWebRefCode;
+    }
+
+    public void setReferenceWebRefCode(String referenceWebRefCode) {
+        this.referenceWebRefCode = referenceWebRefCode;
+    }
+    
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
+    }
+    
+    public String getTestLabel() {
+        return testLabel;
+    }
+
+    public void setTestLabel(String testLabel) {
+        this.testLabel = testLabel;
+    }
+
     public String getReferenceLabel() {
         return referenceLabel;
     }
@@ -222,44 +219,28 @@ public class TestcasePresentation {
         this.referenceLabel = referenceLabel;
     }
 
-    public Long getResultId() {
-        return resultId;
-    }
-    
-    public String getResultCode() {
-        return resultCode;
+    public String getReferenceLabelForUrl() {
+        return referenceLabelForUrl;
     }
 
-    public void setResultId(Long resultId) {
-        this.resultId = resultId;
+    public void setReferenceLabelForUrl(String referenceLabelForUrl) {
+        this.referenceLabelForUrl = referenceLabelForUrl;
     }
 
-    public Collection<TestResultPresentation> getTestResults() {
-        return testResults;
-    }
-    
-    public String getTestResultLabel() {
-        return testResults.iterator().next().getTestLabel();
+    public String getAccountDisplayedName() {
+        return accountDisplayedName;
     }
 
-    public void setTestResults(Collection<TestResultPresentation> testResults) {
-        this.testResults = testResults;
+    public void setAccountDisplayedName(String accountDisplayedName) {
+        this.accountDisplayedName = accountDisplayedName;
     }
 
-    public Date getWebarchiveCreationDate() {
-        return webarchiveCreationDate;
+    public String getDescription() {
+        return description;
     }
 
-    public void setWebarchiveCreationDate(Date webarchiveCreationDate) {
-        this.webarchiveCreationDate = webarchiveCreationDate;
-    }
-
-    public Long getWebarchiveId() {
-        return webarchiveId;
-    }
-
-    public void setWebarchiveId(Long webarchiveId) {
-        this.webarchiveId = webarchiveId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getWebarchiveLocalUrl() {
@@ -277,60 +258,20 @@ public class TestcasePresentation {
     public void setWebarchiveOriginalUrl(String webarchiveOriginalUrl) {
         this.webarchiveOriginalUrl = webarchiveOriginalUrl;
     }
-    
-     public String getTestLabel() {
-        return testLabel;
+
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setTestLabel(String testLabel) {
-        this.testLabel = testLabel;
-    }
-    
-     public String getWebRefTestLabel() {
-        return webRefTestLabel;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public void setWebRefTestLabel(String webRefTestLabel) {
-        this.webRefTestLabel = webRefTestLabel;
-    }
-    
-    public String getWebRefCriterionLabel() {
-        return webRefCriterionLabel;
+    public Date getWebarchiveCreationDate() {
+        return webarchiveCreationDate;
     }
 
-    public void setWebRefCriterionLabel(String webRefCriterionLabel) {
-        this.webRefCriterionLabel = webRefCriterionLabel;
-    }
-
-    public Long getReferenceId() {
-        return referenceId;
-    }
-
-    public void setReferenceId(Long referenceId) {
-        this.referenceId = referenceId;
-    }
-
-    public String getReferenceLabelForUrl() {
-        return referenceLabelForUrl;
-    }
-
-    public void setReferenceLabelForUrl(String referenceLabelForUrl) {
-        this.referenceLabelForUrl = referenceLabelForUrl;
-    }
-
-    public String getThemeLabel() {
-        return themeLabel;
-    }
-
-    public void setThemeLabel(String themeLabel) {
-        this.themeLabel = themeLabel;
-    }
-
-    public String getTestCode() {
-        return testCode;
-    }
-
-    public void setTestCode(String testCode) {
-        this.testCode = testCode;
+    public void setWebarchiveCreationDate(Date webarchiveCreationDate) {
+        this.webarchiveCreationDate = webarchiveCreationDate;
     }
 }

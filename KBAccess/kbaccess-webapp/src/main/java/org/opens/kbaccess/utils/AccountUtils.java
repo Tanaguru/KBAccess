@@ -154,7 +154,7 @@ public class AccountUtils {
         
         if (!tokenHelper.checkUserToken(token)) {
             isTokenValid = false;
-            LogFactory.getLog(AccountController.class).info("Token with an invalid structure");
+            LogFactory.getLog(AccountController.class).info("Token expired/with an invalid structure");
         }
         
         return (isAccountValid && isTokenValid);

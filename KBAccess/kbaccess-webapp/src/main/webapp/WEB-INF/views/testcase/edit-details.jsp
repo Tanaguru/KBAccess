@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title">
-        <fmt:message key="testcase.editDetailsTitle" /> ${testcase.id}
+        <fmt:message key="testcase.editDetailsTitle" /> ${testcase.testcaseId}
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
@@ -31,36 +31,36 @@
             <c:otherwise>
                 <div class="row-fluid">
                     <div id="modification-testcase-1" class="boite">
-                        <form:form commandName="editTestcaseCommand" action="edit-details.html" method="POST">
+                        <form:form id="new-tc-form" commandName="editTestcaseCommand" action="edit-details.html" method="POST">
                             <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                             <form:hidden path="id" />
                             <div class="control-group">
-                                <label class="control-label" for="testcase_test"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> Test&nbsp;:</label>
-                                <div class="controls">
-                                    <form:select path="idTest" size="5" id="testcase_test">
+                                <label class="control-label new-tc-label" for="testcase_test"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> Test&nbsp;:</label>
+                                <div class="controls new-tc-block">
+                                    <form:select path="idReferenceTest" size="5" id="testcase_test" class="span9">
                                         <%@include file="/WEB-INF/template/form/options/test-ids.jspf" %>
                                     </form:select>           
-                                    <form:errors path="idTest" cssClass="alert alert-error" element="p"/>
+                                    <form:errors path="idReferenceTest" cssClass="alert alert-error" element="p"/>
                                 </div>
-                            </div>.
+                            </div>
                             <div class="control-group">
-                                <label class="control-label" for="testcase_result"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> <fmt:message key="result" />&nbsp;:</label>
-                                <div class="controls">
-                                    <form:select path="idResult"  id="testcase_result" size="5">
+                                <label class="control-label new-tc-label" for="testcase_result"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> <fmt:message key="result" />&nbsp;:</label>
+                                <div class="controls new-tc-block">
+                                    <form:select path="idResult"  id="testcase_result" size="5" class="span9">
                                         <%@include file="/WEB-INF/template/form/options/result-ids.jspf" %>
                                     </form:select>
                                     <form:errors path="idResult" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label for="testcase_description"><fmt:message key="description" /> :</label>
-                                <div class="controls">
-                                    <form:textarea path="description" id="testcase_description" rows="4" cols="35" />      
+                                <label class="control-label new-tc-label" for="testcase_description"><fmt:message key="description" /> :</label>
+                                <div class="controls new-tc-block">
+                                    <form:textarea path="description" id="testcase_description" rows="4" cols="35" class="span9"/>      
                                     <form:errors path="description" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button class="btn btn-primary"><fmt:message key="testcase.detailsEdit" /></button>
+                                <button class="btn btn-info"><fmt:message key="testcase.detailsEdit" /></button>
                             </div>
                         </form:form>
                     </div>

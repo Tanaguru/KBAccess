@@ -49,18 +49,18 @@
                 </ul>
             </div>
             <div class="span3">
-                <h2><fmt:message key="home.topContribs"/></h2>
+                <h2><fmt:message key="statistics.topContribs"/></h2>
                 <c:set var="accountStatistics" value="${statistics.bestContributors}"/>
                 <%@include file="/WEB-INF/template/block/account-statistics.jspf" %>
             </div>    
             <div class="span3">
-                <h2><fmt:message key="home.mostFurnishedCriteria"/></h2>
-                <c:set var="criterionStatistics" value="${statistics.mostReferencedCriterion}"/>
+                <h2><fmt:message key="statistics.mostFurnishedTests"/></h2>
+                <c:set var="referenceTestStatistics" value="${statistics.mostFurnishedReferenceTest}"/>
                 <%@include file="/WEB-INF/template/block/criterion-statistics.jspf" %>
             </div>
             <div class="span3">
-                <h2><fmt:message key="home.leastFurnishedCriteria"/></h2>
-                <c:set var="criterionStatistics" value="${statistics.leastReferencedCriterion}"/>
+                <h2><fmt:message key="statistics.leastFurnishedTests"/></h2>
+                <c:set var="referenceTestStatistics" value="${statistics.leastFurnishedReferenceTest}"/>
                 <%@include file="/WEB-INF/template/block/criterion-statistics.jspf" %>
             </div>
         </div> 

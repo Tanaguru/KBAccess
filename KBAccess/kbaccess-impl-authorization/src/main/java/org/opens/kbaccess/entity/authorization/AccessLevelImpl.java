@@ -27,7 +27,7 @@ public class AccessLevelImpl implements AccessLevel, Serializable {
     protected String label;
     @Column(name = "DESCRIPTION")
     protected String description;
-    @Column(name = "PRIORITY")
+    @Column(name = "RANK")
     protected int priority;
 
     @Override

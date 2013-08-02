@@ -22,7 +22,6 @@
 package org.opens.kbaccess.entity.subject;
 
 import junit.framework.TestCase;
-import org.opens.kbaccess.entity.authorization.Account;
 
 /**
  *

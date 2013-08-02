@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="org.opens.kbaccess_kbaccess-api_jar_2.2-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>org.opens.kbaccess.entity.reference.Reference_1</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceInfo_1</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceDepth_1</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceTest_1</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceInfo</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceTest</class>
+    <class>org.opens.kbaccess.entity.reference.Level_1</class>
+    <class>org.opens.kbaccess.entity.reference.Reference</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceDepth</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kbaccess22?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.password" value="rpd45Hsapov"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="blebail"/>
+    </properties>
+  </persistence-unit>
+</persistence>

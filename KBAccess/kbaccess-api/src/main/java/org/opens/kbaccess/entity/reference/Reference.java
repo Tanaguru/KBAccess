@@ -1,86 +1,43 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package org.opens.kbaccess.entity.reference;
 
-import java.util.List;
-
-import org.opens.tanaguru.sdk.entity.Entity;
+import java.util.Set;
 import org.opens.tanaguru.sdk.entity.Reorderable;
 
 /**
- * 
- * @author jkowalczyk
- * @version 1.0.0
+ *
+ * @author blebail
  */
-public interface Reference extends Entity, Reorderable {
+public interface Reference extends RefBase, Reorderable {
 
-    /**
-     *
-     * @param criterion
-     *            the criterion to add
-     */
-    void addCriterion(Criterion criterion);
+    public String getDescription();
+    
+    public void setDescription(String description);
 
-    /**
-     *
-     * @return the code
-     */
-    String getCode();
+    public String getLabel();
 
-    /**
-     *
-     * @return the criterion list
-     */
-    List<Criterion> getCriterionList();
+    public void setLabel(String label);
 
-    /**
-     *
-     * @return the description
-     */
-    String getDescription();
+    public String getUrl();
 
-    /**
-     *
-     * @return the label
-     */
-    String getLabel();
+    public void setUrl(String url);
 
-    /**
-     *
-     * @return the url of the page describing the referential
-     */
-    String getUrl();
+    public String getCountry();
 
-    /**
-     *
-     * @param code
-     *            the code to set
-     */
-    void setCode(String code);
+    public void setCountry(String country);
 
-    /**
-     *
-     * @param criterionList
-     *            the criterion list to set
-     */
-    void setCriterionList(List<Criterion> criterionList);
+    public int getInfoMaxDepth();
 
-    /**
-     *
-     * @param description
-     *            the description to set
-     */
-    void setDescription(String description);
+    public void setInfoMaxDepth(int infoMaxDepth);
 
-    /**
-     *
-     * @param label
-     *            the label to set
-     */
-    void setLabel(String label);
+    public int getTestMaxDepth();
 
-    /**
-     *
-     * @param url
-     *          the url of the page describing the url
-     */
-    void setUrl(String url);
+    public void setTestMaxDepth(int testMaxDepth);
+    
+    public Set<? extends ReferenceTest> getReferenceTestSet();
+
+    public void setReferenceTestSet(Set<? extends ReferenceTest> referenceTestSet);
 }

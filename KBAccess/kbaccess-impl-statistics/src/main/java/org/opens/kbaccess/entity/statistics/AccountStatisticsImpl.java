@@ -69,5 +69,9 @@ public class AccountStatisticsImpl implements AccountStatistics {
     public void setTestcaseCount(Long testcaseCount) {
         this.testcaseCount = testcaseCount;
     }
-    
+
+    @Override
+    public String toString() {
+        return "AccountStatisticsImpl{" + "id=" + id + ", testcaseCount=" + testcaseCount + '}';
+    }
 }

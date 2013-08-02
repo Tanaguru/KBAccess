@@ -31,14 +31,14 @@ import org.opens.kbaccess.command.ChangePasswordCommand;
 import org.opens.kbaccess.command.NewPasswordCommand;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
-import org.opens.kbaccess.presentation.TestcasePresentation;
+import org.opens.kbaccess.presentation.factory.AccountPresentationFactory;
+import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.utils.TgolTokenHelper;
 import org.opens.kbaccess.validator.AccountDetailsValidator;
@@ -64,10 +64,12 @@ public class AccountController extends AController {
     
     @Autowired
     private WebarchiveDataService webarchiveDataService;
-    
-    
     @Autowired
     private StatisticsDataService statisticsDataService;
+    @Autowired
+    private AccountPresentationFactory accountPresentationFactory;
+    @Autowired
+    private TestcasePresentationFactory testcasePresentationFactory;
     
     /*
      * Private methods
@@ -103,7 +105,7 @@ public class AccountController extends AController {
             return "home";
         }
         
-        accountPresentation = new AccountPresentation(currentUser, accountDataService);
+        accountPresentation = accountPresentationFactory.create(currentUser);
         
         // Add edit settings form
         accountCommand = new AccountCommand(currentUser);
@@ -115,10 +117,11 @@ public class AccountController extends AController {
         model.addAttribute("account", accountPresentation);
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
-                TestcasePresentation.fromCollection(
-                testcaseDataService.getLastTestcasesFromAccount(currentUser, 5),
-                true
-                ));
+                testcasePresentationFactory.createFromCollection(
+                    testcaseDataService.getLastTestcasesFromAccount(currentUser, 5)
+                )
+            );
+        
         return "account/my-account";
     }
     
@@ -147,7 +150,7 @@ public class AccountController extends AController {
         model.addAttribute("accountCommand", accountCommand);
         
         if (result.hasErrors()) {
-            accountPresentation = new AccountPresentation(currentUser, accountDataService);
+            accountPresentation = accountPresentationFactory.create(currentUser);
             model.addAttribute("account", accountPresentation);
             return "account/my-account";
         }
@@ -156,16 +159,17 @@ public class AccountController extends AController {
         accountCommand.updateAccount(currentUser);
         accountDataService.update(currentUser);
         
-        accountPresentation = new AccountPresentation(currentUser, accountDataService);
+        accountPresentation = accountPresentationFactory.create(currentUser);
         
         handleUserLoginForm(model);
         model.addAttribute("account", accountPresentation);
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
-                TestcasePresentation.fromCollection(
-                testcaseDataService.getLastTestcasesFromAccount(currentUser, 5),
-                true
-                ));
+                testcasePresentationFactory.createFromCollection(
+                testcaseDataService.getLastTestcasesFromAccount(currentUser, 5)
+                )
+            );
+        
         model.addAttribute("successMessage", MessageKeyStore.ACCOUNT_EDITED);
         return "account/my-account";
     }
@@ -187,17 +191,18 @@ public class AccountController extends AController {
             return "home";
         } 
         
-        accountPresentation = new AccountPresentation(requestedUser, accountDataService);
+        accountPresentation = accountPresentationFactory.create(requestedUser);
         
         handleBreadcrumbTrail(model);
         
         model.addAttribute("account", accountPresentation);
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
-                TestcasePresentation.fromCollection(
-                testcaseDataService.getLastTestcasesFromAccount(requestedUser, 5),
-                true
-                ));
+                testcasePresentationFactory.createFromCollection(
+                testcaseDataService.getLastTestcasesFromAccount(requestedUser, 5)
+                )
+            );
+        
         return "account/details";
     }
     
@@ -239,10 +244,11 @@ public class AccountController extends AController {
         //
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY, 
-                TestcasePresentation.fromCollection(
-                testcaseDataService.getAllFromAccount(currentUser),
-                true
-                ));
+                testcasePresentationFactory.createFromCollection(
+                testcaseDataService.getAllFromAccount(currentUser)
+                )
+            );
+        
         return "account/my-examples";
     }
     
@@ -316,6 +322,19 @@ public class AccountController extends AController {
             return "guest/login";
         }
 
+        // Users will potentially ask for a new password if they're trying to access their non-activated account
+        // In this case we need to activate the user
+        String requestedUserEmail = TgolTokenHelper.getInstance().getUserEmailFromToken(token);
+        Account requestedUser = accountDataService.getAccountFromEmail(requestedUserEmail);
+        
+        if (requestedUser != null) {
+            if (!requestedUser.isActivated()) {
+                requestedUser.setActivated(true);
+                requestedUser.setAuthCode(null);
+                accountDataService.saveOrUpdate(requestedUser);
+            }
+        }
+        
         // New password form
         newPasswordCommand = new NewPasswordCommand();
         newPasswordCommand.setToken(token);
@@ -377,7 +396,7 @@ public class AccountController extends AController {
             AccountStatistics accountStatistics = (AccountStatistics) it.next();
             Account account = accountDataService.read(accountStatistics.getId());
             
-            contributors.add(new AccountPresentation(account, accountDataService));
+            contributors.add(accountPresentationFactory.create(account));
         }
         
         model.addAttribute("contributors", contributors);
@@ -388,13 +407,35 @@ public class AccountController extends AController {
     /*
      * Accessors
      */
-
-    public AccountDataService getAccountDataService() {
-        return accountDataService;
+    public WebarchiveDataService getWebarchiveDataService() {
+        return webarchiveDataService;
     }
 
-    public void setAccountDataService(AccountDataService accountDataService) {
-        this.accountDataService = accountDataService;
+    public void setWebarchiveDataService(WebarchiveDataService webarchiveDataService) {
+        this.webarchiveDataService = webarchiveDataService;
     }
 
+    public StatisticsDataService getStatisticsDataService() {
+        return statisticsDataService;
+    }
+
+    public void setStatisticsDataService(StatisticsDataService statisticsDataService) {
+        this.statisticsDataService = statisticsDataService;
+    }
+
+    public AccountPresentationFactory getAccountPresentationFactory() {
+        return accountPresentationFactory;
+    }
+
+    public void setAccountPresentationFactory(AccountPresentationFactory accountPresentationFactory) {
+        this.accountPresentationFactory = accountPresentationFactory;
+    }
+
+    public TestcasePresentationFactory getTestcasePresentationFactory() {
+        return testcasePresentationFactory;
+    }
+
+    public void setTestcasePresentationFactory(TestcasePresentationFactory testcasePresentationFactory) {
+        this.testcasePresentationFactory = testcasePresentationFactory;
+    }
 }

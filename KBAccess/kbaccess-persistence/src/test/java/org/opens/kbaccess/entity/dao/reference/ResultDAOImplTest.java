@@ -21,6 +21,8 @@
  */
 package org.opens.kbaccess.entity.dao.reference;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import org.opens.kbaccess.entity.reference.Result;
 import org.opens.kbaccess.entity.reference.ResultImpl;
 import org.opens.kbaccess.utils.AbstractDaoTestCase;
@@ -65,15 +67,17 @@ public class ResultDAOImplTest extends AbstractDaoTestCase {
      */
     public void testFindByCode() {
         System.out.println("findByCode : [nuc]");
-        /* */
         String code = "passed";
-        /* */
         ResultDAO instance = getBean();
-        /* */
         Result result = instance.findByCode(code);
         /* */
         assertNotNull(result);
         assertEquals(Long.valueOf(1L), result.getId());
-        // TODO error case
+        
+        System.out.println("findByCode : [nuc] non-existent code");
+        code = ";daz!";
+        result = instance.findByCode(code);
+        /* */
+        assertNull(result);
     }
 }

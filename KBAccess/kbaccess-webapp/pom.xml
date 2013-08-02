@@ -32,12 +32,12 @@
             <artifactId>kbaccess-persistence</artifactId>
             <version>2.2-SNAPSHOT</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.opens.kbaccess</groupId>
             <artifactId>kbaccess-webarchive-loader</artifactId>
             <version>2.2-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.opens.slurpmanager</groupId>
             <artifactId>slurp-manager-api</artifactId>

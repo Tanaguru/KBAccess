@@ -5,7 +5,6 @@
 package org.opens.kbaccess.entity.service.statistics;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;

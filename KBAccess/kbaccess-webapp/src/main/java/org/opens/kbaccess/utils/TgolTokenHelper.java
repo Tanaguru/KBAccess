@@ -22,8 +22,6 @@
 package org.opens.kbaccess.utils;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.owasp.esapi.crypto.CryptoToken;

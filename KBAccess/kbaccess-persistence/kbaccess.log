@@ -8253,7 +8253,3 @@ INSERT INTO ACCESS_LEVEL VALUES(3,'contrib','un type qui fait autre chose que ce
 COMMIT
 INSERT INTO ACCESS_LEVEL VALUES(4,'guest','un type qui a rien a faire de sa vie','invite',1)
 COMMIT
-INSERT INTO ACCOUNT VALUES(1,'1','84','account1@domain.com','jean','dupont','6d96270004515a0486bb7f76196a72b40c55a47f','0031-11-25 00:00:00.000000','accout1.website.com',1)
-COMMIT
-INSERT INTO ACCOUNT VALUES(2,'1','42','account2@domain.com','william','smith','e6e8ea7465f12e4d3b5a067a4c4dc698436b3478','0031-11-26 00:00:00.000000','accout2.website.com',2)
-COMMIT

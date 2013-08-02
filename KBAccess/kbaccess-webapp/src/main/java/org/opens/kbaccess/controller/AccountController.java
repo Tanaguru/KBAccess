@@ -322,6 +322,19 @@ public class AccountController extends AController {
             return "guest/login";
         }
 
+        // Users will potentially ask for a new password if they're trying to access their non-activated account
+        // In this case we need to activate the user
+        String requestedUserEmail = TgolTokenHelper.getInstance().getUserEmailFromToken(token);
+        Account requestedUser = accountDataService.getAccountFromEmail(requestedUserEmail);
+        
+        if (requestedUser != null) {
+            if (!requestedUser.isActivated()) {
+                requestedUser.setActivated(true);
+                requestedUser.setAuthCode(null);
+                accountDataService.saveOrUpdate(requestedUser);
+            }
+        }
+        
         // New password form
         newPasswordCommand = new NewPasswordCommand();
         newPasswordCommand.setToken(token);

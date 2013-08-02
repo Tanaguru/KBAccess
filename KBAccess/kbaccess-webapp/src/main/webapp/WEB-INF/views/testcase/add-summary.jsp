@@ -28,11 +28,14 @@
             <p><fmt:message key="testcase.addSummarySummary" /></p>
             <ul>
                 <li>Test :        
-                    <c:set var="testWebRefCode" scope="page">
+                    <c:set var="testWebRef" scope="page">
                         <fmt:message key="${testcase.testWebRefCode}" />
                     </c:set>
-                    <a href="<c:url value='${testWebRefCode}'/>">${testcase.testLabel}</a>
-                    <a href="<c:url value='http://www.braillenet.org/accessibilite/referentiel-aw21/'/>">(${testcase.referenceLabel})</a>
+                    <c:set var="referenceWebRef" scope="page">
+                        <fmt:message key="${testcase.referenceWebRefCode}"/>
+                    </c:set>
+                    <a href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
+                    <a href="<c:url value='${referenceWebRef}'/>">(${testcase.referenceLabel})</a>
                 </li>
                 <li><fmt:message key="result" /> :
                     <c:set var="resultId" value="${testcase.resultId}"/>

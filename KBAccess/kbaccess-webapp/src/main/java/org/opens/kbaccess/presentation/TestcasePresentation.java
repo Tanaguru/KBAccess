@@ -50,6 +50,7 @@ public class TestcasePresentation {
     private String testDepthCode;
     private String testWebRefCode;
     private String referenceCode;
+    private String referenceWebRefCode;
     private String resultCode;
     
     private String testLabel;
@@ -87,6 +88,7 @@ public class TestcasePresentation {
         this.testDepthCode = referenceTest.getReferenceDepth().getCode();
         this.testWebRefCode = referenceTest.getCode() + "-url";
         this.referenceCode = reference.getCode();
+        this.referenceWebRefCode = reference.getCode() + "-url";
         this.resultCode = result.getCode();
 
         this.testLabel = referenceTest.getLabel();
@@ -185,6 +187,14 @@ public class TestcasePresentation {
         this.referenceCode = referenceCode;
     }
 
+    public String getReferenceWebRefCode() {
+        return referenceWebRefCode;
+    }
+
+    public void setReferenceWebRefCode(String referenceWebRefCode) {
+        this.referenceWebRefCode = referenceWebRefCode;
+    }
+    
     public String getResultCode() {
         return resultCode;
     }

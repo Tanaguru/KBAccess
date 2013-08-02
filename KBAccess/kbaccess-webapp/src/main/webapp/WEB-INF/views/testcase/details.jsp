@@ -44,11 +44,15 @@
                         <tr>
                             <th scope="row">Test :</th>
                             <td>
-                                <c:set var="testWebRefCode" scope="page">
+                                <c:set var="testWebRef" scope="page">
                                     <fmt:message key="${testcase.testWebRefCode}" />
                                 </c:set>
-                                <a href="<c:url value='${testWebRefCode}'/>">${testcase.testLabel}</a>
-                                <a href="<c:url value='http://www.braillenet.org/accessibilite/referentiel-aw21/'/>">(${testcase.referenceLabel})</a>
+                                <c:set var="referenceWebRef" scope="page">
+                                    <fmt:message key="${testcase.referenceWebRefCode}"/>
+                                </c:set>
+                                
+                                <a href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
+                                <a href="<c:url value='${referenceWebRef}'/>">(${testcase.referenceLabel})</a>
                             </td>
                         </tr>
                         <tr>
@@ -77,10 +81,9 @@
                         <th scope="row"><fmt:message key="contributor" /> :</th>
                         <td>
                             <a href="<c:url value='/account/details/${testcase.accountId}/profile.html'/>">${testcase.accountDisplayedName}</a>
-                            &nbsp; 
-                            (<a href="<c:url value='/example/list.html?account=${testcase.accountId}'/>">
-                                <fmt:message key="testcase.detailsAllExamplesOf" /> ${testcase.accountDisplayedName}
-                            </a>)  
+                            <a href="<c:url value='/example/list.html?account=${testcase.accountId}'/>">
+                                (<fmt:message key="testcase.detailsAllExamplesOf" />${testcase.accountDisplayedName})
+                            </a>
                         </td>
                     </tr>
                     <tr>

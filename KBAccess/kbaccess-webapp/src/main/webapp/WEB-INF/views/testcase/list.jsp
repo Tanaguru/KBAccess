@@ -51,6 +51,12 @@
                         <c:when test="${parameter.key == 'accessibility.testDepth'}">
                             <fmt:message key="${parameter.value}"/>
                         </c:when>
+                        <c:when test="${parameter.key == 'accessibility.infoLabel'}">
+                            <fmt:message key="${parameter.value}"/>
+                            <c:if test="${!status.last}">
+                                <c:out value="${separator}" />		
+                            </c:if>
+                        </c:when>
                         <c:when test="${parameter.key == 'accessibility.testLabel'}">
                             ${parameter.value}
                             <c:if test="${!status.last}">

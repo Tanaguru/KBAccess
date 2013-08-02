@@ -249,6 +249,7 @@ public class AMailerController extends AController {
                 "-" + testcasePresentation.getResultCode() + ".html\n" + 
                 "* id : ").append(testcasePresentation.getTestcaseId().toString()).append("\n" +
                 "* test : ").append(testcasePresentation.getTestLabel()).append("\n" +
+                "* description : ").append(testcasePresentation.getDescription()).append("\n" +
                 "* account : (").append(account.getId()).append(") ")
                 .append(account.getEmail()).append("\n" +
                 "* webarchive : ").append(testcasePresentation.getWebarchiveOriginalUrl()).append(" "

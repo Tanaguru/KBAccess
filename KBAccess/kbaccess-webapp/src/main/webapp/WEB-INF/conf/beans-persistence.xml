@@ -70,6 +70,7 @@
             <tx:method name="delete*" propagation="REQUIRED"/>
             <tx:method name="save*" propagation="REQUIRED"/>
             <tx:method name="test*" propagation="REQUIRED"/>
+            <tx:method name="find*" propagation="REQUIRED"/>
 
             <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
         </tx:attributes>

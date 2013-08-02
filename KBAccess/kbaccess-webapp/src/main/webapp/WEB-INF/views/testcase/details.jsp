@@ -143,7 +143,7 @@
                         </c:forEach>
                         <li>
                             <a href="<c:url value='/example/result.html?test=${testcase.testId}'/>">
-                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="accessibility.test" /> ${testcase.testLabel}
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="${testcase.testDepthCode}" /> ${testcase.testLabel}
                             </a>
                         </li>
                     </ul>

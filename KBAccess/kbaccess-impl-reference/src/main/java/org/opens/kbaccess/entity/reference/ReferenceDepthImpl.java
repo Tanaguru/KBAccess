@@ -5,18 +5,14 @@
 package org.opens.kbaccess.entity.reference;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,10 +35,6 @@ public class ReferenceDepthImpl extends AbstractRefComponent implements Referenc
     private Integer depth;
     @Column(name = "RANK")
     private Integer rank;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "referenceDepth")
-    private Set<ReferenceInfoImpl> referenceInfoSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "referenceDepth")
-    private Set<ReferenceTestImpl> referenceTestSet;
 
     public ReferenceDepthImpl() {
     }
@@ -94,28 +86,6 @@ public class ReferenceDepthImpl extends AbstractRefComponent implements Referenc
     @Override
     public void setDepth(Integer depth) {
         this.depth = depth;
-    }
-
-    @XmlTransient
-    @Override
-    public Set<? extends ReferenceInfo> getReferenceInfoSet() {
-        return referenceInfoSet;
-    }
-
-    @Override
-    public void setReferenceInfoSet(Set<? extends ReferenceInfo> referenceInfoSet) {
-        this.referenceInfoSet = (Set<ReferenceInfoImpl>)referenceInfoSet;
-    }
-
-    @XmlTransient
-    @Override
-    public Set<? extends ReferenceTest> getReferenceTestSet() {
-        return referenceTestSet;
-    }
-
-    @Override
-    public void setReferenceTestSet(Set<?extends ReferenceTest> referenceTestSet) {
-        this.referenceTestSet = (Set<ReferenceTestImpl>)referenceTestSet;
     }
 
     @Override

@@ -80,6 +80,7 @@
     <bean id="accountPresentationFactory" class="org.opens.kbaccess.presentation.factory.AccountPresentationFactory"/>
     <bean id="statisticsPresentationFactory" class="org.opens.kbaccess.presentation.factory.StatisticsPresentationFactory"/>
     <bean id="testcasePresentationFactory" class="org.opens.kbaccess.presentation.factory.TestcasePresentationFactory"/>
+    <bean id="webarchivePresentationFactory" class="org.opens.kbaccess.presentation.factory.WebarchivePresentationFactory"/>
     
     <!-- singleton -->
     

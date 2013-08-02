@@ -52,10 +52,10 @@ public class ReferenceTestImpl extends AbstractRefComponent implements Reference
     @JoinTable(name = "reference_test_reference_test", joinColumns = {
         @JoinColumn(name = "ID_REFERENCE_TEST_1", referencedColumnName = "ID_REFERENCE_TEST")}, inverseJoinColumns = {
         @JoinColumn(name = "ID_REFERENCE_TEST_2", referencedColumnName = "ID_REFERENCE_TEST")})
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany
     private Set<ReferenceTestImpl> parents;
     
-    @ManyToMany(mappedBy = "parents", fetch=FetchType.EAGER)
+    @ManyToMany(mappedBy = "parents")
     private Set<ReferenceTestImpl> children;
     
     @JoinColumn(name = "ID_REFERENCE_INFO", referencedColumnName = "ID_REFERENCE_INFO")

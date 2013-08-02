@@ -262,6 +262,8 @@ public class GuestController extends AMailerController {
         } 
         
         if (!AccountUtils.getInstance().isTokenValid(token)) {
+            // Invalid or expired token
+            
             return "guest/login";
         } else {
             // otherwise, activate the associated account

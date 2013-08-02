@@ -122,7 +122,12 @@ public class TestcaseController extends AMailerController {
         
         if (minDepthRefComponent != null) {
             parametersMap.put("accessibility.testDepth", minDepthRefComponent.getReferenceDepth().getCode());
-            parametersMap.put("accessibility.testLabel", minDepthRefComponent.getLabel());
+            
+            if (minDepthRefComponent instanceof ReferenceInfoImpl) {
+                parametersMap.put("accessibility.infoLabel", minDepthRefComponent.getCode());
+            } else if (minDepthRefComponent instanceof ReferenceTestImpl) {
+                parametersMap.put("accessibility.testLabel", minDepthRefComponent.getLabel());
+            }
         }
         
         if (referenceLevel != null) {
@@ -351,16 +356,16 @@ public class TestcaseController extends AMailerController {
             
             for (Long idReferenceInfo : testcaseSearchCommand.getIdReferenceInfoList()) {
                 if (idReferenceInfo != null) {
-                    referenceInfos.add(idReferenceInfo == null ? null : referenceInfoDataService.read(idReferenceInfo));
-                    referenceInfosAndReferenceTests.add(idReferenceInfo == null ? null : referenceInfoDataService.read(idReferenceInfo));
+                    referenceInfos.add(idReferenceInfo == null ? null : referenceInfoDataService.findById(idReferenceInfo));
+                    referenceInfosAndReferenceTests.add(idReferenceInfo == null ? null : referenceInfoDataService.findById(idReferenceInfo));
                 }
             }
             Logger.getLogger(TestcaseController.class.getName()).info("referenceInfosAndReferenceTests : " + referenceInfosAndReferenceTests);
             
             for (Long idReferenceTest : testcaseSearchCommand.getIdReferenceTestList()) {
                 if (idReferenceTest != null) {
-                    referenceTests.add(idReferenceTest == null ? null : referenceTestDataService.read(idReferenceTest));
-                    referenceInfosAndReferenceTests.add(idReferenceTest == null ? null : referenceTestDataService.read(idReferenceTest));
+                    referenceTests.add(idReferenceTest == null ? null : referenceTestDataService.findById(idReferenceTest));
+                    referenceInfosAndReferenceTests.add(idReferenceTest == null ? null : referenceTestDataService.findById(idReferenceTest));
                 }
             }
             Logger.getLogger(TestcaseController.class.getName()).info("referenceInfosAndReferenceTests : " + referenceInfosAndReferenceTests);

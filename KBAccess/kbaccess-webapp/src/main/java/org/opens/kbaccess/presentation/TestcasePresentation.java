@@ -47,6 +47,7 @@ public class TestcasePresentation {
     private Set<ReferenceTest> testParents;
     
     private String testCode;
+    private String testDepthCode;
     private String testWebRefCode;
     private String referenceCode;
     private String resultCode;
@@ -63,12 +64,14 @@ public class TestcasePresentation {
     private Date creationDate;
     private Date webarchiveCreationDate;
         
-    public TestcasePresentation(Testcase testcase, ReferenceTestDataService referenceTestDataService) {
+    public TestcasePresentation(
+            Testcase testcase, 
+            ReferenceTestDataService referenceTestDataService) {
+        
         Account account = testcase.getAccount();
         Webarchive webarchive = testcase.getWebarchive();
         Result result = testcase.getResult();
-        ReferenceTest referenceTest = testcase.getReferenceTest();
-        Set<ReferenceTest> referenceTestParentSet = (Set<ReferenceTest>)testcase.getReferenceTest().getParents();
+        ReferenceTest referenceTest = referenceTestDataService.getByCode(testcase.getReferenceTest().getCode());
         Reference reference = referenceTestDataService.getReferenceOf(referenceTest);
         
         this.testcaseId = testcase.getId();
@@ -81,6 +84,7 @@ public class TestcasePresentation {
         this.resultId = testcase.getResult().getId();
 
         this.testCode = referenceTest.getCode();
+        this.testDepthCode = referenceTest.getReferenceDepth().getCode();
         this.testWebRefCode = referenceTest.getCode() + "-url";
         this.referenceCode = reference.getCode();
         this.resultCode = result.getCode();
@@ -147,6 +151,14 @@ public class TestcasePresentation {
 
     public void setTestCode(String testCode) {
         this.testCode = testCode;
+    }
+
+    public String getTestDepthCode() {
+        return testDepthCode;
+    }
+
+    public void setTestDepthCode(String testDepthCode) {
+        this.testDepthCode = testDepthCode;
     }
 
     public Set<ReferenceTest> getTestParents() {

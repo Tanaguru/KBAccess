@@ -15,6 +15,14 @@ import org.opens.kbaccess.entity.reference.RefComponentWithDepth;
  */
 public interface RefComponentWithDepthDataService<E extends RefComponentWithDepth, K extends Serializable>
 		extends RefComponentDataService<E, K> {
+    
+    /**
+     * 
+     * @param id
+     * @return 
+     */
+    public E findById(Long id);
+    
     /**
      * 
      * @param reference

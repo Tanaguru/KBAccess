@@ -88,8 +88,6 @@ public final class TgolTokenHelper {
             cryptoToken = new CryptoToken();
             cryptoToken.setUserAccountName(account.getEmail());
             
-            // TODO :
-            // Manage resetPassword/accountActivation token expiration
             cryptoToken.setExpiration(tokenDurationValidity);
             
             String token = cryptoToken.getToken();

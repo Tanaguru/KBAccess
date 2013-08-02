@@ -9,5 +9,5 @@ import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
  * @version 1.0.0
  */
 public interface ReferenceTestDAO extends GenericDAO<ReferenceTest, Long> {
-
+    
 }

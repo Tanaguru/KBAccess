@@ -18,7 +18,7 @@
                 </c:when>
                 <c:otherwise>
                     <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}"/>">${referenceTest.referenceCode}</abbr> ${referenceTest.label}
-                    <a href="<c:url value='/example/list.html?reference=${referenceTest.referenceId}&criterion=${referenceTest.id}'/>"
+                    <a href="<c:url value='/example/result.html?reference=test=${referenceTest.id}'/>"
                        title="${referenceTest.testcaseCount} ${example} <fmt:message key="on"/> <fmt:message key="accessibility.test"/> ${referenceTest.label} <fmt:message key="from"/> <fmt:message key="${referenceTest.referenceCode}"/>">
                         ${referenceTest.testcaseCount} ${example}
                     </a>

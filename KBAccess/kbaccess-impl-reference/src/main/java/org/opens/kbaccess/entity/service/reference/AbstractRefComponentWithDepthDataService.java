@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import org.apache.log4j.Logger;
 import org.opens.kbaccess.entity.reference.RefComponentWithDepth;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceDepth;
@@ -57,6 +56,20 @@ public abstract class AbstractRefComponentWithDepthDataService<E extends RefComp
             }
         }
     }
+
+    @Override
+    public E findById(Long id) {
+        E result = null;
+        
+        for (E refComponent : findAll()) {
+            if (refComponent.getId().equals(id)) {
+                result = refComponent;
+                break;
+            }
+        }
+        
+        return result;
+    }
     
     @Override
     public Collection<E> getAllByReferenceAndReferenceDepth(Reference reference, ReferenceDepth referenceDepth) {
@@ -90,6 +103,7 @@ public abstract class AbstractRefComponentWithDepthDataService<E extends RefComp
         
         return refComponentCollection; 
     }
+    
     
     /*
      * Accessors

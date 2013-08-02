@@ -14,12 +14,12 @@
             <c:set var="alt" scope="page"><fmt:message key="naFull" /></c:set>
             <img src="<c:url value='/assets/images/ico-na-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
-        <c:when test="${resultId == 4}">
+        <%--<c:when test="${resultId == 4}">
             <c:set var="alt" scope="page"><fmt:message key="nmiFull" /></c:set>
             <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="${alt}"/>
         </c:when>
         <c:otherwise>
             <c:set var="alt" scope="page"><fmt:message key="nmiFull" /></c:set>
             <img src="<c:url value='/assets/images/ico-nmi-${pictoSize}.png'/>" alt="${alt}"/>
-        </c:otherwise>
+        </c:otherwise>--%>
     </c:choose>

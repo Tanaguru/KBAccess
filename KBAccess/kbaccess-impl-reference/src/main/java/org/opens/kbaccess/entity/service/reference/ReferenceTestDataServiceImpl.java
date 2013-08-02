@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceLevel;
 import org.opens.kbaccess.entity.reference.ReferenceTest;
@@ -31,11 +30,6 @@ public class ReferenceTestDataServiceImpl extends AbstractRefComponentWithDepthD
         List<ReferenceTest> referenceTestList = new ArrayList<ReferenceTest>();
         boolean addToCollection = true;
         boolean addChildrenToCollection = false;
-        
-        Logger.getLogger(ReferenceTestDataService.class.getName()).info("referenceTest : " + referenceTest);
-        Logger.getLogger(ReferenceTestDataService.class.getName()).info("referenceLevel : " + referenceLevel);
-        Logger.getLogger(ReferenceTestDataService.class.getName()).info("result : " + result);
-        Logger.getLogger(ReferenceTestDataService.class.getName()).info("referenceTest.level : " + referenceTest.getReferenceLevel());
         
         // Filter on the referenceLevel
         if (referenceTest.getReferenceLevel() != null) {

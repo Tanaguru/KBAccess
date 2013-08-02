@@ -40,7 +40,7 @@ public class ReferenceInfoImpl extends AbstractRefComponent implements Reference
     @Column(name = "RANK")
     private Integer rank;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     private Set<ReferenceInfoImpl> children;
     
     @JoinColumn(name = "ID_REFERENCE_DEPTH", referencedColumnName = "ID_REFERENCE_DEPTH")
@@ -51,7 +51,7 @@ public class ReferenceInfoImpl extends AbstractRefComponent implements Reference
     @ManyToOne(optional = true)
     private ReferenceInfoImpl parent;
     
-    @OneToMany(mappedBy = "referenceInfo", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "referenceInfo")
     private Set<ReferenceTestImpl> referenceTestSet;
 
     public ReferenceInfoImpl() {

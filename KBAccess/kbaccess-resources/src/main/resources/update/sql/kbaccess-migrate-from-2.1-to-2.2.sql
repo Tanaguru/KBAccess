@@ -16,26 +16,26 @@ SET FOREIGN_KEY_CHECKS=0;
 -- Account
 -- 
 
-INSERT IGNORE INTO `kbaccess22`.`account`
+INSERT IGNORE INTO `migrate_22`.`account`
 SELECT * 
-FROM `migrate_20`.`account`;
+FROM `migrate_21`.`account`;
 
 
 --
 -- Webarchive
 -- 
 
-INSERT IGNORE INTO `kbaccess22`.`webarchive`
+INSERT IGNORE INTO `migrate_22`.`webarchive`
 SELECT * 
-FROM `migrate_20`.`webarchive`;
+FROM `migrate_21`.`webarchive`;
 
 
 --
 -- Testcase
 --
-INSERT IGNORE INTO `kbaccess22`.`testcase`(`ID_TESTCASE`, `CREATION_DATE`, `DESCRIPTION`, `RANK`, `ID_ACCOUNT`, `ID_WEBARCHIVE`, `ID_RESULT`, `ID_REFERENCE_TEST`)  
+INSERT IGNORE INTO `migrate_22`.`testcase`(`ID_TESTCASE`, `CREATION_DATE`, `DESCRIPTION`, `RANK`, `ID_ACCOUNT`, `ID_WEBARCHIVE`, `ID_RESULT`, `ID_REFERENCE_TEST`)  
 SELECT tc.`ID_TESTCASE`, tc.`CREATION_DATE`, tc.`DESCRIPTION`, tc.`PRIORITY`, tc.`ID_ACCOUNT`, tc.`ID_WEBARCHIVE`, tc.`ID_RESULT`, tr.`ID_TEST`
-FROM `migrate_20`.`testcase` tc, `migrate_20`.`testcase_test_result` tctr, `migrate_20`.`test_result` tr
+FROM `migrate_21`.`testcase` tc, `migrate_21`.`testcase_test_result` tctr, `migrate_21`.`test_result` tr
 WHERE tc.`ID_TESTCASE` = tctr.`ID_TESTCASE`
 AND tctr.`ID_TEST_RESULT` = tr.`ID_TEST_RESULT`;
 

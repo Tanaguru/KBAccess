@@ -24,6 +24,9 @@ package org.opens.kbaccess.entity.dao.subject;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.authorization.AccountImpl;
 import org.opens.kbaccess.entity.subject.Webarchive;
@@ -92,9 +95,9 @@ public class WebarchiveDAOImplTest extends AbstractDaoTestCase {
         List result = instance.findAllFromAccount(account);
         /* */
         assertNotNull(result);
+        assertFalse(result.isEmpty());
         assertEquals(1, result.size());
         assertFalse(Arrays.asList(1L).retainAll(asIdList(result)));
-        // TODO error case
     }
 
     /**
@@ -108,26 +111,18 @@ public class WebarchiveDAOImplTest extends AbstractDaoTestCase {
         Collection<Webarchive> result = instance.findAll();
         /* */
         assertNotNull(result);
+        assertFalse(result.isEmpty());
         assertEquals(2, result.size());
         assertFalse(Arrays.asList(1L, 2L).retainAll(asIdList(result)));
-        // TODO error case
     }
-
+    
     /**
-     * Test of deleteFromWebArchive method, of class WebarchiveDAOImpl.
-     * 
-     * Operation not supported.
+     * Test of count method, of class WebarchiveDAOImpl.
      */
-    /*
-    public void testDeleteFromWebArchive() {
-        System.out.println("deleteFromWebArchive");
-        Webarchive webarchive = null;
-        WebarchiveDAOImpl instance = new WebarchiveDAOImpl();
-        int expResult = 0;
-        int result = instance.deleteFromWebArchive(webarchive);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testCount() {
+        System.out.println("count : [nuc]");
+        
+        WebarchiveDAO instance = getBean();
+        assertEquals(2L, instance.count().longValue());
     }
-    */
 }

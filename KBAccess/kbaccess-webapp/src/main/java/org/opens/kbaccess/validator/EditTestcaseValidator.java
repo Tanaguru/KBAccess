@@ -22,8 +22,8 @@
 package org.opens.kbaccess.validator;
 
 import org.opens.kbaccess.command.EditTestcaseCommand;
+import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
-import org.opens.kbaccess.entity.service.reference.TestDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
@@ -40,14 +40,16 @@ public class EditTestcaseValidator implements Validator {
     
     private TestcaseDataService testcaseDataService;
     private ResultDataService resultDataService;
-//    private CriterionDataService criterionDataService;
-    private TestDataService testDataService;
+    private ReferenceTestDataService referenceTestDataService;
 
-    public EditTestcaseValidator(TestcaseDataService testcaseDataService, ResultDataService resultDataService, TestDataService testDataService) {
+    public EditTestcaseValidator(
+            TestcaseDataService testcaseDataService,
+            ResultDataService resultDataService, 
+            ReferenceTestDataService referenceTestDataService) {
+        
         this.testcaseDataService = testcaseDataService;
         this.resultDataService = resultDataService;
-//        this.criterionDataService = criterionDataService;
-        this.testDataService = testDataService;
+        this.referenceTestDataService = referenceTestDataService;
     }
     
     @Override
@@ -75,14 +77,6 @@ public class EditTestcaseValidator implements Validator {
             hasError = true;
         }
         
-//        if (validateIdCriterion(editTestcaseCommand, errors) == false) {
-//            LogFactory.getLog(EditTestcaseValidator.class.getName()).info("valideIdCriterion");
-//            hasError = true;
-//        }
-//        if (validateTitle(editTestcaseCommand, errors) == false) {
-//            hasError = true;
-//        }
-        
         if (hasError) {
             errors.rejectValue(FormKeyStore.GENERAL_ERROR_MESSAGE_KEY, MessageKeyStore.MISSING_REQUIRED_FIELD);
         }
@@ -100,10 +94,10 @@ public class EditTestcaseValidator implements Validator {
     }
 
     private boolean validateIdTest(EditTestcaseCommand editTestcaseCommand, Errors errors) {
-        if (editTestcaseCommand.getIdTest() == null) {
+        if (editTestcaseCommand.getIdReferenceTest() == null) {
             errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
             return false;
-        } else if (testDataService.read(editTestcaseCommand.getIdTest()) == null) {
+        } else if (referenceTestDataService.read(editTestcaseCommand.getIdReferenceTest()) == null) {
             errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
             return false;
         }
@@ -129,26 +123,4 @@ public class EditTestcaseValidator implements Validator {
         
         return true;
     }
-
-//    private boolean validateIdCriterion(EditTestcaseCommand editTestcaseCommand, Errors errors) {
-//        if (editTestcaseCommand.getIdCriterion() == null) {
-//            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.MISSING_TEST_KEY);
-//            return false;
-//        } else if (criterionDataService.read(editTestcaseCommand.getIdCriterion()) == null) {
-//            errors.rejectValue(FormKeyStore.ID_TEST_KEY, MessageKeyStore.INVALID_TEST_KEY);
-//            return false;
-//        }
-//        return true;
-//    }
-    
-//    private boolean validateTitle(EditTestcaseCommand editTestcaseCommand, Errors errors) {
-//        if (editTestcaseCommand.getTitle() == null) {
-//            errors.rejectValue(FormKeyStore.TITLE_KEY, MessageKeyStore.MISSING_TITLE_KEY);
-//            return false;
-//        } else if (editTestcaseCommand.getTitle().matches(RE_TESTCASE_TITLE_VALIDATOR) == false) {
-//            errors.rejectValue(FormKeyStore.TITLE_KEY, MessageKeyStore.INVALID_TITLE_KEY);
-//            return false;
-//        }
-//        return true;
-//    }
 }

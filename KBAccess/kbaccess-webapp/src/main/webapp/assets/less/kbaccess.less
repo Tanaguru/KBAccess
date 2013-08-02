@@ -52,7 +52,7 @@ body {
 
 .table th[scope="row"] {
     text-align: right;
-    width: @size;
+    width: 20%;
 }
 .table-vertical td, .table-vertical th{
     line-height : 15px;
@@ -205,6 +205,32 @@ body {
     margin : 0px;
 }
 
+#new-tc-form .new-tc-label {
+    font-family : OpenSansSemibold;
+    font-size : 16px;
+}
+
+#new-tc-table {
+    width:80%;
+}
+
+#new-tc-form .new-tc-block {
+    padding-left:50px
+}
+
+#new-tc-table .new-tc-testname-td {
+    width:20%;
+    text-indent: 50px;
+}
+
+#new-tc-table .new-tc-test-td {
+    width:80%;
+}
+
+#new-tc-table .new-tc-label {
+    margin-top : 25px;
+}
+
 #existing-webarchive-group .control-label, #create-webarchive-group .control-label {
     display : inline;
     margin-bottom : 0px;
@@ -218,6 +244,10 @@ body {
 #existing-webarchive-group .controls .control-group, #create-webarchive-group .controls .control-group {
     margin-left : 20px;
 }
+
+#tc-search-form #select-ref-div {
+    margin-top : 0px;
+} 
 
 /* Override boostrap */ 
 h1, h2, h3, h4, h5, h6 {

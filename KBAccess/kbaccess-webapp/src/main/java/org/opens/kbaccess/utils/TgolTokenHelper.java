@@ -22,8 +22,6 @@
 package org.opens.kbaccess.utils;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.owasp.esapi.crypto.CryptoToken;
@@ -88,11 +86,8 @@ public final class TgolTokenHelper {
             cryptoToken = new CryptoToken();
             cryptoToken.setUserAccountName(account.getEmail());
             
-            // Reset password token has expiration
-            // But activation token doesn't
-            if (hasExpiration) {
-                cryptoToken.setExpiration(tokenDurationValidity);
-            }
+            cryptoToken.setExpiration(tokenDurationValidity);
+            
             String token = cryptoToken.getToken();
             
             return token;

@@ -1,6 +1,6 @@
---------------------------
+-------------------------
 KBAccess 2.0, 2013-05-23
---------------------------
+-------------------------
 
 - Project refactoring
 - New UI (with bootstrap) 
@@ -12,12 +12,26 @@ KBAccess 2.0, 2013-05-23
 
 https://github.com/Tanaguru/KBAccess/issues?milestone=1&state=closed
 
---------------------------
+-------------------------
 KBAccess 2.1, 2013-06-26
---------------------------
+-------------------------
 
 - Internationalization (english, french)
 - Addition of a contributors page with number of examples created
 - Mail management are now case insensitive
 
 https://github.com/Tanaguru/KBAccess/issues?milestone=3&page=1&state=closed
+
+-------------------------
+KBAccess 2.2, 2013-08-12
+-------------------------
+
+- Fixed an internationalization issue on the result page of example search where "themes" were not translated
+- Fixed the token management system, an user can not longer get stuck if its token expires
+- Examples details URL and title tag are now correct
+- Contributors are now clickable on the full webarchive list
+- New PDM and object implementation to be able to store and manage several referentials
+- Application is now multi-referential (including WCAG 2.0, AccessiWeb 2.1 and Rgaa 2.2)
+- Example creation and research UIs have been reviewed
+
+https://github.com/Tanaguru/KBAccess/issues?milestone=4&page=1&state=closed

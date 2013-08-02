@@ -34,6 +34,7 @@ import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.presentation.TestcasePresentation;
+import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
 import org.opens.kbaccess.utils.MailingServiceProperties;
 import org.opens.kbaccess.utils.TgolTokenHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,8 @@ public class AMailerController extends AController {
     
     @Autowired
     private MailingServiceProperties mailingServiceProperties;
+    @Autowired
+    private TestcasePresentationFactory testcasePresentationFactory;
 
     
     /*
@@ -233,19 +236,20 @@ public class AMailerController extends AController {
         message = new StringBuilder();
         recipients = mailingServiceProperties.getTestcaseCreationNotificationMailingList();
         subject = TESTCASE_CREATION_NOTIFICATION_SUBJECT;
-        TestcasePresentation testcasePresentation = new TestcasePresentation(newTestcase, true);
-        Account account = accountDataService.read(testcasePresentation.getAuthorId());
+        TestcasePresentation testcasePresentation = testcasePresentationFactory.create(newTestcase);
+        Account account = accountDataService.read(testcasePresentation.getAccountId());
         
         // create message
         message.append(
                 "Hello,\n\n" +
                 "A new testcase has been created on KBAccess :\n" +
-                "* url : ").append("http://www.kbaccess.org/example/details/" + testcasePresentation.getId() + 
+                "* url : ").append("http://www.kbaccess.org/example/details/" + testcasePresentation.getTestcaseId() + 
                 "/exemple-accessibilite-" + testcasePresentation.getTestLabel() + 
                 "-" + testcasePresentation.getReferenceLabel().replace(" ", "") + 
                 "-" + testcasePresentation.getResultCode() + ".html\n" + 
-                "* id : ").append(testcasePresentation.getId().toString()).append("\n" +
+                "* id : ").append(testcasePresentation.getTestcaseId().toString()).append("\n" +
                 "* test : ").append(testcasePresentation.getTestLabel()).append("\n" +
+                "* description : ").append(testcasePresentation.getDescription()).append("\n" +
                 "* account : (").append(account.getId()).append(") ")
                 .append(account.getEmail()).append("\n" +
                 "* webarchive : ").append(testcasePresentation.getWebarchiveOriginalUrl()).append(" "
@@ -309,4 +313,11 @@ public class AMailerController extends AController {
         this.mailingServiceProperties = mailingServiceProperties;
     }
 
+    public TestcasePresentationFactory getTestcasePresentationFactory() {
+        return testcasePresentationFactory;
+    }
+
+    public void setTestcasePresentationFactory(TestcasePresentationFactory testcasePresentationFactory) {
+        this.testcasePresentationFactory = testcasePresentationFactory;
+    }
 }

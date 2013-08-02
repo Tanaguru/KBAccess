@@ -15,11 +15,10 @@
        http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd">
     
     <bean id="exposedPropertiesConfigurer" class="org.opens.tgol.util.webapp.ExposablePropertyPlaceholderConfigurer">
-        <property name="location" value="file:///etc/kbaccess/kbaccess.conf"/>
+            <property name="location" value="file:///etc/kbaccess/kbaccess.conf"/>
     </bean>
 
     <import resource="beans-persistence.xml"/>
     <import resource="beans-kbaccess.xml"/>
-<!--    <import resource="mvc/kbaccess-beans-i18n.xml"/>-->
     
 </beans>

@@ -1,34 +1,23 @@
 /*
- * KBAccess - Collaborative database of accessibility examples
- * Copyright (C) 2012-2016  Open-S Company
- *
- * This file is part of KBAccess.
- *
- * KBAccess is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Contact us by mail: open-s AT open-s DOT com
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
 package org.opens.kbaccess.entity.dao.statistics;
-
-import java.util.Arrays;
 import java.util.List;
-import org.opens.kbaccess.entity.statistics.CriterionStatistics;
+import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl;
+import org.opens.kbaccess.entity.statistics.AccountStatistics;
+import org.opens.kbaccess.entity.subject.TestcaseImpl;
 import org.opens.kbaccess.utils.AbstractDaoTestCase;
 
 /**
  *
- * @author bcareil
+ * @author blebail
  */
 public class StatisticsDAOImplTest extends AbstractDaoTestCase {
     
@@ -46,37 +35,102 @@ public class StatisticsDAOImplTest extends AbstractDaoTestCase {
         super.tearDown();
     }
 
-    private StatisticsDAO getBean() {
+    protected StatisticsDAO getBean() {
         return (StatisticsDAO) springBeanFactory.getBean("statisticsDAO");
     }
     
     /**
-     * Test of findCriterionOrderByTestcaseCount method, of class StatisticsDAOImpl.
+     * Test of findAllReferenceTestOrderByTestcaseCount method, of class StatisticsDAOImpl.
      */
-    public void testFindCriterionOrderByTestcaseCount() {
-    }
-    /*
-    public void testFindCriterionOrderByTestcaseCount() {
-        System.out.println("findCriterionOrderByTestcaseCount [nuc] asc");
-        fail("WARNING: This test can't be run with HSQLDB. " +
-                "You can \"safely\" comment this line if you are using mysql.");
-        // args
-        boolean asc = true;
-        int limit = 2;
-        /// expected
-        List<Long> expResult = Arrays.asList(1L, 3L, 2L);
-        // instance
+    public void testFindAllReferenceTestOrderByTestcaseCount() {
+        System.out.println("findAllReferenceTestOrderByTestcaseCount : [nuc] desc");
+        boolean asc = false;
         StatisticsDAO instance = getBean();
-        // run method
-        List<CriterionStatistics> result = instance.findCriterionOrderByTestcaseCount(asc, limit);
-        // asserts 
-        assertNotNull(result);
-        assertTrue(limit >= result.size());
-        assertEquals(expResult.size(), result.size());
-        for (int i = 0; i < result.size(); ++i) {
-            assertEquals(expResult.get(i), result.get(i));
+        
+        Map<String, Long> result = instance.findAllReferenceTestOrderByTestcaseCount(asc);
+        assertEquals(13, result.size());
+        
+        assertEquals(1L, result.get("AW21-0101").longValue());
+        assertEquals(1L, result.get("Rgaa22-0101").longValue());
+        assertEquals(1L, result.get("WCAG20-GL10").longValue());
+        assertEquals(0L, result.get("WCAG20-010201").longValue());
+        
+        Long testcaseCount = Long.MAX_VALUE;
+        
+        for(Map.Entry<String, Long> entry : result.entrySet()) {
+            Long entryTestcaseCount = entry.getValue();
+            System.out.println(entryTestcaseCount);
+            assertTrue(entryTestcaseCount <= testcaseCount);
+            testcaseCount = entryTestcaseCount;
+        }
+        
+        assertNull(result.get("zfdozefen"));
+        
+        System.out.println("findAllReferenceTestOrderByTestcaseCount : [nuc] asc");
+        asc = true;
+        result.clear();
+        result = instance.findAllReferenceTestOrderByTestcaseCount(asc);
+        assertEquals(13, result.size());
+        
+        testcaseCount = Long.MIN_VALUE;
+        
+        for(Map.Entry<String, Long> entry : result.entrySet()) {
+            Long entryTestcaseCount = entry.getValue();
+            assertTrue(entryTestcaseCount >= testcaseCount);
+            testcaseCount = entryTestcaseCount;
         }
     }
-    */
 
+    /**
+     * Test of findAccountOrderByTestcaseCount method, of class StatisticsDAOImpl.
+     */
+    public void testFindAccountOrderByTestcaseCount() {
+        System.out.println("findAccountOrderByTestcaseCount : [nuc] desc limit 2");
+        boolean asc = false;
+        int limit = 2;
+        StatisticsDAO instance = getBean();
+        
+        List<AccountStatistics> result = instance.findAccountOrderByTestcaseCount(asc, limit);
+        assertEquals(2, result.size());
+        assertEquals(1L, result.get(0).getId().longValue());
+        assertEquals(3L, result.get(0).getTestcaseCount().longValue());
+        
+        System.out.println("findAccountOrderByTestcaseCount  : [nuc] asc no limit");
+        asc = true;
+        limit = 0;
+        
+        result.clear();
+        result = instance.findAccountOrderByTestcaseCount(asc, limit);
+        assertEquals(2, result.size());
+        assertEquals(2L, result.get(0).getId().longValue());
+        assertEquals(2L, result.get(0).getTestcaseCount().longValue());
+    }
+    
+    /**
+     * Test of getEntityManager method, of class StatisticsDAOImpl.
+     */
+    public void testGetEntityManager() {
+        System.out.println("getEntityManager");
+        StatisticsDAO instance = getBean();
+        
+        assertNotNull(instance.getEntityManager().getClass());
+    }
+
+    /**
+     * Test of setEntityManager method, of class StatisticsDAOImpl.
+     */
+    
+    public void testSetEntityManager() {
+        System.out.println("setEntityManager");
+        StatisticsDAO instance = getBean();
+        
+        EntityManagerFactory entityManagerFactory = (EntityManagerFactory)springBeanFactory.getBean("entityManagerFactory");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        
+        instance.setEntityManager(entityManager);
+        
+        assertEquals(entityManager, instance.getEntityManager());
+        assertNotNull(instance.getEntityManager());
+    }
+    
 }

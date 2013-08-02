@@ -4,17 +4,14 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>org.opens.kbaccess.entity.authorization.AccessLevelImpl</class>
     <class>org.opens.kbaccess.entity.authorization.AccountImpl</class>
-    <class>org.opens.kbaccess.entity.reference.CriterionImpl</class>
-    <class>org.opens.kbaccess.entity.reference.LevelImpl</class>
-    <class>org.opens.kbaccess.entity.reference.NomenclatureElementImpl</class>
-    <class>org.opens.kbaccess.entity.reference.NomenclatureImpl</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceDepthImpl</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceLevelImpl</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceInfoImpl</class>
+    <class>org.opens.kbaccess.entity.reference.ReferenceTestImpl</class>
     <class>org.opens.kbaccess.entity.reference.ReferenceImpl</class>
     <class>org.opens.kbaccess.entity.reference.ResultImpl</class>
-    <class>org.opens.kbaccess.entity.reference.TestImpl</class>
-    <class>org.opens.kbaccess.entity.reference.ThemeImpl</class>
     <class>org.opens.kbaccess.entity.subject.TestcaseImpl</class>
     <class>org.opens.kbaccess.entity.subject.WebarchiveImpl</class>
-    <class>org.opens.kbaccess.entity.subject.TestResultImpl</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="create-drop"/>

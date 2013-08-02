@@ -21,7 +21,12 @@
  */
 package org.opens.kbaccess.command;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.log4j.Logger;
 import org.opens.kbaccess.command.utils.ACommand;
+import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.service.reference.ReferenceDataService;
 
 /**
  *
@@ -29,95 +34,167 @@ import org.opens.kbaccess.command.utils.ACommand;
  */
 public class TestcaseSearchCommand extends ACommand {
     
-    private String reference;
-    private String theme;
-    private String criterion;
-    private String test;
-    private String grade;
-    private String result;
+    private Long idAccount;
+    private String codeReference;
+    private List<Long> idReferenceInfoList;
+    private List<Long> idReferenceTestList;
+    private Long idReferenceLevel;
+    private Long idResult;
 
-    public TestcaseSearchCommand() {
-    }
-
-    public TestcaseSearchCommand(String reference, String theme, String criterion, String test, String grade, String result) {
-        this.reference = reference;
-        this.theme = theme;
-        this.criterion = criterion;
-        this.test = test;
-        this.grade = grade;
-        this.result = result;
-    }
-
-    /**
-     * 
-     * @return The code of the criterion to look for
-     */
-    public String getCriterion() {
-        return criterion;
-    }
-
-    public void setCriterion(String criterion) {
-        this.criterion = criterion;
-    }
-
-    /**
-     * 
-     * @return The code of the level to look for
-     */
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    /**
-     * 
-     * @return The code of the reference to search in
-     */
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    /**
-     * 
-     * @return The code of the exptected result
-     */
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    /**
-     * 
-     * @return The code of the test to look for
-     */
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
-
-    /**
-     * 
-     * @return The code of the theme to look for
-     */
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
+    public void logState() {
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idAdccount : " + idAccount);
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("codeReference : " + codeReference);
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idReferenceInfoList : " + idReferenceInfoList);
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idReferenceTestList : " + idReferenceTestList);
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idReferenceLevel : " + idReferenceLevel);
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idResult : " + idResult);
     }
     
+    public TestcaseSearchCommand() {
+        
+    }
+    
+    public TestcaseSearchCommand(ReferenceDataService referenceDataService) {
+        this.idReferenceInfoList = new ArrayList<Long>();
+        this.idReferenceTestList = new ArrayList<Long>();
+        
+        /*
+         * Init the idReferenceInfoList and referenceTestList with the maximum sizes possible
+         * witch are respectively the biggest infoMaxDepth and testMaxDepth of all references
+         */
+        int infoMaxDepth = Integer.MIN_VALUE;
+        int testMaxDepth = Integer.MAX_VALUE;
+        
+        for (Reference reference : referenceDataService.findAll()) {
+            if (reference.getInfoMaxDepth() > infoMaxDepth) {
+                infoMaxDepth = reference.getInfoMaxDepth();
+            }
+            
+            if (reference.getTestMaxDepth() < testMaxDepth) {
+                testMaxDepth = reference.getTestMaxDepth();
+            }
+        }
+        
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(infoMaxDepth);
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(testMaxDepth);
+        
+        for (int i = testMaxDepth; i < 0; i++) {
+            idReferenceTestList.add(-1L);
+        }
+        
+        for (int i = 0; i < infoMaxDepth; i++) {
+            idReferenceInfoList.add(-1L);
+        }
+        
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(idReferenceInfoList.size());
+        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(idReferenceTestList.size());
+        
+        logState();
+    }
+    
+    /*
+     * Scope of search methods
+     */
+    public boolean searchAll() {
+        boolean searchAll = false;
+        
+        if (idAccount == null
+                && codeReference == null
+                && idReferenceLevel == null
+                && idReferenceInfoList == null
+                && idReferenceTestList == null
+                && idResult == null) {
+            searchAll = true;
+        }
+        
+        return searchAll;
+    }
+    
+    public boolean searchReferenceOrResult() {
+        boolean referenceOrResult = (codeReference != null) || (idResult != null);
+        boolean noReferenceSpecifics = (idReferenceLevel == null) && (idAccount == null);
+        boolean noReferenceInfo = idReferenceInfoList == null;
+        boolean noReferenceTest = idReferenceTestList == null;
+        
+        if (!noReferenceInfo) {
+            noReferenceInfo = true;
+            
+            for (Long idReferenceInfo : idReferenceInfoList) {
+                noReferenceInfo = noReferenceInfo && (idReferenceInfo == null);
+            }
+        }
+        
+        if (!noReferenceTest) {
+            noReferenceTest = true;
+            
+            for (Long idReferenceTest : idReferenceTestList) {
+                noReferenceTest = noReferenceTest && (idReferenceTest == null);
+            }
+        }
+        
+        noReferenceSpecifics = noReferenceSpecifics && noReferenceInfo && noReferenceTest;
+        
+        return (referenceOrResult && noReferenceSpecifics);
+    }
+    
+    public boolean searchAccount() {
+        boolean searchAccount = false;
+        
+        if (this.idAccount != null) {
+            searchAccount = true;
+        }
+        
+        return searchAccount;
+    }
+    
+    /*
+     * Accessors
+     */
+    public Long getIdAccount() {
+        return idAccount;
+    }
+
+    public void setIdAccount(Long idAccount) {
+        this.idAccount = idAccount;
+    }
+
+    public String getCodeReference() {
+        return codeReference;
+    }
+
+    public void setCodeReference(String codeReference) {
+        this.codeReference = codeReference;
+    }
+
+    public List<Long> getIdReferenceInfoList() {
+        return idReferenceInfoList;
+    }
+
+    public void setIdReferenceInfoList(List<Long> idReferenceInfoList) {
+        this.idReferenceInfoList = idReferenceInfoList;
+    }
+
+    public List<Long> getIdReferenceTestList() {
+        return idReferenceTestList;
+    }
+
+    public void setIdReferenceTestList(List<Long> idReferenceTestList) {
+        this.idReferenceTestList = idReferenceTestList;
+    }
+
+    public Long getIdReferenceLevel() {
+        return idReferenceLevel;
+    }
+
+    public void setIdReferenceLevel(Long idReferenceLevel) {
+        this.idReferenceLevel = idReferenceLevel;
+    }
+
+    public Long getIdResult() {
+        return idResult;
+    }
+
+    public void setIdResult(Long idResult) {
+        this.idResult = idResult;
+    }
 }

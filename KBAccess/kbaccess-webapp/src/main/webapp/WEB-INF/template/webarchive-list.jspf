@@ -6,7 +6,7 @@
         <p id="tableTestcases"><fmt:message key="webarchive.noWebarchive" /></p>
     </c:when>
     <c:otherwise>
-        <table summary="Liste de toutes les webarchives" class="table table-strip" id="tableWebarchives">
+        <table summary="<fmt:message key="webarchive.listOfAllWebarchives" />" class="table table-strip" id="tableWebarchives">
             <caption class="data-table-caption"><fmt:message key="webarchive.listOfAllWebarchives" /></caption>
             <tr>
                 <th scope="col">URL</th>
@@ -18,16 +18,19 @@
             <c:forEach var="webarchive" items="${webarchiveList}">
                 <tr>
                     <td>
-                        <a href="${webarchive.localUrl}"
-                        title="Lien vers la webarchive du site ${webarchive.url}"
-                        >${webarchive.url}</a>
+                        <a href="${webarchive.localUrl}" 
+                           title="<fmt:message key="webarchive.linkToWebarchive"/> ${webarchive.url}">
+                            ${webarchive.url}
+                        </a>
                     </td>
                     <td><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></td>
                     <td>${webarchive.scope}</td>
                     <td>${webarchive.description}</td>
                     <td>
-                        ${webarchive.account.firstName}
-                        ${webarchive.account.lastName}
+                        <a href="<c:url value='/account/details/${webarchive.accountId}/profile.html'/>"
+                           title="<fmt:message key="account.profileOfUser" /> ${webarchive.accountId}">
+                            ${webarchive.accountDisplayedName}
+                        </a>
                     </td>
                 </tr>
             </c:forEach>

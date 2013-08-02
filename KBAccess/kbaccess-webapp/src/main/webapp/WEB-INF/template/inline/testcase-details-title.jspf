@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" %>
-        <fmt:message key="accessibility" /> <fmt:message key="accessibility.example" /> ${testcase.testLabel} (${testcase.referenceLabel})
+        <fmt:message key="testcase.accessibilityExampleTitle" /> ${testcase.testLabel} (${testcase.referenceLabel})
         <c:set var='resultId' value='${testcase.resultId}'/>
         <c:set var='withAccents' value='true' />
         <%@include file='/WEB-INF/template/inline/result.jspf' %>

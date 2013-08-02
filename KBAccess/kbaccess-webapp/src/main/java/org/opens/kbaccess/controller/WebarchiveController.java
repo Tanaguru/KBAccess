@@ -21,6 +21,7 @@
  */
 package org.opens.kbaccess.controller;
 
+import java.util.Collection;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.WebarchiveCommand;
 import org.opens.kbaccess.controller.utils.AMailerController;
@@ -30,6 +31,7 @@ import org.opens.kbaccess.entity.subject.Webarchive;
 import org.opens.kbaccess.keystore.FormKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
+import org.opens.kbaccess.presentation.factory.WebarchivePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.WebarchiveCommandValidator;
 import org.opens.slurpmanager.SlurpManager;
@@ -55,6 +57,8 @@ public class WebarchiveController extends AMailerController {
     private WebarchiveDataService webarchiveDataService;
     @Autowired
     private SlurpManager slurpManager;
+     @Autowired
+    private WebarchivePresentationFactory webarchivePresentationFactory;
     
     /*
      * public members
@@ -86,7 +90,10 @@ public class WebarchiveController extends AMailerController {
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
         // result list, title and h1
-        model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchiveDataService.findAll());
+        model.addAttribute(
+                    ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, 
+                    webarchivePresentationFactory.createFromCollection((Collection)webarchiveDataService.findAll())
+                );
         return "webarchive/list";
     }
     

@@ -9,18 +9,5 @@ import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
  * @version 1.0.0
  */
 public interface ReferenceDAO extends GenericDAO<Reference, Long> {
-
-    /**
-     * 
-     * @param code
-     * @return 
-     * TODO : document
-     */
-    Reference findByCode(String code);
     
-    /**
-     * 
-     * @return The number of Reference in database
-     */
-    Long count();
 }

@@ -1,13 +1,10 @@
 package org.opens.kbaccess.entity.dao.subject;
 
+import java.util.Collection;
 import java.util.List;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.reference.Criterion;
-import org.opens.kbaccess.entity.reference.Level;
-import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
 import org.opens.kbaccess.entity.reference.Result;
-import org.opens.kbaccess.entity.reference.Test;
-import org.opens.kbaccess.entity.reference.Theme;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
 
@@ -17,14 +14,6 @@ import org.opens.tanaguru.sdk.entity.dao.GenericDAO;
  * @version 1.0.0
  */
 public interface TestcaseDAO extends GenericDAO<Testcase, Long> {
-
-    /**
-     * 
-     * @param id The id of the testcase to fetch
-     * @param fetch Whether or not to fetch all its relations
-     * @return A testcase or null if the id is invalid
-     */
-    Testcase read(Long id, boolean fetch);
     
     /**
      * @return the max value of Priority field
@@ -62,20 +51,12 @@ public interface TestcaseDAO extends GenericDAO<Testcase, Long> {
      * returned list will contain all the test cases that match all the
      * non-null criteria and we do not care about the null criteria.
      * 
-     * @param cdreference
-     * @param cdcriterion
-     * @param cdtheme
-     * @param cdtest
-     * @param cdlevel
-     * @param cdresult
+     * @param referenceTestSet
+     * @param result
      * @return The test cases matching the given criteria
      */
     List<Testcase> findAllFromUserSelection(
-            Reference reference,
-            Criterion criterion,
-            Theme theme,
-            Test test,
-            Level level,
+            Collection<ReferenceTest> referenceTestCollection,
             Result result);
     
     /**

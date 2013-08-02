@@ -5,6 +5,7 @@
 
 package org.opens.kbaccess.entity.service.subject;
 
+import java.util.Collection;
 import java.util.List;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.*;
@@ -26,7 +27,7 @@ public interface TestcaseDataService
      * @param account
      * @param webarchive
      * @param result
-     * @param test
+     * @param referenceTest
      * @param description
      * @return 
      */
@@ -34,36 +35,9 @@ public interface TestcaseDataService
             Account account,
             Webarchive webarchive,
             Result result,
-            Test test,
+            ReferenceTest referenceTest,
             String description
             );
-
-    /**
-     * Create a fully initialized testcase.
-     * 
-     * @param account
-     * @param webarchive
-     * @param result
-     * @param test
-     * @param description
-     * @return 
-     */
-    
-    Testcase createFromCriterion(
-            Account account,
-            Webarchive webarchive,
-            Result result,
-            Criterion criterion,
-            String description
-            );
-
-    /**
-     * 
-     * @param id The id of the testcase to fetch
-     * @param fetch whether or not to fetch all relations
-     * @return A testcase or null if the id is invalid
-     */
-    Testcase read(Long id, boolean fetch);
     
     /**
      *
@@ -96,21 +70,13 @@ public interface TestcaseDataService
 
     /**
      *
-     * @param reference
-     * @param criterion
-     * @param theme
-     * @param test
-     * @param level
+     * @param referenceTestSet
      * @param result
      * @return The list of testcases corresponding to the search, an empty list
      *         if there are no results.
      */
     List<Testcase> getAllFromUserSelection (
-            Reference reference,
-            Criterion criterion,
-            Theme theme,
-            Test test,
-            Level level,
+            Collection<ReferenceTest> referenceTestCollection,
             Result result);
 
     /**

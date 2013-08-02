@@ -25,7 +25,7 @@ public class WebarchiveImpl implements Webarchive, Serializable {
     protected String scope;
     @Column(name = "DESCRIPTION", nullable = true)
     protected String description;
-    @Column(name = "PRIORITY", nullable = false)
+    @Column(name = "RANK", nullable = false)
     protected int rank;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     @Column(name = "CREATION_DATE", nullable = false)

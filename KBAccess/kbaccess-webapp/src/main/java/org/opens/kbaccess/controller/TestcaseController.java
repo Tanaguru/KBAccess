@@ -21,13 +21,18 @@
  */
 package org.opens.kbaccess.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.opens.kbaccess.command.DeleteTestcaseCommand;
 import org.opens.kbaccess.command.EditTestcaseCommand;
 import org.opens.kbaccess.command.NewTestcaseCommand;
+import org.opens.kbaccess.command.SelectReferenceCommand;
+import org.opens.kbaccess.command.TestcaseSearchCommand;
 import org.opens.kbaccess.controller.utils.AMailerController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.*;
@@ -39,9 +44,11 @@ import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
+import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.validator.EditTestcaseValidator;
 import org.opens.kbaccess.validator.NewTestcaseValidator;
+import org.opens.kbaccess.validator.SelectReferenceValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,58 +67,113 @@ public class TestcaseController extends AMailerController {
     private WebarchiveDataService webarchiveDataService;
     @Autowired
     private WebarchiveController webarchiveController;
-
+    @Autowired
+    private TestcasePresentationFactory testcasePresentationFactory;
+    
     /*
      * Private methods
-     */      
+     */
+    
+    /*
+     * Returns the RefComponent with the lowest depth from a list of RefComponent
+     * i.e : for a list containing :
+     *  - a ReferenceInfo with depth +1
+     *  - a ReferenceTest with depth -1
+     *  - a ReferenceTest with depth -2
+     * 
+     * returns the ReferenceTest with depth -2
+     */
+    private RefComponentWithDepth getMinDepthRefComponentFromList(List<RefComponentWithDepth> refComponentList) {
+        if (refComponentList == null || refComponentList.isEmpty()) {
+            return null;
+        } 
+        
+        RefComponentWithDepth minDepthRefComponent = null;
+        int minDepth = Integer.MAX_VALUE;
+
+        for (RefComponentWithDepth refComponent : refComponentList) {
+            int depth = refComponent.getReferenceDepth().getDepth();
+            
+            if (depth < minDepth) {
+                minDepth = depth;
+                minDepthRefComponent = refComponent;
+            }
+        }
+        
+        return minDepthRefComponent;
+    } 
+    
+    /*
+     * Build a map that helps to make the title and breadcrumb of the result of a search 
+     * based on the parameters of the search
+     */
     private Map<String, String> buildMapFromSearchParameters(
             Reference reference,
-            Criterion criterion,
-            Theme theme,
-            Test test,
-            Level level,
+            RefComponentWithDepth minDepthRefComponent,
+            ReferenceLevel referenceLevel,
             Result result
             ) {
         Map<String, String> parametersMap = new LinkedHashMap<String, String>();
         
-        // building criteria list
+        // building parameters list
         if (reference != null) {
-            parametersMap.put("accessibility.reference", reference.getLabel());
+            parametersMap.put("accessibility.reference", reference.getCode());
         }
-         if (theme != null) {
-            parametersMap.put("accessibility.theme", theme.getLabel());
+        
+        if (minDepthRefComponent != null) {
+            parametersMap.put("accessibility.testDepth", minDepthRefComponent.getReferenceDepth().getCode());
+            
+            if (minDepthRefComponent instanceof ReferenceInfoImpl) {
+                parametersMap.put("accessibility.infoLabel", minDepthRefComponent.getCode());
+            } else if (minDepthRefComponent instanceof ReferenceTestImpl) {
+                parametersMap.put("accessibility.testLabel", minDepthRefComponent.getLabel());
+            }
         }
-        if (criterion != null) {
-            parametersMap.put("accessibility.criterion", criterion.getLabel());
+        
+        if (referenceLevel != null) {
+            parametersMap.put("accessibility.level", referenceLevel.getCode());
         }
-         if (test != null) {
-            parametersMap.put("accessibility.test", test.getLabel());
-        }
-        if (level != null) {
-            parametersMap.put("accessibility.level", level.getCode());
-        }
+        
         if (result != null) {
             parametersMap.put("result", result.getCode());
         }
         
-        // post process criteria list
+        // no parameters
         if (parametersMap.isEmpty()) {
-            // no criteria
-            parametersMap.put("testcase.searchAllTestcasesTitle", reference.getLabel());
+            parametersMap.put("testcase.searchAllTestcasesTitle", "allExamples");
         } 
         
         return parametersMap;
+    }
+    
+    private String displaySelectReferenceForm(Model model, SelectReferenceCommand selectReferenceCommand) {
+        // handle login and breadcrumb
+        handleUserLoginForm(model);
+        handleBreadcrumbTrail(model);
+        
+        // create the form command
+        model.addAttribute("referenceList", referenceDataService.findAll());
+        model.addAttribute("selectReferenceCommand", selectReferenceCommand);
+        return "testcase/add";
     }
     
     private String displayAddTestcaseForm(Model model, NewTestcaseCommand newTestcaseCommand) {
         // handle login and breadcrumb
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
-        // create the form command
-        model.addAttribute("testByRef", getTestByRef());
-        model.addAttribute("resultList", getResults());
+        
+        // Fetch the selected reference
+        Reference reference = referenceDataService.read(newTestcaseCommand.getIdReference());
+        
+        // set the default test depth selected to the lowest
+        // AW21 : test, Rgaa22 : test, WCAG20 : technique
+        ReferenceDepth referenceDepth = referenceDepthDataService.getByReferenceAndDepth(reference, reference.getTestMaxDepth());
+        newTestcaseCommand.setIdReferenceDepth(referenceDepth.getId());
+        
+        model.addAttribute("referenceTestMap", referenceTestDataService.getInternMapByDepth().get(reference));
+        model.addAttribute("resultList", getResultCollection());
         model.addAttribute("newTestcaseCommand", newTestcaseCommand);
-        return "testcase/add";
+        return "testcase/add-details";
     }
     
     private String displayAttachWebarchiveForm(Model model, NewTestcaseCommand newTestcaseCommand) {
@@ -124,21 +186,39 @@ public class TestcaseController extends AMailerController {
         return "testcase/add-webarchive";        
     }
     
-    private String displayEditTestcaseForm(Model model, EditTestcaseCommand editTestcaseCommand) {
+    private Collection<ReferenceTest> getReferenceTestListOfTestcaseTestScope(ReferenceTest testcaseTest) {
+        return referenceTestDataService.getAllByReferenceAndReferenceDepth(
+                referenceTestDataService.getReferenceOf(testcaseTest), 
+                testcaseTest.getReferenceDepth()
+                );
+    }
+    
+    private String displayEditTestcaseForm(
+            Model model, 
+            EditTestcaseCommand editTestcaseCommand, 
+            ReferenceTest testcaseTest) {
+        
         // handle login form and breadcrumb
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
         
         // create form
-        model.addAttribute("testByRef", getTestByRef());
-        model.addAttribute("resultList", getResults());
         model.addAttribute("editTestcaseCommand", editTestcaseCommand);
+        /*
+         * On a testcase we can edit :
+         * - the referenceTest but only on the same reference and referenceDepth
+         *   Indeed changing the reference or the referenceDepth of the referenceTest is not considered as an edition
+         *   We consider that the user would delete the testcase and create a new one
+         * - the result
+         */
+        model.addAttribute("referenceTestList", getReferenceTestListOfTestcaseTestScope(testcaseTest));
+        model.addAttribute("resultList", getResultCollection());
         
         return "testcase/edit-details";
     }
     
     private String displayTestcaseDetails(Model model, Testcase testcase) {
-       TestcasePresentation testcasePresentation = new TestcasePresentation(testcase, true);
+       TestcasePresentation testcasePresentation = testcasePresentationFactory.create(testcase);
        
         // handle form login
         handleUserLoginForm(model);
@@ -157,10 +237,6 @@ public class TestcaseController extends AMailerController {
         model.addAttribute("errorMessage", errorMessage);
         return "testcase/error";
     }
-
-    /*
-     * Endpoints
-     */
     
     @RequestMapping(value="search-by-url")
     public String searchByUrlHandler(Model model) {
@@ -170,83 +246,180 @@ public class TestcaseController extends AMailerController {
         return "testcase/search-by-url";
     }
     
-    @RequestMapping(value={"search", "result"}, method=RequestMethod.GET)
+    @RequestMapping(value={"search"}, method=RequestMethod.GET)
     public String searchHandler(Model model) {
         // handle login form, breadcrumb and search form
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
         handleTestcaseSearchForm(model);
+        
         return "testcase/search";
     }
-       
-    @RequestMapping(value="list")
-    public String listHandler(
-            Model model,
+    
+    @RequestMapping(value="result", method=RequestMethod.GET)
+    public String resultHandler(
             @RequestParam(value="account", required=false) Long idAccount,
             @RequestParam(value="reference", required=false) Long idReference,
-            @RequestParam(value="theme", required=false) Long idTheme,
-            @RequestParam(value="level", required=false) Long idLevel,
-            @RequestParam(value="criterion", required=false) Long idCriterion,
             @RequestParam(value="test", required=false) Long idTest,
-            @RequestParam(value="result", required=false) Long idResult
+            Model model
             ) {
+        Logger.getLogger(TestcaseController.class.getName()).info("list(1)");
+        TestcaseSearchCommand testcaseSearchCommand = new TestcaseSearchCommand();
+        
+        if (idAccount != null && accountDataService.read(idAccount) != null) {
+            Logger.getLogger(TestcaseController.class.getName()).info("idAccount != null");
+            testcaseSearchCommand.setIdAccount(idAccount);
+        } else if (idReference != null &&  referenceDataService.read(idReference) != null) {
+            Logger.getLogger(TestcaseController.class.getName()).info("idReference != null");
+            testcaseSearchCommand.setCodeReference(referenceDataService.read(idReference).getCode());
+        } else if (idTest != null && referenceTestDataService.read(idTest) != null) {
+            Logger.getLogger(TestcaseController.class.getName()).info("idTest != null");
+            ReferenceTest referenceTest = referenceTestDataService.read(idTest);
+            List<Long> referenceTests = new ArrayList<Long>();
+            referenceTests.add(idTest);
+            Reference reference = referenceTestDataService.getReferenceOf(referenceTest);
+            
+            testcaseSearchCommand.setCodeReference(reference.getCode());
+            testcaseSearchCommand.setIdReferenceInfoList(new ArrayList<Long>());
+            testcaseSearchCommand.setIdReferenceTestList(referenceTests);
+        } else {
+            return "forward:/index.html";
+        }
+        
+        return listHandler(testcaseSearchCommand, null, model);
+        
+        //return "testcase/list";
+    }
+    
+    @RequestMapping(value="list", method= RequestMethod.GET)
+    public String listHandler(
+            @ModelAttribute("testcaseSearchCommand") TestcaseSearchCommand testcaseSearchCommand,
+            BindingResult bindingResult,
+            Model model
+            ) {
+        Logger.getLogger(TestcaseController.class.getName()).info("list(2)");
         Collection<TestcasePresentation> testcases;
         String contextOfRequest = null;
-        boolean joker;
         Reference reference;
-        Theme theme;
-        Level level;
-        Criterion criterion;
-        Test test;
+        ReferenceLevel referenceLevel;
         Result result;
+
+        testcaseSearchCommand.logState();
         
-        // fetch all testcases ?
-        joker = (idAccount == null
-                && idReference == null
-                && idTheme == null
-                && idLevel == null
-                && idCriterion == null
-                && idTest == null
-                && idResult == null
-                );
         // fetch entities and set title and H1
-        if (joker) {
-            testcases = TestcasePresentation.fromCollection(
-                    (Collection) testcaseDataService.findAll(),
-                    true
+        if (testcaseSearchCommand.searchAll()) {
+            LogFactory.getLog(TestcaseController.class.getName()).info("searchAll()");
+            testcases = testcasePresentationFactory.createFromCollection(
+                    (Collection) testcaseDataService.findAll()
                     );
         contextOfRequest = "allTestcases";
         handleBreadcrumbTrail(model);
         // fetch the testcases of a precise user
-        } else if (idAccount != null) {
-            String authorDisplayedName;
+        } else if (testcaseSearchCommand.searchAccount()) {
+            LogFactory.getLog(TestcaseController.class.getName()).info("searchAccount()");
+            Account account = accountDataService.read(testcaseSearchCommand.getIdAccount());
             
-            Account account = accountDataService.read(idAccount);
-            authorDisplayedName = AccountPresentation.generateDisplayedName(account);
-            
-            testcases = TestcasePresentation.fromCollection(
-                testcaseDataService.getAllFromAccount(account),
-                true
+            testcases = testcasePresentationFactory.createFromCollection(
+                testcaseDataService.getAllFromAccount(account)
                 );
             
             contextOfRequest = "userTestcases";
             handleBreadcrumbTrail(model);
             model.addAttribute("account", new AccountPresentation(account, accountDataService));
-        // All other requests combinations
-        } else {
-            reference = (idReference == null ? null : referenceDataService.read(idReference));
-            theme = (idTheme == null ? null : themeDataService.read(idTheme));
-            level = (idLevel == null ? null : levelDataService.read(idLevel));
-            criterion = (idCriterion == null ? null : criterionDataService.read(idCriterion));
-            test = (idTest == null ? null : testDataService.read(idTest));
-            result = (idResult == null ? null : resultDataService.read(idResult));
-            testcases = TestcasePresentation.fromCollection(
-                    testcaseDataService.getAllFromUserSelection(reference, criterion, theme, test, level, result),
-                    true
+        } else if (testcaseSearchCommand.searchReferenceOrResult()) {
+            LogFactory.getLog(TestcaseController.class.getName()).info("searchReferenceOrResult()");
+            result = (
+                        testcaseSearchCommand.getIdResult() == null ? null 
+                        : resultDataService.read(testcaseSearchCommand.getIdResult())
+                    );
+            
+            reference = (
+                        testcaseSearchCommand.getCodeReference() == null ? null 
+                        : referenceDataService.getByCode(testcaseSearchCommand.getCodeReference())
+                    );
+            
+            testcases = testcasePresentationFactory.createFromCollection(
+                    testcaseDataService.getAllFromUserSelection(
+                        referenceTestDataService.getAllByReference(reference),
+                        result
+                        )
                     );
             
             handleBreadcrumbTrail(model);
-            model.addAttribute("parameterMap", buildMapFromSearchParameters(reference, criterion, theme, test, level, result));
+        } else {
+            LogFactory.getLog(TestcaseController.class.getName()).info("otherCombinations()");
+            // All other requests combinations
+            
+            List<RefComponentWithDepth> referenceInfosAndReferenceTests = new ArrayList<RefComponentWithDepth>();
+            List<ReferenceInfo> referenceInfos = new ArrayList<ReferenceInfo>();
+            List<ReferenceTest> referenceTests = new ArrayList<ReferenceTest>();
+            
+            for (Long idReferenceInfo : testcaseSearchCommand.getIdReferenceInfoList()) {
+                if (idReferenceInfo != null) {
+                    referenceInfos.add(idReferenceInfo == null ? null : referenceInfoDataService.findById(idReferenceInfo));
+                    referenceInfosAndReferenceTests.add(idReferenceInfo == null ? null : referenceInfoDataService.findById(idReferenceInfo));
+                }
+            }
+            Logger.getLogger(TestcaseController.class.getName()).info("referenceInfosAndReferenceTests : " + referenceInfosAndReferenceTests);
+            
+            for (Long idReferenceTest : testcaseSearchCommand.getIdReferenceTestList()) {
+                if (idReferenceTest != null) {
+                    referenceTests.add(idReferenceTest == null ? null : referenceTestDataService.findById(idReferenceTest));
+                    referenceInfosAndReferenceTests.add(idReferenceTest == null ? null : referenceTestDataService.findById(idReferenceTest));
+                }
+            }
+            Logger.getLogger(TestcaseController.class.getName()).info("referenceInfosAndReferenceTests : " + referenceInfosAndReferenceTests);
+            
+            // We get the selected component with the minimum depth
+            RefComponentWithDepth minDepthRefComponent = getMinDepthRefComponentFromList(referenceInfosAndReferenceTests);
+            Logger.getLogger(TestcaseController.class.getName()).info("minDepthRefComponent : " + minDepthRefComponent);
+            
+            reference = (
+                        testcaseSearchCommand.getCodeReference() == null ? null 
+                        : referenceDataService.getByCode(testcaseSearchCommand.getCodeReference())
+                    );
+            
+            referenceLevel = (
+                        testcaseSearchCommand.getIdReferenceLevel() == null ? null 
+                        : referenceLevelDataService.read(testcaseSearchCommand.getIdReferenceLevel())
+                    );
+            
+            result = (
+                        testcaseSearchCommand.getIdResult() == null ? null 
+                        : resultDataService.read(testcaseSearchCommand.getIdResult())
+                    );
+            
+            // 
+            List<ReferenceTest> referenceTestScope = null;
+            
+            // Depending on parameters, decides which referenceTests must be in the search scope
+            if (reference == null) {
+                referenceTestScope = (List)referenceTestDataService.findAll();
+            } else {
+                if (minDepthRefComponent instanceof ReferenceInfoImpl) {
+                    Logger.getLogger(TestcaseController.class.getName()).info("instanceof ReferenceInfoImpl");
+                    
+                    referenceTestScope = (List)referenceInfoDataService.getAllReferenceTestsOfReferenceInfo(
+                            (ReferenceInfoImpl)minDepthRefComponent, 
+                            referenceLevel, 
+                            result);
+                    
+                } else if (minDepthRefComponent instanceof ReferenceTestImpl) {
+                    Logger.getLogger(TestcaseController.class.getName()).info("instanceof ReferenceTestImpl");
+                    referenceTestScope = (List)referenceTestDataService.getReferenceTestWithChildren(
+                            (ReferenceTestImpl)minDepthRefComponent, 
+                            referenceLevel, 
+                            result);
+                }
+            }
+            
+            Logger.getLogger(TestcaseController.class.getName()).info("referenceTestScope : " + referenceTestScope);
+            testcases = testcasePresentationFactory.createFromCollection(
+                    testcaseDataService.getAllFromUserSelection(referenceTestScope, result)
+                    );
+            
+            handleBreadcrumbTrail(model);
+            model.addAttribute("parameterMap", buildMapFromSearchParameters(reference, minDepthRefComponent, referenceLevel, result));
         }
         // handle login and breadcrumb
         handleUserLoginForm(model); 
@@ -261,21 +434,47 @@ public class TestcaseController extends AMailerController {
     /*
      * Handlers to add a testcase
      */
-    
-    @RequestMapping(value={"add", "add-finalize"}, method=RequestMethod.GET)
-    public String addHandler(Model model) {
-        return displayAddTestcaseForm(model, new NewTestcaseCommand());
+    @RequestMapping(value={"add"}, method=RequestMethod.GET)
+    public String selectReferenceHandler(Model model) {
+        return displaySelectReferenceForm(model, new SelectReferenceCommand());
     }
     
-    @RequestMapping(value="add", method=RequestMethod.POST)
+    @RequestMapping(value={"add"}, method=RequestMethod.POST)
+    public String selectReferenceHandler(
+            @ModelAttribute("selectReferenceCommand") SelectReferenceCommand selectReferenceCommand,
+            BindingResult result,
+            Model model) {
+        SelectReferenceValidator selectReferenceValidator = new SelectReferenceValidator(referenceDataService);
+        
+        // validate command
+        selectReferenceValidator.validate(selectReferenceCommand, result);
+        if (result.hasErrors()) {
+            // return to the first step
+            return displaySelectReferenceForm(model, selectReferenceCommand);
+        }
+        
+        // display the second step
+        NewTestcaseCommand newTestcaseCommand = new NewTestcaseCommand();
+        newTestcaseCommand.setIdReference(selectReferenceCommand.getIdReference());
+        
+        return displayAddTestcaseForm(model, newTestcaseCommand);
+    }
+    
+    @RequestMapping(value={"add-details", "add-finalize"}, method=RequestMethod.GET)
+    public String addHandler(Model model) {
+        return selectReferenceHandler(model);
+    }
+    
+    @RequestMapping(value="add-details", method=RequestMethod.POST)
     public String addHandler(
             @ModelAttribute("newTestcaseCommand") NewTestcaseCommand testcaseCommand,
             BindingResult result,
             Model model
             ) {
         NewTestcaseValidator newTestcaseValidator = new NewTestcaseValidator(
-                criterionDataService,
-                testDataService,
+                referenceTestDataService,
+                referenceDataService,
+                testcaseDataService,
                 resultDataService,
                 webarchiveDataService,
                 NewTestcaseValidator.Step.STEP_TESTCASE
@@ -284,10 +483,10 @@ public class TestcaseController extends AMailerController {
         // validate command
         newTestcaseValidator.validate(testcaseCommand, result);
         if (result.hasErrors()) {
-            // return to the first step
+            // return to the second step
             return displayAddTestcaseForm(model, testcaseCommand);
         }
-        // display the second step
+        // display the third step
         return displayAttachWebarchiveForm(model, testcaseCommand);
     }
     
@@ -302,8 +501,9 @@ public class TestcaseController extends AMailerController {
         Testcase newTestcase;
         TestcasePresentation testcasePresentation;
         NewTestcaseValidator newTestcaseValidator = new NewTestcaseValidator(
-                criterionDataService,
-                testDataService,
+                referenceTestDataService,
+                referenceDataService,
+                testcaseDataService,
                 resultDataService,
                 webarchiveDataService,
                 NewTestcaseValidator.Step.STEP_WEBARCHIVE
@@ -355,31 +555,22 @@ public class TestcaseController extends AMailerController {
             return displayAttachWebarchiveForm(model, testcaseCommand);
         }
         // create testcase
-        if (testcaseCommand.getIdTest() != null) {
-            newTestcase = testcaseDataService.createFromTest(
-                    currentUser,
-                    webarchive,
-                    resultDataService.read(testcaseCommand.getIdResult()),
-                    testDataService.read(testcaseCommand.getIdTest()),
-                    testcaseCommand.getDescription()
-                    );
-        } else {
-            newTestcase = testcaseDataService.createFromCriterion(
-                    currentUser,
-                    webarchive,
-                    resultDataService.read(testcaseCommand.getIdResult()),
-                    criterionDataService.read(testcaseCommand.getIdCriterion()),
-                    testcaseCommand.getDescription()
-                    );            
-        }
+        newTestcase = testcaseDataService.createFromTest(
+                currentUser,
+                webarchive,
+                resultDataService.read(testcaseCommand.getIdResult()),
+                referenceTestDataService.read(testcaseCommand.getIdReferenceTest()),
+                testcaseCommand.getDescription()
+                );
+         
+        
         // persist testcase
-        newTestcase.setTitle("title"); // FIXME: title is not used anymore
         testcaseDataService.saveOrUpdate(newTestcase);
         // email notification
         sendTestcaseCreationNotification(newTestcase);
-        // display testcase
         
-        testcasePresentation = new TestcasePresentation(newTestcase, true);
+        // display testcase
+        testcasePresentation = testcasePresentationFactory.create(newTestcase);
         model.addAttribute("testcase", testcasePresentation);
         return "testcase/add-summary";
     }
@@ -399,7 +590,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch test case
         try {
-            testcase = testcaseDataService.read(id, true);
+            testcase = testcaseDataService.read(id);
         } catch (NullPointerException e) {
             LogFactory.getLog(TestcaseController.class.getName()).debug("testcase doesn't exist");
         }
@@ -417,12 +608,12 @@ public class TestcaseController extends AMailerController {
             return displayTestcaseError(model, MessageKeyStore.NOT_AUTHORIZED_TO_EDIT_TESTCASE);
         }
         
-        testcasePresentation = new TestcasePresentation(testcase, true);
+        testcasePresentation = testcasePresentationFactory.create(testcase);
         model.addAttribute("testcase", testcasePresentation);
         // create form
         editTestcaseCommand = new EditTestcaseCommand(testcase);
 
-        return displayEditTestcaseForm(model, editTestcaseCommand);
+        return displayEditTestcaseForm(model, editTestcaseCommand, testcase.getReferenceTest());
     }
     
     @RequestMapping(value="edit-details/{id}/*", method=RequestMethod.POST)
@@ -436,7 +627,7 @@ public class TestcaseController extends AMailerController {
         EditTestcaseValidator testcaseValidator = new EditTestcaseValidator(
                 testcaseDataService,
                 resultDataService,
-                testDataService
+                referenceTestDataService
                 );
         
         // fetch account
@@ -447,7 +638,7 @@ public class TestcaseController extends AMailerController {
         }
         
         // fetch testcase
-        testcase = testcaseDataService.read(editTestcaseCommand.getId(), true);
+        testcase = testcaseDataService.read(editTestcaseCommand.getId());
         
         if (testcase == null) {
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
@@ -462,11 +653,11 @@ public class TestcaseController extends AMailerController {
         testcaseValidator.validate(editTestcaseCommand, result);
         
         if (result.hasErrors()) {    
-            return displayEditTestcaseForm(model, editTestcaseCommand);
+            return displayEditTestcaseForm(model, editTestcaseCommand, testcase.getReferenceTest());
         }
         
         // update testcase
-        editTestcaseCommand.update(testcase, criterionDataService, testDataService, testresultDataservice, resultDataService);
+        editTestcaseCommand.update(testcase, referenceTestDataService, resultDataService);
         testcaseDataService.saveOrUpdate(testcase);
         
         // confirmation message
@@ -483,7 +674,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch testcase
         try {
-            testcase = testcaseDataService.read(id, true);
+            testcase = testcaseDataService.read(id);
         } catch (NullPointerException e) { 
             LogFactory.getLog(TestcaseController.class.getName()).debug("testcase doesn't exist");
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
@@ -511,7 +702,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch test case
         try {
-            testcase = testcaseDataService.read(id, true);
+            testcase = testcaseDataService.read(id);
         } catch (NullPointerException e) {
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
@@ -526,7 +717,7 @@ public class TestcaseController extends AMailerController {
         }
         
         deleteTestcaseCommand = new DeleteTestcaseCommand(testcase);
-        testcasePresentation = new TestcasePresentation(testcase, true);
+        testcasePresentation = testcasePresentationFactory.create(testcase);
         model.addAttribute("deleteTestcaseCommand", deleteTestcaseCommand);
         model.addAttribute("testcase", testcasePresentation);
         
@@ -549,7 +740,7 @@ public class TestcaseController extends AMailerController {
         
         // fetch test case
         try {
-            testcase = testcaseDataService.read(deleteTestcaseCommand.getId(), true);
+            testcase = testcaseDataService.read(deleteTestcaseCommand.getId());
         } catch (NullPointerException e) {
             return displayTestcaseError(model, MessageKeyStore.TESTCASE_DOESNT_EXIST);
         }
@@ -569,7 +760,7 @@ public class TestcaseController extends AMailerController {
         // delete the testcase
         testcaseDataService.delete(testcase.getId());
         
-        testcasePresentation = new TestcasePresentation(testcase, true);
+        testcasePresentation = testcasePresentationFactory.create(testcase);
         model.addAttribute("testcase", testcasePresentation);
         // confirmation message
         model.addAttribute("successMessage", MessageKeyStore.TESTCASE_DELETED);
@@ -580,7 +771,6 @@ public class TestcaseController extends AMailerController {
     /*
      * Accessors
      */
-
     public WebarchiveDataService getWebarchiveDataService() {
         return webarchiveDataService;
     }
@@ -589,4 +779,21 @@ public class TestcaseController extends AMailerController {
         this.webarchiveDataService = webarchiveDataService;
     }
 
+    public WebarchiveController getWebarchiveController() {
+        return webarchiveController;
+    }
+
+    public void setWebarchiveController(WebarchiveController webarchiveController) {
+        this.webarchiveController = webarchiveController;
+    }
+
+    @Override
+    public TestcasePresentationFactory getTestcasePresentationFactory() {
+        return testcasePresentationFactory;
+    }
+
+    @Override
+    public void setTestcasePresentationFactory(TestcasePresentationFactory testcasePresentationFactory) {
+        this.testcasePresentationFactory = testcasePresentationFactory;
+    }
 }

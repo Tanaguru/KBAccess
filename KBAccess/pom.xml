@@ -4,7 +4,7 @@
   
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <version>2.2-SNAPSHOT</version>
   
     <packaging>pom</packaging>
     <name>kbaccess</name>
@@ -15,7 +15,6 @@
         <module>kbaccess-impl-authorization</module>
         <module>kbaccess-impl-subject</module>
         <module>kbaccess-impl-reference</module>
-        <module>kbaccess-webarchive-loader</module>
         <module>kbaccess-webapp</module>
         <module>kbaccess-i18n</module>
         <module>kbaccess-resources</module>
@@ -27,7 +26,7 @@
     
     <properties>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <kbaccess.version>2.1-SNAPSHOT</kbaccess.version>
+        <kbaccess.version>2.2-SNAPSHOT</kbaccess.version>
         <displaytag.version>1.2</displaytag.version>
         <tanaguru.version>1.5.2</tanaguru.version>
     </properties>
@@ -90,6 +89,11 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>3.4.0.GA</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>3.3.2.GA</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate</groupId>
@@ -260,6 +264,8 @@
                 <defaultGoal>sonar:sonar</defaultGoal>
             </build>
             <properties>
+                <sonar.dynamicAnalysis>true</sonar.dynamicAnalysis>
+                <sonar.java.coveragePlugin>cobertura</sonar.java.coveragePlugin>
                 <sonar.jdbc.url>jdbc:mysql://localhost:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
                 <sonar.jdbc.username>sonar</sonar.jdbc.username>
                 <sonar.jdbc.password>sonar</sonar.jdbc.password>

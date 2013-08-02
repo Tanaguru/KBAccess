@@ -21,16 +21,11 @@
  */
 package org.opens.kbaccess.command;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import org.opens.kbaccess.command.utils.ACommand;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
 import org.opens.kbaccess.entity.reference.Result;
-import org.opens.kbaccess.entity.reference.Test;
-import org.opens.kbaccess.entity.service.reference.CriterionDataService;
+import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
-import org.opens.kbaccess.entity.service.reference.TestDataService;
-import org.opens.kbaccess.entity.service.subject.TestResultDataService;
-import org.opens.kbaccess.entity.subject.TestResult;
 import org.opens.kbaccess.entity.subject.Testcase;
 
 /**
@@ -40,10 +35,8 @@ import org.opens.kbaccess.entity.subject.Testcase;
 public class EditTestcaseCommand extends ACommand {
     private Long id;
 
-    private Long idTest;
+    private Long idReferenceTest;
     private Long idResult;
-    private Long idTestResult;
-    private Long idCriterion;
     private String description;
     
     public EditTestcaseCommand() {
@@ -53,61 +46,41 @@ public class EditTestcaseCommand extends ACommand {
         this.id = testcase.getId();
         this.idResult = testcase.getResult().getId();  
         this.description = testcase.getDescription();
-        this.idTest = testcase.getTestResults().iterator().next().getTest().getId();
-        this.idTestResult = testcase.getTestResults().iterator().next().getId();
-        this.idCriterion = testcase.getCriterion().getId();
+        this.idReferenceTest = testcase.getReferenceTest().getId();
     }
 
     public void update(
             Testcase testcase,
-            CriterionDataService criterionDataService,
-            TestDataService testDataService,
-            TestResultDataService testResultDataService,
+            ReferenceTestDataService testDataService,
             ResultDataService resultDataService
             ) {
         
-        Test test = testDataService.read(this.idTest);
+        ReferenceTest referenceTest = testDataService.read(this.idReferenceTest);
         Result result = resultDataService.read(this.idResult);
-        
-        /*
-         * In case the current EditTestcaseCommand is instanciated with the default constructor
-         * i.e : submission of the edited testcase
-         * We need to compute his new Criterion, test and result
-         */
-        if (this.idTestResult == null) {
-            this.idTestResult = testResultDataService.getByTestResult(test, result).getId();
-        }
-        
-        if (this.idCriterion == null) {
-            this.idCriterion = testcase.getCriterion().getId();
-        }
-        
-        TestResult testResult = testResultDataService.read(this.idTestResult);
-         
-        // then update the testcase with new informations    
-        testcase.setResult(resultDataService.read(this.idResult));
+
+        // update the testcase 
+        testcase.setResult(result);
         testcase.setDescription(this.description);
-        
-        Collection<TestResult> newTestResultList = new ArrayList<TestResult>();
-        newTestResultList.add(testResult);
-        testcase.setTestResults(newTestResultList);
-        testcase.setCriterion(test.getCriterion());
+        testcase.setReferenceTest(referenceTest);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
+    /*
+     * Accessors
+     */
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdReferenceTest() {
+        return idReferenceTest;
+    }
+
+    public void setIdReferenceTest(Long idReferenceTest) {
+        this.idReferenceTest = idReferenceTest;
     }
 
     public Long getIdResult() {
@@ -117,20 +90,12 @@ public class EditTestcaseCommand extends ACommand {
     public void setIdResult(Long idResult) {
         this.idResult = idResult;
     }
-    
-     public Long getIdTest() {
-        return idTest;
+
+    public String getDescription() {
+        return description;
     }
 
-    public void setIdTest(Long idTest) {
-        this.idTest = idTest;
-    }
-    
-     public Long getIdCriterion() {
-        return idCriterion;
-    }
-
-    public void setIdCriterion(Long idCriterion) {
-        this.idCriterion = idCriterion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

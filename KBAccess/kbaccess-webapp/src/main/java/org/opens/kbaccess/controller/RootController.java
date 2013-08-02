@@ -25,20 +25,19 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
-import org.opens.kbaccess.entity.reference.Criterion;
-import org.opens.kbaccess.entity.reference.Level;
 import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
 import org.opens.kbaccess.entity.reference.Result;
-import org.opens.kbaccess.entity.reference.Test;
-import org.opens.kbaccess.entity.reference.Theme;
-import org.opens.kbaccess.entity.service.authorization.AccountDataService;
 import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
+import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.StatisticsPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
+import org.opens.kbaccess.presentation.factory.StatisticsPresentationFactory;
+import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,9 +56,11 @@ public class RootController extends AController {
     @Autowired
     private WebarchiveDataService webarchiveDataService;
     @Autowired
-    private AccountDataService accountDataService;
-    @Autowired
     private StatisticsDataService statisticsDataService;
+    @Autowired
+    private StatisticsPresentationFactory statisticsPresentationFactory;
+    @Autowired
+    private TestcasePresentationFactory testcasePresentationFactory;
     
     private static final int NB_TESTCASES_DISPLAYED = 5;
     
@@ -69,16 +70,14 @@ public class RootController extends AController {
         private String getAndDisplayTestcasesFromUrlSearch(Model model, String codeRef, String codeTest, String codeResult) {
             Collection<TestcasePresentation> testcases = null;
             Reference reference = null;
-            Test test = null;
-            Theme theme = null;
-            Level level = null;
-            Criterion criterion = null;
+            ReferenceTest test = null;
             Result result = null;
             StringBuilder errorMessage = new StringBuilder();
 
             // Reference
             model.addAttribute("codeRef", codeRef);
             reference = referenceDataService.getByCode(codeRef);
+            
             if (reference == null) {
                 errorMessage.append("Le référentiel ").append(codeRef).append(" n'existe pas. ");
             }
@@ -87,7 +86,7 @@ public class RootController extends AController {
             // Test
             if (codeTest != null) {
                 model.addAttribute("codeTest", codeTest);
-                test = testDataService.getByLabelAndReferenceCode(codeTest, codeRef);
+                test = referenceTestDataService.getByLabelAndReferenceCode(codeTest, codeRef);
 
                 if (test == null) {
                     errorMessage.append("Le test ").append(codeTest).append("(").append(codeRef).append(") n'existe pas. ");
@@ -102,11 +101,11 @@ public class RootController extends AController {
                 model.addAttribute("codeResult", codeResult);
 
                 if (codeResult.equals("Passed")) {
-                    codeResult = "Validé";
+                    codeResult = "passed";
                 }
 
                 if (codeResult.equals("Failed")) {
-                    codeResult = "Invalidé";
+                    codeResult = "failed";
                 }
 
                 result = resultDataService.getByCode(codeResult);
@@ -120,10 +119,23 @@ public class RootController extends AController {
             if (errorMessage.length() != 0) {
                 model.addAttribute("errorMessage", errorMessage.toString());
             } else {
+                Collection<ReferenceTest> referenceTestList = null;
+                
+                if (test != null) {
+                    referenceTestList = referenceTestDataService.getReferenceTestWithAllChildren(
+                                            test, 
+                                            null, 
+                                            result);
+                } else {
+                    referenceTestList = referenceTestDataService.getAllByReference(reference);
+                }
+                
                 // testcases fetch
-                testcases = TestcasePresentation.fromCollection(
-                        testcaseDataService.getAllFromUserSelection(reference, criterion, theme, test, level, result),
-                        true);
+                testcases = testcasePresentationFactory.createFromCollection(
+                        (Collection<Testcase>)testcaseDataService.getAllFromUserSelection(
+                            referenceTestList, 
+                            result)
+                        );
             }
             // result list
             model.addAttribute(ModelAttributeKeyStore.TESTCASE_LIST_KEY, testcases);
@@ -138,12 +150,7 @@ public class RootController extends AController {
         handleUserLoginForm(model);
         handleTestcaseSearchForm(model);
 
-        StatisticsPresentation statisticsPresentation = new StatisticsPresentation(
-                testcaseDataService,
-                webarchiveDataService,
-                referenceDataService,
-                accountDataService,
-                statisticsDataService);
+        StatisticsPresentation statisticsPresentation = statisticsPresentationFactory.create();
 
         // Generate a displayable name for most active contributors
         for (Iterator it = statisticsPresentation.getBestContributors().iterator(); it.hasNext();) {
@@ -158,9 +165,10 @@ public class RootController extends AController {
                 statisticsPresentation);
         model.addAttribute(
                 ModelAttributeKeyStore.TESTCASE_LIST_KEY,
-                TestcasePresentation.fromCollection(
-                testcaseDataService.getLastTestcases(NB_TESTCASES_DISPLAYED),
-                true));
+                testcasePresentationFactory.createFromCollection(
+                    testcaseDataService.getLastTestcases(NB_TESTCASES_DISPLAYED)
+                )
+            );
 
         return "home";
     }
@@ -226,15 +234,6 @@ public class RootController extends AController {
     /*
      * Accessors
      */
-
-    public AccountDataService getAccountDataService() {
-        return accountDataService;
-    }
-
-    public void setAccountDataService(AccountDataService accountDataService) {
-        this.accountDataService = accountDataService;
-    }
-
     public StatisticsDataService getStatisticsDataService() {
         return statisticsDataService;
     }
@@ -251,4 +250,19 @@ public class RootController extends AController {
         this.webarchiveDataService = webarchiveDataService;
     }
 
+    public StatisticsPresentationFactory getStatisticsPresentationFactory() {
+        return statisticsPresentationFactory;
+    }
+
+    public void setStatisticsPresentationFactory(StatisticsPresentationFactory statisticsPresentationFactory) {
+        this.statisticsPresentationFactory = statisticsPresentationFactory;
+    }
+
+    public TestcasePresentationFactory getTestcasePresentationFactory() {
+        return testcasePresentationFactory;
+    }
+
+    public void setTestcasePresentationFactory(TestcasePresentationFactory testcasePresentationFactory) {
+        this.testcasePresentationFactory = testcasePresentationFactory;
+    }
 }

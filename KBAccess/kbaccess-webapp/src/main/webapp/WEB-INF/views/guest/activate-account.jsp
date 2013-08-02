@@ -18,9 +18,21 @@
 
         <div class="page-header"><h1><fmt:message key="guest.activateH1" /></h1></div>
         <div class="row-fluid">
-            <p class="alert alert-success">
-                <fmt:message key="guest.activateSuccess" />
-            </p>
+            <c:choose>
+                <c:when test="${errorMessage == true}">
+                    <p class="alert alert-error">
+                        <fmt:message key="guest.tokenExpired" />
+                    </p>
+                    <p class="alert alert-info">
+                        <fmt:message key="guest.newTokenSent" />
+                    </p>
+                </c:when>
+                <c:otherwise>
+                    <p class="alert alert-success">
+                        <fmt:message key="guest.activateSuccess" />
+                    </p>
+                </c:otherwise>
+            </c:choose> 
         </div>                    
             
         <%@include file='/WEB-INF/template/footer.jspf' %>

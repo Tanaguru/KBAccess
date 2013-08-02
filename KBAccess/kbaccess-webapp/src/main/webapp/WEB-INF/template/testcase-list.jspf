@@ -56,7 +56,7 @@
                 </c:set>
                 
                 <c:set var="detailsAlt" scope="page"><fmt:message key="testcase.detailsOfTestcase" /></c:set>
-                <a href="<c:url value='/example/details/${testcase.id}/${testcaseUrl}'/>" title="${detailsAlt} ${testcase.id}">
+                <a href="<c:url value='/example/details/${testcase.testcaseId}/${testcaseUrl}'/>" title="${detailsAlt} ${testcase.testcaseId}">
                     <img src="${snapshotUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
                 </a>
             </display:column>
@@ -67,7 +67,8 @@
             </display:column>    
             <display:column title="${accessibilityTestColumn}" headerClass="testResultLabelCol" headerScope="col">
                 <c:set var="referenceAlt" scope="page"><fmt:message key="testcase.referenceOfTest" /></c:set>
-                <a href="http://www.braillenet.org/accessibilite/referentiel-aw21/liste-deploye.php#test-${testcase.webRefTestLabel}" title="${referenceAlt} ${testcase.testResultLabel}">${testcase.testResultLabel}</a>    
+                <c:set var="testWebReference" scope="page"><fmt:message key="${testcase.testWebRefCode}" /></c:set>
+                    <a href="${testWebReference}" title="${referenceAlt} ${testcase.testLabel}">${testcase.testLabel}</a>    
                 <abbr class="reference-abbr" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
             </display:column>
             <display:column title="${resultColumn}" headerClass="resultCodeCol" class="resultCodeRow" headerScope="col">
@@ -83,9 +84,9 @@
                 ${testcase.description}
             </display:column>--%>
             <display:column title="${contributorColumn}" headerClass="authorDisplayedNameCol" headerScope="col">
-                <a href="<c:url value='/account/details/${testcase.authorId}/profile.html'/>"
-                   title="<fmt:message key="account.profileOfUser" /> ${testcase.authorDisplayedName}">
-                    ${testcase.authorDisplayedName}
+                <a href="<c:url value='/account/details/${testcase.accountId}/profile.html'/>"
+                   title="<fmt:message key="account.profileOfUser" /> ${testcase.accountDisplayedName}">
+                    ${testcase.accountDisplayedName}
                 </a>
             </display:column>
             <%--<c:set var="hasCRUDPermission"
@@ -93,25 +94,25 @@
                                  or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
                                  or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
             <display:column title="Actions" headerClass="actionsCol" class="actionsRow">
-                <a href="<c:url value='/testcase/details/${testcase.id}/${testcaseUrl}'/>"
-                    title="Détails du testcase ${testcase.id}"
+                <a href="<c:url value='/testcase/details/${testcase.testcaseId}/${testcaseUrl}'/>"
+                    title="Détails du testcase ${testcase.testcaseId}"
                     class="tc-details" > 
                     <img src="<c:url value='/assets/images/icon-crystalclear-details-button-16x16.png'/>"
-                         alt="Détails du testcase ${testcase.id}" />
+                         alt="Détails du testcase ${testcase.testcaseId}" />
                 </a>
                 
                 <c:if test="${hasCRUDPermission}">
-                    <a href="<c:url value='/testcase/edit-details/${testcase.id}/${testcaseUrl}'/>" 
-                        title="Modifier testcase ${testcase.id}"
+                    <a href="<c:url value='/testcase/edit-details/${testcase.testcaseId}/${testcaseUrl}'/>" 
+                        title="Modifier testcase ${testcase.testcaseId}"
                         class="tc-modify">
                         <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
-                                        alt="Modifier testcase ${testcase.id}" />
+                                        alt="Modifier testcase ${testcase.testcaseId}" />
                     </a>
-                    <a href="<c:url value='/testcase/delete/${testcase.id}/${testcaseUrl}' />"
-                        title="Supprimer testcase ${testcase.id}"
+                    <a href="<c:url value='/testcase/delete/${testcase.testcaseId}/${testcaseUrl}' />"
+                        title="Supprimer testcase ${testcase.testcaseId}"
                         class="tc-delete">
                         <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
-                            alt="Supprimer testcase ${testcase.id}" />
+                            alt="Supprimer testcase ${testcase.testcaseId}" />
                     </a>
                 </c:if>
             </display:column>--%>

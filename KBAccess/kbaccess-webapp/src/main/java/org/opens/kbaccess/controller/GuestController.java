@@ -244,10 +244,6 @@ public class GuestController extends AMailerController {
             @RequestParam(value="token", required=false) String token,
             Model model
             ) {
-        Account account;
-        
-        LogFactory.getLog(GuestController.class).info("activateAccountHandler()");
-        
         // check if the user has the right to be there
         if (!checkAuthority()) {
             return forwardBannedUsers();
@@ -261,37 +257,42 @@ public class GuestController extends AMailerController {
             return "home";
         } 
         
-        if (!AccountUtils.getInstance().isTokenValid(token)) {
+        //
+        TgolTokenHelper tokenHelper = TgolTokenHelper.getInstance();
+        String email = tokenHelper.getUserEmailFromToken(token);
+        Account account = accountDataService.getAccountFromEmail(email);        
+        
+        if (account == null) {
+            LogFactory.getLog(AccountController.class).info("Token with an invalid email");
             return "guest/login";
+        } else if (account.isActivated()) {
+            LogFactory.getLog(AccountController.class).info("Account already activated");
+            return "guest/login";
+        } else if (!tokenHelper.checkUserToken(token)) {
+            String newToken = generateToken(account, false);
+            account.setAuthCode(newToken);
+            sendAuthToken(null, account);
+            accountDataService.saveOrUpdate(account);
+            
+            model.addAttribute("errorMessage", true);
+            LogFactory.getLog(AccountController.class).info("Token expired, new token sent");
+            return "guest/activate-account";
         } else {
             // otherwise, activate the associated account
-            String email = TgolTokenHelper.getInstance().getUserEmailFromToken(token);
-            account = accountDataService.getAccountFromEmail(email);
-            
-            if (account != null && token.equals(account.getAuthCode())) {
+            if (token.equals(account.getAuthCode())) {
+                LogFactory.getLog(AccountController.class).info("account activation");
                 account.setActivated(true);
                 account.setAuthCode(null);
                 accountDataService.saveOrUpdate(account);
-            } 
+            }
         }
         
-        LogFactory.getLog(GuestController.class).info("endOfActivateAccountHandler()");
-       
         return "guest/activate-account";
     }
     
     /*
      * Accessors
      */
-
-    public AccountDataService getAccountDataService() {
-        return accountDataService;
-    }
-
-    public void setAccountDataService(AccountDataService accountDataService) {
-        this.accountDataService = accountDataService;
-    }
-
     @Override
     public MailingServiceProperties getMailingServiceProperties() {
         return mailingServiceProperties;

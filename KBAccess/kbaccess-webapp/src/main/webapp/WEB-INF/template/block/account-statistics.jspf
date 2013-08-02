@@ -8,7 +8,7 @@
         </c:set>
         <li>
             ${account.displayedName}
-            <a href="<c:url value='/example/list.html?account=${account.id}'/>"
+            <a href="<c:url value='/example/result.html?account=${account.id}'/>"
                title="${account.testcaseCount} ${example} <fmt:message key="from"/> ${account.displayedName}">
                 ${account.testcaseCount} ${example}
             </a>

@@ -34,7 +34,7 @@
                     <c:set var="referenceWebRef" scope="page">
                         <fmt:message key="${testcase.referenceWebRefCode}"/>
                     </c:set>
-                    <a href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
+                    <a title="<fmt:message key="testcase.referenceOfTest" /> ${testcase.testLabel}" href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
                     <a href="<c:url value='${referenceWebRef}'/>">(${testcase.referenceLabel})</a>
                 </li>
                 <li><fmt:message key="result" /> :

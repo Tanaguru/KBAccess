@@ -2,25 +2,25 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <ul>    
-    <c:forEach var="criterion" items="${criterionStatistics}">
+    <c:forEach var="referenceTest" items="${referenceTestStatistics}">
         <c:set var="example">
-            <fmt:message key="accessibility.example"/><c:if test="${criterion.testcaseCount > 1}">s</c:if>
+            <fmt:message key="accessibility.example"/><c:if test="${referenceTest.testcaseCount > 1}">s</c:if>
         </c:set>
             
         <li>
             <c:choose>
-                <c:when test="${criterion.testcaseCount == 0}">
-                    <a href="<fmt:message key="${criterion.code}-url"/>"
-                       title="<fmt:message key="statistics.referenceOfCriterion"/> ${criterion.label} <fmt:message key="from"/> <fmt:message key="${criterion.referenceCode}"/>">
-                            <abbr class="reference-abbr" title="<fmt:message key="${criterion.referenceCode}"/>">${criterion.referenceCode}</abbr> ${criterion.label}
+                <c:when test="${referenceTest.testcaseCount == 0}">
+                    <a href="<fmt:message key="${referenceTest.code}-url"/>"
+                       title="<fmt:message key="statistics.referenceOfCriterion"/> ${referenceTest.label} <fmt:message key="from"/> <fmt:message key="${referenceTest.referenceCode}"/>">
+                            <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}"/>">${referenceTest.referenceCode}</abbr> ${referenceTest.label}
                     </a>
-                    ${criterion.testcaseCount} ${example}
+                    ${referenceTest.testcaseCount} ${example}
                 </c:when>
                 <c:otherwise>
-                    <abbr class="reference-abbr" title="<fmt:message key="${criterion.referenceCode}"/>">${criterion.referenceCode}</abbr> ${criterion.label}
-                    <a href="<c:url value='/example/list.html?reference=${criterion.referenceId}&criterion=${criterion.id}'/>"
-                       title="${criterion.testcaseCount} ${example} <fmt:message key="on"/> <fmt:message key="accessibility.criterion"/> ${criterion.label} <fmt:message key="from"/> <fmt:message key="${criterion.referenceCode}"/>">
-                        ${criterion.testcaseCount} ${example}
+                    <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}"/>">${referenceTest.referenceCode}</abbr> ${referenceTest.label}
+                    <a href="<c:url value='/example/result.html?reference=test=${referenceTest.id}'/>"
+                       title="${referenceTest.testcaseCount} ${example} <fmt:message key="on"/> <fmt:message key="accessibility.test"/> ${referenceTest.label} <fmt:message key="from"/> <fmt:message key="${referenceTest.referenceCode}"/>">
+                        ${referenceTest.testcaseCount} ${example}
                     </a>
                 </c:otherwise>
             </c:choose>

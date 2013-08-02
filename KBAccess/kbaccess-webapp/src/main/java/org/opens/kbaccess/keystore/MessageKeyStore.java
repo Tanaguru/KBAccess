@@ -42,6 +42,7 @@ public final class MessageKeyStore {
     public static final String INVALID_RESULT_KEY = "invalidResult";
     public static final String INVALID_TEST_FOR_GIVEN_CRITERION_KEY = "invalidTestForGivenCriterion";
     public static final String INVALID_TEST_KEY = "invalidTest";
+    public static final String INVALID_REFERENCE_KEY = "invalidReference";
     public static final String INVALID_TITLE_KEY = "invalidTitle";
     public static final String INVALID_URL_KEY = "invalidUrl";
     public static final String INVALID_WEBARCHIVE_KEY = "invalidWebarchive";
@@ -58,6 +59,7 @@ public final class MessageKeyStore {
     public static final String MISSING_REQUIRED_FIELD = "requiredFieldIsMissing";
     public static final String MISSING_RESULT_KEY = "missingResult";
     public static final String MISSING_TEST_KEY = "missingTest";
+    public static final String MISSING_REFERENCE_KEY = "missingReference";
     public static final String MISSING_TITLE_KEY = "missingTitle";    
     public static final String MISSING_URL_KEY = "missingUrl";
     public static final String MISSING_WEBARCHIVE_KEY = "missingWebarchive";

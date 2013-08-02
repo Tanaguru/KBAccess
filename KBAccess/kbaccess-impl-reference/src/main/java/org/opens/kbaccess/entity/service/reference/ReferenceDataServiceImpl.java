@@ -1,36 +1,54 @@
 package org.opens.kbaccess.entity.service.reference;
 
-import org.opens.kbaccess.entity.dao.reference.ReferenceDAO;
+import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 import org.opens.kbaccess.entity.reference.Reference;
-import org.opens.tanaguru.sdk.entity.service.AbstractGenericDataService;
 
 /**
  * 
- * @author opens
+ * @author blebail
  */
-public class ReferenceDataServiceImpl extends AbstractGenericDataService<Reference, Long> implements
+public class ReferenceDataServiceImpl extends AbstractRefBaseDataService<Reference, Long> implements
         ReferenceDataService {
-
+    
+    protected Map<String, Reference> internMap;
+    
     public ReferenceDataServiceImpl() {
         super();
+        internMap = new TreeMap<String, Reference>();
     }
-
+    
     @Override
-    public Reference read(Long key) {
-        Reference entity = super.read(key);
-        // fetch criteria
-        entity.getCriterionList().size();
-        return entity;
+    protected void initMap() {
+        if (internMap.isEmpty()) {
+            Collection<Reference> referenceCollection = entityDao.findAll();
+            for (Reference referenceItem : referenceCollection) {
+                internMap.put(referenceItem.getCode(), referenceItem);
+            }
+        }
     }
 
     @Override
     public Reference getByCode(String code) {
-        return ((ReferenceDAO) entityDao).findByCode(code);
+        return internMap.get(code);
     }
 
     @Override
     public Long getCount() {
-        return ((ReferenceDAO) entityDao).count();
+        return (long)internMap.size();
     }
     
+    @Override
+    public Collection<Reference> findAll() {
+        return internMap.values();
+    }
+    
+    /*
+     * Accessors
+     */
+    @Override
+    public Map<String, Reference> getInternMap() {
+        return internMap;
+    }
 }

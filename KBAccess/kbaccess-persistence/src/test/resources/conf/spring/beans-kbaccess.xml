@@ -8,18 +8,17 @@
     <bean id="accessLevelDAO" class="org.opens.kbaccess.entity.dao.authorization.AccessLevelDAOImpl"/>
     <bean id="accountDAO" class="org.opens.kbaccess.entity.dao.authorization.AccountDAOImpl"/>
 
-    <bean id="criterionDAO" class="org.opens.kbaccess.entity.dao.reference.CriterionDAOImpl"/>
-    <bean id="levelDAO" class="org.opens.kbaccess.entity.dao.reference.LevelDAOImpl"/>
-    <bean id="nomenclatureDAO" class="org.opens.kbaccess.entity.dao.reference.NomenclatureDAOImpl"/>
-    <bean id="nomenclatureElementDAO" class="org.opens.kbaccess.entity.dao.reference.NomenclatureElementDAOImpl"/>
+    <bean id="referenceLevelDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceLevelDAOImpl"/>
     <bean id="referenceDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceDAOImpl"/>
+    <bean id="referenceDepthDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceDepthDAOImpl"/>
+    <bean id="referenceInfoDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceInfoDAOImpl"/>
+    <bean id="referenceTestDAO" class="org.opens.kbaccess.entity.dao.reference.ReferenceTestDAOImpl"/>
+    
     <bean id="resultDAO" class="org.opens.kbaccess.entity.dao.reference.ResultDAOImpl"/>
-    <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
-    <bean id="testDAO" class="org.opens.kbaccess.entity.dao.reference.TestDAOImpl"/>
-    <bean id="testResultDAO" class="org.opens.kbaccess.entity.dao.subject.TestResultDAOImpl"/>
-    <bean id="themeDAO" class="org.opens.kbaccess.entity.dao.reference.ThemeDAOImpl"/>
 
     <bean id="testcaseDAO" class="org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl"/>
     <bean id="webarchiveDAO" class="org.opens.kbaccess.entity.dao.subject.WebarchiveDAOImpl"/>
+
+    <bean id="statisticsDAO" class="org.opens.kbaccess.entity.dao.statistics.StatisticsDAOImpl"/>
 
 </beans>

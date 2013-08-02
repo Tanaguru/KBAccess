@@ -43,7 +43,6 @@ public class AccountPresentation {
     private String myUrl;
     
     private Date subscriptionDate;
-    private Date lastOperationDate;
     
     private AccessLevel accessLevel;
     
@@ -64,9 +63,6 @@ public class AccountPresentation {
         }
     }
 
-    public AccountPresentation() {
-    }
-
     public AccountPresentation(Account account, AccountDataService accountDataService) {
         this.id = account.getId();
         this.accessLevel = account.getAccessLevel();
@@ -78,9 +74,12 @@ public class AccountPresentation {
         this.myUrl = account.getUrl();
         this.displayedName = generateDisplayedName(account);
         this.subscriptionDate = account.getSubscriptionDate();
-        this.lastOperationDate = new Date(0L); // TODO
     }
 
+    
+    /*
+     * Accessors
+     */
     public String getDisplayedName() {
         return displayedName;
     }
@@ -119,14 +118,6 @@ public class AccountPresentation {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Date getLastOperationDate() {
-        return lastOperationDate;
-    }
-
-    public void setLastOperationDate(Date lastOperationDate) {
-        this.lastOperationDate = lastOperationDate;
     }
 
     public Long getNbCreatedTestcases() {

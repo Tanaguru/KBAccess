@@ -58,7 +58,7 @@
                         </td>
                         <td>
                             <c:set var='resultId' value='${testcase.resultId}'/>
-                            <c:set var='withAccents' value='true' />
+                            <c:set var='forUrl' value='false' />
                             <c:set var="pictoSize" value="m"/>
                             <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
                         </td>

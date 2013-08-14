@@ -304,8 +304,6 @@ public class TestcaseController extends AMailerController {
         ReferenceLevel referenceLevel;
         Result result;
 
-        testcaseSearchCommand.logState();
-        
         // fetch entities and set title and H1
         if (testcaseSearchCommand.searchAll()) {
             LogFactory.getLog(TestcaseController.class.getName()).info("searchAll()");

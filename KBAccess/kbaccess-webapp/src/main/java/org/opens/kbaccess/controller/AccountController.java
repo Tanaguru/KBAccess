@@ -21,10 +21,10 @@
  */
 package org.opens.kbaccess.controller;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.command.ChangePasswordCommand;
@@ -379,11 +379,11 @@ public class AccountController extends AController {
     }
     
     @RequestMapping(value="list", method=RequestMethod.GET)
-    public String newPasswordHandler(
+    public String accountListHandler(
             Model model
             ) {    
         Collection<AccountStatistics> contributorsStatistics;
-        List<AccountPresentation> contributors = new ArrayList<AccountPresentation>();
+        Set<AccountPresentation> contributors = new TreeSet<AccountPresentation>();
         
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);

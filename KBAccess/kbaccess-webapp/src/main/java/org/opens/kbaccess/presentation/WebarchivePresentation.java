@@ -22,6 +22,7 @@
 package org.opens.kbaccess.presentation;
 
 import java.util.Date;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.opens.kbaccess.entity.subject.Webarchive;
 
 /**
@@ -43,7 +44,7 @@ public class WebarchivePresentation {
         this.url = webarchive.getUrl();
         this.localUrl = webarchive.getLocalUrl();
         this.scope = webarchive.getScope();
-        this.description = webarchive.getDescription();
+        this.description =  StringEscapeUtils.escapeHtml(webarchive.getDescription());
         this.creationDate = webarchive.getCreationDate();
         this.accountDisplayedName = AccountPresentation.generateDisplayedName(webarchive.getAccount());
         this.accountId = webarchive.getAccount().getId();

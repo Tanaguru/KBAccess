@@ -11,7 +11,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- 
 
 INSERT IGNORE INTO `reference`(`ID_REFERENCE`, `CD_REFERENCE`, `LABEL`, `RANK`, `URL`, `COUNTRY`, `INFO_MAX_DEPTH`, `TEST_MAX_DEPTH`) VALUES
-(2, 'Rgaa22', 'Rgaa 2.2', 11, 'http://www.rgaa.net/', 'france', '+1', '-1');
+(2, 'Rgaa22', 'Rgaa 2.2.1', 11, 'http://www.rgaa.net/', 'france', '+1', '-1');
 
 
 --

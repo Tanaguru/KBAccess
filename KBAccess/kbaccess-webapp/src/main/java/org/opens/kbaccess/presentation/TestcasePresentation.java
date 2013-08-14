@@ -21,9 +21,13 @@
  */
 package org.opens.kbaccess.presentation;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.logging.Logger;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceTest;
@@ -61,7 +65,16 @@ public class TestcasePresentation {
     private String description;
     private String webarchiveLocalUrl;
     private String webarchiveOriginalUrl;
-
+    
+    /* 
+     * protocol removed, only the domain, and "..." if there is more after
+     * i.e : 
+     *  http://www.google.com becomes "www.google.com"
+     *  https://www.cdiscount.com/articles/laptops/index.php?lang=ru becomes "www.cdiscount.com/..."
+     */
+    private String webarchiveDisplayedUrl;
+    
+    
     private Date creationDate;
     private Date webarchiveCreationDate;
         
@@ -96,10 +109,20 @@ public class TestcasePresentation {
         this.referenceLabelForUrl = this.referenceLabel.replaceAll("\\s", "");
 
         this.accountDisplayedName = AccountPresentation.generateDisplayedName(testcase.getAccount());
-        this.description = testcase.getDescription();
+        this.description =  StringEscapeUtils.escapeHtml(testcase.getDescription());
         this.webarchiveLocalUrl = webarchive.getLocalUrl().replaceAll("/http:/", "");
         this.webarchiveOriginalUrl = webarchive.getUrl();
-
+        
+        try {
+            URI uri = new URI(this.webarchiveOriginalUrl);
+            this.webarchiveDisplayedUrl = uri.getHost();
+            if (uri.getPath().length() > 1) {
+                this.webarchiveDisplayedUrl = this.webarchiveDisplayedUrl.concat("/...");
+            }
+        } catch (URISyntaxException e) {
+            Logger.getLogger(TestcasePresentation.class.getName()).info(e.getMessage());
+        }
+        
         this.creationDate = testcase.getCreationDate();
         this.webarchiveCreationDate = webarchive.getCreationDate();
     }
@@ -259,6 +282,14 @@ public class TestcasePresentation {
         this.webarchiveOriginalUrl = webarchiveOriginalUrl;
     }
 
+    public String getWebarchiveDisplayedUrl() {
+        return webarchiveDisplayedUrl;
+    }
+
+    public void setWebarchiveDisplayedUrl(String webarchiveDisplayedUrl) {
+        this.webarchiveDisplayedUrl = webarchiveDisplayedUrl;
+    }
+    
     public Date getCreationDate() {
         return creationDate;
     }

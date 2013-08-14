@@ -72,6 +72,26 @@ body {
     height : 90px;
 }
 
+#testcase {
+    table-layout : fixed;
+}
+
+#testcase .webarchiveLocalUrlCol {
+    width : 25%;
+}
+
+#testcase .testResultLabelCol , #testcase .authorDisplayedNameCol {
+	width : 20%;
+}
+
+#testcase .resultCodeCol, #testcase .creationDateCol {
+    width : 15%;
+}
+
+#testcase .webarchive-original-url-link {
+    font-size : 12px;
+}
+
 #brand-name {
     font-size : 2em;
 }
@@ -162,14 +182,6 @@ body {
     font-variant : small-caps;
 }
 
-#testcase .creationDateCol, #testcase .testResultLabelCol {
-    width : @size;
-}
-
-#testcase .actionsCol {
-    width : 100px;
-}
-
 #nb-testcases {
     text-align : center;
 }
@@ -215,12 +227,34 @@ body {
 }
 
 #new-tc-form .new-tc-block {
-    padding-left:50px
+    padding-top : 15px;
+    padding-left : 10px;
+}
+
+#new-tc-form .new-tc-block .new-tc-test-error {
+    margin-left : 160px;
+}
+
+#new-tc-form .new-tc-label {
+    margin-top : 25px;
+}
+
+#new-tc-form .new-tc-depth-block {
+    width : 160px;
+    float:left;
+}
+
+#new-tc-form .new-tc-depth-block label {
+    clear : left;
+    display : inline;
+}
+
+#new-tc-form #new-tc-result-label {
+    clear : left;
 }
 
 #new-tc-table .new-tc-testname-td {
     width:20%;
-    text-indent: 50px;
 }
 
 #new-tc-table .new-tc-test-td {
@@ -298,6 +332,11 @@ textarea {
 .navbar-inverse .brand, .navbar-inverse .nav > li > a {
     color: #ffffff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+input[type="radio"], input[type="checkbox"] {
+    line-height: normal;
+    margin: 0px;
 }
 
 /* This is to make Bootstrap alert messages color contrast WCAG2 compliant */

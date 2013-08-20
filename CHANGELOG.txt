@@ -23,7 +23,7 @@ KBAccess 2.1, 2013-06-26
 https://github.com/Tanaguru/KBAccess/issues?milestone=3&page=1&state=closed
 
 -------------------------
-KBAccess 2.2, 2013-08-12
+KBAccess 2.2, 2013-08-21
 -------------------------
 
 - Fixed an internationalization issue on the result page of example search where "themes" were not translated

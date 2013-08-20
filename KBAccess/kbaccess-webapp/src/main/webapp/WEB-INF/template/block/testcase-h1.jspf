@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
         ${testcase.testcaseId} : ${testcase.testLabel} <abbr class="abbr-reference-h1" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
         <c:set var='resultId' value='${testcase.resultId}'/>
-        <c:set var='withAccents' value='true' />
+        <c:set var='forUrl' value='false' />
         <%@include file='/WEB-INF/template/inline/result.jspf' %>
         <br />
         <a href="<c:url value='${testcase.webarchiveOriginalUrl}'/>" class="testcase-h1-url">

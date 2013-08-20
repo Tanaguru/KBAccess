@@ -1,10 +1,18 @@
 <%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <ul>
     <c:forEach var="account" items="${accountStatistics}">
         <c:set var="example" scope="page">
-            <fmt:message key="accessibility.example"/><c:if test="${account.testcaseCount > 1}">s</c:if>
+            <c:choose>
+                    <c:when test="${account.testcaseCount > 1}">
+                        <fmt:message key="accessibility.examples"/>
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:message key="accessibility.example"/>
+                    </c:otherwise>
+                </c:choose>
         </c:set>
         <li>
             ${account.displayedName}

@@ -37,7 +37,7 @@
                 $('div.toggle-block select').attr('aria-disabled', 'true');
                 
                 // If a referetial is selected
-                $('#selectReferentiel').on('change', function() {
+                $('#selectReferentiel').on('change keyup', function() {
                     // Hide all <div> and disable all <select> specific to a referential
                     $('#ref-block').hide();
                     $('#ref-block').attr('aria-hidden', 'true');

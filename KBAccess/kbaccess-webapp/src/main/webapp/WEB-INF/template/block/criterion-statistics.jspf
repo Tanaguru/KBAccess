@@ -4,7 +4,14 @@
 <ul>    
     <c:forEach var="referenceTest" items="${referenceTestStatistics}">
         <c:set var="example">
-            <fmt:message key="accessibility.example"/><c:if test="${referenceTest.testcaseCount > 1}">s</c:if>
+            <c:choose>
+                <c:when test="${referenceTest.testcaseCount > 1}">
+                    <fmt:message key="accessibility.examples"/>
+                </c:when>
+                <c:otherwise>
+                    <fmt:message key="accessibility.example"/>
+                </c:otherwise>
+            </c:choose>
         </c:set>
             
         <li>
@@ -18,7 +25,7 @@
                 </c:when>
                 <c:otherwise>
                     <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}"/>">${referenceTest.referenceCode}</abbr> ${referenceTest.label}
-                    <a href="<c:url value='/example/result.html?reference=test=${referenceTest.id}'/>"
+                    <a href="<c:url value='/example/result.html?test=${referenceTest.id}'/>"
                        title="${referenceTest.testcaseCount} ${example} <fmt:message key="on"/> <fmt:message key="accessibility.test"/> ${referenceTest.label} <fmt:message key="from"/> <fmt:message key="${referenceTest.referenceCode}"/>">
                         ${referenceTest.testcaseCount} ${example}
                     </a>

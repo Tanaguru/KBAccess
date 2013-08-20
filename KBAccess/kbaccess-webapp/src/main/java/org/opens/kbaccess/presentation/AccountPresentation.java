@@ -30,7 +30,7 @@ import org.opens.kbaccess.entity.service.authorization.AccountDataService;
  *
  * @author bcareil
  */
-public class AccountPresentation {
+public class AccountPresentation implements Comparable<AccountPresentation> {
     
     private Long id;
     private Long nbCreatedTestcases;
@@ -158,6 +158,11 @@ public class AccountPresentation {
 
     public void setMyUrl(String myUrl) {
         this.myUrl = myUrl;
+    }
+
+    @Override
+    public int compareTo(AccountPresentation o) {
+        return this.displayedName.toLowerCase().compareTo(o.getDisplayedName().toLowerCase());
     }
 }
 

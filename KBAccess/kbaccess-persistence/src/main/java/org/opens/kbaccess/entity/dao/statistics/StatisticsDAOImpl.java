@@ -99,8 +99,8 @@ public class StatisticsDAOImpl implements StatisticsDAO {
 
         sb.append(
                 "SELECT a.ID_ACCOUNT, COUNT(t.ID_TESTCASE) AS testcaseCount " +
-                "FROM account AS a, testcase AS t " +
-                "WHERE t.ID_ACCOUNT = a.ID_ACCOUNT " +
+                "FROM account AS a LEFT JOIN testcase AS t " +
+                "ON t.ID_ACCOUNT = a.ID_ACCOUNT " +
                 "GROUP BY a.ID_ACCOUNT ORDER BY testcaseCount "
                 );
         if (asc) {

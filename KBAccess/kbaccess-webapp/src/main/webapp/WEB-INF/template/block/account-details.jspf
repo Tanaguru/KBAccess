@@ -10,7 +10,14 @@
     <ul class="unstyled">
         <li>
             <c:set var="example" scope="page">
-                <fmt:message key="accessibility.example"/><c:if test="${account.nbCreatedTestcases > 1}">s</c:if>
+                <c:choose>
+                    <c:when test="${account.nbCreatedTestcases > 1}">
+                        <fmt:message key="accessibility.examples"/>
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:message key="accessibility.example"/>
+                    </c:otherwise>
+                </c:choose>
             </c:set>
             <a href="<c:url value='/example/result.html?account=${account.id}'/>"
                title="${account.nbCreatedTestcases} ${example} <fmt:message key="from"/> ${account.displayedName}">
@@ -58,7 +65,7 @@
                         </td>
                         <td>
                             <c:set var='resultId' value='${testcase.resultId}'/>
-                            <c:set var='withAccents' value='true' />
+                            <c:set var='forUrl' value='false' />
                             <c:set var="pictoSize" value="m"/>
                             <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
                         </td>

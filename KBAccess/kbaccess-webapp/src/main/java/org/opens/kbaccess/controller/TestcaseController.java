@@ -304,8 +304,6 @@ public class TestcaseController extends AMailerController {
         ReferenceLevel referenceLevel;
         Result result;
 
-        testcaseSearchCommand.logState();
-        
         // fetch entities and set title and H1
         if (testcaseSearchCommand.searchAll()) {
             LogFactory.getLog(TestcaseController.class.getName()).info("searchAll()");
@@ -530,7 +528,7 @@ public class TestcaseController extends AMailerController {
             return "guest/login";
         }
         // get webarchive
-        if (!testcaseCommand.getCreateWebarchive()) {
+        if (!testcaseCommand.isOnCreateWebarchive()) {
             webarchive = webarchiveDataService.read(testcaseCommand.getIdWebarchive());
         } else {
             webarchive = webarchiveController.createWebarchive(

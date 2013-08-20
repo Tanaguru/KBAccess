@@ -43,7 +43,14 @@
                                 </td>
                                 <td class="tdTableComptes">
                                     <c:set var="example" scope="page">
-                                        <fmt:message key="accessibility.example"/><c:if test="${account.nbCreatedTestcases > 1}">s</c:if>
+                                        <c:choose>
+                                            <c:when test="${account.nbCreatedTestcases > 1}">
+                                                <fmt:message key="accessibility.examples"/>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <fmt:message key="accessibility.example"/>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:set>
                                     <a href="<c:url value='/example/list.html?account=${account.id}'/>"
                                        title="${account.nbCreatedTestcases} ${example} <fmt:message key="from"/> ${account.displayedName}">

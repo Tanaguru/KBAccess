@@ -33,7 +33,7 @@
                 <div class="new-tc-block">
                         <c:forEach var="reference" items="${referenceList}">
                             <label>
-                                <form:radiobutton id="test${status.count}" path="idReference" value="${reference.id}"/>
+                                <form:radiobutton path="idReference" value="${reference.id}"/>
                                 <fmt:message key="${reference.code}"/>
                             </label>
                         </c:forEach>

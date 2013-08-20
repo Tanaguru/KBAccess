@@ -528,7 +528,7 @@ public class TestcaseController extends AMailerController {
             return "guest/login";
         }
         // get webarchive
-        if (!testcaseCommand.getCreateWebarchive()) {
+        if (!testcaseCommand.isOnCreateWebarchive()) {
             webarchive = webarchiveDataService.read(testcaseCommand.getIdWebarchive());
         } else {
             webarchive = webarchiveController.createWebarchive(

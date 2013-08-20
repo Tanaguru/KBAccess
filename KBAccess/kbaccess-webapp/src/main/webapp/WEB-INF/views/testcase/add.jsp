@@ -31,15 +31,16 @@
                 </label>
                 
                 <div class="new-tc-block">
-                    <form:select path="idReference" id="id_reference" size="4">
                         <c:forEach var="reference" items="${referenceList}">
-                            <option value="${reference.id}"><fmt:message key="${reference.code}"/></option>
+                            <label>
+                                <form:radiobutton path="idReference" value="${reference.id}"/>
+                                <fmt:message key="${reference.code}"/>
+                            </label>
                         </c:forEach>
-                    </form:select>
                     <form:errors path="idReference" cssClass="alert alert-error" element="p"/>
                 </div>
                 <div class="form-actions">
-                    <button class="btn btn-info"><fmt:message key="testcase.confirmButton" /></button>
+                    <button class="btn btn-info"><fmt:message key="testcase.nextStep" /></button>
                 </div>
             </form:form>
         </div>

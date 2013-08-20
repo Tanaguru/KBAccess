@@ -92,7 +92,7 @@ public class TestcaseImpl implements Testcase, Serializable {
 
     @Override
     public void setDescription(String description) {
-        this.description = StringEscapeUtils.escapeHtml(description);
+        this.description = description;
     }
 
     @Override

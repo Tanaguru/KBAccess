@@ -28,7 +28,14 @@
                     <li>
                         <a href="<c:url value='/example/list.html'/>">
                             <span id="stat-testcase-count">${statistics.testcaseCount}</span>
-                            <fmt:message key="accessibility.example"/><c:if test="${statistics.testcaseCount > 1}">s</c:if>
+                            <c:choose>
+                                <c:when test="${statistics.testcaseCount > 1}">
+                                    <fmt:message key="accessibility.examples"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message key="accessibility.example"/>
+                                </c:otherwise>
+                            </c:choose>
                         </a>
                     </li>
                     <li>

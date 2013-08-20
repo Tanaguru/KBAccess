@@ -37,13 +37,13 @@
             </c:if>
             
             <c:set var="exampleColumn"><fmt:message key="accessibility.example" /></c:set>
-            <c:set var="originalPageColumn"><fmt:message key="testcase.originalPage" /></c:set>
+            <%--<c:set var="originalPageColumn"><fmt:message key="testcase.originalPage" /></c:set>--%>
             <c:set var="accessibilityTestColumn"><fmt:message key="testcase.accessibilityTest" /></c:set>
             <c:set var="resultColumn"><fmt:message key="result" /></c:set>
             <c:set var="dateColumn"><fmt:message key="testcase.date" /></c:set>
             <c:set var="contributorColumn"><fmt:message key="contributor" /></c:set>
             
-            <display:column title="${exampleColumn}" headerClass="webarchiveLocalUrlCol" class="screenshot" headerScope="col">
+            <display:column title="${exampleColumn}" headerClass="webarchiveLocalUrlCol" headerScope="col">
                 <c:set var="snapshotUrl">
                     <c:choose>
                         <c:when test="${configProperties['snapshotServiceUrl'] == null}">
@@ -55,67 +55,34 @@
                     </c:choose>
                 </c:set>
                 
-                <c:set var="detailsAlt" scope="page"><fmt:message key="testcase.detailsOfTestcase" /></c:set>
-                <a href="<c:url value='/example/details/${testcase.testcaseId}/${testcaseUrl}'/>" title="${detailsAlt} ${testcase.testcaseId}">
+                <c:set var="detailsLinkTitle" scope="page"><fmt:message key="accessibility.example" /> ${testcase.testcaseId} &dash; <fmt:message key="testcase.details" /></c:set>
+                <a href="<c:url value='/example/details/${testcase.testcaseId}/${testcaseUrl}'/>" title="${detailsLinkTitle}">
                     <img src="${snapshotUrl}" alt="${testcase.webarchiveLocalUrl}" class="screenshot" />
+                </a><br/>
+                <a class="webarchive-original-url-link" title="${testcase.webarchiveOriginalUrl}" href="${testcase.webarchiveOriginalUrl}">
+                    ${testcase.webarchiveDisplayedUrl}
                 </a>
             </display:column>
-            <display:column title="${originalPageColumn}" headerClass="webarchiveOriginalUrlCol" headerScope="col">
-                <a href="${testcase.webarchiveOriginalUrl}">
-                    ${testcase.webarchiveOriginalUrl}
-                </a>
-            </display:column>    
             <display:column title="${accessibilityTestColumn}" headerClass="testResultLabelCol" headerScope="col">
-                <c:set var="referenceAlt" scope="page"><fmt:message key="testcase.referenceOfTest" /></c:set>
-                <c:set var="testWebReference" scope="page"><fmt:message key="${testcase.testWebRefCode}" /></c:set>
-                    <a href="${testWebReference}" title="${referenceAlt} ${testcase.testLabel}">${testcase.testLabel}</a>    
-                <abbr class="reference-abbr" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
+                <c:set var="testLinkTitle" scope="page"><fmt:message key="home.allExamplesOn" /> <fmt:message key="${testcase.testDepthCode}"/> ${testcase.testLabel} <fmt:message key="from"/> <fmt:message key="${testcase.referenceCode}"/></c:set>
+                    <a href="<c:url value='/example/result.html?test=${testcase.testId}'/>" title="${testLinkTitle}">${testcase.testLabel}</a>
+                    <abbr class="reference-abbr" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
             </display:column>
             <display:column title="${resultColumn}" headerClass="resultCodeCol" class="resultCodeRow" headerScope="col">
                 <c:set var='resultId' value='${testcase.resultId}'/>
-                <c:set var='withAccents' value='true' />
+                <c:set var='forUrl' value='false' />
                 <c:set var="pictoSize" value="m"/>
                 <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
             </display:column>
             <display:column title="${dateColumn}" headerClass="creationDateCol" headerScope="col">
                 <fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${testcase.creationDate}"/>
             </display:column>
-            <%--<display:column title="Description" headerClass="descriptionCol" headerScope="col">
-                ${testcase.description}
-            </display:column>--%>
             <display:column title="${contributorColumn}" headerClass="authorDisplayedNameCol" headerScope="col">
                 <a href="<c:url value='/account/details/${testcase.accountId}/profile.html'/>"
                    title="<fmt:message key="account.profileOfUser" /> ${testcase.accountDisplayedName}">
                     ${testcase.accountDisplayedName}
                 </a>
             </display:column>
-            <%--<c:set var="hasCRUDPermission"
-                        value="${authenticatedUser.id == testcase.authorId
-                                 or authenticatedUser.accessLevel.accessLevelEnumType.type == 'moder'
-                                 or authenticatedUser.accessLevel.accessLevelEnumType.type == 'admin'}"/>
-            <display:column title="Actions" headerClass="actionsCol" class="actionsRow">
-                <a href="<c:url value='/testcase/details/${testcase.testcaseId}/${testcaseUrl}'/>"
-                    title="Détails du testcase ${testcase.testcaseId}"
-                    class="tc-details" > 
-                    <img src="<c:url value='/assets/images/icon-crystalclear-details-button-16x16.png'/>"
-                         alt="Détails du testcase ${testcase.testcaseId}" />
-                </a>
-                
-                <c:if test="${hasCRUDPermission}">
-                    <a href="<c:url value='/testcase/edit-details/${testcase.testcaseId}/${testcaseUrl}'/>" 
-                        title="Modifier testcase ${testcase.testcaseId}"
-                        class="tc-modify">
-                        <img src="<c:url value='/assets/images/icon-crystalclear-edit-button-16x16.png'/>"
-                                        alt="Modifier testcase ${testcase.testcaseId}" />
-                    </a>
-                    <a href="<c:url value='/testcase/delete/${testcase.testcaseId}/${testcaseUrl}' />"
-                        title="Supprimer testcase ${testcase.testcaseId}"
-                        class="tc-delete">
-                        <img src="<c:url value='/assets/images/icon-crystalclear-delete-cancel-button-16x16.png'/>"
-                            alt="Supprimer testcase ${testcase.testcaseId}" />
-                    </a>
-                </c:if>
-            </display:column>--%>
         </display:table>
     </c:otherwise>
 </c:choose>

@@ -32,33 +32,12 @@
                 <form:hidden path="idReferenceDepth"/>
                 <form:hidden path="idReferenceTest"/>
                 <form:hidden path="idResult"/>
-                <form:errors path="createWebarchive" cssClass="alert alert-error" element="p"/>
                 <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
-                <div id="existing-webarchive-group" class="control-group">
-                    <form:radiobutton path="createWebarchive" value="false" id="testcase_existing_webarchive"/>
-                    <label class="control-label new-tc-label" for="testcase_existing_webarchive"><fmt:message key="testcase.addWaExisting" /></label>
-                    <div class="controls">
-                        <div class="control-group">
-                            <label class="control-label" for="testcase_idwebarchive"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Webarchive :</label>
-                            <div class="controls new-tc-block">
-                                <form:select class="span5" path="idWebarchive" id="testcase_idwebarchive">
-                                    <c:forEach var="webarchive" items="${webarchiveList}">
-                                        <option value="${webarchive.id}">
-                                            ${webarchive.url} : 
-                                            <fmt:formatDate dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></option>
-                                    </c:forEach>
-                                </form:select>
-                                <form:errors path="idWebarchive" cssClass="alert alert-error" element="p"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
                 <div id="create-webarchive-group" class="control-group">
-                    <form:radiobutton path="createWebarchive" value="true" id="testcase_create_webarchive"/>
-                    <label class="control-label new-tc-label" for="testcase_create_webarchive"><fmt:message key="testcase.addWaCreate" /></label>
                     <div class="controls">
                         <div class="control-group">
-                            <label class="control-label" for="webarchive_url"><span class="mandatory" title="Champ obligatoire">*</span>URL :</label>
+                            <label class="new-tc-label" for="webarchive_url"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>URL :</label>
                             <div class="controls new-tc-block">
                                 <form:input class="span5" path="urlNewWebarchive" id="webarchive_url"/>
                                 <form:errors path="urlNewWebarchive" cssClass="alert alert-error" element="p"/>
@@ -73,6 +52,30 @@
                         </div>
                     </div>
                 </div>
+                            
+                <div>
+                    <a id="existing-webarchive-link" href="#existing-webarchive-group">
+                        <span><fmt:message key="testcase.addWaExisting" /></span>
+                    </a>
+
+                    <div id="existing-webarchive-group" class="control-group">
+                        <div class="controls">
+                            <div class="control-group">
+                                <label class="new-tc-label" for="testcase_idwebarchive"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Webarchive :</label>
+                                <div class="controls new-tc-block">
+                                    <form:select class="span5" path="idWebarchive" id="testcase_idwebarchive">
+                                        <c:forEach var="webarchive" items="${webarchiveList}">
+                                            <option value="${webarchive.id}">
+                                                ${webarchive.url} : 
+                                                <fmt:formatDate dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></option>
+                                        </c:forEach>
+                                    </form:select>
+                                    <form:errors path="idWebarchive" cssClass="alert alert-error" element="p"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-actions">
                     <button class="btn btn-info"><fmt:message key="testcase.addButton" /></button>
                 </div>
@@ -80,5 +83,43 @@
         </div>
 
         <%@ include file='/WEB-INF/template/footer.jspf' %>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            $(function(){
+                $('#existing-webarchive-group').hide();
+                $("#testcase_idwebarchive").prop('disabled', true);        
+                $('#existing-webarchive-link').attr('aria-expanded', 'false');
+                $('#existing-webarchive-link').attr('aria-controls', 'existing-webarchive-group');
+                
+                
+                $('#existing-webarchive-link').on('click', function() {
+                    if ($(this).attr('aria-expanded') == 'false') {
+                        $(this).attr("aria-expanded", true);
+                        $(this).css('background-image', 'url(\'../assets/images/minus.png\')');
+                        
+                        $("#webarchive_url").prop('disabled', true);
+                        $("#webarchive_url").attr('aria-disabled', 'true');
+                        $("#webarchive_description").prop('disabled', true);
+                        $("#webarchive_description").attr('aria-disabled', 'true');
+                        
+                        $("#testcase_idwebarchive").prop('disabled', false); 
+                        $('#existing-webarchive-group').show();
+                    } else {
+                        $(this).attr("aria-expanded", false);
+                        $(this).css('background-image', 'url(\'../assets/images/plus.png\')');
+                        
+                        $("#webarchive_url").prop('disabled', false);
+                        $("#webarchive_url").attr('aria-disabled', 'false');
+                        $("#webarchive_description").prop('disabled', false);
+                        $("#webarchive_description").attr('aria-disabled', 'false');
+                        
+                        $("#testcase_idwebarchive").prop('disabled', true); 
+                        $('#existing-webarchive-group').hide();
+                    }
+                });
+                
+            })
+        </script>
     </body>
 </html>

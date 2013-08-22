@@ -326,6 +326,7 @@ public class TestcaseController extends AMailerController {
             model.addAttribute("account", new AccountPresentation(account, accountDataService));
         } else if (testcaseSearchCommand.searchReferenceOrResult()) {
             LogFactory.getLog(TestcaseController.class.getName()).debug("searchReferenceOrResult()");
+            
             result = (
                         testcaseSearchCommand.getIdResult() == null ? null 
                         : resultDataService.read(testcaseSearchCommand.getIdResult())

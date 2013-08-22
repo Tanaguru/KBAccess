@@ -82,7 +82,7 @@
                 </c:forEach>
             </table>
             <p>
-                <a href="<c:url value='/example/result.html?account=${account.id}'/>"><fmt:message key="testcase.detailsAllExamplesOf" /> ${testcase.accountDisplayedName}</a>
+                <a href="<c:url value='/example/result.html?account=${account.id}'/>"><fmt:message key="testcase.detailsAllExamplesOf" /> ${account.displayedName}</a>
             </p>
         </c:otherwise>
     </c:choose>

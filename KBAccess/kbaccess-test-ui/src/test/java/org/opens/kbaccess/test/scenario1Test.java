@@ -208,7 +208,7 @@ public class scenario1Test {
         selenium.click("css=button.btn.btn-info");
         selenium.click("id=test1");
         selenium.select("xpath=//form[@id='new-tc-form']/div/div[1]/select[1]", "value=306");
-        selenium.click("id=idResult1");
+        selenium.click("id=result1");
         selenium.type("id=testcase_description", "test");
         selenium.click("css=button.btn.btn-info");
         selenium.type("id=webarchive_url", "http://www.kbaccess.org/");
@@ -221,8 +221,8 @@ public class scenario1Test {
         selenium.click("css=button.btn.btn-info");
         selenium.select("xpath=//form[@id='new-tc-form']/div/div[1]/select", "value=572");
         selenium.click("css=label > label > label > label > label");
-        selenium.click("id=idResult3");
-        selenium.click("id=idResult2");
+        selenium.click("id=result3");
+        selenium.click("id=result2");
         selenium.type("id=testcase_description", "ok");
         selenium.click("css=button.btn.btn-info");
         selenium.click("css=#existing-webarchive-link > span");
@@ -234,7 +234,7 @@ public class scenario1Test {
         selenium.click("xpath=//div[@class='new-tc-block']/label[3]/input");
         selenium.click("css=button.btn.btn-info");
         selenium.select("xpath=//form[@id='new-tc-form']/div/div[1]/select[2]", "value=1327");
-        selenium.click("id=idResult1");
+        selenium.click("id=result1");
         selenium.type("id=testcase_description", "descok");
         selenium.click("css=button.btn.btn-info");
         selenium.type("id=webarchive_url", "http://www.google.com");
@@ -252,7 +252,7 @@ public class scenario1Test {
         
         selenium.click("link=Modifier");
         selenium.select("xpath=/html/body/div[2]/div/div/div[3]/div/form/div/div/select", "value=1271");
-        selenium.click("xpath=//*[@id='idResult2']");
+        selenium.click("xpath=//*[@id='result2']");
         selenium.type("id=testcase_description", "test test");
         selenium.click("xpath=/html/body/div[2]/div/div/div[3]/div/form/div[4]/button");
         try {
@@ -375,7 +375,7 @@ public class scenario1Test {
         selenium.click("xpath=/html/body/div[2]/div/div/div[2]/table/tbody/tr/td/a");
         selenium.click("link=Modifier");
         selenium.select("xpath=/html/body/div[2]/div/div/div[3]/div/form/div/div/select", "value=47");
-        selenium.click("xpath=//*[@id='idResult1']");
+        selenium.click("xpath=//*[@id='result1']");
         selenium.type("id=testcase_description", "modification");
         Thread.sleep(2000);
         selenium.click("xpath=/html/body/div[2]/div/div/div[3]/div/form/div[4]/button");
@@ -391,7 +391,7 @@ public class scenario1Test {
         selenium.click("link=Modifier");
         Thread.sleep(15000);
         selenium.select("xpath=/html/body/div[2]/div/div/div[3]/div/form/div/div/select", "value=609");
-        selenium.click("xpath=//*[@id='idResult3']");
+        selenium.click("xpath=//*[@id='result3']");
         selenium.type("id=testcase_description", "modification");
         Thread.sleep(3000);
         selenium.click("css=button.btn.btn-info");

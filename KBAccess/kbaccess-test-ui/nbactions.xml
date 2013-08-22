@@ -18,7 +18,7 @@
                 
                 
                 
-                <hostBaseUrl>/kbaccess-webapp-2.2-SNAPSHOT/</hostBaseUrl>
+                <hostBaseUrl>/kbaccess-webapp-2.2/</hostBaseUrl>
                 <dbUrl>jdbc:mysql://localhost:3306/kbaccess22</dbUrl>
                 <dbUser>kbaccess</dbUser>
                 <dbPassword>kb4cc3ss</dbPassword>

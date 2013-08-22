@@ -41,7 +41,7 @@
                             <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                             <div class="control-group">
                                 <label class="control-label" for="account_email">
-                                    Email :
+                                    <fmt:message key="emailUpper"/>
                                 </label>
                                 <div class="controls">
                                     <form:input path="email" id="account_email" disabled="${'true'}"/>

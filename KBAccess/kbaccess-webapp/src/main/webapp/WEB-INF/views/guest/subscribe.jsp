@@ -42,7 +42,7 @@
                         </spring:hasBindErrors>
                         <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                         <div class="control-group">
-                            <label class="control-label" for="subscription_email"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> Email :</label>
+                            <label class="control-label" for="subscription_email"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %> <fmt:message key="emailUpper"/> :</label>
                             <div class="controls">
                                 <form:input path="email" id="subscription_email" cssErrorClass="validation-error"/>
                                 <form:errors path="email" cssClass="alert alert-error" element="span"/>

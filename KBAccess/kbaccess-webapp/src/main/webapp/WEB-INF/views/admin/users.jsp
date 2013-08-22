@@ -25,7 +25,7 @@
                 <c:otherwise>
                     <table summary="<fmt:message key="admin.usersTitle" />" id="tableComptes" class="table table-strip">
                         <tr>
-                            <th class="thTableComptes">Email</th>
+                            <th class="thTableComptes"><fmt:message key="emailUpper"/></th>
                             <th class="thTableComptes"><fmt:message key="guest.subscribeLastName" /></th>
                             <th class="thTableComptes"><fmt:message key="guest.subscribeFirstName" /></th>
                             <th class="thTableComptes"><fmt:message key="admin.usersRole" /></th>

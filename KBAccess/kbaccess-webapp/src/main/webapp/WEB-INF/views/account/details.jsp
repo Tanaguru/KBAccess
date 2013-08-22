@@ -6,7 +6,8 @@
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title">
-	<fmt:message key="account.detailsTitle" /> ${account.id}
+	<fmt:message key="account.detailsTitleProfileOf" /> ${account.displayedName}
+        (<fmt:message key="account.detailsTitleUser" /> ${account.id})
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
 

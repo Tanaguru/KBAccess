@@ -81,6 +81,9 @@
                     </tr>
                 </c:forEach>
             </table>
+            <%--<p>
+                <a href="<c:url value='/example/list.html?account=${account.id}'/>"><fmt:message key="testcase.detailsAllExamplesOf" /> ${testcase.accountDisplayedName}</a>
+            </p>--%>
         </c:otherwise>
     </c:choose>
 </div>

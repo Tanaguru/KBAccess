@@ -7,10 +7,6 @@
                 <c:when test="${resultId == 1}"><fmt:message key="passedUrl" /></c:when>
                 <c:when test="${resultId == 2}"><fmt:message key="failedUrl" /></c:when>
                 <c:when test="${resultId == 3}"><fmt:message key="naUrl" /></c:when>
-                <%--<c:when test="${resultId == 4}"><fmt:message key="nmi" /></c:when>--%>
-                <%--<c:otherwise><fmt:message key="nmi" /></c:otherwise>--%>
-                <%--<c:when test="${resultId == 4}"><fmt:message key="nmi" /></c:when>--%>
-                <%--<c:otherwise><fmt:message key="nmi" /></c:otherwise>--%>
             </c:choose>
         </c:when>
         <%-- lowercase for urls --%>
@@ -19,8 +15,6 @@
                 <c:when test="${resultId == 1}"><fmt:message key="passed" /></c:when>
                 <c:when test="${resultId == 2}"><fmt:message key="failed" /></c:when>
                 <c:when test="${resultId == 3}"><fmt:message key="na" /></c:when>
-                <%--<c:when test="${resultId == 4}"><fmt:message key="nmi" /></c:when>--%>
-                <%--<c:otherwise><fmt:message key="nmi" /></c:otherwise>--%>
             </c:choose>
         </c:otherwise>
     </c:choose>

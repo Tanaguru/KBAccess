@@ -81,9 +81,9 @@ public class TestcaseSearchCommand extends ACommand {
      */
     public boolean searchAll() {
         boolean searchAll = false;
-        
+
         if (idAccount == null
-                && codeReference == null
+                && (codeReference == null || codeReference.length() == 0)
                 && idReferenceLevel == null
                 && idReferenceInfoList == null
                 && idReferenceTestList == null

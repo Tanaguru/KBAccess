@@ -39,6 +39,7 @@ public class TestcaseSearchCommand extends ACommand {
     private List<Long> idReferenceTestList;
     private Long idReferenceLevel;
     private Long idResult;
+    private boolean searchSingleTest = false;
 
     public TestcaseSearchCommand() {
         
@@ -130,6 +131,9 @@ public class TestcaseSearchCommand extends ACommand {
         return searchAccount;
     }
     
+    public boolean searchSingleTest() {
+        return this.searchSingleTest;
+    }
     /*
      * Accessors
      */
@@ -179,5 +183,13 @@ public class TestcaseSearchCommand extends ACommand {
 
     public void setIdResult(Long idResult) {
         this.idResult = idResult;
+    }
+
+    public boolean isSearchSingleTest() {
+        return searchSingleTest;
+    }
+
+    public void setSearchSingleTest(boolean searchSingleTest) {
+        this.searchSingleTest = searchSingleTest;
     }
 }

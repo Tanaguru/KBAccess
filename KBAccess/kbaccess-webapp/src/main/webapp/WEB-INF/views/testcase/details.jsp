@@ -81,9 +81,12 @@
                         <th scope="row"><fmt:message key="contributor" /> :</th>
                         <td>
                             <a href="<c:url value='/account/details/${testcase.accountId}/profile.html'/>">${testcase.accountDisplayedName}</a>
-                            <a href="<c:url value='/example/list.html?account=${testcase.accountId}'/>">
-                                (<fmt:message key="testcase.detailsAllExamplesOf" />${testcase.accountDisplayedName})
-                            </a>
+                            
+                            <span id="all-examples-of-user-link">
+                                (<a href="<c:url value='/example/list.html?account=${testcase.accountId}'/>">
+                                    <fmt:message key="testcase.detailsAllExamplesOf" /> ${testcase.accountDisplayedName}
+                                </a>)
+                            </span>
                         </td>
                     </tr>
                     <tr>

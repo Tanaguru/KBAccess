@@ -2,11 +2,10 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:forEach var="result" items="${resultList}">
-    
     <c:set var='resultId' value='${result.id}' />
+    
     <label>
-        <form:radiobutton path="idResult" value="${result.id}"/>
+        <form:radiobutton id="result${resultId}" path="idResult" value="${result.id}"/>
         <%@include file='/WEB-INF/template/inline/result.jspf' %>
     <label>
-
 </c:forEach>

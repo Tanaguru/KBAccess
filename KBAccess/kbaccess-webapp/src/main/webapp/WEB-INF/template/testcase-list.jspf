@@ -66,7 +66,7 @@
             <display:column title="${accessibilityTestColumn}" headerClass="testResultLabelCol" headerScope="col">
                 <c:set var="testLinkTitle" scope="page"><fmt:message key="home.allExamplesOn" /> <fmt:message key="${testcase.testDepthCode}"/> ${testcase.testLabel} <fmt:message key="from"/> <fmt:message key="${testcase.referenceCode}"/></c:set>
                     <a href="<c:url value='/example/result.html?test=${testcase.testId}'/>" title="${testLinkTitle}">${testcase.testLabel}</a>
-                    <abbr class="reference-abbr" title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>
+                    <abbr class="reference-abbr" title="<fmt:message key="${testcase.referenceCode}-abbr"/>">${testcase.referenceCode}</abbr>
             </display:column>
             <display:column title="${resultColumn}" headerClass="resultCodeCol" class="resultCodeRow" headerScope="col">
                 <c:set var='resultId' value='${testcase.resultId}'/>

@@ -22,33 +22,31 @@
         <div class="page-header"><h1><fmt:message key="webarchive.addH1" /></h1></div>
 
         <div class="row-fluid">
-            <div id="ajout-webarchive-1" class="boite">
-                <form:form  commandName="newWebarchiveCommand" action="add.html" method="POST">
-                    <c:if test="${generalErrorMessage != null}">
-                        <p class="alert alert-error">
-                            <fmt:message key="${generalErrorMessage}" />
-                        </p>
-                    </c:if>
-                    <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
-                    <div class="control-group">
-                        <label class="control-label" for="webpage_url"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> URL&nbsp;:</label>
-                        <div class="controls">
-                            <form:input id="webpage_url" path="url" />
-                            <form:errors path="url" cssClass="alert alert-error" element="p"/>
-                        </div>
+            <form:form  id="new-tc-form" commandName="newWebarchiveCommand" action="add.html" method="POST">
+                <c:if test="${generalErrorMessage != null}">
+                    <p class="alert alert-error">
+                        <fmt:message key="${generalErrorMessage}" />
+                    </p>
+                </c:if>
+                <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
+                <div class="control-group">
+                    <label class="new-tc-label" for="webpage_url"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> URL&nbsp;:</label>
+                    <div class="controls new-tc-block">
+                        <form:input id="webpage_url" class="span5" path="url" />
+                        <form:errors path="url" cssClass="alert alert-error" element="p"/>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="webpage_description"><fmt:message key="description" />&nbsp;:</label>
-                        <div class="controls">
-                            <form:textarea id="webpage_description" path="descriptionNewWebarchive" rows="4" cols="35" />
-                            <form:errors path="descriptionNewWebarchive" cssClass="alert alert-error" element="p"/>
-                        </div>
+                </div>
+                <div class="control-group">
+                    <label class="new-tc-label" for="webpage_description"><fmt:message key="description" />&nbsp;:</label>
+                    <div class="controls new-tc-block">
+                        <form:textarea id="webpage_description" class="span5" path="descriptionNewWebarchive" rows="4" cols="35" />
+                        <form:errors path="descriptionNewWebarchive" cssClass="alert alert-error" element="p"/>
                     </div>
-                    <div class="form-actions">
-                        <button class="btn btn-primary"><fmt:message key="webarchive.archive" /></button>
-                    </div>
-                </form:form>
-            </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-info"><fmt:message key="webarchive.archive" /></button>
+                </div>
+            </form:form>
         </div>
         <%@include file='/WEB-INF/template/footer.jspf' %>
     </body>

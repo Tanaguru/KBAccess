@@ -21,7 +21,7 @@
         <div class="row-fluid">
             <%@include file='/WEB-INF/template/select-form.jspf'%>
         </div>
-
+        
         <%@ include file='/WEB-INF/template/footer.jspf' %>
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -48,7 +48,8 @@
                     
                     // Show all <select> of the selected referential
                     var $referenceCode = $(this).val();
-                    $('#ref-fiedlset-legend').html($('#selectReferentiel option[value=' + $referenceCode + ']').text());
+                    var $referenceLabel = $('#selectReferentiel option[value=' + $referenceCode + ']').text()
+                    $('#ref-fiedlset-legend').html($referenceLabel);
                     
                     if ($referenceCode.length > 1) {
                         $('#ref-block').show();

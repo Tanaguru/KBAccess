@@ -4,8 +4,6 @@
 <c:forEach var="result" items="${resultList}">
     <c:set var='resultId' value='${result.id}' />
     
-    <label>
-        <form:radiobutton id="result${resultId}" path="idResult" value="${result.id}"/>
-        <%@include file='/WEB-INF/template/inline/result.jspf' %>
-    <label>
+    <form:radiobutton id="result${resultId}" path="idResult" value="${result.id}"/>
+    <label class="inline-label" for="result${resultId}"><%@include file='/WEB-INF/template/inline/result.jspf' %></label><br />
 </c:forEach>

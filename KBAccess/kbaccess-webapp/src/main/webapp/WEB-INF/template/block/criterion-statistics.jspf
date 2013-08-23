@@ -19,12 +19,16 @@
                 <c:when test="${referenceTest.testcaseCount == 0}">
                     <a href="<fmt:message key="${referenceTest.code}-url"/>"
                        title="<fmt:message key="statistics.referenceOfCriterion"/> ${referenceTest.label} <fmt:message key="from"/> <fmt:message key="${referenceTest.referenceCode}"/>">
-                            <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}"/>">${referenceTest.referenceCode}</abbr> ${referenceTest.label}
+                            <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}-abbr"/>">
+                                <fmt:message key="${referenceTest.referenceCode}"/>
+                            </abbr> ${referenceTest.label}
                     </a>
                     ${referenceTest.testcaseCount} ${example}
                 </c:when>
                 <c:otherwise>
-                    <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}"/>">${referenceTest.referenceCode}</abbr> ${referenceTest.label}
+                    <abbr class="reference-abbr" title="<fmt:message key="${referenceTest.referenceCode}-abbr"/>">
+                        <fmt:message key="${referenceTest.referenceCode}"/>
+                    </abbr> ${referenceTest.label}
                     <a href="<c:url value='/example/result.html?test=${referenceTest.id}'/>"
                        title="${referenceTest.testcaseCount} ${example} <fmt:message key="on"/> <fmt:message key="accessibility.test"/> ${referenceTest.label} <fmt:message key="from"/> <fmt:message key="${referenceTest.referenceCode}"/>">
                         ${referenceTest.testcaseCount} ${example}

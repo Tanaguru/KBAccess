@@ -204,10 +204,10 @@ public class scenario1Test {
                 
         // AW21 example
         selenium.click("link=Ajouter un exemple");
-        selenium.click("xpath=//div[@class='new-tc-block']/label[1]/input");
+        selenium.click("xpath=//*[@id=\"reference1\"]");
         selenium.click("css=button.btn.btn-info");
         selenium.click("id=test1");
-        selenium.select("xpath=//form[@id='new-tc-form']/div/div[1]/select[1]", "value=306");
+        selenium.select("xpath=//*[@id=\"test-div-1\"]", "value=306");
         selenium.click("id=result1");
         selenium.type("id=testcase_description", "test");
         selenium.click("css=button.btn.btn-info");
@@ -217,23 +217,22 @@ public class scenario1Test {
         
         // RGAA22 Example
         selenium.click("link=Ajouter un exemple");
-        selenium.click("xpath=//div[@class='new-tc-block']/label[2]/input");
+        selenium.click("xpath=//*[@id=\"reference2\"]");
         selenium.click("css=button.btn.btn-info");
-        selenium.select("xpath=//form[@id='new-tc-form']/div/div[1]/select", "value=572");
-        selenium.click("css=label > label > label > label > label");
+        selenium.select("xpath=//*[@id=\"test-div-1\"]", "value=572");
         selenium.click("id=result3");
         selenium.click("id=result2");
         selenium.type("id=testcase_description", "ok");
         selenium.click("css=button.btn.btn-info");
         selenium.click("css=#existing-webarchive-link > span");
-        selenium.select("xpath=//div[@id='existing-webarchive-group']/div/div/div/select", "value=30");
+        selenium.select("xpath=//*[@id=\"testcase_idwebarchive\"]", "value=30");
         selenium.click("css=button.btn.btn-info");
         
         // WCAG20 Example
         selenium.click("link=Ajouter un exemple");
-        selenium.click("xpath=//div[@class='new-tc-block']/label[3]/input");
+        selenium.click("xpath=//*[@id=\"reference3\"]");
         selenium.click("css=button.btn.btn-info");
-        selenium.select("xpath=//form[@id='new-tc-form']/div/div[1]/select[2]", "value=1327");
+        selenium.select("xpath=//*[@id=\"test-div-2\"]", "value=1327");
         selenium.click("id=result1");
         selenium.type("id=testcase_description", "descok");
         selenium.click("css=button.btn.btn-info");

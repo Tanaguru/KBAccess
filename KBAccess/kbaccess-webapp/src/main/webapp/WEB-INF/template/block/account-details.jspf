@@ -61,7 +61,10 @@
                         <td>
                             <c:set var="testWebReference"><fmt:message key="${testcase.testWebRefCode}" /></c:set>
                             <a href="${testWebReference}" title="${referenceAlt} ${testcase.testLabel}">${testcase.testLabel}</a>    
-                            (<abbr title="${testcase.referenceLabel}">${testcase.referenceCode}</abbr>)
+                            <abbr title="<fmt:message key="${testcase.referenceCode}-abbr"/>">
+                                    <fmt:message key="${testcase.referenceCode}"/>
+                            </abbr>
+                            
                         </td>
                         <td>
                             <c:set var='resultId' value='${testcase.resultId}'/>

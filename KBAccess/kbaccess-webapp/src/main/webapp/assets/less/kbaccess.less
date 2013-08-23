@@ -226,9 +226,27 @@ body {
     margin : 0px;
 }
 
+
+#add-example-h1-step {
+    font-size : 25.5px;
+}
+
+#new-tc-form legend {
+    margin-bottom : 0px;
+}
+
+#new-tc-form #existing-webarchive-group {
+    margin-top : 20px;
+}
+
 #new-tc-form .new-tc-label {
     font-family : OpenSansSemibold;
     font-size : 16px;
+}
+
+#new-tc-form .inline-label {
+    display : inline;
+    line-height : 2;
 }
 
 #new-tc-table {
@@ -236,16 +254,13 @@ body {
 }
 
 #new-tc-form .new-tc-block {
-    padding-top : 15px;
     padding-left : 10px;
+    margin-bottom : 20px;
+    margin-top : 20px;
 }
 
 #new-tc-form .new-tc-block .new-tc-test-error {
     margin-left : 160px;
-}
-
-#new-tc-form .new-tc-label {
-    margin-top : 25px;
 }
 
 #new-tc-form .new-tc-depth-block {
@@ -262,18 +277,6 @@ body {
     clear : left;
 }
 
-#new-tc-table .new-tc-testname-td {
-    width:20%;
-}
-
-#new-tc-table .new-tc-test-td {
-    width:80%;
-}
-
-#new-tc-table .new-tc-label {
-    margin-top : 25px;
-}
-
 #existing-webarchive-link {
     color : #000000;
     font-size : 20px;
@@ -286,6 +289,10 @@ body {
 
 #tc-search-form #select-ref-div {
     margin-top : 0px;
+}
+
+#tc-search-form .form-actions {
+    clear : left;
 }
 
 /* Override boostrap */ 
@@ -344,7 +351,7 @@ input[type="radio"], input[type="checkbox"] {
     margin: 0px;
 }
 
-/* This is to make Bootstrap alert messages color contrast WCAG2 compliant */
+/* This is to make Bootstrap alert boxes color contrast WCAG2 compliant */
 .alert-info {
     background-color : #D9EDF7;
     color : #3A68AD;

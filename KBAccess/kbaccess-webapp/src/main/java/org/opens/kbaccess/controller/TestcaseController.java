@@ -539,6 +539,8 @@ public class TestcaseController extends AMailerController {
         // get webarchive
         if (!testcaseCommand.isOnCreateWebarchive()) {
             webarchive = webarchiveDataService.read(testcaseCommand.getIdWebarchive());
+            // Tells the view to display an informative message about the time needed for the webarchive to be available
+            model.addAttribute("webarchiveCreation", false);
         } else {
             webarchive = webarchiveController.createWebarchive(
                     currentUser,
@@ -549,6 +551,8 @@ public class TestcaseController extends AMailerController {
                 // persist the webarchive
                 webarchiveDataService.saveOrUpdate(webarchive);
             } // a null webarchive is handled below
+            
+            model.addAttribute("webarchiveCreation", true);
         }
         // sanity check
         if (webarchive == null) {

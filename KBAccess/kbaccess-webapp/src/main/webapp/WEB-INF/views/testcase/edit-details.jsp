@@ -46,9 +46,7 @@
                             <div class="control-group">
                                 <label class="control-label new-tc-label" for="testcase_result"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%> <fmt:message key="result" />&nbsp;:</label>
                                 <div class="controls new-tc-block">
-                                    <%--<form:select path="idResult"  id="testcase_result" size="5" class="span9">--%>
                                         <%@include file="/WEB-INF/template/form/options/result-ids.jspf" %>
-                                    <%--</form:select>--%>
                                     <form:errors path="idResult" cssClass="alert alert-error" element="p"/>
                                 </div>
                             </div>

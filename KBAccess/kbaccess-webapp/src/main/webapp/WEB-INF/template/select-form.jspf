@@ -12,7 +12,7 @@
                 <form:select path="codeReference" id="selectReferentiel" size="1">
                         <option value="" selected="selected"><fmt:message key="all" /></option>
                         <c:forEach var="reference" items="${referenceList}">
-                            <option value="${reference.code}"><fmt:message key="${reference.code}"/></option>
+                            <option value="${reference.code}">${reference.label}</option>
                         </c:forEach>
                 </form:select>              
             </div>
@@ -81,7 +81,7 @@
         </fieldset>
     </div>
                 
-    <div class="form-actions" style="clear:left">
+    <div class="form-actions">
         <button class="btn btn-info"><fmt:message key="testcase.searchButton" /></button>
     </div>
 </form:form>

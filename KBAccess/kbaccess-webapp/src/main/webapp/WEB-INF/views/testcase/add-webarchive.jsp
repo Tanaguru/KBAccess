@@ -19,7 +19,10 @@
         
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <h1 class="page-header"><fmt:message key="testcase.addWaH1" /></h1>
+        <h1 class="page-header">
+            <fmt:message key="testcase.addExampleH1" /><br />
+            <span id="add-example-h1-step"><fmt:message key="testcase.addWaH1" /></Span>
+        </h1>
         <div class="row-fluid">
             <form:form id="new-tc-form" commandName="newTestcaseCommand" action="add-finalize.html" method="POST">
                 <c:if test="${generalErrorMessage != null}">
@@ -59,23 +62,20 @@
                     </a>
 
                     <div id="existing-webarchive-group" class="control-group">
-                        <div class="controls">
-                            <div class="control-group">
-                                <label class="new-tc-label" for="testcase_idwebarchive"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Webarchive :</label>
-                                <div class="controls new-tc-block">
-                                    <form:select class="span5" path="idWebarchive" id="testcase_idwebarchive">
-                                        <c:forEach var="webarchive" items="${webarchiveList}">
-                                            <option value="${webarchive.id}">
-                                                ${webarchive.url} : 
-                                                <fmt:formatDate dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></option>
-                                        </c:forEach>
-                                    </form:select>
-                                    <form:errors path="idWebarchive" cssClass="alert alert-error" element="p"/>
-                                </div>
-                            </div>
+                        <label class="new-tc-label" for="testcase_idwebarchive"><%@include file="/WEB-INF/template/inline/mandatory.jspf"%>Webarchive :</label>
+                        <div class="controls new-tc-block">
+                            <form:select class="span5" path="idWebarchive" id="testcase_idwebarchive">
+                                <c:forEach var="webarchive" items="${webarchiveList}">
+                                    <option value="${webarchive.id}">
+                                        ${webarchive.url} : 
+                                        <fmt:formatDate dateStyle="short" timeStyle="short" value="${webarchive.creationDate}"/></option>
+                                </c:forEach>
+                            </form:select>
+                            <form:errors path="idWebarchive" cssClass="alert alert-error" element="p"/>
                         </div>
                     </div>
                 </div>
+                                
                 <div class="form-actions">
                     <button class="btn btn-info"><fmt:message key="testcase.addButton" /></button>
                 </div>

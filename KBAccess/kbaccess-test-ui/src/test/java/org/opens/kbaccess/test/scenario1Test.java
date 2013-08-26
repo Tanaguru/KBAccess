@@ -239,7 +239,7 @@ public class scenario1Test {
         selenium.type("id=webarchive_url", "http://www.google.com");
         selenium.type("id=webarchive_description", "desc");
         selenium.click("css=button.btn.btn-info");
-        
+
         selenium.click("link=Mes exemples");
         selenium.click("xpath=//table[@id='testcase']/tbody/tr[1]/td[1]/a/img");
         selenium.waitForPageToLoad("60000");

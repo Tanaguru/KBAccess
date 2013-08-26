@@ -11,7 +11,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- 
 
 INSERT IGNORE INTO `reference`(`ID_REFERENCE`, `CD_REFERENCE`, `LABEL`, `RANK`, `URL`, `COUNTRY`, `INFO_MAX_DEPTH`, `TEST_MAX_DEPTH`) VALUES
-(1, 'AW21', 'AccessiWeb 2.1', 10, 'http://www.braillenet.org/accessibilite/referentiel-aw21/', 'france', '+1', '-2');
+(1, 'AW21', 'AccessiWeb 2.1', 10, 'http://accessiweb.org/index.php/accessiweb_2.2_liste_deployee.html', 'france', '+1', '-2');
 
 --
 -- Content of table `reference_level`

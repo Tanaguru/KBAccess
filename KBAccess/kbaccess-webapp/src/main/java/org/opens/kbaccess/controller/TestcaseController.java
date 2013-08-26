@@ -104,7 +104,7 @@ public class TestcaseController extends AMailerController {
     } 
     
     /*
-     * Build a map that helps to make the title and breadcrumb of the result of a search 
+     * Build a map that helps to make the title and breadcrumb of thelt of a search 
      * based on the parameters of the search
      */
     private Map<String, String> buildMapFromSearchParameters(
@@ -288,8 +288,6 @@ public class TestcaseController extends AMailerController {
         }
         
         return listHandler(testcaseSearchCommand, null, model);
-        
-        //return "testcase/list";
     }
     
     @RequestMapping(value="list", method= RequestMethod.GET)

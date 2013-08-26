@@ -41,7 +41,6 @@
                         </a>
                     </c:otherwise>
                 </c:choose>
-                .
             </p>
             <p>
                 <a href="<c:url value="/example/add.html"/>">

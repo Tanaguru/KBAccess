@@ -44,7 +44,7 @@ public class ReferenceInfoDataServiceImpl extends AbstractRefComponentWithDepthD
     
     /*
      * NOTE : 
-     * At the moment it goes through only 1 info child depth because WCAG20, AW21 & Rgaa22 don't need more
+     * At the moment it goes through only 2 info child depth because AccedeWeb, WCAG20, AW21 & Rgaa22 don't need more
      * This function should be recursive on n info child depths 
      */
     @Override
@@ -59,7 +59,13 @@ public class ReferenceInfoDataServiceImpl extends AbstractRefComponentWithDepthD
             referenceTestList.addAll(getReferenceTestsOfReferenceInfo(referenceInfo, referenceLevel, result));
         } else {
             for (ReferenceInfo referenceInfoChild : referenceInfo.getChildren()) {
-                referenceTestList.addAll(getReferenceTestsOfReferenceInfo(referenceInfoChild, referenceLevel, result));
+                if (referenceInfoChild.getChildren() == null || referenceInfoChild.getChildren().isEmpty()) {
+                    referenceTestList.addAll(getReferenceTestsOfReferenceInfo(referenceInfoChild, referenceLevel, result));
+                } else {
+                    for (ReferenceInfo referenceInfoChild2 : referenceInfoChild.getChildren()) {
+                        referenceTestList.addAll(getReferenceTestsOfReferenceInfo(referenceInfoChild2, referenceLevel, result));
+                    }
+                }
             }
         }
         

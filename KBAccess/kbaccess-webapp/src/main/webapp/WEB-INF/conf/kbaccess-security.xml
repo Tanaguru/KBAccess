@@ -7,7 +7,7 @@
       http://www.springframework.org/schema/security
       http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-    <http auto-config="true">
+    <http auto-config="true" disable-url-rewriting="true">
         <intercept-url pattern="/j_spring_security_check*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/guest/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/account/new-password.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>

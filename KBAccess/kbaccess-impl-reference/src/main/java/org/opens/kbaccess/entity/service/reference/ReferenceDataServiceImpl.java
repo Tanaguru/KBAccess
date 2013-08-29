@@ -1,8 +1,8 @@
 package org.opens.kbaccess.entity.service.reference;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import org.opens.kbaccess.entity.reference.Reference;
 
 /**
@@ -16,7 +16,7 @@ public class ReferenceDataServiceImpl extends AbstractRefBaseDataService<Referen
     
     public ReferenceDataServiceImpl() {
         super();
-        internMap = new TreeMap<String, Reference>();
+        internMap = new LinkedHashMap<String, Reference>();
     }
     
     @Override

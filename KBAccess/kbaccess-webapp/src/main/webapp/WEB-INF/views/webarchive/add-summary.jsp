@@ -32,7 +32,7 @@
                 <p>
                     <a href="${webarchive.localUrl}">${webarchive.localUrl}</a>
                 </p>
-                <p><fmt:message key="webarchive.addSummaryNote" /></p>
+                <p><fmt:message key="webarchive.addSummaryNoteCreation" /></p>
                 <p><a href="<c:url value='/'/>"><fmt:message key="backToHome" /></a></p>
             </div>
         </div>

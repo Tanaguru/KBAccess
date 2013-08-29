@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
         <c:set var='result'>
             <c:set var='resultId' value='${testcase.resultId}'/>
-            <c:set var='withAccents' value='false' />
+            <c:set var='forUrl' value='true' />
             <%@include file='/WEB-INF/template/inline/result.jspf' %>
         </c:set>
-        <fmt:message key="testcase.accessibilityExampleUrl" />-${testcase.testLabel}-${testcase.referenceLabelForUrl}-${result}.html
+        accessibility-example-${testcase.testLabel}-${testcase.referenceLabelForUrl}-${result}.html

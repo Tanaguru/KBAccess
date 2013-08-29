@@ -23,7 +23,6 @@ package org.opens.kbaccess.command;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 import org.opens.kbaccess.command.utils.ACommand;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.service.reference.ReferenceDataService;
@@ -40,16 +39,8 @@ public class TestcaseSearchCommand extends ACommand {
     private List<Long> idReferenceTestList;
     private Long idReferenceLevel;
     private Long idResult;
+    private boolean searchSingleTest = false;
 
-    public void logState() {
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idAdccount : " + idAccount);
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("codeReference : " + codeReference);
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idReferenceInfoList : " + idReferenceInfoList);
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idReferenceTestList : " + idReferenceTestList);
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idReferenceLevel : " + idReferenceLevel);
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info("idResult : " + idResult);
-    }
-    
     public TestcaseSearchCommand() {
         
     }
@@ -75,8 +66,6 @@ public class TestcaseSearchCommand extends ACommand {
             }
         }
         
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(infoMaxDepth);
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(testMaxDepth);
         
         for (int i = testMaxDepth; i < 0; i++) {
             idReferenceTestList.add(-1L);
@@ -85,11 +74,6 @@ public class TestcaseSearchCommand extends ACommand {
         for (int i = 0; i < infoMaxDepth; i++) {
             idReferenceInfoList.add(-1L);
         }
-        
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(idReferenceInfoList.size());
-        Logger.getLogger(TestcaseSearchCommand.class.getName()).info(idReferenceTestList.size());
-        
-        logState();
     }
     
     /*
@@ -97,9 +81,9 @@ public class TestcaseSearchCommand extends ACommand {
      */
     public boolean searchAll() {
         boolean searchAll = false;
-        
+
         if (idAccount == null
-                && codeReference == null
+                && (codeReference == null || codeReference.length() == 0)
                 && idReferenceLevel == null
                 && idReferenceInfoList == null
                 && idReferenceTestList == null
@@ -147,6 +131,9 @@ public class TestcaseSearchCommand extends ACommand {
         return searchAccount;
     }
     
+    public boolean searchSingleTest() {
+        return this.searchSingleTest;
+    }
     /*
      * Accessors
      */
@@ -196,5 +183,13 @@ public class TestcaseSearchCommand extends ACommand {
 
     public void setIdResult(Long idResult) {
         this.idResult = idResult;
+    }
+
+    public boolean isSearchSingleTest() {
+        return searchSingleTest;
+    }
+
+    public void setSearchSingleTest(boolean searchSingleTest) {
+        this.searchSingleTest = searchSingleTest;
     }
 }

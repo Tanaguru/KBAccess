@@ -65,8 +65,8 @@ public class WebarchiveImplTest extends TestCase {
     public void testSetDescription() {
         System.out.println("setDescription");
         /* */
-        String description = "&<>";
-        String expectedDescription = "&amp;&lt;&gt;";
+        String description = "desc12345&é";
+        String expectedDescription = "desc12345&é";
         /* */
         WebarchiveImpl instance = new WebarchiveImpl();
         /* run test */

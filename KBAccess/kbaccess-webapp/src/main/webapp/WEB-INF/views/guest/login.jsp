@@ -34,7 +34,7 @@
             <form class="form-horizontal" action="<c:url value='/j_spring_security_check'/>" method="POST">
                 <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                 <div class="control-group">
-                    <label class="control-label" for="login_email"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %>Email :</label>
+                    <label class="control-label" for="login_email"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %><fmt:message key="emailUpper"/> :</label>
                     <div class="controls">
                         <input type="text" name="j_username" id="login_email"/>
                     </div>
@@ -43,13 +43,15 @@
                     <label class="control-label" for="login_password"><%@include file="/WEB-INF/template/inline/mandatory.jspf" %><fmt:message key="password" /> :</label>
                     <div class="controls">
                         <input type="password" name="j_password" id="login_password"/>
+                        <p id="password-lost-link">
+                            <a href="<c:url value='/guest/password-lost.html'/>"><fmt:message key="guest.loginLostPasswordLink" /></a>
+                        </p>
                     </div>
                 </div>
                 <div class="form-actions">
                     <button class="btn btn-primary"><fmt:message key="guest.loginButton" /></button>
                 </div>
             </form>
-            <p class="alert alert-info"><a href="<c:url value='/guest/password-lost.html'/>"><fmt:message key="guest.loginLostPasswordLink" /></a></p>
         </div>
                         
         <%@include file='/WEB-INF/template/footer.jspf' %>

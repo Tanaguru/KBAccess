@@ -33,7 +33,7 @@
                     <p><fmt:message key="guest.lostPasswordInputEmail" /> :</p>
                     <form:form  class="form-horizontal" commandName="passwordLostCommand" action="password-lost.html" method="POST">
                         <div class="control-group">
-                            <label class="control-label" for="password_lost_email">Email :</label>
+                            <label class="control-label" for="password_lost_email"><fmt:message key="emailUpper"/> :</label>
                             <div class="controls">
                                 <form:input path="email" id="password_lost_email"/>
                                 <form:errors path="email" cssClass="alert alert-error" element="p"/>

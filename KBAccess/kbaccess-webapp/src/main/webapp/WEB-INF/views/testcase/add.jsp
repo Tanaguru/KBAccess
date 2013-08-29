@@ -19,28 +19,35 @@
         
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <h1 class="page-header"><fmt:message key="testcase.selectReferenceH1" /></h1>
+        <h1 class="page-header">
+            <fmt:message key="testcase.addExampleH1" /><br />
+            <span id="add-example-h1-step"><fmt:message key="testcase.selectReferenceH1" /></span>
+        </h1>
         <div class="row-fluid">
             <c:url var='selectReferenceUrl' value='/example/add.html'/>
             
             <form:form id="new-tc-form" commandName="selectReferenceCommand" action="${selectReferenceUrl}" method="POST">
                 <%@include file="/WEB-INF/template/block/mandatory-fields.jspf" %>
                 
-                <label class="new-tc-label" for="id_reference">
-                    <%@include file="/WEB-INF/template/inline/mandatory.jspf"%>&nbsp;<fmt:message key="accessibility.reference"/> :
-                </label>
-                
-                <div class="new-tc-block">
-                    <form:select path="idReference" id="id_reference" size="4">
-                        <c:forEach var="reference" items="${referenceList}">
-                            <option value="${reference.id}"><fmt:message key="${reference.code}"/></option>
-                        </c:forEach>
-                    </form:select>
-                    <form:errors path="idReference" cssClass="alert alert-error" element="p"/>
-                </div>
-                <div class="form-actions">
-                    <button class="btn btn-info"><fmt:message key="testcase.confirmButton" /></button>
-                </div>
+                <fieldset>
+                    <legend class="new-tc-label">
+                        <%@include file="/WEB-INF/template/inline/mandatory.jspf"%>&nbsp;<fmt:message key="accessibility.reference"/> :
+                    </legend>
+
+                    <div class="new-tc-block">
+                            <c:forEach var="reference" items="${referenceList}">
+                                <form:radiobutton id="reference${reference.id}" path="idReference" value="${reference.id}"/>
+                                <label class="inline-label" for="reference${reference.id}">
+                                    <fmt:message key="${reference.code}-abbr"/>
+                                </label>
+                                <br />
+                            </c:forEach>
+                        <form:errors path="idReference" cssClass="alert alert-error" element="p"/>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-info"><fmt:message key="testcase.nextStep" /></button>
+                    </div>
+                </fieldset>
             </form:form>
         </div>
 

@@ -123,14 +123,6 @@ public class NewTestcaseValidator implements Validator {
         return true;
     }
 
-    private boolean validateCreateWebarchive(NewTestcaseCommand newTestcaseCommand, Errors errors) {
-        if (newTestcaseCommand.getCreateWebarchive() == null) {
-            errors.rejectValue(FormKeyStore.CREATE_WEBARCHIVE_KEY, MessageKeyStore.MISSING_CREATE_WEBARCHIVE_KEY);
-            return false;
-        }
-        return true;
-    }
-
     private boolean validateUrlNewWebarchive(NewTestcaseCommand newTestcaseCommand, Errors errors) {
         if (newTestcaseCommand.getUrlNewWebarchive() == null || newTestcaseCommand.getUrlNewWebarchive().isEmpty()) {
             errors.rejectValue(FormKeyStore.URL_NEW_WEBARCHIVE_KEY, MessageKeyStore.MISSING_URL_KEY);
@@ -197,20 +189,32 @@ public class NewTestcaseValidator implements Validator {
         
         /* validate webarchive */
         if (!hasError && step == Step.STEP_WEBARCHIVE) {
-            if (!validateCreateWebarchive(newTestcaseCommand, errors)) {
-                hasError = true;
-            } else if (newTestcaseCommand.getCreateWebarchive()) {
-                if (!validateUrlNewWebarchive(newTestcaseCommand, errors)) {
+            if (newTestcaseCommand.isOnCreateWebarchive()) {
+                if (!validateUrlNewWebarchive(newTestcaseCommand, errors)
+                    || !validateDescriptionWebArchive(newTestcaseCommand, errors)) {
                     hasError = true;
                 }
-            } else if (!validateDescriptionWebArchive(newTestcaseCommand, errors)) {
-              hasError = true;  
             } else {
                 if (!validateIdWebarchive(newTestcaseCommand, errors)) {
                     hasError = true;
                 }
             }
         }
+//        if (!hasError && step == Step.STEP_WEBARCHIVE) {
+//            if (!validateCreateWebarchive(newTestcaseCommand, errors)) {
+//                hasError = true;
+//            } else if (newTestcaseCommand.getCreateWebarchive()) {
+//                if (!validateUrlNewWebarchive(newTestcaseCommand, errors)) {
+//                    hasError = true;
+//                }
+//            } else if (!validateDescriptionWebArchive(newTestcaseCommand, errors)) {
+//              hasError = true;  
+//            } else {
+//                if (!validateIdWebarchive(newTestcaseCommand, errors)) {
+//                    hasError = true;
+//                }
+//            }
+//        }
         
         if (hasError) {
             errors.rejectValue(FormKeyStore.GENERAL_ERROR_MESSAGE_KEY, MessageKeyStore.MISSING_REQUIRED_FIELD);

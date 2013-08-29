@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="account_email">Email :</label>
+                                <label class="control-label" for="account_email"><fmt:message key="emailUpper"/> :</label>
                                 <div class="controls">
                                     <form:input path="email" id="account_email"/>
                                     <form:errors path="email" cssClass="alert alert-error" element="p"/>

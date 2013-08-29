@@ -38,9 +38,7 @@
                             <c:forEach var="reference" items="${referenceList}">
                                 <form:radiobutton id="reference${reference.id}" path="idReference" value="${reference.id}"/>
                                 <label class="inline-label" for="reference${reference.id}">
-                                    <%--<abbr title="<fmt:message key="${reference.code}-abbr"/>">--%>
-                                        <fmt:message key="${reference.code}-abbr"/>
-                                    <%--</abbr>--%>
+                                    <fmt:message key="${reference.code}-abbr"/>
                                 </label>
                                 <br />
                             </c:forEach>

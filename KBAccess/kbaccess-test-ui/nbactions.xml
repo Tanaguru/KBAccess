@@ -12,16 +12,16 @@
                 
                 
                 
-                <hostLocation>http://int.kbaccess.org</hostLocation>
+                <hostLocation>http://localhost:8080</hostLocation>
                 
                 
                 
                 
                 
-                <hostBaseUrl>/</hostBaseUrl>
-                <dbUrl>jdbc:mysql://europa.open-s.com:3306/kbaccess_int</dbUrl>
-                <dbUser>blebail</dbUser>
-                <dbPassword>EWHg9VZob5</dbPassword>
+                <hostBaseUrl>/kbaccess-webapp-2.2/</hostBaseUrl>
+                <dbUrl>jdbc:mysql://localhost:3306/kbaccess22</dbUrl>
+                <dbUser>kbaccess</dbUser>
+                <dbPassword>kb4cc3ss</dbPassword>
                 
                 
             </properties>

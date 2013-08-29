@@ -4,22 +4,22 @@
 
   
 <form:form id="tc-search-form" commandName="testcaseSearchCommand" method="GET" action="list.html">
-    <div class="span2" style="float:left">
+    <div id="tc-search-parameters-div" class="span3">
         <fieldset>
             <legend><fmt:message key="testcase.parameters"/></legend>
             <div id="select-ref-div" class="control-group">
                 <label class="control-label" for="selectReferentiel"><fmt:message key="accessibility.reference" /></label>
-                <form:select path="codeReference" id="selectReferentiel" size="1">
+                <form:select class="span12" path="codeReference" id="selectReferentiel" size="1">
                         <option value="" selected="selected"><fmt:message key="all" /></option>
                         <c:forEach var="reference" items="${referenceList}">
-                            <option value="${reference.code}">${reference.label}</option>
+                            <option value="${reference.code}"><fmt:message key="${reference.code}-abbr"/></option>
                         </c:forEach>
                 </form:select>              
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="selectResultat"><fmt:message key="result" /></label>
-                    <form:select path="idResult"  id="selectResultat" size="1">
+                    <form:select class="span12" path="idResult"  id="selectResultat" size="1">
                         <option value="" selected="selected"><fmt:message key="all" /></option>
                         <c:forEach var="result" items="${resultList}">
                             <option value="${result.id}"><fmt:message key="${result.code}"/></option>

@@ -62,7 +62,7 @@ public class RootController extends AController {
     @Autowired
     private TestcasePresentationFactory testcasePresentationFactory;
     
-    private static final int NB_TESTCASES_DISPLAYED = 5;
+    private static final int NB_TESTCASES_DISPLAYED = 10;
     
     /*
      * Private methods

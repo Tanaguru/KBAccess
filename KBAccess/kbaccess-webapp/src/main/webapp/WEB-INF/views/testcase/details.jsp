@@ -137,7 +137,7 @@
                     <ul class="tc-details-ul">             
                         <li>
                             <a href="<c:url value='/example/result.html?reference=${testcase.referenceId}'/>">
-                                <fmt:message key="testcase.detailsAllExamplesOn" /> ${testcase.referenceLabel}
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="${testcase.referenceCode}-abbr" />
                             </a>
                         </li>
                         <c:forEach var="testParent" items="${testcase.testParents}">

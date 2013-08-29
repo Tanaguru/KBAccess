@@ -15,11 +15,13 @@
     -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
-            <list>    
-                <value>acdw-recommendation-I18N</value>
-                <value>acdw-sub-theme-I18N</value>
-                <value>acdw-theme-I18N</value>
-                <value>acdw-notice-I18N</value>
+            <list>
+                <value>acdw_rijs-recommendation-I18N-I18N</value>
+                <value>acdw_rijs-sub-theme-I18N-I18N</value>
+                <value>acdw_rijs-theme-I18N-I18N</value>
+                <value>acdw_htmlcss-recommendation-I18N</value>
+                <value>acdw_htmlcss-sub-theme-I18N</value>
+                <value>acdw_htmlcss-theme-I18N</value>
                 <value>statistics-I18N</value>
                 <value>wcag20-principle-I18N</value>
                 <value>wcag20-guideline-I18N</value>

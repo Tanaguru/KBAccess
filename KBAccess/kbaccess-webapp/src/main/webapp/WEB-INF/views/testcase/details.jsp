@@ -51,7 +51,7 @@
                                     <fmt:message key="${testcase.referenceWebRefCode}"/>
                                 </c:set>
                                 
-                                <a title="<fmt:message key="testcase.referenceOfTest" /> ${testcase.testLabel}" href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
+                                <a title="<fmt:message key="testcase.referenceOf" /> <fmt:message key="${testcase.testDepthCode}"/> ${testcase.testLabel}" href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
                                 <a href="<c:url value='${referenceWebRef}'/>">(${testcase.referenceLabel})</a>
                             </td>
                         </tr>
@@ -81,9 +81,12 @@
                         <th scope="row"><fmt:message key="contributor" /> :</th>
                         <td>
                             <a href="<c:url value='/account/details/${testcase.accountId}/profile.html'/>">${testcase.accountDisplayedName}</a>
-                            <a href="<c:url value='/example/list.html?account=${testcase.accountId}'/>">
-                                (<fmt:message key="testcase.detailsAllExamplesOf" />${testcase.accountDisplayedName})
-                            </a>
+                            
+                            <span id="all-examples-of-user-link">
+                                (<a href="<c:url value='/example/result.html?account=${testcase.accountId}'/>">
+                                    <fmt:message key="testcase.detailsAllExamplesOf" /> ${testcase.accountDisplayedName}
+                                </a>)
+                            </span>
                         </td>
                     </tr>
                     <tr>
@@ -134,7 +137,7 @@
                     <ul class="tc-details-ul">             
                         <li>
                             <a href="<c:url value='/example/result.html?reference=${testcase.referenceId}'/>">
-                                <fmt:message key="testcase.detailsAllExamplesOn" /> ${testcase.referenceLabel}
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="${testcase.referenceCode}-abbr" />
                             </a>
                         </li>
                         <c:forEach var="testParent" items="${testcase.testParents}">

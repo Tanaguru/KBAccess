@@ -49,8 +49,8 @@ public class TestcaseImplTest extends TestCase {
     public void testSetDescription() {
         System.out.println("setDescription");
         /* */
-        String description = "&<>";
-        String expectedDescription = "&amp;&lt;&gt;";
+        String description = "desc12345&é";
+        String expectedDescription = "desc12345&é";
         /* */
         TestcaseImpl instance = new TestcaseImpl();
         /* run test */

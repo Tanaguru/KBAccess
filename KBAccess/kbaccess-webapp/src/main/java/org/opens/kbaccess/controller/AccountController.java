@@ -21,10 +21,10 @@
  */
 package org.opens.kbaccess.controller;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.AccountCommand;
 import org.opens.kbaccess.command.ChangePasswordCommand;
@@ -39,6 +39,7 @@ import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.factory.AccountPresentationFactory;
 import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
+import org.opens.kbaccess.presentation.factory.WebarchivePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
 import org.opens.kbaccess.utils.TgolTokenHelper;
 import org.opens.kbaccess.validator.AccountDetailsValidator;
@@ -70,6 +71,8 @@ public class AccountController extends AController {
     private AccountPresentationFactory accountPresentationFactory;
     @Autowired
     private TestcasePresentationFactory testcasePresentationFactory;
+    @Autowired
+    private WebarchivePresentationFactory webarchivePresentationFactory;
     
     /*
      * Private methods
@@ -223,7 +226,10 @@ public class AccountController extends AController {
             LogFactory.getLog(AccountController.class).error("An unauthentified user reached account/my-webpages, check spring security configuration");
             return "guest/login";
         }
-        model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchiveDataService.getAllFromUserAccount(currentUser));
+        model.addAttribute(ModelAttributeKeyStore.WEBARCHIVE_LIST_KEY, webarchivePresentationFactory.createFromCollection(
+                        webarchiveDataService.getAllFromUserAccount(currentUser)
+                    )
+                );
         return "account/my-webarchives";
     }
     
@@ -379,11 +385,11 @@ public class AccountController extends AController {
     }
     
     @RequestMapping(value="list", method=RequestMethod.GET)
-    public String newPasswordHandler(
+    public String accountListHandler(
             Model model
             ) {    
         Collection<AccountStatistics> contributorsStatistics;
-        List<AccountPresentation> contributors = new ArrayList<AccountPresentation>();
+        Set<AccountPresentation> contributors = new TreeSet<AccountPresentation>();
         
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
@@ -437,5 +443,13 @@ public class AccountController extends AController {
 
     public void setTestcasePresentationFactory(TestcasePresentationFactory testcasePresentationFactory) {
         this.testcasePresentationFactory = testcasePresentationFactory;
+    }
+
+    public WebarchivePresentationFactory getWebarchivePresentationFactory() {
+        return webarchivePresentationFactory;
+    }
+
+    public void setWebarchivePresentationFactory(WebarchivePresentationFactory webarchivePresentationFactory) {
+        this.webarchivePresentationFactory = webarchivePresentationFactory;
     }
 }

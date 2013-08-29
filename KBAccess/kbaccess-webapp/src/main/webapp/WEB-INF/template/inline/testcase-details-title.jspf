@@ -2,6 +2,6 @@
 <%@ page pageEncoding="UTF-8" %>
         <fmt:message key="testcase.accessibilityExampleTitle" /> ${testcase.testLabel} (${testcase.referenceLabel})
         <c:set var='resultId' value='${testcase.resultId}'/>
-        <c:set var='withAccents' value='true' />
+        <c:set var='forUrl' value='false' />
         <%@include file='/WEB-INF/template/inline/result.jspf' %>
         <fmt:message key="on" /> <c:url value='${testcase.webarchiveOriginalUrl}'/>

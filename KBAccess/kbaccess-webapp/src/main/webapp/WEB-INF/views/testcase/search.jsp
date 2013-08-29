@@ -21,7 +21,7 @@
         <div class="row-fluid">
             <%@include file='/WEB-INF/template/select-form.jspf'%>
         </div>
-
+        
         <%@ include file='/WEB-INF/template/footer.jspf' %>
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -37,7 +37,7 @@
                 $('div.toggle-block select').attr('aria-disabled', 'true');
                 
                 // If a referetial is selected
-                $('#selectReferentiel').on('change', function() {
+                $('#selectReferentiel').on('change keyup', function() {
                     // Hide all <div> and disable all <select> specific to a referential
                     $('#ref-block').hide();
                     $('#ref-block').attr('aria-hidden', 'true');
@@ -48,7 +48,8 @@
                     
                     // Show all <select> of the selected referential
                     var $referenceCode = $(this).val();
-                    $('#ref-fiedlset-legend').html($('#selectReferentiel option[value=' + $referenceCode + ']').text());
+                    var $referenceLabel = $('#selectReferentiel option[value=' + $referenceCode + ']').text()
+                    $('#ref-fiedlset-legend').html($referenceLabel);
                     
                     if ($referenceCode.length > 1) {
                         $('#ref-block').show();

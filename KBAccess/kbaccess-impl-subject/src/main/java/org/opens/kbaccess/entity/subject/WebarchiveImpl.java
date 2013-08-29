@@ -86,7 +86,7 @@ public class WebarchiveImpl implements Webarchive, Serializable {
 
     @Override
     public void setDescription(String description) {
-        this.description = StringEscapeUtils.escapeHtml(description);
+        this.description = description;
     }
 
     @Override

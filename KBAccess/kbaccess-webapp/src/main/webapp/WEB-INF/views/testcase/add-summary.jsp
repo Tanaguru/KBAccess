@@ -23,42 +23,33 @@
                 <%@include file="/WEB-INF/template/inline/testcase-url.jspf" %>
         </c:set>
         
-        <div class="page-header"><h1><fmt:message key="testcase.addSummaryH1" /></h1></div>
-        <div class="row well">
-            <p><fmt:message key="testcase.addSummarySummary" /></p>
-            <ul>
-                <li>Test :        
-                    <c:set var="testWebRef" scope="page">
-                        <fmt:message key="${testcase.testWebRefCode}" />
-                    </c:set>
-                    <c:set var="referenceWebRef" scope="page">
-                        <fmt:message key="${testcase.referenceWebRefCode}"/>
-                    </c:set>
-                    <a title="<fmt:message key="testcase.referenceOfTest" /> ${testcase.testLabel}" href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
-                    <a href="<c:url value='${referenceWebRef}'/>">(${testcase.referenceLabel})</a>
-                </li>
-                <li><fmt:message key="result" /> :
-                    <c:set var="resultId" value="${testcase.resultId}"/>
-                    <c:set var="pictoSize" value="s"/>
-                    <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
-                    <%@include file="/WEB-INF/template/inline/result.jspf" %>
-                </li>
-            </ul>
-            <ul>
-                <li>URL :
-                    <a href="${testcase.webarchiveLocalUrl}" rel="nofollow"><fmt:message key="testcase.addSummaryArchiveOf" /> ${testcase.webarchiveOriginalUrl}</a>
-                    <a title="${testcase.webarchiveOriginalUrl}" href="${testcase.webarchiveOriginalUrl}">
-                        <img id="originalUrl-link-img" src="<c:url value='/assets/images/window-duplicate.png'/>" alt="${testcase.webarchiveOriginalUrl}"/>
-                    </a>
-                    <p><fmt:message key="webarchive.addSummaryNote" />.</p>
-                </li>
-                <c:if test="${not empty testcase.description}">
-                    <li><fmt:message key="description" /> ${testcase.description}</li>
-                </c:if>
-            </ul>
+        <div class="page-header">
+            <h1>
+                <fmt:message key="testcase.addSummaryH1" />
+            </h1>
+        </div>
+        <div class="row-fluid">
+            <p class="alert alert-success">
+                <c:choose>
+                    <c:when test="${webarchiveCreation == true}">
+                        <fmt:message key="webarchive.addSummaryNoteCreation" />
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:message key="testcase.addSummaryExampleAvailable" />
+                        <a href="<c:url value='/example/details/${testcase.testcaseId}/${testcaseUrl}'/>">
+                            <fmt:message key="testcase.addSummaryVisualize" />
+                        </a>
+                    </c:otherwise>
+                </c:choose>
+            </p>
             <p>
-                <a href="<c:url value='/example/details/${testcase.testcaseId}/${testcaseUrl}'/>"><fmt:message key="testcase.addSummaryVisualize" /></a>
-                <fmt:message key="testcase.addSummaryOrGoBack" />
+                <a href="<c:url value="/example/add.html"/>">
+                    <fmt:message key="testcase.addAnotherExample"/>
+                </a>
+                <fmt:message key="or"/>
+                <a href="<c:url value="/example/search.html"/>">
+                    <fmt:message key="testcase.searchExamples"/>
+                </a>
             </p>
         </div>
 

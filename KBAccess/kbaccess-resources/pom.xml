@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess</artifactId>
-    <version>2.2-SNAPSHOT</version>
+    <version>2.2</version>
   </parent>
   
   <groupId>org.opens.kbaccess</groupId>
   <artifactId>kbaccess-resources</artifactId>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.2</version>
   <name>kbaccess-resources</name>
   <url>http://maven.apache.org</url>
   <properties>

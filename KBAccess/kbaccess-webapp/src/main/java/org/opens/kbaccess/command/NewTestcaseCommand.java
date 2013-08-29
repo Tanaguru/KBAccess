@@ -30,7 +30,6 @@ import org.opens.kbaccess.command.utils.ACommand;
 public class NewTestcaseCommand extends ACommand {
 
     // step webarchive
-    private Boolean createWebarchive;
     private Long idWebarchive;
     private String urlNewWebarchive;
     private String descriptionNewWebarchive;
@@ -45,14 +44,16 @@ public class NewTestcaseCommand extends ACommand {
     public NewTestcaseCommand() {
     }
 
-    public Boolean getCreateWebarchive() {
-        return createWebarchive;
+    public boolean isOnCreateWebarchive() {
+        boolean onCreateWebarchive = true;
+        
+        if (idWebarchive != null) {
+            onCreateWebarchive = false;
+        }
+        
+        return onCreateWebarchive;
     }
-
-    public void setCreateWebarchive(Boolean createWebarchive) {
-        this.createWebarchive = createWebarchive;
-    }
-
+    
     public String getDescription() {
         return description;
     }

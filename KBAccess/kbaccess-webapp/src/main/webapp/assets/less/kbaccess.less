@@ -45,6 +45,15 @@ body {
     margin-top : 25px
 }
 
+#password-lost-link {
+    font-size : 13px; 
+    margin-top : 10px;
+}
+
+#all-examples-of-user-link {
+    font-size : 13px;
+}
+
 .label-indication {
     margin-top : 10px;
     font-size : 12px;
@@ -70,6 +79,26 @@ body {
 .screenshot {
     width : 140px;
     height : 90px;
+}
+
+#testcase {
+    table-layout : fixed;
+}
+
+#testcase .webarchiveLocalUrlCol {
+    width : 25%;
+}
+
+#testcase .testResultLabelCol , #testcase .authorDisplayedNameCol {
+	width : 20%;
+}
+
+#testcase .resultCodeCol, #testcase .creationDateCol {
+    width : 15%;
+}
+
+#testcase .webarchive-original-url-link {
+    font-size : 12px;
 }
 
 #brand-name {
@@ -162,14 +191,6 @@ body {
     font-variant : small-caps;
 }
 
-#testcase .creationDateCol, #testcase .testResultLabelCol {
-    width : @size;
-}
-
-#testcase .actionsCol {
-    width : 100px;
-}
-
 #nb-testcases {
     text-align : center;
 }
@@ -205,9 +226,27 @@ body {
     margin : 0px;
 }
 
+
+#add-example-h1-step {
+    font-size : 25.5px;
+}
+
+#new-tc-form legend {
+    margin-bottom : 0px;
+}
+
+#new-tc-form #existing-webarchive-group {
+    margin-top : 20px;
+}
+
 #new-tc-form .new-tc-label {
     font-family : OpenSansSemibold;
     font-size : 16px;
+}
+
+#new-tc-form .inline-label {
+    display : inline;
+    line-height : 2;
 }
 
 #new-tc-table {
@@ -215,39 +254,50 @@ body {
 }
 
 #new-tc-form .new-tc-block {
-    padding-left:50px
-}
-
-#new-tc-table .new-tc-testname-td {
-    width:20%;
-    text-indent: 50px;
-}
-
-#new-tc-table .new-tc-test-td {
-    width:80%;
-}
-
-#new-tc-table .new-tc-label {
-    margin-top : 25px;
-}
-
-#existing-webarchive-group .control-label, #create-webarchive-group .control-label {
-    display : inline;
-    margin-bottom : 0px;
-    margin-left : 10px;
-}
-
-#existing-webarchive-group .controls, #create-webarchive-group .controls {
+    padding-left : 10px;
+    margin-bottom : 20px;
     margin-top : 20px;
 }
 
-#existing-webarchive-group .controls .control-group, #create-webarchive-group .controls .control-group {
-    margin-left : 20px;
+#new-tc-form .new-tc-block .new-tc-test-error {
+    margin-left : 160px;
+}
+
+#new-tc-form .new-tc-depth-block {
+    width : 160px;
+    float:left;
+}
+
+#new-tc-form .new-tc-depth-block label {
+    clear : left;
+    display : inline;
+}
+
+#new-tc-form #new-tc-result-label {
+    clear : left;
+}
+
+#existing-webarchive-link {
+    color : #000000;
+    font-size : 20px;
+    background-image : url("../images/plus.png");
+    background-position: 0 center;
+    background-repeat : no-repeat;
+    padding-left: 30px;
+    margin-left : -10px;
+}
+
+#tc-search-form #tc-search-parameters-div {
+    float : left;
 }
 
 #tc-search-form #select-ref-div {
     margin-top : 0px;
-} 
+}
+
+#tc-search-form .form-actions {
+    clear : left;
+}
 
 /* Override boostrap */ 
 h1, h2, h3, h4, h5, h6 {
@@ -300,7 +350,12 @@ textarea {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
-/* This is to make Bootstrap alert messages color contrast WCAG2 compliant */
+input[type="radio"], input[type="checkbox"] {
+    line-height: normal;
+    margin: 0px;
+}
+
+/* This is to make Bootstrap alert boxes color contrast WCAG2 compliant */
 .alert-info {
     background-color : #D9EDF7;
     color : #3A68AD;

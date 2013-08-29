@@ -10,9 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import org.opens.kbaccess.entity.dao.subject.TestcaseDAOImpl;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
-import org.opens.kbaccess.entity.subject.TestcaseImpl;
 import org.opens.kbaccess.utils.AbstractDaoTestCase;
 
 /**
@@ -101,9 +99,9 @@ public class StatisticsDAOImplTest extends AbstractDaoTestCase {
         
         result.clear();
         result = instance.findAccountOrderByTestcaseCount(asc, limit);
-        assertEquals(2, result.size());
-        assertEquals(2L, result.get(0).getId().longValue());
-        assertEquals(2L, result.get(0).getTestcaseCount().longValue());
+        assertEquals(3, result.size());
+        assertEquals(3L, result.get(0).getId().longValue());
+        assertEquals(0L, result.get(0).getTestcaseCount().longValue());
     }
     
     /**

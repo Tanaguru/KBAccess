@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.archive.crawler.framework.CrawlJob;
 import org.archive.net.UURIFactory;
 import org.opens.slurpmanager.exception.WrongURIException;
@@ -253,7 +254,7 @@ public class CrawlerImpl implements Crawler {
             while ((c = in.readLine()) != null) {
                 if (c.equalsIgnoreCase(urlStrToReplace)) {
                     try {
-                    newContextFile.append(UURIFactory.getInstance(url).toString());
+                    newContextFile.append(UURIFactory.getInstance(StringEscapeUtils.escapeXml(url)).toString());
                     } catch (IOException ex) {
                         Logger.getLogger(WebarchiveHandlerImpl.class.getName()).severe(ex.getMessage());
                         throw new WrongURIException(ex.getMessage());

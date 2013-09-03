@@ -148,7 +148,7 @@ public class RootController extends AController {
     @RequestMapping(value = {"index"})
     public String homeHandler(Model model) {
         handleUserLoginForm(model);
-        handleTestcaseSearchForm(model);
+        //handleTestcaseSearchForm(model);
 
         StatisticsPresentation statisticsPresentation = statisticsPresentationFactory.create();
 
@@ -169,6 +169,8 @@ public class RootController extends AController {
                     testcaseDataService.getLastTestcases(NB_TESTCASES_DISPLAYED)
                 )
             );
+        
+        model.addAttribute("referenceCoverageList", referenceDataService.findAll());
 
         return "home";
     }

@@ -18,6 +18,7 @@
         <intercept-url pattern="/example/details/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/webarchive/list.html*" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/kba/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <intercept-url pattern="/reference/list.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/account/list.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/account/details/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/account/**" access="ROLE_admin, ROLE_contrib, ROLE_moder"/>

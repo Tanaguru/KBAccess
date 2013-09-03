@@ -1,34 +1,29 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@page import="org.opens.kbaccess.entity.authorization.AccessLevelEnumType" %>
-<c:set var="notGuest" value='${authenticatedUser != null and
-                        (authenticatedUser.accessLevel.accessLevelEnumType.type == "contrib" or
-                        authenticatedUser.accessLevel.accessLevelEnumType.type == "moder" or
-                        authenticatedUser.accessLevel.accessLevelEnumType.type == "admin")}'/>
-
-<nav id="menu" class="span2">
-    <ul id="menuList">
-        <li><a href="<c:url value='/example/list.html'/>"><fmt:message key="menu.seeAllExamples" /></a></li>
-        <li><a href="<c:url value='/example/search.html'/>"><fmt:message key="menu.searchExamples" /></a></li>
-        <%--<li><a href="<c:url value='/example/search-by-url.html'/>"><fmt:message key="menu.searchExamplesByUrl" /></a></li>--%>
-        
-        <c:choose>
-            <c:when test='${notGuest}'>
-                <li class="menu-spacing"><a href="<c:url value='/example/add.html'/>"><fmt:message key="menu.addExample" /></a></li>
-                <li><a href="<c:url value='/account/my-examples.html'/>"><fmt:message key="menu.myExamples" /></a></li>
-
-                <li class="menu-spacing"><a href="<c:url value='/webarchive/add.html'/>"><fmt:message key="menu.addWebarchive" /></a></li>
-                <li><a href="<c:url value='/account/my-webarchives.html'/>"><fmt:message key="menu.myWebarchives" /></a></li>
-                <li><a href="<c:url value='/webarchive/list.html'/>"><fmt:message key="menu.seeAllWebarchives" /></a></li>
-                
-                <c:if test='${authenticatedUser != null and
-                      (authenticatedUser.accessLevel.accessLevelEnumType.type == "admin")}'>
-                <li class="menu-spacing"><a href="<c:url value='/admin/users.html'/>"><fmt:message key="menu.seeAllUsers" /></a></li>
-                </c:if>
-            </c:when>
-            <c:otherwise>
-            </c:otherwise>
-        </c:choose>
-    </ul>
-</nav>
+<div id="coverage-graphs-div" class="row-fluid span12">
+    <c:forEach var="referenceCoverage" items="${referenceCoverageList}" varStatus="status">
+        <div class="coverage-graph-wrap-div">
+            <div class="coverage-graph-div" id="${referenceCoverage.code}-graph">	
+                <p class="coverage-p">
+                    <span class="coverage-span-label">
+                        <fmt:message key="${referenceCoverage.code}-label"/>
+                    </span>
+                    <br/>
+                    <c:set var="coverage" scope="page">${status.index * 20}</c:set>
+                    <c:choose>
+                       <c:when test="${coverage < 25}">
+                         <span class="coverage-span-value coverage-value-red">${coverage}%</span>   
+                      </c:when>
+                       <c:when test="${coverage > 25 && coverage < 75}">
+                         <span class="coverage-span-value coverage-value-orange">${coverage}%</span>
+                       </c:when>
+                       <c:when test="${coverage > 75}">
+                           <span class="coverage-span-value coverage-value-green">${coverage}%</span>
+                       </c:when>
+                    </c:choose>    
+                </p>
+            </div>
+        </div>
+    </c:forEach>
+</div>

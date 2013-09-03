@@ -20,7 +20,9 @@
                 <fmt:message key="home.callToAction"/>
             <p>
         </div>
-
+        
+        <%@include file='/WEB-INF/template/coverage-graphs.jspf' %>
+        
          <div class="row-fluid statistics-div">
             <div class="span3">
                 <h2><fmt:message key="statistics"/></h2>
@@ -51,7 +53,9 @@
                         </a>
                     </li>
                     <li>
-                        <span id="stat-reference-count">${statistics.frameOfReferenceCount}</span>  <fmt:message key="accessibility.reference"/><c:if test="${statistics.frameOfReferenceCount > 1}">s</c:if>
+                        <a href="<c:url value='/reference/list.html'/>">
+                            ${statistics.frameOfReferenceCount} <fmt:message key="accessibility.reference"/><c:if test="${statistics.frameOfReferenceCount > 1}">s</c:if>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -79,5 +83,53 @@
             <%@include file='/WEB-INF/template/testcase-list.jspf' %>
         </div>
         <%@include file='/WEB-INF/template/footer.jspf' %>
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="<c:url value='/assets/js/raphael.2.1.0.min.js'/>"></script>
+        <script src="<c:url value='/assets/js/justgage.1.0.1.min.js'/>"></script>
+        <script>
+                $(document).ready(function () {                		
+                        var customLabel = "%";
+                        var customLabelFontColor = "#000000";
+                        var customGaugeWidthScale = 0.85;
+                        var customMin = 0;
+                        var customMax = 100;
+                        var customLevelColors = ["#ff0000", "#ffaa00", "#00ff00"];
+                        var customShowMinMax = false;
+                        var customLevelColorsGradient = false;
+                        var customStartAnimationTime = 750;
+						
+                        function printGraph(id, value, title) {
+                                $("#" + id).empty();
+                                var graph = new JustGage({
+                                        id: id,
+                                        value: value,
+                                        label: customLabel,
+                                        labelFontColor: customLabelFontColor,
+                                        gaugeWidthScale : customGaugeWidthScale,
+                                        min: customMin,
+                                        max: customMax,
+                                        levelColors : customLevelColors,
+                                        showMinMax : customShowMinMax,
+                                        title: title,
+                                        levelColorsGradient : customLevelColorsGradient,
+                                        startAnimationTime : customStartAnimationTime
+                                });
+                        }
+                        
+                        $(".coverage-graph-div").each(function() {
+                            printGraph(
+                                    $(this).attr("id"),
+                                    $("#" + $(this).attr("id") + " .coverage-span-value").text().replace('%', ''),
+                                    $("#" + $(this).attr("id") + " .coverage-span-label").text()
+                                );
+                            
+                            // Up labels a little bit
+                            var svg = document.querySelector('#' + $(this).attr("id") + " tspan:nth-of-type(2)");
+							svg.setAttribute("dy", 10.2);
+                        });
+                })
+        </script>
+        
     </body>
 </html>

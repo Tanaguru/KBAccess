@@ -4,59 +4,51 @@
 <!DOCTYPE html>
 <html lang="fr">
     <c:set var="title">
-	<fmt:message key="statistics.topContributorsTitle" />
+	<fmt:message key="reference.listTitle" />
     </c:set>
     <%@include file="/WEB-INF/template/head.jspf" %>
     <body>
         <%@include file='/WEB-INF/template/header.jspf' %>
         
-        <c:set var="bcTopContributors" scope="page"><fmt:message key="breadcrumb.topContributors" /></c:set>
+        <c:set var="bcReferenceList" scope="page"><fmt:message key="breadcrumb.referenceList" /></c:set>
         <c:set target="${breadcrumbTrail}" property="KBAccess" value="/"/> 
-        <c:set target="${breadcrumbTrail}" property="${bcTopContributors}" value=""/>
+        <c:set target="${breadcrumbTrail}" property="${bcReferenceList}" value=""/>
         <%@include file='/WEB-INF/template/breadcrumb-trail.jspf'%>
 
-        <div class="page-header"><h1><fmt:message key="statistics.topContributorsH1" /></h1></div>
+        <div class="page-header"><h1><fmt:message key="reference.listH1" /></h1></div>
         
         <div class="row-fluid">
             <c:choose>
-                <c:when test="${empty contributors}">
-                    <p class="alert alert-info"><fmt:message key="statistics.noContributors" /></p>
+                <c:when test="${empty referenceList}">
+                    <p class="alert alert-info"><fmt:message key="reference.noReference" /></p>
                 </c:when>
                 <c:otherwise>
-                    <table summary="<fmt:message key="statistics.topContributorsTableSummary" />" id="tableComptes" class="table table-strip">
-                        <caption class="data-table-caption"><fmt:message key="statistics.topContributorsTableCaption" /></caption>
+                    <table summary="<fmt:message key="reference.listTableSummary" />" class="table table-strip">
+                        <caption class="data-table-caption"><fmt:message key="reference.listTableCaption" /></caption>
                         <tr>
-                            <th class="thTableComptes"><fmt:message key="contributor" /></th>
-                            <th class="thTableComptes"><fmt:message key="websiteUrl" /></th>
-                            <th class="thTableComptes"><fmt:message key="statistics.testcasesFromCreator" /></th>
+                            <th><fmt:message key="accessibility.reference" /></th>
+                            <th><fmt:message key="country" /></th>
+                            <th><fmt:message key="accessibility.coverage" /></th>
+                            <th><fmt:message key="exampleCount" /></th>
                         </tr>
-                        <c:forEach var="account" items="${contributors}">   
-                            <tr">                               
-                                <td class="tdTableComptes">
-                                    <a href="<c:url value='/account/details/${account.id}/profile.html'/>"
-                                       title="<fmt:message key="account.profileOfUser" /> ${account.displayedName}">
-                                        ${account.displayedName}
+                        <c:forEach var="reference" items="${referenceList}" varStatus="status">   
+                            <tr>                               
+                                <td>
+                                    <a href="<fmt:message key="${reference.code}-url"/>">
+                                           <fmt:message key="${reference.code}-label"/>
                                     </a>
                                 </td>
-                                <td class="tdTableComptes">
-                                    <a href="${account.myUrl}" rel="nofollow">${account.myUrl}</a>
+                                <td>
+                                    ${reference.country}
                                 </td>
-                                <td class="tdTableComptes">
-                                    <c:set var="example" scope="page">
-                                        <c:choose>
-                                            <c:when test="${account.nbCreatedTestcases > 1}">
-                                                <fmt:message key="accessibility.examples"/>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <fmt:message key="accessibility.example"/>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:set>
-                                    <a href="<c:url value='/example/list.html?account=${account.id}'/>"
-                                       title="${account.nbCreatedTestcases} ${example} <fmt:message key="from"/> ${account.displayedName}">
-                                        ${account.nbCreatedTestcases}
+                                <td class="reference-coverage-value">
+                                    ${status.index * 20}%
+                                </td>
+                                <td>
+                                    <a href="<c:url value='/example/result.html?reference=${reference.id}'/>"
+                                       title="<fmt:message key='exampleListOn'/> ${reference.code}">
+                                        ${status.index * 100}
                                     </a>
-                                </td>
                             </tr>
                         </c:forEach>
                     </table>                    

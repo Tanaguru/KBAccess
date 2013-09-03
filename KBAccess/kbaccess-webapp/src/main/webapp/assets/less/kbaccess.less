@@ -14,9 +14,14 @@
 
 
 body {
-    background : linear-gradient(to bottom, #F4F4F4 55px, #F8F8F8 100%) repeat scroll 0 0 transparent;
+   background-image:-webkit-linear-gradient(top,#F4F4F4,#F8F8F8);
+    background-image:-moz-linear-gradient(top,#F4F4F4,#F8F8F8);
+    background-image:-o-linear-gradient(top,#F4F4F4,#F8F8F8);
+    background-image:linear-gradient(top,#F4F4F4,#F8F8F8);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#F4F4F4', endColorstr='#F8F8F8', GradientType=0);
     font-family : @fontFamilyRegular;
 }
+
 .mandatory {
     color: red;
 }
@@ -24,6 +29,8 @@ body {
 #hd .header-link:hover {
     text-decoration : underline;
 }
+
+
 
 #subscribe-form .validation-error {
     box-shadow : 0px 0px 2px red;
@@ -157,6 +164,10 @@ body {
     margin-top : 25px;
 }
 
+body .hero-unit {
+    padding : 30px;
+}
+
 .hero-unit h1 {
     font-family : @fontFamilyRegular;
     font-size: 35px;
@@ -167,6 +178,48 @@ body {
     margin-top : 25px;
     text-align : center;
     font-size : 25px;
+}
+
+
+#coverage-graphs-div {
+	margin-left : 0px;
+}
+
+#coverage-graphs-div .coverage-graph-wrap-div {
+    width : 20%;
+    float : left;
+}
+
+#coverage-graphs-div .coverage-graph-div {
+	width : 200px;
+        height : 160px
+}
+
+#coverage-graphs-div .coverage-p {
+	text-align : center;
+}
+
+#coverage-graphs-div .coverage-span-label {
+	font : bold 15px Arial;
+	color : #a2a2a2;
+}
+
+#coverage-graphs-div .coverage-span-value {
+	display : block;
+	padding-top : 6px; 
+	font : bold 24px Arial;
+}
+
+.coverage-value-red {
+	color : #ff0000;
+}
+
+.coverage-value-orange {
+	color : #ffaa00;
+}
+
+.coverage-value-green {
+	color : #00ff00;
 }
 
 .statistics-div h2 {

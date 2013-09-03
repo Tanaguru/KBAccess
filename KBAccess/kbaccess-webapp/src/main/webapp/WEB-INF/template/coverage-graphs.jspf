@@ -1,0 +1,29 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<div id="coverage-graphs-div" class="row-fluid span12">
+    <c:forEach var="referenceCoverage" items="${referenceCoverageList}" varStatus="status">
+        <div class="coverage-graph-wrap-div">
+            <div class="coverage-graph-div" id="${referenceCoverage.code}-graph">	
+                <p class="coverage-p">
+                    <span class="coverage-span-label">
+                        <fmt:message key="${referenceCoverage.code}-label"/>
+                    </span>
+                    <br/>
+                    <c:set var="coverage" scope="page">${status.index * 20}</c:set>
+                    <c:choose>
+                       <c:when test="${coverage < 25}">
+                         <span class="coverage-span-value coverage-value-red">${coverage}%</span>   
+                      </c:when>
+                       <c:when test="${coverage > 25 && coverage < 75}">
+                         <span class="coverage-span-value coverage-value-orange">${coverage}%</span>
+                       </c:when>
+                       <c:when test="${coverage > 75}">
+                           <span class="coverage-span-value coverage-value-green">${coverage}%</span>
+                       </c:when>
+                    </c:choose>    
+                </p>
+            </div>
+        </div>
+    </c:forEach>
+</div>

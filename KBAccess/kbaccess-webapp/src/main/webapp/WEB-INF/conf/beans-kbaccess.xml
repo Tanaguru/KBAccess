@@ -69,7 +69,10 @@
     
     <bean id="statisticsDataService" class="org.opens.kbaccess.entity.service.statistics.StatisticsDataServiceImpl">
         <property name="statisticsDAO"><ref bean="statisticsDAO"/></property>
+        <property name="referenceDataService"><ref bean="referenceDataService"/></property>
         <property name="referenceTestDataService"><ref bean="referenceTestDataService"/></property>
+        <property name="referenceDepthDataService"><ref bean="referenceDepthDataService"/></property>
+        <property name="resultDataService"><ref bean="resultDataService"/></property>
     </bean>
     
     <!-- factory -->

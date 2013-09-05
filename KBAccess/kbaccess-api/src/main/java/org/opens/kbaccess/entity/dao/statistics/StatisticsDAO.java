@@ -3,7 +3,12 @@ package org.opens.kbaccess.entity.dao.statistics;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.service.reference.ReferenceDepthDataService;
+import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
+import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
+import org.opens.kbaccess.entity.statistics.ReferenceStatistics;
 
 /**
  * 
@@ -29,6 +34,16 @@ public interface StatisticsDAO {
             boolean asc,
             int limit
             );
+    
+    /**
+     * @param reference the reference to get coverage from
+     * @return 
+     */
+    ReferenceStatistics findReferenceCoverage(
+            Reference reference,
+            ResultDataService result,
+            ReferenceDepthDataService referenceDepthDataService,
+            ReferenceTestDataService referenceTestDataService);
     
     /**
      * 

@@ -19,7 +19,7 @@
         
         <div class="row-fluid">
             <c:choose>
-                <c:when test="${empty referenceList}">
+                <c:when test="${empty referenceCoverageList}">
                     <p class="alert alert-info"><fmt:message key="reference.noReference" /></p>
                 </c:when>
                 <c:otherwise>
@@ -31,23 +31,23 @@
                             <th><fmt:message key="accessibility.coverage" /></th>
                             <th><fmt:message key="exampleCount" /></th>
                         </tr>
-                        <c:forEach var="reference" items="${referenceList}" varStatus="status">   
+                        <c:forEach var="referenceCoverage" items="${referenceCoverageList}" varStatus="status">   
                             <tr>                               
                                 <td>
-                                    <a href="<fmt:message key="${reference.code}-url"/>">
-                                           <fmt:message key="${reference.code}-label"/>
+                                    <a href="<fmt:message key="${referenceCoverage.code}-url"/>">
+                                           <fmt:message key="${referenceCoverage.code}-label"/>
                                     </a>
                                 </td>
                                 <td>
-                                    ${reference.country}
+                                    ${referenceCoverage.country}
                                 </td>
                                 <td class="reference-coverage-value">
-                                    ${status.index * 20}%
+                                    ${referenceCoverage.coverage}%
                                 </td>
                                 <td>
-                                    <a href="<c:url value='/example/result.html?reference=${reference.id}'/>"
-                                       title="<fmt:message key='exampleListOn'/> ${reference.code}">
-                                        ${status.index * 100}
+                                    <a href="<c:url value='/example/result.html?reference=${referenceCoverage.id}'/>"
+                                       title="<fmt:message key='exampleListOn'/> ${referenceCoverage.code}">
+                                        ${referenceCoverage.coverage}
                                     </a>
                             </tr>
                         </c:forEach>

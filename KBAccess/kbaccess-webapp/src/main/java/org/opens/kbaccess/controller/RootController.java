@@ -23,6 +23,7 @@ package org.opens.kbaccess.controller;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.Reference;
@@ -36,6 +37,7 @@ import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
 import org.opens.kbaccess.presentation.StatisticsPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
+import org.opens.kbaccess.presentation.factory.ReferenceCoveragePresentationFactory;
 import org.opens.kbaccess.presentation.factory.StatisticsPresentationFactory;
 import org.opens.kbaccess.presentation.factory.TestcasePresentationFactory;
 import org.opens.kbaccess.utils.AccountUtils;
@@ -57,6 +59,8 @@ public class RootController extends AController {
     private WebarchiveDataService webarchiveDataService;
     @Autowired
     private StatisticsDataService statisticsDataService;
+    @Autowired
+    private ReferenceCoveragePresentationFactory referenceCoveragePresentationFactory;
     @Autowired
     private StatisticsPresentationFactory statisticsPresentationFactory;
     @Autowired
@@ -170,8 +174,13 @@ public class RootController extends AController {
                 )
             );
         
-        model.addAttribute("referenceCoverageList", referenceDataService.findAll());
-
+        model.addAttribute(
+                "referenceCoverageList", 
+                referenceCoveragePresentationFactory.createFromCollection(
+                    (Collection)referenceDataService.findAll()
+                )
+            );
+        
         return "home";
     }
     
@@ -250,6 +259,14 @@ public class RootController extends AController {
 
     public void setWebarchiveDataService(WebarchiveDataService webarchiveDataService) {
         this.webarchiveDataService = webarchiveDataService;
+    }
+
+    public ReferenceCoveragePresentationFactory getCoveragePresentationFactory() {
+        return referenceCoveragePresentationFactory;
+    }
+
+    public void setCoveragePresentationFactory(ReferenceCoveragePresentationFactory referenceCoveragePresentationFactory) {
+        this.referenceCoveragePresentationFactory = referenceCoveragePresentationFactory;
     }
 
     public StatisticsPresentationFactory getStatisticsPresentationFactory() {

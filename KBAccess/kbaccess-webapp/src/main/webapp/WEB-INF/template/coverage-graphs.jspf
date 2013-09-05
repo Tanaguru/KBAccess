@@ -10,16 +10,15 @@
                         <fmt:message key="${referenceCoverage.code}-label"/>
                     </span>
                     <br/>
-                    <c:set var="coverage" scope="page">${status.index * 20}</c:set>
                     <c:choose>
-                       <c:when test="${coverage < 25}">
-                         <span class="coverage-span-value coverage-value-red">${coverage}%</span>   
+                       <c:when test="${referenceCoverage.coverage < 25}">
+                         <span class="coverage-span-value coverage-value-red">${referenceCoverage.coverage}%</span>   
                       </c:when>
-                       <c:when test="${coverage > 25 && coverage < 75}">
-                         <span class="coverage-span-value coverage-value-orange">${coverage}%</span>
+                       <c:when test="${referenceCoverage.coverage > 25 && referenceCoverage.coverage < 75}">
+                         <span class="coverage-span-value coverage-value-orange">${referenceCoverage.coverage}%</span>
                        </c:when>
-                       <c:when test="${coverage > 75}">
-                           <span class="coverage-span-value coverage-value-green">${coverage}%</span>
+                       <c:when test="${referenceCoverage.coverage > 75}">
+                           <span class="coverage-span-value coverage-value-green">${referenceCoverage.coverage}%</span>
                        </c:when>
                     </c:choose>    
                 </p>

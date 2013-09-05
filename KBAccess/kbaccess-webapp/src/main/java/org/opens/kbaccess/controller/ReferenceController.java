@@ -21,7 +21,10 @@
  */
 package org.opens.kbaccess.controller;
 
+import java.util.Collection;
 import org.opens.kbaccess.controller.utils.AMailerController;
+import org.opens.kbaccess.presentation.factory.ReferenceCoveragePresentationFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +36,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/reference/")
 public class ReferenceController extends AMailerController {
-        
-    /*
-     * Private methods
-     */
+    
+    @Autowired
+    ReferenceCoveragePresentationFactory referenceCoveragePresentationFactory;
     
     /*
      * End points
@@ -47,8 +49,21 @@ public class ReferenceController extends AMailerController {
         handleUserLoginForm(model);
         handleBreadcrumbTrail(model);
         
-        model.addAttribute("referenceList", referenceDataService.findAll());
+        model.addAttribute(
+                "referenceCoverageList", 
+                referenceCoveragePresentationFactory.createFromCollection(
+                    (Collection)referenceDataService.findAll()
+                )
+            );
         
         return "reference/list";
+    }
+
+    public ReferenceCoveragePresentationFactory getReferenceCoveragePresentationFactory() {
+        return referenceCoveragePresentationFactory;
+    }
+
+    public void setReferenceCoveragePresentationFactory(ReferenceCoveragePresentationFactory referenceCoveragePresentationFactory) {
+        this.referenceCoveragePresentationFactory = referenceCoveragePresentationFactory;
     }
 }

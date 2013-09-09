@@ -41,9 +41,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<c:url value='/webarchive/list.html'/>">
-                            <span id="stat-webarchive-count">${statistics.webarchiveCount}</span>
-                            &nbsp;Web Archive<c:if test="${statistics.webarchiveCount > 1}">s</c:if>
+                        <a href="<c:url value='/reference/list.html'/>">
+                            ${statistics.frameOfReferenceCount} <fmt:message key="accessibility.reference"/><c:if test="${statistics.frameOfReferenceCount > 1}">s</c:if>
                         </a>
                     </li>
                     <li>
@@ -52,11 +51,12 @@
                             <fmt:message key="contributor"/><c:if test="${statistics.userCount > 1}">s</c:if>
                         </a>
                     </li>
-                    <li>
-                        <a href="<c:url value='/reference/list.html'/>">
-                            ${statistics.frameOfReferenceCount} <fmt:message key="accessibility.reference"/><c:if test="${statistics.frameOfReferenceCount > 1}">s</c:if>
+                    <%--<li>
+                        <a href="<c:url value='/webarchive/list.html'/>">
+                            <span id="stat-webarchive-count">${statistics.webarchiveCount}</span>
+                            &nbsp;Web Archive<c:if test="${statistics.webarchiveCount > 1}">s</c:if>
                         </a>
-                    </li>
+                    </li>--%>
                 </ul>
             </div>
             <div class="span3">
@@ -126,7 +126,11 @@
                             
                             // Up labels a little bit
                             var svg = document.querySelector('#' + $(this).attr("id") + " tspan:nth-of-type(2)");
-							svg.setAttribute("dy", 10.2);
+                            svg.setAttribute("dy", 10.2);
+                                                
+                            var svgDesc = document.querySelector('#' + $(this).attr("id") + " desc");
+                            svgDesc.innerText = "coverage graph";
+                            svgDesc.innerHTML = "coverage graph";
                         });
                 })
         </script>

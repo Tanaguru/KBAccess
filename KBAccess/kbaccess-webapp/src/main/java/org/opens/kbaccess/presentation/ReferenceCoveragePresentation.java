@@ -21,8 +21,14 @@
  */
 package org.opens.kbaccess.presentation;
 
+import java.util.Collection;
+import java.util.List;
 import org.opens.kbaccess.entity.reference.Reference;
+import org.opens.kbaccess.entity.reference.ReferenceTest;
+import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
+import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
+import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.entity.statistics.ReferenceStatistics;
 
 /**
@@ -35,13 +41,18 @@ public class ReferenceCoveragePresentation {
     private String code;
     private String country;
     private int coverage;
+    private int testcaseFailedCount;
+    private int testcasePassedCount;
+    private int testcaseCount;
     
 
     public ReferenceCoveragePresentation(
             Reference reference,
+            ReferenceTestDataService referenceTestDataService,
+            TestcaseDataService testcaseDataService,
+            ResultDataService resultDataService,
             StatisticsDataService statisticsDataService
             ) {
-        
         ReferenceStatistics referenceStatistics 
                 = statisticsDataService.getReferenceCoverage(reference);
         
@@ -49,6 +60,24 @@ public class ReferenceCoveragePresentation {
         this.code = referenceStatistics.getReference().getCode();
         this.country = reference.getCountry();
         this.coverage = referenceStatistics.getCoveragePercentage();
+        
+        /*
+         * compute testcase passed/failed/total counts
+         */
+        Collection<ReferenceTest> referenceTestList = referenceTestDataService.getAllByReference(reference);
+        
+        this.testcaseFailedCount = testcaseDataService.getAllFromUserSelection(
+                    referenceTestList, 
+                    resultDataService.getByCode("failed")
+                ).size();
+        
+        this.testcasePassedCount = testcaseDataService.getAllFromUserSelection(
+                    referenceTestList, 
+                    resultDataService.getByCode("passed")
+                ).size();
+        
+        this.testcaseCount = this.testcaseFailedCount + this.testcasePassedCount;
+        
     }
 
     /*
@@ -84,5 +113,29 @@ public class ReferenceCoveragePresentation {
 
     public void setCoverage(int coverage) {
         this.coverage = coverage;
+    }
+
+    public int getTestcaseFailedCount() {
+        return testcaseFailedCount;
+    }
+
+    public void setTestcaseFailedCount(int testcaseFailedCount) {
+        this.testcaseFailedCount = testcaseFailedCount;
+    }
+
+    public int getTestcasePassedCount() {
+        return testcasePassedCount;
+    }
+
+    public void setTestcasePassedCount(int testcasePassedCount) {
+        this.testcasePassedCount = testcasePassedCount;
+    }
+
+    public int getTestcaseCount() {
+        return testcaseCount;
+    }
+
+    public void setTestcaseCount(int testcaseCount) {
+        this.testcaseCount = testcaseCount;
     }
 }

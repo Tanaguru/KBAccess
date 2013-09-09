@@ -11,14 +11,14 @@
                     </span>
                     <br/>
                     <c:choose>
-                       <c:when test="${referenceCoverage.coverage < 25}">
+                       <c:when test="${referenceCoverage.coverage <= 25}">
                          <span class="coverage-span-value coverage-value-red">${referenceCoverage.coverage}%</span>   
                       </c:when>
-                       <c:when test="${referenceCoverage.coverage > 25 && referenceCoverage.coverage < 75}">
+                       <c:when test="${referenceCoverage.coverage > 25 && referenceCoverage.coverage <= 75}">
                          <span class="coverage-span-value coverage-value-orange">${referenceCoverage.coverage}%</span>
                        </c:when>
                        <c:when test="${referenceCoverage.coverage > 75}">
-                           <span class="coverage-span-value coverage-value-green">${referenceCoverage.coverage}%</span>
+                         <span class="coverage-span-value coverage-value-green">${referenceCoverage.coverage}%</span>
                        </c:when>
                     </c:choose>    
                 </p>

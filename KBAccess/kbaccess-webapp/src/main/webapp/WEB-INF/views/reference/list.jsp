@@ -45,9 +45,17 @@
                                     ${referenceCoverage.coverage}%
                                 </td>
                                 <td>
-                                    <a href="<c:url value='/example/result.html?reference=${referenceCoverage.id}'/>"
+                                    <a href="<c:url value='/example/list.html?codeReference=${referenceCoverage.code}'/>"
                                        title="<fmt:message key='exampleListOn'/> ${referenceCoverage.code}">
-                                        ${referenceCoverage.coverage}
+                                        ${referenceCoverage.testcaseCount}
+                                    </a>&nbsp;
+                                    <a style="color:green" href="<c:url value='/example/list.html?codeReference=${referenceCoverage.code}&amp;idResult=1'/>"
+                                       title="<fmt:message key='passedExampleListOn'/> ${referenceCoverage.code}">
+                                        ${referenceCoverage.testcasePassedCount}
+                                    </a>&nbsp;
+                                    <a style="color:red" href="<c:url value='/example/list.html?codeReference=${referenceCoverage.code}&amp;idResult=2'/>"
+                                       title="<fmt:message key='failedExampleListOn'/> ${referenceCoverage.code}">
+                                        ${referenceCoverage.testcaseFailedCount}
                                     </a>
                             </tr>
                         </c:forEach>

@@ -103,7 +103,7 @@
                                 <td class="example-failed-count-td">
                                     <c:choose>
                                        <c:when test="${referenceCoverage.testcaseFailedCount != 0}">
-                                           <c:set var="examplePassedCountTitle" scope="page">
+                                           <c:set var="exampleFailedCountTitle" scope="page">
                                                <fmt:message key='failedExampleListOn'>
                                                    <fmt:param value="${referenceCoverage.testcaseFailedCount}"/>
                                                </fmt:message> ${referenceCoverage.code}

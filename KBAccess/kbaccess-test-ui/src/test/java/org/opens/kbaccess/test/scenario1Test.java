@@ -386,7 +386,7 @@ public class scenario1Test {
         selenium.type("id=login_email", "moder@kbaccess.org");
         selenium.type("id=login_password", "moder");
         selenium.click("xpath=//div[@class='form-actions']//button[.='Connexion']");
-        selenium.click("xpath=/html/body/div[2]/div/div/div[3]/table/tbody/tr/td/a");
+        selenium.click("xpath=/html/body/div[2]/div/div/div[4]/table/tbody/tr/td/a");
         selenium.click("link=Modifier");
         Thread.sleep(15000);
         selenium.select("xpath=/html/body/div[2]/div/div/div[3]/div/form/div/div/select", "value=609");

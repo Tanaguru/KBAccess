@@ -4,7 +4,7 @@
   
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess</artifactId>
-    <version>2.2</version>
+    <version>3</version>
   
     <packaging>pom</packaging>
     <name>kbaccess</name>
@@ -26,7 +26,7 @@
     
     <properties>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <kbaccess.version>2.2</kbaccess.version>
+        <kbaccess.version>3</kbaccess.version>
         <displaytag.version>1.2</displaytag.version>
         <tanaguru.version>1.5.2</tanaguru.version>
     </properties>

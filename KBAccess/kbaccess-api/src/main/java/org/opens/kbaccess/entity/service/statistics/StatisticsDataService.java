@@ -1,7 +1,9 @@
 package org.opens.kbaccess.entity.service.statistics;
 
 import java.util.Collection;
+import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
+import org.opens.kbaccess.entity.statistics.ReferenceStatistics;
 import org.opens.kbaccess.entity.statistics.ReferenceTestStatistics;
 
 /**
@@ -36,4 +38,17 @@ public interface StatisticsDataService {
             boolean asc,
             int limit
             );
+    
+    /**
+     * 
+     * @param reference The reference to get the coverage of
+     * @return A reference statistics
+     */
+    ReferenceStatistics getReferenceCoverage(Reference reference);
+    
+    /**
+     * 
+     * @return A collection of reference statistics
+     */
+    Collection<ReferenceStatistics> getReferencesCoverage();
 }

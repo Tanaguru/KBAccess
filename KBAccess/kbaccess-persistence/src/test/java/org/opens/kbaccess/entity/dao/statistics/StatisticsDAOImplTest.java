@@ -57,7 +57,6 @@ public class StatisticsDAOImplTest extends AbstractDaoTestCase {
         
         for(Map.Entry<String, Long> entry : result.entrySet()) {
             Long entryTestcaseCount = entry.getValue();
-            System.out.println(entryTestcaseCount);
             assertTrue(entryTestcaseCount <= testcaseCount);
             testcaseCount = entryTestcaseCount;
         }

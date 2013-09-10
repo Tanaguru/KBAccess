@@ -35,7 +35,17 @@
         </div>
         <div class="row-fluid">
             <div class="span3">
-                <img alt="Aperçu de la page ${testcase.webarchiveLocalUrl}" src="${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}" />
+                <c:set var="snapshotUrl">
+                    <c:choose>
+                        <c:when test="${configProperties['snapshotServiceUrl'] == null}">
+                            <c:url value='/assets/images/snapshot-not-available.png'/>
+                        </c:when>
+                        <c:otherwise>
+                            ${configProperties['snapshotServiceUrl']}${testcase.webarchiveLocalUrl}
+                        </c:otherwise>
+                    </c:choose>
+                </c:set>
+                <img alt="Aperçu de la page ${testcase.webarchiveLocalUrl}" src="${snapshotUrl}" />
             </div>     
             <div class="span5">
                 <h2><fmt:message key="testcase.detailsSpecs" /></h2>

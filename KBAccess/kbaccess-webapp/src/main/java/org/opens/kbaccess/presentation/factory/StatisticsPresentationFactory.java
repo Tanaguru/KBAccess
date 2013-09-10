@@ -63,7 +63,7 @@ public class StatisticsPresentationFactory {
     public StatisticsPresentation create() {
         long newTestcaseCount = testcaseDataService.getCount();
         
-        if (statisticsPresentation == null || (newTestcaseCount > testcaseCount)) {
+        if (statisticsPresentation == null || (newTestcaseCount != testcaseCount)) {
             testcaseCount = newTestcaseCount;
             
             statisticsPresentation = new StatisticsPresentation(

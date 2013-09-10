@@ -1,0 +1,31 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<div id="coverage-graphs-div" class="row-fluid span12">
+    <c:forEach var="referenceCoverage" items="${referenceCoverageList}" varStatus="status">
+        <div class="coverage-graph-wrap-div">
+            <a id="${referenceCoverage.code}-graph-link" title="<fmt:message key='accessibility.coverage'/> <fmt:message key='${referenceCoverage.code}'/>" 
+               href="<c:url value='/reference/list.html'/>">
+                <div class="coverage-graph-div" id="${referenceCoverage.code}-graph">	
+                    <p class="coverage-p">
+                        <span class="coverage-span-label">
+                            <fmt:message key="${referenceCoverage.code}-label"/>
+                        </span>
+                        <br/>
+                        <c:choose>
+                           <c:when test="${referenceCoverage.coverage <= 25}">
+                             <span class="coverage-span-value coverage-value-red">${referenceCoverage.coverage}%</span>   
+                          </c:when>
+                           <c:when test="${referenceCoverage.coverage > 25 && referenceCoverage.coverage <= 75}">
+                             <span class="coverage-span-value coverage-value-orange">${referenceCoverage.coverage}%</span>
+                           </c:when>
+                           <c:when test="${referenceCoverage.coverage > 75}">
+                             <span class="coverage-span-value coverage-value-green">${referenceCoverage.coverage}%</span>
+                           </c:when>
+                        </c:choose>    
+                    </p>
+                </div>
+             </a>
+        </div>
+    </c:forEach>
+</div>

@@ -14,8 +14,12 @@ import java.util.Map;
 import org.opens.kbaccess.entity.dao.statistics.StatisticsDAO;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceTest;
+import org.opens.kbaccess.entity.service.reference.ReferenceDataService;
+import org.opens.kbaccess.entity.service.reference.ReferenceDepthDataService;
 import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
+import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.statistics.AccountStatistics;
+import org.opens.kbaccess.entity.statistics.ReferenceStatistics;
 import org.opens.kbaccess.entity.statistics.ReferenceTestStatistics;
 import org.opens.kbaccess.entity.statistics.ReferenceTestStatisticsImpl;
 
@@ -27,6 +31,9 @@ public class StatisticsDataServiceImpl implements StatisticsDataService {
     
     private StatisticsDAO statisticsDAO;
     private ReferenceTestDataService referenceTestDataService;
+    private ReferenceDepthDataService referenceDepthDataService;
+    private ResultDataService resultDataService;
+    private ReferenceDataService referenceDataService;
 
     /*
      * Utilities
@@ -187,6 +194,28 @@ public class StatisticsDataServiceImpl implements StatisticsDataService {
         return statisticsDAO.findAccountOrderByTestcaseCount(asc, limit);
     }
 
+    @Override
+    public ReferenceStatistics getReferenceCoverage(Reference reference) {
+        return statisticsDAO.findReferenceCoverage(
+                reference, 
+                resultDataService, 
+                referenceDepthDataService, 
+                referenceTestDataService
+            );
+    }
+
+    @Override
+    public Collection<ReferenceStatistics> getReferencesCoverage() {
+        List<ReferenceStatistics> referenceStatisticsList 
+                = new ArrayList<ReferenceStatistics>();
+        
+        for (Reference reference : referenceDataService.findAll()) {
+            referenceStatisticsList.add(getReferenceCoverage(reference));
+        }
+        
+        return referenceStatisticsList;
+    }
+
     /*
      * Accessors
      */
@@ -205,5 +234,28 @@ public class StatisticsDataServiceImpl implements StatisticsDataService {
     public void setReferenceTestDataService(ReferenceTestDataService referenceTestDataService) {
         this.referenceTestDataService = referenceTestDataService;
     }
-    
+
+    public ReferenceDataService getReferenceDataService() {
+        return referenceDataService;
+    }
+
+    public void setReferenceDataService(ReferenceDataService referenceDataService) {
+        this.referenceDataService = referenceDataService;
+    }
+
+    public ReferenceDepthDataService getReferenceDepthDataService() {
+        return referenceDepthDataService;
+    }
+
+    public void setReferenceDepthDataService(ReferenceDepthDataService referenceDepthDataService) {
+        this.referenceDepthDataService = referenceDepthDataService;
+    }
+
+    public ResultDataService getResultDataService() {
+        return resultDataService;
+    }
+
+    public void setResultDataService(ResultDataService resultDataService) {
+        this.resultDataService = resultDataService;
+    }
 }

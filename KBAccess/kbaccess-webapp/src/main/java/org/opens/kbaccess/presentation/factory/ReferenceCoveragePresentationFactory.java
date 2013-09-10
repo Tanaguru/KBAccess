@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
+import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.statistics.StatisticsDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.presentation.ReferenceCoveragePresentation;
@@ -47,6 +48,8 @@ public class ReferenceCoveragePresentationFactory {
     private TestcaseDataService testcaseDataService;
     @Autowired
     private StatisticsDataService statisticsDataService;
+    @Autowired
+    private ResultDataService resultDataService;
     
     private Map<Reference, Long> referenceCoverageTestcaseCountMap;
     private Map<Reference, ReferenceCoveragePresentation> referenceCoverageMap;
@@ -68,11 +71,14 @@ public class ReferenceCoveragePresentationFactory {
                 ).size();
         
         if (referenceCoverageMap.get(reference) == null 
-                || newTestcaseCount > referenceCoverageTestcaseCountMap.get(reference)) {
+                || newTestcaseCount != referenceCoverageTestcaseCountMap.get(reference)) {
             referenceCoverageTestcaseCountMap.put(reference, newTestcaseCount);
             
             referenceCoverageMap.put(reference, new ReferenceCoveragePresentation(
                     reference,
+                    referenceTestDataService,
+                    testcaseDataService,
+                    resultDataService,
                     statisticsDataService
                     )
                 );
@@ -118,6 +124,14 @@ public class ReferenceCoveragePresentationFactory {
 
     public void setStatisticsDataService(StatisticsDataService statisticsDataService) {
         this.statisticsDataService = statisticsDataService;
+    }
+
+    public ResultDataService getResultDataService() {
+        return resultDataService;
+    }
+
+    public void setResultDataService(ResultDataService resultDataService) {
+        this.resultDataService = resultDataService;
     }
 }
 

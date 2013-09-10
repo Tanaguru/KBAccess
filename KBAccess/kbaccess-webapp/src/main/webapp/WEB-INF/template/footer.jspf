@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <p style="text-align: center">
-            KBAccess 2.2  &dash; <a href="<c:url value='/legal.html'/>"><fmt:message key="footer.legalNotice" /></a>
+            KBAccess 3  &dash; <a href="<c:url value='/legal.html'/>"><fmt:message key="footer.legalNotice" /></a>
             &dash; <a href="<c:url value='/contact.html'/>"><fmt:message key="footer.contactUs" /></a>
             <br/>
             <c:set var="company"><fmt:message key="footer.company" /></c:set>

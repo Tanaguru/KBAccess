@@ -440,8 +440,18 @@ public class TestcaseController extends AMailerController {
      * Handlers to add a testcase
      */
     @RequestMapping(value={"add"}, method=RequestMethod.GET)
-    public String selectReferenceHandler(Model model) {
-        return displaySelectReferenceForm(model, new SelectReferenceCommand());
+    public String selectReferenceHandler(
+            @RequestParam(value="reference", required=false) Long idReference,
+            Model model) {
+        
+        SelectReferenceCommand selectReferenceCommand = new SelectReferenceCommand();
+        
+        // If a reference is pre-selected
+        if (idReference != null) {
+            selectReferenceCommand.setIdReference(idReference);
+        }
+        
+        return displaySelectReferenceForm(model, selectReferenceCommand);
     }
     
     @RequestMapping(value={"add"}, method=RequestMethod.POST)
@@ -467,7 +477,7 @@ public class TestcaseController extends AMailerController {
     
     @RequestMapping(value={"add-details", "add-finalize"}, method=RequestMethod.GET)
     public String addHandler(Model model) {
-        return selectReferenceHandler(model);
+        return selectReferenceHandler(null, model);
     }
     
     @RequestMapping(value="add-details", method=RequestMethod.POST)

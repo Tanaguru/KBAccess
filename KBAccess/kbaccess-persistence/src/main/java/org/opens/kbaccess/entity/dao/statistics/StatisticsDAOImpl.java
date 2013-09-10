@@ -36,7 +36,6 @@ import javax.persistence.Query;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceTest;
-import org.opens.kbaccess.entity.reference.Result;
 import org.opens.kbaccess.entity.service.reference.ReferenceDepthDataService;
 import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;
 import org.opens.kbaccess.entity.service.reference.ResultDataService;
@@ -58,9 +57,8 @@ public class StatisticsDAOImpl implements StatisticsDAO {
     /*
      * Utilities
      */
-    private int getReferenceTestCoveredCount(
-            Collection<ReferenceTest> referenceTestCollection,
-            Result result) {
+    
+    private int getReferenceTestCoveredCount(Collection<ReferenceTest> referenceTestCollection) {
         int referenceTestCoveredCount = 0;
         
         StringBuilder sb = new StringBuilder();
@@ -72,22 +70,14 @@ public class StatisticsDAOImpl implements StatisticsDAO {
         sb.append(" tc, ");
         sb.append(ReferenceTest.class.getName());
         sb.append(" rt ");
-        sb.append("WHERE tc.result = :result ");
-        sb.append("AND rt in (?1) ");
+        sb.append("WHERE rt in (?1) ");
         sb.append("AND tc.referenceTest = rt ");
+        sb.append("AND (tc.result.id = 1 OR tc.result.id = 2) ");
         sb.append("GROUP BY rt.id");
-        
-//        sb.append(
-//                "SELECT COUNT(rt.ID_REFERENCE_TEST) AS referenceTestCount " +
-//                "FROM reference_test AS rt"+
-//                ", testcase AS tc " +
-//                "WHERE tc.ID_RESULT = " + result.getId() + 
-//                "AND tc.ID_REFERENCE_TEST in (?1)"
-//            );
         
         LogFactory.getLog(StatisticsDAOImpl.class.getName()).debug(sb.toString());
         query = entityManager.createQuery(sb.toString());
-        query.setParameter("result", result);
+        
         query.setParameter("1", referenceTestCollection);
         
         // Query result
@@ -99,37 +89,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
         
         return referenceTestCoveredCount;
     }
-    
-//    private int getLowestDepthReferenceTestCountFromReference(Reference reference) {
-//        int lowestDepthReferenceTestCount = 0;
-//        
-//        StringBuilder sb = new StringBuilder();
-//        Query query;
-//        List result;
-//        
-//        sb.append(
-//                "SELECT COUNT(rt.ID_REFERENCE_TEST) AS referenceTestCount " +
-//                "FROM reference_test AS rt"+
-//                ", reference AS ref " +
-//                ", reference_depth AS rd " +
-//                "WHERE ref.ID_REFERENCE = " + reference.getId() + 
-//                "rd.DEPTH = ref.TEST_MAX_DEPTH " +
-//                "AND rt.ID_REFERENCE_DEPTH = rd.ID_REFERENCE_DEPTH " +
-//                "AND rt.CD_REFERENCE_TEST LIKE CONCAT(ref.CD_REFERENCE, '%')"
-//            );
-//        
-//        query = entityManager.createNativeQuery(sb.toString());
-//
-//        // Query result
-//        result = query.getResultList();
-//        
-//        if (!result.isEmpty()) {
-//            lowestDepthReferenceTestCount = (Integer)result.get(0);
-//        }
-//        
-//        return lowestDepthReferenceTestCount;
-//    }
-    
+
     @Override
     public Map<String, Long> findAllReferenceTestOrderByTestcaseCount(boolean asc) {
         StringBuilder sb = new StringBuilder();
@@ -229,8 +189,7 @@ public class StatisticsDAOImpl implements StatisticsDAO {
         ReferenceStatistics referenceStatistics = null;
         Set<ReferenceTest> lowestReferenceTestSet;
         int lowestReferenceTestCount;
-        int referenceTestCoveredFailedCount;
-        int referenceTestCoveredPassedCount;
+        int referenceTestCoveredCount;
         
         // Get all reference test of the reference with the lowest test depth
         lowestReferenceTestSet = new TreeSet<ReferenceTest>(
@@ -246,27 +205,16 @@ public class StatisticsDAOImpl implements StatisticsDAO {
         lowestReferenceTestCount = lowestReferenceTestSet.size();
         LogFactory.getLog(StatisticsDAOImpl.class.getName()).debug(lowestReferenceTestCount);
         
-        /*
+        referenceTestCoveredCount = getReferenceTestCoveredCount(lowestReferenceTestSet);
+        
+        LogFactory.getLog(StatisticsDAOImpl.class.getName()).debug(referenceTestCoveredCount);
+        
+        /* 
          * A ReferenceTest is covered only if there is at least 
-         * a testcase passed AND a testcase failed on it
+         * a testcase passed OR a testcase failed on it
          */
-        referenceTestCoveredFailedCount = getReferenceTestCoveredCount(
-                    lowestReferenceTestSet,
-                    resultDataService.getByCode("failed")
-                );
-        LogFactory.getLog(StatisticsDAOImpl.class.getName()).debug(referenceTestCoveredFailedCount);
-        
-        referenceTestCoveredPassedCount = getReferenceTestCoveredCount(
-                    lowestReferenceTestSet,
-                    resultDataService.getByCode("passed")
-                );
-        LogFactory.getLog(StatisticsDAOImpl.class.getName()).debug(referenceTestCoveredPassedCount);
-        
-        /*
-         * Compute the coverage percentage
-         */
-        float coverage = referenceTestCoveredFailedCount + referenceTestCoveredPassedCount;
-        coverage /= (float)lowestReferenceTestCount * 2;
+        float coverage = referenceTestCoveredCount;
+        coverage /= (float)lowestReferenceTestCount;
         coverage *= 100;
         
         LogFactory.getLog(StatisticsDAOImpl.class.getName()).debug(coverage);

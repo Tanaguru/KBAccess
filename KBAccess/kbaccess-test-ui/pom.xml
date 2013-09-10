@@ -5,12 +5,12 @@
     <parent>
         <artifactId>kbaccess</artifactId>
         <groupId>org.opens.kbaccess</groupId>
-        <version>2.2</version>
+        <version>3</version>
     </parent>
     
     <groupId>org.opens</groupId>
     <artifactId>kbaccess-test-ui</artifactId>
-    <version>2.2</version>
+    <version>3</version>
     <packaging>jar</packaging>
     <name>kbaccess-test-ui</name>
     <properties>

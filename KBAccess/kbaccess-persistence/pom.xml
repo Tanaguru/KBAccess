@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.opens.kbaccess</groupId>
         <artifactId>kbaccess</artifactId>
-        <version>2.2</version>
+        <version>3</version>
     </parent>
 
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess-persistence</artifactId>
-    <version>2.2</version>
+    <version>3</version>
     <packaging>jar</packaging>
 
     <name>kbaccess-persistence</name>

@@ -69,7 +69,10 @@
     
     <bean id="statisticsDataService" class="org.opens.kbaccess.entity.service.statistics.StatisticsDataServiceImpl">
         <property name="statisticsDAO"><ref bean="statisticsDAO"/></property>
+        <property name="referenceDataService"><ref bean="referenceDataService"/></property>
         <property name="referenceTestDataService"><ref bean="referenceTestDataService"/></property>
+        <property name="referenceDepthDataService"><ref bean="referenceDepthDataService"/></property>
+        <property name="resultDataService"><ref bean="resultDataService"/></property>
     </bean>
     
     <!-- factory -->
@@ -79,6 +82,7 @@
     <bean id="webarchiveFactory" class="org.opens.kbaccess.entity.factory.subject.WebarchiveFactoryImpl"/>
     <bean id="accountPresentationFactory" class="org.opens.kbaccess.presentation.factory.AccountPresentationFactory"/>
     <bean id="statisticsPresentationFactory" class="org.opens.kbaccess.presentation.factory.StatisticsPresentationFactory"/>
+    <bean id="referenceCoveragePresentationFactory" class="org.opens.kbaccess.presentation.factory.ReferenceCoveragePresentationFactory"/>
     <bean id="testcasePresentationFactory" class="org.opens.kbaccess.presentation.factory.TestcasePresentationFactory"/>
     <bean id="webarchivePresentationFactory" class="org.opens.kbaccess.presentation.factory.WebarchivePresentationFactory"/>
     

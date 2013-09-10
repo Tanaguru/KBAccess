@@ -143,7 +143,7 @@ metadata.description=Basic crawl starting with useful defaults
                             <value>.*(?i)(\.css(\?.*)?)$</value>
                             <value>.*(?i)(\.(swf))$</value>
                             <value>.*(?i)(\.(js))$</value>
-                            <value>.*(?i)(\.(bmp|gif|jpe?g|png|svg|tiff?))$</value>
+                            <value>.*(?i)(\.(bmp|gif|jpe?g|png|tiff?))$</value>
                         </list>
                     </property>
                 </bean>

@@ -128,8 +128,6 @@ public class TestcaseDAOImpl extends AbstractJPADAO<Testcase, Long>
         boolean hasResult = (result != null);
         boolean hasReferenceTest = (referenceTestCollection != null && !referenceTestCollection.isEmpty());          
           
-        Logger.getLogger(this.getClass().getName()).debug("Colection<referenceTest> of query : " + referenceTestCollection);
-                
         //Query
         int nbTableAdded = 1;
         int nbWhereClauseAdded = 0;

@@ -33,6 +33,7 @@ import org.opens.kbaccess.entity.service.reference.ResultDataService;
 import org.opens.kbaccess.entity.service.subject.TestcaseDataService;
 import org.opens.kbaccess.entity.service.subject.WebarchiveDataService;
 import org.opens.kbaccess.keystore.FormKeyStore;
+import org.opens.kbaccess.keystore.HTTPKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.validator.utils.UrlValidator;
 import org.springframework.validation.Errors;
@@ -76,16 +77,16 @@ public class NewTestcaseValidator implements Validator {
     /*
      * private methods
      */
-    private boolean hasValidHttpResponse(String url) {
+    private boolean hasValidHttpResponse(String url, String method) {
         int responseCode = -1;
         
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setRequestMethod("HEAD");
+            connection.setRequestMethod(method);
 
             responseCode = connection.getResponseCode();
         } catch (Exception e) {
-            LogFactory.getLog(NewTestcaseValidator.class.getName()).error("HEAD request failed : " + e.getMessage());
+            LogFactory.getLog(NewTestcaseValidator.class.getName()).error(method + " request failed : " + e.getMessage());
         } 
         
         return (responseCode == HTTP_STATUS_OK);      
@@ -130,7 +131,11 @@ public class NewTestcaseValidator implements Validator {
         } else if (!UrlValidator.validate(newTestcaseCommand.getUrlNewWebarchive())) {
             errors.rejectValue(FormKeyStore.URL_NEW_WEBARCHIVE_KEY, MessageKeyStore.INVALID_URL_KEY);
             return false;
-        } else if (!hasValidHttpResponse(newTestcaseCommand.getUrlNewWebarchive())) {
+        } else if (!hasValidHttpResponse(newTestcaseCommand.getUrlNewWebarchive(), HTTPKeyStore.REQUEST_HEAD)) {
+            if (!hasValidHttpResponse(newTestcaseCommand.getUrlNewWebarchive(), HTTPKeyStore.REQUEST_GET)) {
+                errors.rejectValue(FormKeyStore.URL_NEW_WEBARCHIVE_KEY, MessageKeyStore.NOT_RESPONDING_URL);
+                return false;
+            }
             errors.rejectValue(FormKeyStore.URL_NEW_WEBARCHIVE_KEY, MessageKeyStore.NOT_RESPONDING_URL);
             return false;
         }

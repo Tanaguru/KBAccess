@@ -24,6 +24,7 @@ package org.opens.kbaccess.controller;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.opens.kbaccess.controller.utils.AController;
 import org.opens.kbaccess.entity.authorization.Account;
 import org.opens.kbaccess.entity.reference.Reference;
@@ -35,6 +36,7 @@ import org.opens.kbaccess.entity.statistics.AccountStatistics;
 import org.opens.kbaccess.entity.subject.Testcase;
 import org.opens.kbaccess.keystore.ModelAttributeKeyStore;
 import org.opens.kbaccess.presentation.AccountPresentation;
+import org.opens.kbaccess.presentation.ReferenceCoveragePresentation;
 import org.opens.kbaccess.presentation.StatisticsPresentation;
 import org.opens.kbaccess.presentation.TestcasePresentation;
 import org.opens.kbaccess.presentation.factory.ReferenceCoveragePresentationFactory;
@@ -174,12 +176,17 @@ public class RootController extends AController {
                 )
             );
         
+        // Reference coverage
+        List<ReferenceCoveragePresentation> referenceCoverageList = referenceCoveragePresentationFactory.createFromCollection(
+                    (Collection)referenceDataService.findAll()
+                );
+        
         model.addAttribute(
                 "referenceCoverageList", 
-                referenceCoveragePresentationFactory.createFromCollection(
-                    (Collection)referenceDataService.findAll()
-                )
+                referenceCoverageList
             );
+        
+        
         
         return "home";
     }

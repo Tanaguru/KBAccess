@@ -26,6 +26,7 @@ import java.net.URL;
 import org.apache.commons.logging.LogFactory;
 import org.opens.kbaccess.command.WebarchiveCommand;
 import org.opens.kbaccess.keystore.FormKeyStore;
+import org.opens.kbaccess.keystore.HTTPKeyStore;
 import org.opens.kbaccess.keystore.MessageKeyStore;
 import org.opens.kbaccess.validator.utils.UrlValidator;
 import org.springframework.validation.Errors;
@@ -47,16 +48,16 @@ public class WebarchiveCommandValidator implements Validator {
         return WebarchiveCommand.class.isAssignableFrom(type);
     }
 
-    private boolean hasValidHttpResponse(String url) {
+    private boolean hasValidHttpResponse(String url, String method) {
         int responseCode = -1;
         
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setRequestMethod("HEAD");
+            connection.setRequestMethod(method);
 
             responseCode = connection.getResponseCode();
         } catch (Exception e) {
-            LogFactory.getLog(NewTestcaseValidator.class.getName()).error("HEAD request failed : " + e.getMessage());
+            LogFactory.getLog(NewTestcaseValidator.class.getName()).error(method + " request failed : " + e.getMessage());
         } 
         
         return (responseCode == HTTP_STATUS_OK);      
@@ -69,9 +70,11 @@ public class WebarchiveCommandValidator implements Validator {
         } else if (!UrlValidator.validate(webarchiveCommand.getUrl())) {
             errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.INVALID_URL_KEY);
             return false;
-        } else if (!hasValidHttpResponse(webarchiveCommand.getUrl())) {
-            errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.NOT_RESPONDING_URL);
-            return false;
+        } else if (!hasValidHttpResponse(webarchiveCommand.getUrl(), HTTPKeyStore.REQUEST_HEAD)) {
+            if (!hasValidHttpResponse(webarchiveCommand.getUrl(), HTTPKeyStore.REQUEST_GET)) {
+                errors.rejectValue(FormKeyStore.URL_KEY, MessageKeyStore.NOT_RESPONDING_URL);
+                return false;
+            }
         }
         return true;
     }

@@ -22,7 +22,6 @@
 package org.opens.kbaccess.presentation;
 
 import java.util.Collection;
-import java.util.List;
 import org.opens.kbaccess.entity.reference.Reference;
 import org.opens.kbaccess.entity.reference.ReferenceTest;
 import org.opens.kbaccess.entity.service.reference.ReferenceTestDataService;

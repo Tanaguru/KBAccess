@@ -129,8 +129,8 @@
                             svg.setAttribute("dy", 10.2);
                                                 
                             var svgDesc = document.querySelector('#' + $(this).attr("id") + " desc");
-                            svgDesc.innerText = "coverage graph";
-                            svgDesc.innerHTML = "coverage graph";
+                            svgDesc.innerText = $("#" + $(this).attr("id") + "-link").attr("title");
+                            svgDesc.innerHTML = $("#" + $(this).attr("id") + "-link").attr("title");
                         });
                 })
         </script>

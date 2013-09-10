@@ -3,7 +3,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
         ${testcase.testcaseId} : ${testcase.testLabel}
         <abbr class="abbr-reference-h1" title="<fmt:message key="${testcase.referenceCode}-abbr"/>">
-            ${testcase.referenceCode}
+            <fmt:message key="${testcase.referenceCode}"/>
         </abbr>
         <c:set var='resultId' value='${testcase.resultId}'/>
         <c:set var='forUrl' value='false' />

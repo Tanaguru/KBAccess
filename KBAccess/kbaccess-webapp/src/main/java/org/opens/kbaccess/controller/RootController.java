@@ -181,10 +181,6 @@ public class RootController extends AController {
                     (Collection)referenceDataService.findAll()
                 );
         
-        for (ReferenceCoveragePresentation rcp : referenceCoverageList) {
-            Logger.getLogger(RootController.class.getName()).debug("coverage : " + rcp.getCode() + ", " + rcp.getCoverage() + "%");
-        }
-        
         model.addAttribute(
                 "referenceCoverageList", 
                 referenceCoverageList

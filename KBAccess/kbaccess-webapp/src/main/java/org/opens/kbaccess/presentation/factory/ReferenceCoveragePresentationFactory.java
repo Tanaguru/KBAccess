@@ -71,7 +71,7 @@ public class ReferenceCoveragePresentationFactory {
                 ).size();
         
         if (referenceCoverageMap.get(reference) == null 
-                || newTestcaseCount > referenceCoverageTestcaseCountMap.get(reference)) {
+                || newTestcaseCount != referenceCoverageTestcaseCountMap.get(reference)) {
             referenceCoverageTestcaseCountMap.put(reference, newTestcaseCount);
             
             referenceCoverageMap.put(reference, new ReferenceCoveragePresentation(

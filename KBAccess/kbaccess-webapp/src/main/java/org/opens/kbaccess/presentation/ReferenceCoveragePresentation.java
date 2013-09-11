@@ -42,6 +42,7 @@ public class ReferenceCoveragePresentation {
     private int coverage;
     private int testcaseFailedCount;
     private int testcasePassedCount;
+    private int testcaseNACount;
     private int testcaseCount;
     
 
@@ -61,7 +62,7 @@ public class ReferenceCoveragePresentation {
         this.coverage = referenceStatistics.getCoveragePercentage();
         
         /*
-         * compute testcase passed/failed/total counts
+         * compute testcase passed/failed/na/total counts
          */
         Collection<ReferenceTest> referenceTestList = referenceTestDataService.getAllByReference(reference);
         
@@ -75,7 +76,12 @@ public class ReferenceCoveragePresentation {
                     resultDataService.getByCode("passed")
                 ).size();
         
-        this.testcaseCount = this.testcaseFailedCount + this.testcasePassedCount;
+        this.testcaseNACount = testcaseDataService.getAllFromUserSelection(
+                    referenceTestList, 
+                    resultDataService.getByCode("na")
+                ).size();
+        
+        this.testcaseCount = this.testcaseFailedCount + this.testcasePassedCount + this.testcaseNACount;
         
     }
 
@@ -130,6 +136,14 @@ public class ReferenceCoveragePresentation {
         this.testcasePassedCount = testcasePassedCount;
     }
 
+    public int getTestcaseNACount() {
+        return testcaseNACount;
+    }
+
+    public void setTestcaseNACount(int testcaseNACount) {
+        this.testcaseNACount = testcaseNACount;
+    }
+    
     public int getTestcaseCount() {
         return testcaseCount;
     }

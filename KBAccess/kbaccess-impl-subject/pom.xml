@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.opens.kbaccess</groupId>
         <artifactId>kbaccess</artifactId>
-        <version>3</version>
+        <version>3.0</version>
     </parent>
     
     <groupId>org.opens.kbaccess</groupId>
     <artifactId>kbaccess-impl-subject</artifactId>
-    <version>3</version>
+    <version>3.0</version>
     
     <name>kbaccess-impl-subject</name>
     <url>http://maven.apache.org</url>

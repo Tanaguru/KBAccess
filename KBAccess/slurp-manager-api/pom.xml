@@ -3,12 +3,12 @@
     <parent>
         <groupId>org.opens.kbaccess</groupId>
         <artifactId>kbaccess</artifactId>
-        <version>3</version>
+        <version>3.0</version>
     </parent>
     <groupId>org.opens.slurpmanager</groupId>
     <artifactId>slurp-manager-api</artifactId>
     <name>slurp-manager-api</name>
-    <version>3</version>
+    <version>3.0</version>
     <url>http://maven.apache.org</url>
     <build>
         <plugins>

@@ -37,9 +37,10 @@ KBAccess 2.2, 2013-08-21
 https://github.com/Tanaguru/KBAccess/issues?milestone=4&page=1&state=closed
 
 -------------------------
-KBAccess 3, 2013-09-13
+KBAccess 3.0, 2013-09-12
 -------------------------
 
 - Fixed an issue on webarchive URL check process, when HEAD requests returned a 404 status code but a GET request returned a 200 status code
+- Added pictograms for result selection in the step 2 of "add example" process 
 - Integration of AcceDe Web HTML/CSS and AcceDe Web RI/JS referentials
 - Added referential coverage graphs and referential list page

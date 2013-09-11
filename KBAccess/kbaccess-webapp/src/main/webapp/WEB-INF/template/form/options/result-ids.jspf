@@ -5,5 +5,7 @@
     <c:set var='resultId' value='${result.id}' />
     
     <form:radiobutton id="result${resultId}" path="idResult" value="${result.id}"/>
+    <c:set var="pictoSize" value="s"/>
+    <%@include file="/WEB-INF/template/inline/result-picto.jspf" %>
     <label class="inline-label" for="result${resultId}"><%@include file='/WEB-INF/template/inline/result.jspf' %></label><br />
 </c:forEach>

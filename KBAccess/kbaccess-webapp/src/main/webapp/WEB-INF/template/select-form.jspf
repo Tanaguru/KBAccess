@@ -12,7 +12,7 @@
                 <form:select class="span12" path="codeReference" id="selectReferentiel" size="1">
                         <option value="" selected="selected"><fmt:message key="all" /></option>
                         <c:forEach var="reference" items="${referenceList}">
-                            <option value="${reference.code}"><fmt:message key="${reference.code}-abbr"/></option>
+                            <option value="${reference.code}"><fmt:message key="${reference.code}-label"/></option>
                         </c:forEach>
                 </form:select>              
             </div>

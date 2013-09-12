@@ -211,7 +211,7 @@ public class scenario1Test {
         selenium.click("id=result1");
         selenium.type("id=testcase_description", "test");
         selenium.click("css=button.btn.btn-info");
-        selenium.type("id=webarchive_url", "http://www.kbaccess.org/");
+        selenium.type("id=webarchive_url", "http://www.google.fr/");
         selenium.type("id=webarchive_description", "test");
         selenium.click("css=button.btn.btn-info");
         
@@ -269,7 +269,7 @@ public class scenario1Test {
         }
         
         selenium.click("link=Ajouter une webarchive");
-        selenium.type("id=webpage_url", "http://www.kbaccess.org");
+        selenium.type("id=webpage_url", "http://www.google.fr");
         selenium.click("id=webpage_description");
         selenium.type("id=webpage_description", "description");
         selenium.click("xpath=//div[@class='form-actions']//button[.='Archiver']");

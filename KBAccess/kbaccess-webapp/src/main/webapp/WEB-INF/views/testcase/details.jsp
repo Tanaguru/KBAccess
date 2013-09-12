@@ -64,9 +64,9 @@
                                 <a title="<fmt:message key="testcase.referenceOf" /> <fmt:message key="${testcase.testDepthCode}"/> ${testcase.testLabel}" href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
                                 <a href="<c:url value='${referenceWebRef}'/>">(<fmt:message key="${testcase.referenceCode}-label"/>)</a>
                                 
-                                <p id="tc-test-description">
+                                <div id="tc-test-description">
                                     <fmt:message key="${testcase.testCode}"/>
-                                </p>
+                                </div>
                             </td>
                         </tr>
                         <tr>

@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <p style="text-align: center">
-            KBAccess 3.0 &dash; <a href="<c:url value='/legal.html'/>"><fmt:message key="footer.legalNotice" /></a>
+            <a href="https://github.com/Tanaguru/KBAccess">KBAccess 3.0 <fmt:message key="footer.onGithub"/></a> &dash; <a href="<c:url value='/legal.html'/>"><fmt:message key="footer.legalNotice" /></a>
             &dash; <a href="<c:url value='/contact.html'/>"><fmt:message key="footer.contactUs" /></a>
             <br/>
             <c:set var="company"><fmt:message key="footer.company" /></c:set>

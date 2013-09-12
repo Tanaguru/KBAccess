@@ -52,7 +52,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:set>
-                                    <a href="<c:url value='/example/list.html?account=${account.id}'/>"
+                                    <a href="<c:url value='/example/result.html?account=${account.id}'/>"
                                        title="${account.nbCreatedTestcases} ${example} <fmt:message key="from"/> ${account.displayedName}">
                                         ${account.nbCreatedTestcases}
                                     </a>

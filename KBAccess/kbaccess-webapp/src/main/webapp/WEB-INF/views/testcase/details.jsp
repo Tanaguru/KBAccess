@@ -49,7 +49,7 @@
             </div>     
             <div class="span5">
                 <h2><fmt:message key="testcase.detailsSpecs" /></h2>
-                <table class="data-table table table-condensed table-vertical" summary="<fmt:message key="testcase.detailsSpecsOfExample" /> ${testcase.testcaseId}">
+                <table id="tc-details-caracteristics-table" class="data-table table table-condensed table-vertical" summary="<fmt:message key="testcase.detailsSpecsOfExample" /> ${testcase.testcaseId}">
                     <caption class="data-table-caption"><fmt:message key="testcase.detailsSpecsOfExample" /> ${testcase.testcaseId}</caption>
                         <tr>
                             <th scope="row">Test :</th>
@@ -62,7 +62,11 @@
                                 </c:set>
                                 
                                 <a title="<fmt:message key="testcase.referenceOf" /> <fmt:message key="${testcase.testDepthCode}"/> ${testcase.testLabel}" href="<c:url value='${testWebRef}'/>">${testcase.testLabel}</a>
-                                <a href="<c:url value='${referenceWebRef}'/>">(${testcase.referenceLabel})</a>
+                                <a href="<c:url value='${referenceWebRef}'/>">(<fmt:message key="${testcase.referenceCode}-label"/>)</a>
+                                
+                                <p id="tc-test-description">
+                                    <fmt:message key="${testcase.testCode}"/>
+                                </p>
                             </td>
                         </tr>
                         <tr>
@@ -85,7 +89,7 @@
                     </tr>
                 </table>
                 <h2><fmt:message key="testcase.detailsInfos" /></h2>
-                <table class="data-table table table-condensed table-vertical" summary="<fmt:message key="testcase.detailsInfosOnExample" /> ${testcase.testcaseId}">
+                <table id="tc-details-info-table" class="data-table table table-condensed table-vertical" summary="<fmt:message key="testcase.detailsInfosOnExample" /> ${testcase.testcaseId}">
                     <caption class="data-table-caption"><fmt:message key="testcase.detailsInfosOnExample" />${testcase.testcaseId}</caption>
                     <tr>
                         <th scope="row"><fmt:message key="contributor" /> :</th>
@@ -105,7 +109,14 @@
                     </tr>
                     <tr>
                         <th scope="row"><fmt:message key="description" /> :</th>
-                        <td>${testcase.description}&nbsp;</td>
+                        <c:choose>
+                            <c:when test="${empty testcase.description}">
+                                <td>${testcase.description}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td id="tc-description-td">${testcase.description}</td>
+                            </c:otherwise>
+                        </c:choose>
                     </tr>
                 </table>
             </div>
@@ -147,7 +158,7 @@
                     <ul class="tc-details-ul">             
                         <li>
                             <a href="<c:url value='/example/result.html?reference=${testcase.referenceId}'/>">
-                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="${testcase.referenceCode}-abbr" />
+                                <fmt:message key="testcase.detailsAllExamplesOn" /> <fmt:message key="${testcase.referenceCode}-label" />
                             </a>
                         </li>
                         <c:forEach var="testParent" items="${testcase.testParents}">
